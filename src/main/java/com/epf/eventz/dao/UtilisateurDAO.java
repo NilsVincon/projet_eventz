@@ -14,16 +14,16 @@ import java.util.List;
 @Repository
 public class UtilisateurDAO {
 
-    private static final String CREATE_USER_QUERY = "INSERT INTO Utilisateur(nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur) VALUES(?,?,?,?,?,?,?,?,?)";
-    private static final String DELETE_USER_QUERY = "DELETE FROM Utilisateur WHERE id_utilisateur=?";
-    private static final String FIND_USER_QUERY = "SELECT nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur FROM Utilisateur WHERE id=?";
-    private static final String FIND_ALL_USERS_QUERY = "SELECT id_utilisateur,nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur FROM Utilisateur";
-    private static final String COUNT_USERS_QUERY = "SELECT COUNT(*) AS nb_users FROM Utilisateur";
-    private static final String MODIFY_USER_QUERY = "UPDATE Utilisateur SET nom_utilisateur=?,prenom_utilisateur=?,email_utilisateur=?,mdp_utilisateur=?,pseudo_utilisateur=?,sexe_utilisateur=?,admin_utilisateur=?,naissance_utilisateur=?,description_utilisateur=? WHERE id_utilisateur=?  ";
+    private static final String CREATE_UTILISATEUR_QUERY = "INSERT INTO Utilisateur(nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur) VALUES(?,?,?,?,?,?,?,?,?)";
+    private static final String DELETE_UTILISATEUR_QUERY = "DELETE FROM Utilisateur WHERE id_utilisateur=?";
+    private static final String FIND_UTILISATEUR_QUERY = "SELECT nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur FROM Utilisateur WHERE id=?";
+    private static final String FIND_ALL_UTILISATEURS_QUERY = "SELECT id_utilisateur,nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur FROM Utilisateur";
+    private static final String COUNT_UTILISATEURS_QUERY = "SELECT COUNT(*) AS nb_utilisateurs FROM Utilisateur";
+    private static final String MODIFY_UTILISATEUR_QUERY = "UPDATE Utilisateur SET nom_utilisateur=?,prenom_utilisateur=?,email_utilisateur=?,mdp_utilisateur=?,pseudo_utilisateur=?,sexe_utilisateur=?,admin_utilisateur=?,naissance_utilisateur=?,description_utilisateur=? WHERE id_utilisateur=?  ";
 
-    public int createUser(Utilisateur utilisateur) throws DAOException{
+    public int creerUtilisateur(Utilisateur utilisateur) throws DAOException{
         try (Connection connexion = ConnectionManager.getConnection();
-             PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_USER_QUERY);){
+             PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_UTILISATEUR_QUERY)){
             preparedStatement.setString(1, utilisateur.getNom_utilisateur());
             preparedStatement.setString(2, utilisateur.getPrenom_utilisateur());
             preparedStatement.setString(3, utilisateur.getEmail_utilisateur());
@@ -43,9 +43,9 @@ public class UtilisateurDAO {
         }
         return 0;}
 
-    public int deleteUser(Utilisateur utilisateur) throws DAOException{
+    public int supprimerUtilisateur(Utilisateur utilisateur) throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement=connexion.prepareStatement(DELETE_USER_QUERY);){
+            PreparedStatement preparedStatement=connexion.prepareStatement(DELETE_UTILISATEUR_QUERY)){
             preparedStatement.setInt(1, utilisateur.getId_utilisateur());
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -58,9 +58,9 @@ public class UtilisateurDAO {
         return 0;
     }
 
-    public Utilisateur findUserById(int utilisateur_id) throws DAOException{
+    public Utilisateur trouverUtilisateurAvecId(int utilisateur_id) throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement= connexion.prepareStatement(FIND_USER_QUERY);
+            PreparedStatement preparedStatement= connexion.prepareStatement(FIND_UTILISATEUR_QUERY);
             ResultSet resultSet= preparedStatement.executeQuery()){
         preparedStatement.setInt(1, (int) utilisateur_id);
         String nom_utilisateur=resultSet.getString("nom_utilisateur");
@@ -78,12 +78,12 @@ public class UtilisateurDAO {
         throw new DAOException(e.getMessage(),e.getCause());
     }}
 
-    public List<Utilisateur> findAllUsers() throws DAOException{
-        ArrayList<Utilisateur> ListUtilisateur = new ArrayList<>();
+    public List<Utilisateur> trouverTousUtilisateurs() throws DAOException{
+        ArrayList<Utilisateur> ListeUtilisateur = new ArrayList<>();
         try (
                 Connection connexion = ConnectionManager.getConnection();
-                PreparedStatement preparedStatement= connexion.prepareStatement(FIND_ALL_USERS_QUERY);
-                ResultSet resultSet= preparedStatement.executeQuery();
+                PreparedStatement preparedStatement= connexion.prepareStatement(FIND_ALL_UTILISATEURS_QUERY);
+                ResultSet resultSet= preparedStatement.executeQuery()
         ) {
             while (resultSet.next()){
                 int utilisateur_id = resultSet.getInt("id");
@@ -96,22 +96,22 @@ public class UtilisateurDAO {
                 Boolean admin_utilisateur=resultSet.getBoolean("admin_utilisateur");
                 LocalDate naissance_utilisateur=resultSet.getDate("naissance_utilisateur").toLocalDate();
                 String description_utilisateur=resultSet.getString("description_utilisateur");
-                ListUtilisateur.add(new Utilisateur(utilisateur_id, nom_utilisateur, prenom_utilisateur,
+                ListeUtilisateur.add(new Utilisateur(utilisateur_id, nom_utilisateur, prenom_utilisateur,
                         email_utilisateur, mdp_utilisateur, pseudo_utilisateur, sexe_utilisateur,
                         admin_utilisateur, naissance_utilisateur, description_utilisateur));
             }
         } catch (SQLException e){
             throw new DAOException(e.getMessage(), e.getCause());
         }
-        return ListUtilisateur;
+        return ListeUtilisateur;
     }
 
-    public int countUsers() throws DAOException{
+    public int compterUtilisateurs() throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
-            PreparedStatement preparedStatement= connexion.prepareStatement(COUNT_USERS_QUERY);
-            ResultSet resultSet= preparedStatement.executeQuery();){
+            PreparedStatement preparedStatement= connexion.prepareStatement(COUNT_UTILISATEURS_QUERY);
+            ResultSet resultSet= preparedStatement.executeQuery()){
         if (resultSet.next()) {
-            return resultSet.getInt("nb_users");
+            return resultSet.getInt("nb_utilisateurs");
         }else{
             return (0);
         }
