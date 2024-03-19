@@ -120,4 +120,25 @@ public class UtilisateurDAO {
         throw new DAOException(e.getMessage(),e.getCause());
     }
     }
+    public int modifierUtilisateur(Utilisateur utilisateur) throws DAOException {
+        try (Connection connexion = ConnectionManager.getConnection();
+             PreparedStatement preparedStatement = connexion.prepareStatement(MODIFY_UTILISATEUR_QUERY)) {
+            preparedStatement.setString(1, utilisateur.getNom_utilisateur());
+            preparedStatement.setString(2, utilisateur.getPrenom_utilisateur());
+            preparedStatement.setString(3, utilisateur.getEmail_utilisateur());
+            preparedStatement.setString(4, utilisateur.getMdp_utilisateur());
+            preparedStatement.setString(5, utilisateur.getPseudo_utilisateur());
+            preparedStatement.setString(6, utilisateur.getSexe_utilisateur());
+            preparedStatement.setBoolean(7, utilisateur.getAdmin_utilisateur());
+            preparedStatement.setDate(8, Date.valueOf(utilisateur.getNaissance_utilisateur()));
+            preparedStatement.setString(9, utilisateur.getDescription_utilisateur());
+            preparedStatement.setInt(10, utilisateur.getId_utilisateur());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected;
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+
 }
