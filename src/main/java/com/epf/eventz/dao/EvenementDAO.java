@@ -24,11 +24,11 @@ public class EvenementDAO{
              PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_EVENEMENT_QUERY)){
             preparedStatement.setInt(1, evenement.getId_statut_evenement());
             preparedStatement.setInt(2, evenement.getId_type_evenement());
-            preparedStatement.setString(3, evenement.getNom_evenement());
-            preparedStatement.setString(4, evenement.getDescription_evenement());
-            preparedStatement.setDate(5, Date.valueOf(evenement.getDebut_evenement()));
-            preparedStatement.setDate(6, Date.valueOf(evenement.getFin_evenement()));
-            preparedStatement.setInt(7, evenement.getId_adresse_evenement());
+            preparedStatement.setInt(3, evenement.getId_adresse_evenement());
+            preparedStatement.setString(4, evenement.getNom_evenement());
+            preparedStatement.setString(5, evenement.getDescription_evenement());
+            preparedStatement.setDate(6, Date.valueOf(evenement.getDebut_evenement()));
+            preparedStatement.setDate(7, Date.valueOf(evenement.getFin_evenement()));
             preparedStatement.setFloat(8, evenement.getPrix_evenement());
             preparedStatement.setInt(9, evenement.getNb_place_evenement());
             preparedStatement.execute();
