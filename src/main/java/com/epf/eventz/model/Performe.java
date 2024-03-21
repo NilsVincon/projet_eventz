@@ -4,6 +4,7 @@ package com.epf.eventz.model;
 import java.util.Date;
 
 public class Performe {
+    private int id_performe;
 
     private int id_evenement;
     private int id_artiste;
@@ -12,7 +13,8 @@ public class Performe {
 
     public Performe() {}
 
-    public Performe( int id_evenement, int id_artiste, Date date_debut_performe, Date date_fin_performe) {
+    public Performe( int id_performe, int id_evenement, int id_artiste, Date date_debut_performe, Date date_fin_performe) {
+        this.id_performe = id_performe;
         this.id_evenement = id_evenement;
         this.id_artiste = id_artiste;
         this.date_debut_performe = date_debut_performe;
@@ -26,6 +28,13 @@ public class Performe {
 
     public void setId_evenement(int id_evenement) {
         this.id_evenement = id_evenement;
+    }
+    public int getId_performe() {
+        return id_performe;
+    }
+
+    public void setId_performe(int id_performe) {
+        this.id_performe = id_performe;
     }
 
     public int getId_artiste() {
