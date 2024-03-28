@@ -1,7 +1,9 @@
+/*
 package com.epf.eventz.servlet;
 
 import com.epf.eventz.dao.UtilisateurDAO;
 import com.epf.eventz.exception.DAOException;
+import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.UtilisateurService;
 
@@ -35,8 +37,9 @@ public class UtilisateurListServlet extends HttpServlet {
             // ça dépend oú on le met il faut revoir quand on crée le html
 
             dispatcher.forward(request, response);
-        } catch (DAOException e) {
+        } catch (ServiceException e) {
             throw new ServletException("Error listing utilisateurs", e);
         }
     }
 }
+*/

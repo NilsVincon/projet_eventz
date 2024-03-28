@@ -2,7 +2,11 @@ package com.epf.eventz.service;
 
 import com.epf.eventz.dao.UtilisateurDAO;
 import com.epf.eventz.exception.DAOException;
+import com.epf.eventz.exception.ServiceException;
+
+import com.epf.eventz.model.TypeEvenement;
 import com.epf.eventz.model.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,46 +16,56 @@ public class UtilisateurService {
 
     private UtilisateurDAO utilisateurDAO;
 
+    @Autowired
     public UtilisateurService(UtilisateurDAO utilisateurDAO) {
         this.utilisateurDAO = utilisateurDAO;
     }
 
-    public long createUtilisateur(Utilisateur utilisateur) throws DAOException {
-        validateUtilisateur(utilisateur);
+    public long creerUtilisateur(Utilisateur utilisateur) throws ServiceException {
         try {
             return utilisateurDAO.creerUtilisateur(utilisateur);
         } catch (DAOException e) {
-            throw new DAOException("Error creating utilisateur", e);
+            throw new ServiceException("Erreur creation utilisateur");
         }
     }
 
-    public long deleteUtilisateur(Utilisateur utilisateur) throws DAOException {
+    public long supprimerUtilisateur(Utilisateur utilisateur) throws ServiceException {
         try {
             return utilisateurDAO.supprimerUtilisateur(utilisateur);
         } catch (DAOException e) {
-            throw new DAOException("Error deleting utilisateur", e);
+            throw new ServiceException("Erreur suppression utilisateur");
         }
     }
 
-    public Utilisateur findUtilisateurById(int utilisateurId) throws DAOException {
+    public Utilisateur trouverUtilisateurAvecId(int utilisateurId) throws ServiceException {
         try {
             return utilisateurDAO.trouverUtilisateurAvecId(utilisateurId);
         } catch (DAOException e) {
-            throw new DAOException("Error finding utilisateur", e);
+            throw new ServiceException("Erreur recherche utilisateur");
         }
     }
 
-    public List<Utilisateur> findAllUtilisateurs() throws DAOException {
+    public List<Utilisateur> trouverTousUtilisateurs() throws ServiceException {
         try {
             return utilisateurDAO.trouverTousUtilisateurs();
         } catch (DAOException e) {
-            throw new DAOException("Error finding all utilisateurs", e);
+            throw new ServiceException("Erreur recherche de tous utilisateurs");
         }
     }
 
-    private static void validateUtilisateur(Utilisateur utilisateur) throws DAOException {
-        if (utilisateur.getPseudo_utilisateur().isEmpty() || utilisateur.getEmail_utilisateur().isEmpty()) {
-            throw new DAOException("Client name and first name cannot be empty." );
+    public int compterUtilisateurs() throws ServiceException {
+        try {
+            return utilisateurDAO.compterUtilisateurs();
+        } catch (DAOException e) {
+            throw new ServiceException("Erreur compte de tous utilisateurs");
+        }
+    }
+
+    public int modifierUtilisateur(Utilisateur utilisateur) throws ServiceException {
+        try {
+            return utilisateurDAO.modifierUtilisateur(utilisateur);
+        } catch (DAOException e) {
+            throw new ServiceException("Erreur modification utilisateur");
         }
     }
 }
