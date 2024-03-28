@@ -19,7 +19,7 @@ public class PerformeDAO {
     private static final String COUNT_PERFORMES_QUERY = "SELECT COUNT(*) AS nb_performes FROM Performe";
     private static final String FIND_PERFORMES_BY_EVENEMENT_QUERY = "SELECT id_performe, id_evenement, id_artiste, date_debut_performe, date_fin_performe FROM Performe WHERE id_evenement = ? ";
 
-    public int createPerforme(Performe performe) throws DAOException {
+    public int creerPerforme(Performe performe) throws DAOException {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(CREATE_PERFORME_QUERY)) {
             preparedStatement.setInt(1, performe.getId_performe());
@@ -38,10 +38,10 @@ public class PerformeDAO {
         return 0;
     }
 
-    public int deletePerforme(int id_performe) throws DAOException {
+    public int supprimerPerforme(Performe performe) throws DAOException {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PERFORME_QUERY)) {
-            preparedStatement.setInt(1, id_performe);
+            preparedStatement.setInt(1, performe.getId_performe());
             preparedStatement.execute();
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()){
@@ -53,7 +53,7 @@ public class PerformeDAO {
         return 0;
     }
 
-    public Performe findPerformeById(int id_performe) throws DAOException {
+    public Performe trouverPerformeById(int id_performe) throws DAOException {
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_PERFORME_BY_ID_QUERY)) {
             preparedStatement.setInt(1, id_performe);
@@ -72,7 +72,7 @@ public class PerformeDAO {
         }
     }
 
-    public List<Performe> findAllPerformes() throws DAOException {
+    public List<Performe> trouverAllPerformes() throws DAOException {
         List<Performe> performes = new ArrayList<>();
         try (Connection connection = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL_PERFORMES_QUERY);
@@ -106,7 +106,7 @@ public class PerformeDAO {
         }
     }
 
-    public List<Performe> findPerformesByEvenementId(int evenementId) throws DAOException {
+    public List<Performe> trouverPerformesByEvenementId(int evenementId) throws DAOException {
         List<Performe> performes = new ArrayList<>();
         try {
             Connection connection = ConnectionManager.getConnection();
@@ -139,7 +139,7 @@ public class PerformeDAO {
         }
     }
 
-    public List<Performe> findPerformesByArtisteId(int artisteId) throws DAOException {
+    public List<Performe> trouverPerformesByArtisteId(int artisteId) throws DAOException {
         List<Performe> performes = new ArrayList<>();
         try {
             Connection connection = DriverManager.getConnection("jdbc:h2:~/RentManagerDatabase", "", "");
@@ -171,5 +171,4 @@ public class PerformeDAO {
 
         }
     }
-
 }

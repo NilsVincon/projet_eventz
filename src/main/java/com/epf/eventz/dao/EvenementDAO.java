@@ -18,7 +18,7 @@ public class EvenementDAO{
     private static final String FIND_ALL_EVENEMENTS_QUERY = "SELECT id_evenement,id_statut_evenement,id_type_evenement,id_adresse_evenement,nom_evenement,description_evenement,debut_evenement,fin_evenement,prix_evenement,nb_place_evenement FROM Evenement";
     private static final String COUNT_EVENEMENTS_QUERY = "SELECT COUNT(*) AS total FROM Evenement";
     private static final String MODIFY_EVENEMENT_QUERY = "UPDATE Evenement SET id_statut_evenement=?,id_type_evenement=?,id_adresse_evenement=?,nom_evenement=?,description_evenement=?,debut_evenement=?,fin_evenement=?,prix_evenement=?,nb_place_evenement=? WHERE id_evenement=?  ";
-    
+
     public int creerEvenement(Evenement evenement) throws DAOException{
         try (Connection connexion = ConnectionManager.getConnection();
              PreparedStatement preparedStatement = connexion.prepareStatement(CREATE_EVENEMENT_QUERY)){
@@ -40,7 +40,7 @@ public class EvenementDAO{
             throw new DAOException(e.getMessage(),e.getCause());
         }
         return 0;}
-    
+
 
     public int deleteEvenement(Evenement evenement) throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
@@ -61,21 +61,21 @@ public class EvenementDAO{
         try(Connection connexion = ConnectionManager.getConnection();
             PreparedStatement preparedStatement= connexion.prepareStatement(FIND_EVENEMENT_QUERY);
             ResultSet resultSet= preparedStatement.executeQuery()){
-        preparedStatement.setInt(1, (int) id_evenement);
-        Integer id_statut_evenement=resultSet.getInt("id_statut_evenement");
-        Integer id_type_evenement=resultSet.getInt("id_type_evenement");
+            preparedStatement.setInt(1, (int) id_evenement);
+            Integer id_statut_evenement=resultSet.getInt("id_statut_evenement");
+            Integer id_type_evenement=resultSet.getInt("id_type_evenement");
             Integer id_adresse_evenement=resultSet.getInt("id_adresse_evenement");
-        String nom_evenement=resultSet.getString("nom_evenement");
-        String description_evenement=resultSet.getString("description_evenement");
-        LocalDate debut_evenement=resultSet.getDate("debut_evenement").toLocalDate();
-        LocalDate fin_evenement=resultSet.getDate("fin_evenement").toLocalDate();
-        Float prix_evenement=resultSet.getFloat("prix_evenement");
-        Integer nb_place_evenement=resultSet.getInt("nb_place_evenement");
-        return new Evenement(0,id_statut_evenement,id_type_evenement,id_adresse_evenement,nom_evenement,description_evenement,debut_evenement,fin_evenement,prix_evenement,nb_place_evenement);
+            String nom_evenement=resultSet.getString("nom_evenement");
+            String description_evenement=resultSet.getString("description_evenement");
+            LocalDate debut_evenement=resultSet.getDate("debut_evenement").toLocalDate();
+            LocalDate fin_evenement=resultSet.getDate("fin_evenement").toLocalDate();
+            Float prix_evenement=resultSet.getFloat("prix_evenement");
+            Integer nb_place_evenement=resultSet.getInt("nb_place_evenement");
+            return new Evenement(0,id_statut_evenement,id_type_evenement,id_adresse_evenement,nom_evenement,description_evenement,debut_evenement,fin_evenement,prix_evenement,nb_place_evenement);
 
-    } catch (SQLException e){
-        throw new DAOException(e.getMessage(),e.getCause());
-    }}
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage(),e.getCause());
+        }}
 
     public List<Evenement> findAllEvenements() throws DAOException{
         ArrayList<Evenement> ListeEvenement = new ArrayList<>();
