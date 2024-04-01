@@ -42,7 +42,7 @@ public class EvenementDAO{
         return 0;}
 
 
-    public int deleteEvenement(Evenement evenement) throws DAOException{
+    public int supprimerEvenement(Evenement evenement) throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
             PreparedStatement preparedStatement=connexion.prepareStatement(DELETE_EVENEMENT_QUERY)){
             preparedStatement.setInt(1, evenement.getId_evenement());
@@ -57,7 +57,7 @@ public class EvenementDAO{
         return 0;
     }
 
-    public Evenement findEvenementById(int id_evenement) throws DAOException{
+    public Evenement trouverEvenementAvecId(int id_evenement) throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
             PreparedStatement preparedStatement= connexion.prepareStatement(FIND_EVENEMENT_QUERY);
             ResultSet resultSet= preparedStatement.executeQuery()){
@@ -77,7 +77,7 @@ public class EvenementDAO{
             throw new DAOException(e.getMessage(),e.getCause());
         }}
 
-    public List<Evenement> findAllEvenements() throws DAOException{
+    public List<Evenement> trouverTousEvenements() throws DAOException{
         ArrayList<Evenement> ListeEvenement = new ArrayList<>();
         try (
                 Connection connexion = ConnectionManager.getConnection();
@@ -104,7 +104,7 @@ public class EvenementDAO{
         return ListeEvenement;
     }
 
-    public int countEvenements() throws DAOException{
+    public int compterEvenements() throws DAOException{
         try(Connection connexion = ConnectionManager.getConnection();
             PreparedStatement preparedStatement= connexion.prepareStatement(COUNT_EVENEMENTS_QUERY);
             ResultSet resultSet= preparedStatement.executeQuery()){
