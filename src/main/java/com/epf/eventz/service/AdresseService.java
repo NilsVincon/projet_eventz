@@ -12,24 +12,24 @@ import java.util.List;
 @Service
 public class AdresseService {
 
-    private AdresseDAO adresseDAO;
+    private final AdresseDAO adresseDAO;
 
     @Autowired
     public AdresseService(AdresseDAO adresseDAO) {
         this.adresseDAO = adresseDAO;
     }
 
-    public int creerAdresse(Adresse adresse) throws ServiceException {
+    public void creerAdresse(Adresse adresse) throws ServiceException {
         try {
-            return adresseDAO.creerAdresse(adresse);
+            adresseDAO.creerAdresse(adresse);
         } catch (DAOException e) {
             throw new ServiceException("Erreur lors de la création de l'adresse.");
         }
     }
 
-    public int supprimerAdresse(Adresse adresse) throws ServiceException {
+    public void supprimerAdresse(Adresse adresse) throws ServiceException {
         try {
-            return adresseDAO.supprimerAdresse(adresse);
+            adresseDAO.supprimerAdresse(adresse);
         } catch (DAOException e) {
             throw new ServiceException("Erreur lors de la suppression de l'adresse.");
         }
@@ -59,9 +59,9 @@ public class AdresseService {
         }
     }
 
-    public int modifierAdresse(Adresse adresse) throws ServiceException {
+    public void modifierAdresse(Adresse adresse) throws ServiceException {
         try {
-            return adresseDAO.modifierAdresse(adresse);
+            adresseDAO.modifierAdresse(adresse);
         } catch (DAOException e) {
             throw new ServiceException("Erreur lors de la modification de l'adresse.");
         }
