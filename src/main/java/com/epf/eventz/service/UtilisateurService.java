@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public class UtilisateurService {
 
-    private UtilisateurDAO utilisateurDAO;
+    private static UtilisateurDAO utilisateurDAO;
 
     @Autowired
     public UtilisateurService(UtilisateurDAO utilisateurDAO) {
@@ -23,6 +23,8 @@ public class UtilisateurService {
 
     public long creerUtilisateur(Utilisateur utilisateur) throws ServiceException {
         try {
+            PasswordManager passwordManager=new PasswordManager();
+            utilisateur.setMdp_utilisateur(passwordManager.PasswordEncoder(utilisateur.getMdp_utilisateur()));
             return utilisateurDAO.creerUtilisateur(utilisateur);
         } catch (DAOException e) {
             throw new ServiceException("Erreur creation utilisateur");
@@ -66,6 +68,14 @@ public class UtilisateurService {
             return utilisateurDAO.modifierUtilisateur(utilisateur);
         } catch (DAOException e) {
             throw new ServiceException("Erreur modification utilisateur");
+        }
+    }
+
+    public static Utilisateur trouverUtilisateurAvecEmail(String utilisateurEmail) throws ServiceException {
+        try {
+            return utilisateurDAO.trouverUtilisateurAvecEmail(utilisateurEmail);
+        } catch (DAOException e) {
+            throw new ServiceException("Erreur recherche utilisateur");
         }
     }
 }

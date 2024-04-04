@@ -20,6 +20,7 @@ public class UtilisateurDAO {
     private static final String FIND_ALL_UTILISATEURS_QUERY = "SELECT id_utilisateur,nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,pseudo_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur FROM Utilisateur";
     private static final String COUNT_UTILISATEURS_QUERY = "SELECT COUNT(*) AS nb_utilisateurs FROM Utilisateur";
     private static final String MODIFY_UTILISATEUR_QUERY = "UPDATE Utilisateur SET nom_utilisateur=?,prenom_utilisateur=?,email_utilisateur=?,mdp_utilisateur=?,pseudo_utilisateur=?,sexe_utilisateur=?,admin_utilisateur=?,naissance_utilisateur=?,description_utilisateur=? WHERE id_utilisateur=?  ";
+    private static final String FIND_UTILISATEUR_BY_EMAIL_QUERY = "SELECT id_utilisateur, nom_utilisateur,prenom_utilisateur,email_utilisateur,mdp_utilisateur,sexe_utilisateur,admin_utilisateur,naissance_utilisateur,description_utilisateur FROM Utilisateur WHERE pseudo_utilisateur=?";
 
     public int creerUtilisateur(Utilisateur utilisateur) throws DAOException{
         try (Connection connexion = ConnectionManager.getConnection();
@@ -137,6 +138,26 @@ public class UtilisateurDAO {
             int rowsAffected = preparedStatement.executeUpdate();
             return rowsAffected;
         } catch (SQLException e) {
+            throw new DAOException(e.getMessage(), e.getCause());
+        }
+    }
+    public static Utilisateur trouverUtilisateurAvecEmail(String email_utilisateur) throws DAOException {
+        try (
+                Connection connexion = ConnectionManager.getConnection();
+                PreparedStatement preparedStatement= connexion.prepareStatement(FIND_UTILISATEUR_BY_EMAIL_QUERY);
+                ResultSet resultSet= preparedStatement.executeQuery()
+        ) {
+            Integer id_utilisateur=resultSet.getInt("id_utilisateur");
+            String nom_utilisateur=resultSet.getString("nom_utilisateur");
+            String prenom_utilisateur=resultSet.getString("prenom_utilisateur");
+            String mdp_utilisateur=resultSet.getString("mdp_utilisateur");
+            String pseudo_utilisateur=resultSet.getString("pseudo_utilisateur");
+            String sexe_utilisateur=resultSet.getString("sexe_utilisateur");
+            Boolean admin_utilisateur=resultSet.getBoolean("admin_utilisateur");
+            LocalDate naissance_utilisateur=resultSet.getDate("naissance_utilisateur").toLocalDate();
+            String description_utilisateur=resultSet.getString("description_utilisateur");
+            return new Utilisateur(id_utilisateur, nom_utilisateur, prenom_utilisateur, email_utilisateur, mdp_utilisateur, pseudo_utilisateur, sexe_utilisateur, admin_utilisateur, naissance_utilisateur, description_utilisateur);
+        } catch (SQLException e){
             throw new DAOException(e.getMessage(), e.getCause());
         }
     }
