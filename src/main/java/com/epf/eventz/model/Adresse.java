@@ -1,26 +1,26 @@
 package com.epf.eventz.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name="adresse")
+@Table
 public class Adresse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id_adresse;
-    @Column(name = "numéro")
+    private long id_adresse;
+
     private String numero_adresse;
-    @Column(name = "rue")
+
     private String rue_adresse;
-    @Column(name = "ville")
+
     private String ville_adresse;
-    @Column(name = "code_postal")
+
     private int code_postal_adresse;
-    @Column(name = "pays")
+
     private String pays_adresse;
-    @Column(name = "public")
     private boolean public_adresse;
+
 
     public Adresse() {}
 
@@ -33,11 +33,11 @@ public class Adresse {
         this.public_adresse = public_adresse;
     }
 
-    public int getId_adresse() {
+    public long getId_adresse() {
         return id_adresse;
     }
 
-    public void setId_adresse(int id_adresse) {
+    public void setId_adresse(long id_adresse) {
         this.id_adresse = id_adresse;
     }
 

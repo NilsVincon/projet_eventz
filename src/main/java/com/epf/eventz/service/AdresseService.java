@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdresseService {
@@ -19,51 +20,31 @@ public class AdresseService {
         this.adresseDAO = adresseDAO;
     }
 
-    public void creerAdresse(Adresse adresse) throws ServiceException {
-        try {
-            adresseDAO.creerAdresse(adresse);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la création de l'adresse.");
-        }
+    public void creerAdresse(Adresse adresse){
+            adresseDAO.save(adresse);
     }
 
-    public void supprimerAdresse(Adresse adresse) throws ServiceException {
-        try {
-            adresseDAO.supprimerAdresse(adresse);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la suppression de l'adresse.");
-        }
+    public void supprimerAdresse(Adresse adresse){
+            adresseDAO.delete(adresse);
     }
 
-    public Adresse trouverAdresseAvecId(int idAdresse) throws ServiceException {
-        try {
-            return adresseDAO.trouverAdresseAvecId(idAdresse);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche de l'adresse.");
-        }
+    public Optional<Adresse> trouverAdresseAvecId(long idAdresse) throws ServiceException {
+            return adresseDAO.findById(idAdresse);
     }
 
-    public List<Adresse> trouverToutesAdresses() throws ServiceException {
-        try {
-            return adresseDAO.trouverToutesAdresses();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche de toutes les adresses.");
-        }
+    public List<Adresse> trouverToutesAdresses() {
+        return adresseDAO.findAll();
     }
 
-    public int compterAdresses() throws ServiceException {
-        try {
-            return adresseDAO.compterAdresses();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors du comptage des adresses.");
-        }
+    public long compterAdresses() throws ServiceException {
+        return adresseDAO.count();
     }
 
-    public void modifierAdresse(Adresse adresse) throws ServiceException {
+    /*public void modifierAdresse(Adresse adresse) throws ServiceException {
         try {
             adresseDAO.modifierAdresse(adresse);
         } catch (DAOException e) {
             throw new ServiceException("Erreur lors de la modification de l'adresse.");
         }
-    }
+    }*/
 }
