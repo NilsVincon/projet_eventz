@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil Admin</title>
+</head>
+<body>
+
+<header>
+    <div th:replace="fragments/header :: header"></div>
+</header>
+<main>
+    <div class="box" th:each="item : ${items}">
+        <a th:href="@{'/TODO/' + ${item.nom}}">
+            <span th:text="${item.nom}"></span>
+        </a>
+        <span> - </span>
+        <span th:text="${item.nbIterations}"></span>
+    </div>
+</main>
+
+<footer>
+    <div th:replace="fragments/footer :: footer"></div>
+</footer>
+
+</body>
+</html>
