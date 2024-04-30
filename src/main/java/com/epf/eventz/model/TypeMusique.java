@@ -9,6 +9,7 @@ public class TypeMusique {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_type_musique;
+
     private String description_type_musique;
 
     public TypeMusique() {}
@@ -25,7 +26,10 @@ public class TypeMusique {
         return id_type_musique;
     }
 
+
+
     public void setId_type_musique(Long id_type_musique) {
+
         this.id_type_musique = id_type_musique;
     }
 

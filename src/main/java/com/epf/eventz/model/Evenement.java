@@ -1,8 +1,15 @@
 package com.epf.eventz.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
+@Entity
+@Table
 public class Evenement {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_evenement;
     private int id_statut_evenement;
     private int id_type_evenement;

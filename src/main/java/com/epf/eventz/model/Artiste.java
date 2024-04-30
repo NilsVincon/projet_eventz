@@ -1,12 +1,25 @@
 package com.epf.eventz.model;
 
 
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 
+@Entity
+@Table
 public class Artiste {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_artiste;
     private String nom_artiste;
+
+    @Override
+    public String toString() {
+        return "Artiste{" +
+                "id_artiste=" + id_artiste +
+                ", nom_artiste='" + nom_artiste + '\'' +
+                ", description_artiste='" + description_artiste + '\'' +
+                '}';
+    }
+
     private String description_artiste;
 
     public Artiste(){}

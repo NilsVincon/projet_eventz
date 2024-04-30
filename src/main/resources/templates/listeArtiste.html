@@ -19,20 +19,21 @@
     </button>
 </div>
 
-<div th:if="${typemusiques.size() > 0}">
+<div th:if="${artistes.size() > 0}">
     <table class="table table-hover table-responsive-xl">
         <thead class="thead-light">
         <tr>
             <th scope="col">Id</th>*
-
+            <th scope="col">Nom</th>
             <th scope="col">Description</th>
 
         </tr>
         </thead>
         <tbody>
-        <tr th:each="typemusique : ${typemusiques}">
-            <th scope="row">[[${typemusique.id_type_musique}]]</th>
-            <th scope="row">[[${typemusique.description_type_musique}]]</th>
+        <tr th:each="artiste : ${artistes}">
+            <th scope="row">[[${artiste.id_artiste}]]</th>
+            <th scope="row">[[${artiste.nom_artiste}]]</th>
+            <th scope="row">[[${artiste.description_artiste}]]</th>
         </tr>
         </tbody>
     </table>

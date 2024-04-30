@@ -24,8 +24,9 @@ public class TypeMusiqueController {
     @GetMapping("/listetypemusique")
     public String listTypeMusique(Model model){
         try {
-            List<TypeMusique> typeMusiques = typeMusiqueService.trouverTousTypeMusiques();
+            List<TypeMusique> typeMusiques = typeMusiqueService.findAllTypeMusiques();
             model.addAttribute("typemusiques", typeMusiques);
+
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
@@ -33,3 +34,4 @@ public class TypeMusiqueController {
         return "listetypemusique";
     }
 }
+

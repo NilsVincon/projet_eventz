@@ -4,6 +4,7 @@ import com.epf.eventz.dao.TypeMusiqueDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.TypeMusique;
+import com.epf.eventz.model.TypeMusique;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,30 +21,27 @@ public class TypeMusiqueService {
         this.typeMusiqueDAO = typeMusiqueDAO;
     }
 
-    public void creerTypeMusique(TypeMusique typeMusique) throws ServiceException {
+
+    public void addTypeMusique(TypeMusique typeMusique){
         typeMusiqueDAO.save(typeMusique);
     }
 
-    public void supprimerTypeMusique(TypeMusique typeMusique) throws ServiceException {
-             typeMusiqueDAO.delete(typeMusique);
+    public void deleteTypeMusique(TypeMusique typeMusique){
+        typeMusiqueDAO.delete(typeMusique);
     }
 
-    public Optional<TypeMusique> trouverTypeMusiqueAvecId(Long idTypeMusique) throws ServiceException {
-            return typeMusiqueDAO.findById(idTypeMusique);
+    public Optional<TypeMusique> findTypeMusiqueAvecId(long idTypeMusique) throws ServiceException {
+        return typeMusiqueDAO.findById(idTypeMusique);
     }
 
-    public List<TypeMusique> trouverTousTypeMusiques() throws ServiceException {
-            return typeMusiqueDAO.findAll();
+    public List<TypeMusique> findAllTypeMusiques() {
+        return typeMusiqueDAO.findAll();
     }
 
-/*
-    public int modifierTypeMusique(TypeMusique typeMusique) throws ServiceException {
-        try {
-            return typeMusiqueDAO.modifierTypeMusique(typeMusique);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la modification du type de musique.");
-        }
+    public long compterTypeMusiques() throws ServiceException {
+        return typeMusiqueDAO.count();
+
     }
 
- */
+
 }

@@ -4,10 +4,13 @@ import com.epf.eventz.dao.EvenementDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Evenement;
+import com.epf.eventz.model.Evenement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class EvenementService {
     private EvenementDAO evenementDAO;
@@ -17,51 +20,23 @@ public class EvenementService {
         this.evenementDAO = evenementDAO;
     }
 
-    public long creerEvenement(Evenement evenement) throws ServiceException {
-        try {
-            return evenementDAO.creerEvenement(evenement);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur creation evenement");
-        }
+    public void addEvenement(Evenement evenement){
+        evenementDAO.save(evenement);
     }
 
-    public long supprimerEvenement(Evenement evenement) throws ServiceException {
-        try {
-            return evenementDAO.supprimerEvenement(evenement);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur suppression evenement");
-        }
+    public void deleteEvenement(Evenement evenement){
+        evenementDAO.delete(evenement);
     }
 
-    public Evenement trouverEvenementAvecId(int evenementId) throws ServiceException {
-        try {
-            return evenementDAO.trouverEvenementAvecId(evenementId);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche evenement");
-        }
+    public Optional<Evenement> findEvenementById(long idEvenement) throws ServiceException {
+        return evenementDAO.findById(idEvenement);
     }
 
-    public List<Evenement> trouverTousEvenements() throws ServiceException {
-        try {
-            return evenementDAO.trouverTousEvenements();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche de tous evenements");
-        }
+    public List<Evenement> findAllEvenements() {
+        return evenementDAO.findAll();
     }
 
-    public int compterEvenements() throws ServiceException {
-        try {
-            return evenementDAO.compterEvenements();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur compte de tous evenements");
-        }
-    }
-
-    public int modifierEvenement(Evenement evenement) throws ServiceException {
-        try {
-            return evenementDAO.modifierEvenement(evenement);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur modification evenement");
-        }
+    public long countEvenements() throws ServiceException {
+        return evenementDAO.count();
     }
 }

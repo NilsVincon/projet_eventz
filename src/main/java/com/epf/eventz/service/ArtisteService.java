@@ -1,13 +1,14 @@
 package com.epf.eventz.service;
 
 import com.epf.eventz.dao.ArtisteDAO;
-import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Artiste;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class ArtisteService {
     private ArtisteDAO artisteDAO;
@@ -17,51 +18,46 @@ public class ArtisteService {
         this.artisteDAO = artisteDAO;
     }
 
-    public long creerArtiste(Artiste artiste) throws ServiceException {
-        try {
-            return artisteDAO.creerArtiste(artiste);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur creation artiste");
-        }
+    public void addArtiste(Artiste artiste){
+        artisteDAO.save(artiste);
+        System.out.println(artiste);
     }
 
-    public long supprimerArtiste(Artiste artiste) throws ServiceException {
-        try {
-            return artisteDAO.supprimerArtiste(artiste);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur suppression artiste");
+    public void deleteArtiste(Long artisteId){
+        boolean exists = artisteDAO.existsById(artisteId);
+        System.out.println("second id "+ artisteId);
+        if (!exists){
+            System.out.println("bool negatif");
+            throw new IllegalStateException(
+                    "artiste id"+artisteId+"existe pas"
+            );
         }
+        System.out.println("bool posss");
+        artisteDAO.deleteById(artisteId);
     }
 
-    public Artiste trouverArtisteAvecId(int artisteId) throws ServiceException {
-        try {
-            return artisteDAO.trouverArtisteAvecId(artisteId);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche artiste");
-        }
+    public Optional<Artiste> findArtisteById(long idArtiste) throws ServiceException {
+        return artisteDAO.findById(idArtiste);
     }
 
-    public List<Artiste> trouverTousArtistes() throws ServiceException {
-        try {
-            return artisteDAO.trouverTousArtistes();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche de tous les artistes");
-        }
+    public List<Artiste> findAllArtistes() {
+        return artisteDAO.findAll();
     }
 
-    public int compterArtistes() throws ServiceException {
-        try {
-            return artisteDAO.compterArtistes();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur compte de tous les artistes");
-        }
+    public long countArtistes() throws ServiceException {
+        return artisteDAO.count();
     }
 
-    public int modifierArtiste(Artiste artiste) throws ServiceException {
-        try {
-            return artisteDAO.modifierArtiste(artiste);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur modification artiste");
-        }
+    public void updateArtiste(Long artisteId, Artiste artiste){
+        Artiste artisteToUpdate = artisteDAO.findById(artisteId)
+                .orElseThrow(() -> new IllegalStateException("L'artiste avec l'ID " + artisteId + " n'existe pas"));
+
+        artisteToUpdate.setNom_artiste(artiste.getNom_artiste());
+        artisteToUpdate.setDescription_artiste(artiste.getDescription_artiste());
+
+
+        artisteDAO.save(artisteToUpdate);
     }
+
+
 }
