@@ -8,49 +8,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TypeMusiqueService {
 
-    private TypeMusiqueDAO typeMusiqueDAO;
+    private final TypeMusiqueDAO typeMusiqueDAO;
 
     @Autowired
     public TypeMusiqueService(TypeMusiqueDAO typeMusiqueDAO) {
         this.typeMusiqueDAO = typeMusiqueDAO;
     }
 
-    public int creerTypeMusique(TypeMusique typeMusique) throws ServiceException {
-        try {
-            return typeMusiqueDAO.creerTypeMusique(typeMusique);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la création du type de musique.");
-        }
+    public void creerTypeMusique(TypeMusique typeMusique) throws ServiceException {
+        typeMusiqueDAO.save(typeMusique);
     }
 
-    public int supprimerTypeMusique(TypeMusique typeMusique) throws ServiceException {
-        try {
-            return typeMusiqueDAO.supprimerTypeMusique(typeMusique);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la suppression du type de musique.");
-        }
+    public void supprimerTypeMusique(TypeMusique typeMusique) throws ServiceException {
+             typeMusiqueDAO.delete(typeMusique);
     }
 
-    public TypeMusique trouverTypeMusiqueAvecId(int idTypeMusique) throws ServiceException {
-        try {
-            return typeMusiqueDAO.trouverTypeMusiqueAvecId(idTypeMusique);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche du type de musique.");
-        }
+    public Optional<TypeMusique> trouverTypeMusiqueAvecId(Long idTypeMusique) throws ServiceException {
+            return typeMusiqueDAO.findById(idTypeMusique);
     }
 
     public List<TypeMusique> trouverTousTypeMusiques() throws ServiceException {
-        try {
-            return typeMusiqueDAO.trouverTousTypeMusiques();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche de tous les types de musique.");
-        }
+            return typeMusiqueDAO.findAll();
     }
 
+/*
     public int modifierTypeMusique(TypeMusique typeMusique) throws ServiceException {
         try {
             return typeMusiqueDAO.modifierTypeMusique(typeMusique);
@@ -58,4 +44,6 @@ public class TypeMusiqueService {
             throw new ServiceException("Erreur lors de la modification du type de musique.");
         }
     }
+
+ */
 }

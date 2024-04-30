@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StatutEvenementService {
@@ -19,43 +20,22 @@ public class StatutEvenementService {
         this.statutEvenementDAO = statutEvenementDAO;
     }
 
-    public int creerStatut(StatutEvenement statut) throws ServiceException {
-        try {
-            return statutEvenementDAO.creerStatut(statut);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la création du statut.");
-        }
+    public void creerStatut(StatutEvenement statut) throws ServiceException {
+        statutEvenementDAO.save(statut);
     }
 
-    public int supprimerStatut(StatutEvenement statut) throws ServiceException {
-        try {
-            return statutEvenementDAO.supprimerStatut(statut);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la suppression du statut.");
-        }
+    public void supprimerStatut(StatutEvenement statut) throws ServiceException {
+
+        statutEvenementDAO.delete(statut);
     }
 
-    public StatutEvenement trouverStatutAvecId(int id_statut_evenement) throws ServiceException {
-        try {
-            return statutEvenementDAO.trouverStatutAvecId(id_statut_evenement);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche du statut.");
-        }
+    public Optional<StatutEvenement> trouverStatutAvecId(Long id_statut_evenement) throws ServiceException {
+
+        return statutEvenementDAO.findById(id_statut_evenement);
     }
 
     public List<StatutEvenement> trouverTousStatuts() throws ServiceException {
-        try {
-            return statutEvenementDAO.trouverTousStatuts();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche de tous les statuts.");
-        }
+        return statutEvenementDAO.findAll();
     }
 
-    public int modifierStatut(StatutEvenement statut) throws ServiceException {
-        try {
-            return statutEvenementDAO.modifierStatut(statut);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la modification du statut.");
-        }
-    }
 }

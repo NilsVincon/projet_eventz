@@ -1,6 +1,10 @@
 package com.epf.eventz.model;
 
+
+import jakarta.persistence.Column;
+
 public class Artiste {
+
     private int id_artiste;
     private String nom_artiste;
     private String description_artiste;
