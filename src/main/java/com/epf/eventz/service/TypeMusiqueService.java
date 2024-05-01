@@ -26,8 +26,14 @@ public class TypeMusiqueService {
         typeMusiqueDAO.save(typeMusique);
     }
 
-    public void deleteTypeMusique(TypeMusique typeMusique){
-        typeMusiqueDAO.delete(typeMusique);
+    public void deleteTypeMusique(Long typemusiqueId){
+        boolean exists = typeMusiqueDAO.existsById(typemusiqueId);
+        if (!exists){
+            throw new IllegalStateException(
+                    "typemusique id"+typemusiqueId+"existe pas"
+            );
+        }
+        typeMusiqueDAO.deleteById(typemusiqueId);
     }
 
     public Optional<TypeMusique> findTypeMusiqueAvecId(long idTypeMusique) throws ServiceException {
@@ -41,6 +47,16 @@ public class TypeMusiqueService {
     public long compterTypeMusiques() throws ServiceException {
         return typeMusiqueDAO.count();
 
+    }
+
+    public void updateTypemusique(Long typemusiqueId, TypeMusique typemusique){
+        TypeMusique typemusiqueToUpdate = typeMusiqueDAO.findById(typemusiqueId)
+                .orElseThrow(() -> new IllegalStateException("L'typemusique avec l'ID " + typemusiqueId + " n'existe pas"));
+
+        typemusiqueToUpdate.setDescription_type_musique(typemusique.getDescription_type_musique());
+
+
+        typeMusiqueDAO.save(typemusiqueToUpdate);
     }
 
 

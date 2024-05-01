@@ -25,8 +25,14 @@ public class TypeEvenementService {
         typeevenementDAO.save(typeevenement);
     }
 
-    public void supprimerTypeEvenement(TypeEvenement typeevenement) throws ServiceException {
-        typeevenementDAO.delete(typeevenement);
+    public void supprimerTypeEvenement(Long typeevenementId) throws ServiceException {
+        boolean exists = typeevenementDAO.existsById(typeevenementId);
+        if (!exists){
+            throw new IllegalStateException(
+                    "typeevenement id"+typeevenementId+"existe pas"
+            );
+        }
+        typeevenementDAO.deleteById(typeevenementId);
     }
 
     public Optional<TypeEvenement> trouverUtilisateurAvecId(Long typeevenementID) throws ServiceException {
@@ -36,6 +42,16 @@ public class TypeEvenementService {
     public List<TypeEvenement> trouverTousTypeEvenements() throws ServiceException {
 
             return typeevenementDAO.findAll();
+    }
+
+    public void updateTypeevenement(Long typeevenementId, TypeEvenement typeevenement){
+        TypeEvenement typeevenementToUpdate = typeevenementDAO.findById(typeevenementId)
+                .orElseThrow(() -> new IllegalStateException("L'typeevenement avec l'ID " + typeevenementId + " n'existe pas"));
+
+        typeevenementToUpdate.setDescription_type_evenement(typeevenement.getDescription_type_evenement());
+
+
+        typeevenementDAO.save(typeevenementToUpdate);
     }
 
 }

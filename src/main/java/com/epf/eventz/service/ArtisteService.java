@@ -25,14 +25,11 @@ public class ArtisteService {
 
     public void deleteArtiste(Long artisteId){
         boolean exists = artisteDAO.existsById(artisteId);
-        System.out.println("second id "+ artisteId);
         if (!exists){
-            System.out.println("bool negatif");
             throw new IllegalStateException(
                     "artiste id"+artisteId+"existe pas"
             );
         }
-        System.out.println("bool posss");
         artisteDAO.deleteById(artisteId);
     }
 
