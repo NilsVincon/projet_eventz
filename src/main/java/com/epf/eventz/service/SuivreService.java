@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SuivreService {
@@ -19,51 +20,23 @@ public class SuivreService {
         this.suivreDAO = suivreDAO;
     }
 
-    public int creerSuivre(Suivre suivre) throws ServiceException {
-        try {
-            return suivreDAO.creerSuivre(suivre);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la création du suivi.");
-        }
+    public void creerSuivre(Suivre suivre) throws ServiceException {
+        suivreDAO.save(suivre);
     }
 
-    public int supprimerSuivre(Suivre suivre) throws ServiceException {
-        try {
-            return suivreDAO.supprimerSuivre(suivre);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la suppression du suivi.");
-        }
+    public void supprimerSuivre(Suivre suivre) throws ServiceException {
+        suivreDAO.delete(suivre);
     }
 
-    public Suivre trouverSuivreAvecIdUtilisateur(int idUtilisateur) throws ServiceException {
-        try {
-            return suivreDAO.trouverSuivreAvecIdUtilisateur(idUtilisateur);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche du suivi avec l'id de l'utilisateur.");
-        }
-    }
-
-    public Suivre trouverSuivreAvecIdUtilisateurSuivie(int idUtilisateurSuivi) throws ServiceException {
-        try {
-            return suivreDAO.trouverSuivreAvecIdUtilisateurSuivie(idUtilisateurSuivi);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche du suivi avec l'id de l'utilisateur suivi.");
-        }
+    public Optional<Suivre> trouverSuivreAvecId(Long idSuivre) throws ServiceException {
+        return suivreDAO.findById(idSuivre);
     }
 
     public List<Suivre> trouverTousSuivres() throws ServiceException {
-        try {
-            return suivreDAO.trouverTousSuivres();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la recherche de tous les suivis.");
-        }
+        return suivreDAO.findAll();
     }
 
     public int compterSuivres() throws ServiceException {
-        try {
-            return suivreDAO.compterSuivres();
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors du comptage des suivis.");
-        }
+        return (int) suivreDAO.count();
     }
 }

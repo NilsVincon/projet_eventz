@@ -1,7 +1,17 @@
 package com.epf.eventz.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class TypeMusique {
@@ -12,32 +22,7 @@ public class TypeMusique {
 
     private String description_type_musique;
 
-    public TypeMusique() {}
+    @OneToMany(mappedBy = "typeMusique")
+    private List<PrefererTypeMusique> prefererTypeMusiques;
 
-    public TypeMusique(String description_type_musique) {
-        this.description_type_musique = description_type_musique;
-    }
-    public TypeMusique(Long id_type_musique, String description_type_musique) {
-        this.id_type_musique = id_type_musique;
-        this.description_type_musique = description_type_musique;
-    }
-
-    public Long getId_type_musique() {
-        return id_type_musique;
-    }
-
-
-
-    public void setId_type_musique(Long id_type_musique) {
-
-        this.id_type_musique = id_type_musique;
-    }
-
-    public String getDescription_type_musique() {
-        return description_type_musique;
-    }
-
-    public void setDescription_type_musique(String description_type_musique) {
-        this.description_type_musique = description_type_musique;
-    }
 }

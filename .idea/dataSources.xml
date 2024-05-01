@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+<<<<<<< HEAD
     <data-source source="LOCAL" name="@localhost" uuid="f409e080-2d4c-46c6-a0f3-dd9b0e093bf8">
+=======
+    <data-source source="LOCAL" name="projet_eventz" uuid="32ff11a8-0c30-4fcd-8295-7de2324afcb6">
+>>>>>>> c35d3e8 (ajout certaines foreign key (ManytoMany...))
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

@@ -48,6 +48,7 @@ public class EvenementService {
 
     public long countEvenements() throws ServiceException {
         return evenementDAO.count();
+
     }
 
     public void updateEvenement(Long evenementId, Evenement evenement){

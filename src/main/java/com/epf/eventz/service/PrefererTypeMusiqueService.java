@@ -19,35 +19,27 @@ public class PrefererTypeMusiqueService {
         this.prefererTypeMusiqueDAO = prefererTypeMusiqueDAO;
     }
 
-    public int creerPrefererTypeMusique(PrefererTypeMusique prefererTypeMusique) throws ServiceException {
-        try {
-            return prefererTypeMusiqueDAO.creerPrefererTypeMusique(prefererTypeMusique);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur création préférence type de musique");
-        }
+    public void creerPrefererTypeMusique(PrefererTypeMusique prefererTypeMusique) throws ServiceException {
+        prefererTypeMusiqueDAO.save(prefererTypeMusique);
     }
 
-    public int supprimerPrefererTypeMusique(int id_type_musique, int id_utilisateur) throws ServiceException {
-        try {
-            return prefererTypeMusiqueDAO.supprimerPrefererTypeMusique(id_type_musique, id_utilisateur);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur suppression préférence type de musique");
-        }
+    public void supprimerPrefererTypeMusique(PrefererTypeMusique prefererTypeMusique) throws ServiceException {
+        prefererTypeMusiqueDAO.delete(prefererTypeMusique);
     }
 
-    public List<PrefererTypeMusique> trouverPrefererTypeMusiqueByUtilisateur(int id_utilisateur) throws ServiceException {
-        try {
-            return prefererTypeMusiqueDAO.trouverPrefererTypeMusiqueByUtilisateur(id_utilisateur);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche préférence type de musique par utilisateur");
-        }
-    }
-
-    public List<PrefererTypeMusique> trouverPrefererTypeMusiqueByTypeMusique(int id_type_musique) throws ServiceException {
-        try {
-            return prefererTypeMusiqueDAO.trouverPrefererTypeMusiqueByTypeMusique(id_type_musique);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche préférence type de musique par type de musique");
-        }
-    }
+//    public List<PrefererTypeMusique> trouverPrefererTypeMusiqueByUtilisateur(int id_utilisateur) throws ServiceException {
+//        try {
+//            return prefererTypeMusiqueDAO.trouverPrefererTypeMusiqueByUtilisateur(id_utilisateur);
+//        } catch (DAOException e) {
+//            throw new ServiceException("Erreur recherche préférence type de musique par utilisateur");
+//        }
+//    }
+//
+//    public List<PrefererTypeMusique> trouverPrefererTypeMusiqueByTypeMusique(int id_type_musique) throws ServiceException {
+//        try {
+//            return prefererTypeMusiqueDAO.trouverPrefererTypeMusiqueByTypeMusique(id_type_musique);
+//        } catch (DAOException e) {
+//            throw new ServiceException("Erreur recherche préférence type de musique par type de musique");
+//        }
+//    }
 }
