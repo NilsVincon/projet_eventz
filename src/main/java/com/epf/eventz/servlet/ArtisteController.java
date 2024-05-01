@@ -54,18 +54,7 @@ public class ArtisteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'artiste: " + e.getMessage());
         }
     }
-/*
-    @PutMapping(path="/modifyartiste/{artisteId}")
-    public ResponseEntity<String> updateArtiste(@PathVariable("artisteId")Long artisteId){
-        try {
-            artisteService.updateArtiste(artisteId, artiste);
-            return ResponseEntity.ok("Artiste update avec succès");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'update de l'artiste: " + e.getMessage());
-        }
-    }
 
- */
 
     @PutMapping(path="/modifyartiste/{artisteId}")
     public ResponseEntity<String> updateArtiste(@PathVariable("artisteId") Long artisteId, @RequestBody Artiste artiste){

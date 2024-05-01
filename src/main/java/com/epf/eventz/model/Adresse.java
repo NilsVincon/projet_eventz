@@ -88,4 +88,5 @@ public class Adresse {
     public void setPublic_adresse(boolean public_adresse) {
         this.public_adresse = public_adresse;
     }
+
 }

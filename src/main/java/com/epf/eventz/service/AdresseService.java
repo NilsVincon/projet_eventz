@@ -4,6 +4,7 @@ import com.epf.eventz.dao.AdresseDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Adresse;
+import com.epf.eventz.model.Adresse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +25,17 @@ public class AdresseService {
             adresseDAO.save(adresse);
     }
 
-    public void supprimerAdresse(Adresse adresse){
-            adresseDAO.delete(adresse);
+    public void supprimerAdresse(Long adresseId){
+        boolean exists = adresseDAO.existsById(adresseId);
+        System.out.println("second id "+ adresseId);
+        if (!exists){
+            System.out.println("bool negatif");
+            throw new IllegalStateException(
+                    "adresse id"+adresseId+"existe pas"
+            );
+        }
+        System.out.println("bool posss");
+        adresseDAO.deleteById(adresseId);;
     }
 
     public Optional<Adresse> trouverAdresseAvecId(long idAdresse) throws ServiceException {
@@ -40,11 +50,18 @@ public class AdresseService {
         return adresseDAO.count();
     }
 
-    /*public void modifierAdresse(Adresse adresse) throws ServiceException {
-        try {
-            adresseDAO.modifierAdresse(adresse);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur lors de la modification de l'adresse.");
-        }
-    }*/
+    public void modifierAdresse(Long adresseId, Adresse adresse){
+        Adresse adresseToUpdate = adresseDAO.findById(adresseId)
+                .orElseThrow(() -> new IllegalStateException("L'adresse avec l'ID " + adresseId + " n'existe pas"));
+
+        adresseToUpdate.setNumero_adresse(adresse.getNumero_adresse());
+        adresseToUpdate.setRue_adresse(adresse.getRue_adresse());
+        adresseToUpdate.setVille_adresse(adresse.getVille_adresse());
+        adresseToUpdate.setCode_postal_adresse(adresse.getCode_postal_adresse());
+        adresseToUpdate.setPays_adresse(adresse.getPays_adresse());
+        adresseToUpdate.setPublic_adresse(adresse.isPublic_adresse());
+
+
+        adresseDAO.save(adresseToUpdate);
+    }
 }
