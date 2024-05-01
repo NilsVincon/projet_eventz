@@ -44,8 +44,8 @@ public class ArtisteService {
         return artisteDAO.findAll();
     }
 
-    public long countArtistes() throws ServiceException {
-        return artisteDAO.count();
+    public int countArtistes() throws ServiceException {
+        return (int) artisteDAO.count();
     }
 
     public void updateArtiste(Long artisteId, Artiste artiste){

@@ -22,12 +22,12 @@ public class AdresseController {
         this.adresseService = adresseService;
     }
 
-    @GetMapping("listeadresse")
+    @GetMapping("/admin/listeadresse")
     public String listAdresses(Model model){
         try {
             List<Adresse> adresses = adresseService.trouverToutesAdresses();
             model.addAttribute("adresses", adresses);
-            return "/admin/listeadresse";
+            return "admin/listeadresse";
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Une erreur s'est produite lors de la récupération des adresses.");
             return "error";

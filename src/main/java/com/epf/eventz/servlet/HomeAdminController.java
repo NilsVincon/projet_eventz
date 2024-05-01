@@ -36,8 +36,8 @@ public class HomeAdminController {
     private ArrayList<Objet> getObjets() {
         ArrayList<Objet> objets = new ArrayList<>();
         try {
-            objets.add(new Objet("artiste", artisteService.compterArtistes()));
-            objets.add(new Objet("evenement", evenementService.compterEvenements()));
+            objets.add(new Objet("artiste", artisteService.countArtistes()));
+            objets.add(new Objet("evenement", (int) evenementService.countEvenements()));
             objets.add(new Objet("utilisateur", utilisateurService.compterUtilisateurs()));
             objets.add(new Objet("adresse", adresseService.compterAdresses()));
             objets.add(new Objet("typeevenement", typeEvenementService.compterTypeEvenement()));

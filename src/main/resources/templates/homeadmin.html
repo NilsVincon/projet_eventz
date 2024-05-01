@@ -7,10 +7,10 @@
 <body>
 
 <header>
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
 </header>
 <main>
-    <div class="box" th:each="item : ${items}">
+    <div th:each="item : ${items}">
         <a th:href="@{'/admin/liste' + ${item.nom}+'/'}">
             <span th:text="${item.nom}"></span>
         </a>
@@ -20,7 +20,7 @@
 </main>
 
 <footer>
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </footer>
 
 </body>

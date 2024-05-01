@@ -21,7 +21,7 @@ public class ArtisteController {
         this.artisteService = artisteService;
     }
 
-    @GetMapping("/listeartiste")
+    @GetMapping("/admin/listeartiste")
     public String listArtistes(Model model){
         try {
             List<Artiste> artistes = artisteService.findAllArtistes();
