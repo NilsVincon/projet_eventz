@@ -1,30 +1,29 @@
 package com.epf.eventz.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table
 public class PrefererTypeEvenement {
-    private int id_type_evenement;
-    private int id_utilisateur;
 
-    public PrefererTypeEvenement() {}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id_preferer_type_evenement;
 
-    public PrefererTypeEvenement( int id_type_evenement, int id_utilisateur) {
-        this.id_type_evenement = id_type_evenement;
-        this.id_utilisateur = id_utilisateur;
-    }
+    @ManyToOne
+    @JoinColumn
+    private TypeEvenement typeEvenement;
 
+    @ManyToOne
+    @JoinColumn
+    private Utilisateur utilisateur;
 
-    public int getId_type_evenement() {
-        return id_type_evenement;
-    }
-
-    public void setId_type_evenement(int id_type_evenement) {
-        this.id_type_evenement = id_type_evenement;
-    }
-
-    public int getId_utilisateur() {
-        return id_utilisateur;
-    }
-
-    public void setId_utilisateur(int id_utilisateur) {
-        this.id_utilisateur = id_utilisateur;
-    }
 }

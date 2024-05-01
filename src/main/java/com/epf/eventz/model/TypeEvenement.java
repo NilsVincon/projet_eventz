@@ -1,7 +1,17 @@
 package com.epf.eventz.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.util.List;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table
 public class TypeEvenement {
@@ -10,26 +20,9 @@ public class TypeEvenement {
     private Long id_type_evenement;
     private String description_type_evenement;
 
-    public TypeEvenement() {}
+    @OneToMany(mappedBy = "typeEvenement")
+    private List<Evenement> evenements;
 
-    public TypeEvenement(Long id_type_evenement, String description) {
-        this.id_type_evenement = id_type_evenement;
-        this.description_type_evenement = description;
-    }
-
-    public Long getId_type_evenement() {
-        return id_type_evenement;
-    }
-
-    public void setId_type_evenement(Long id_type_evenement) {
-        this.id_type_evenement = id_type_evenement;
-    }
-
-    public String getDescription_type_evenement() {
-        return description_type_evenement;
-    }
-
-    public void setDescription_type_evenement(String description_type_evenement) {
-        this.description_type_evenement = description_type_evenement;
-    }
+    @OneToMany(mappedBy = "typeEvenement")
+    private List<PrefererTypeEvenement> prefererTypeEvenements;
 }

@@ -19,35 +19,27 @@ public class PrefererArtisteService {
         this.prefererArtisteDAO = prefererArtisteDAO;
     }
 
-    public int creerPrefererArtiste(PrefererArtiste prefererArtiste) throws ServiceException {
-        try {
-            return prefererArtisteDAO.creerPrefererArtiste(prefererArtiste);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur création préférence artiste");
-        }
+    public void creerPrefererArtiste(PrefererArtiste prefererArtiste) throws ServiceException {
+        prefererArtisteDAO.save(prefererArtiste);
     }
 
-    public int supprimerPrefererArtiste(int id_artiste, int id_utilisateur) throws ServiceException {
-        try {
-            return prefererArtisteDAO.supprimerPrefererArtiste(id_artiste, id_utilisateur);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur suppression préférence artiste");
-        }
+    public void supprimerPrefererArtiste(PrefererArtiste prefererArtiste) throws ServiceException {
+        prefererArtisteDAO.delete(prefererArtiste);
     }
 
-    public List<PrefererArtiste> trouverPrefererArtisteByUtilisateur(int id_utilisateur) throws ServiceException {
-        try {
-            return prefererArtisteDAO.trouverPrefererArtisteByUtilisateur(id_utilisateur);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche préférence artiste par utilisateur");
-        }
-    }
-
-    public List<PrefererArtiste> trouverPrefererArtisteByArtiste(int id_artiste) throws ServiceException {
-        try {
-            return prefererArtisteDAO.trouverPrefererArtisteByArtiste(id_artiste);
-        } catch (DAOException e) {
-            throw new ServiceException("Erreur recherche préférence artiste par artiste");
-        }
-    }
+//    public List<PrefererArtiste> trouverPrefererArtisteByUtilisateur(int id_utilisateur) throws ServiceException {
+//        try {
+//            return prefererArtisteDAO.trouverPrefererArtisteByUtilisateur(id_utilisateur);
+//        } catch (DAOException e) {
+//            throw new ServiceException("Erreur recherche préférence artiste par utilisateur");
+//        }
+//    }
+//
+//    public List<PrefererArtiste> trouverPrefererArtisteByArtiste(int id_artiste) throws ServiceException {
+//        try {
+//            return prefererArtisteDAO.trouverPrefererArtisteByArtiste(id_artiste);
+//        } catch (DAOException e) {
+//            throw new ServiceException("Erreur recherche préférence artiste par artiste");
+//        }
+//    }
 }
