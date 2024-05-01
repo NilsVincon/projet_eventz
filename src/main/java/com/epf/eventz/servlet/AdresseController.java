@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -21,16 +22,16 @@ public class AdresseController {
         this.adresseService = adresseService;
     }
 
-    @GetMapping("/listeadresse")
+    @GetMapping("listeadresse")
     public String listAdresses(Model model){
         try {
             List<Adresse> adresses = adresseService.trouverToutesAdresses();
             model.addAttribute("adresses", adresses);
+            return "/admin/listeadresse";
         } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
+            model.addAttribute("errorMessage", "Une erreur s'est produite lors de la récupération des adresses.");
+            return "error";
         }
-
-        return "index";
     }
 
     @PostMapping("/addadresse")

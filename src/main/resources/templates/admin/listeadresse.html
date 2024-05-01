@@ -5,25 +5,18 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Bonjour</title>
+    <title>Liste Adresse</title>
 </head>
 <body>
 
-<div th:insert="~{fragments/header :: header}"></div>
+<header th:insert="~{../fragments/header :: header}"></header>
 
-<div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"
-     role="alert">
-    [[${message}]]
-    <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-</div>
 
 <div th:if="${adresses.size() > 0}">
-    <table class="table table-hover table-responsive-xl">
-        <thead class="thead-light">
+    <table>
+        <thead>
         <tr>
-            <th scope="col">Id</th>*
+            <th scope="col">Id</th>
             <th scope="col">Numéro</th>
             <th scope="col">Rue</th>
 
@@ -34,12 +27,26 @@
             <th scope="row">[[${adresse.id_adresse}]]</th>
             <th scope="row">[[${adresse.numero_adresse}]]</th>
             <th scope="row">[[${adresse.rue_adresse}]]</th>
+            <th>
+                <a class="btn btn-primary"
+                   href="">
+                    <i class="fa fa-play"></i>
+                </a>
+                <a class="btn btn-success"
+                   href="">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a class="btn btn-danger"
+                   href="">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </th>
         </tr>
         </tbody>
     </table>
 </div>
 
-<div th:insert="~{fragments/footer :: footer}"></div>
+<footer th:insert="~{../fragments/footer :: footer}"></footer>
 
 </body>
 </html>

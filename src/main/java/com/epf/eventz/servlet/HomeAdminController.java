@@ -25,23 +25,23 @@ public class HomeAdminController {
     @GetMapping("/homeadmin")
     public String gethome(Model model){
         try {
-
+            ArrayList<Objet> objets = getObjets();
+            model.addAttribute("items", objets);
         }
         catch (Exception e){
         }
-        return("homeadmin");
+        return "homeadmin";
     }
 
     private ArrayList<Objet> getObjets() {
         ArrayList<Objet> objets = new ArrayList<>();
         try {
-            objets.add(new Objet("Artiste", artisteService.compterArtistes()));
-            objets.add(new Objet("Evenement", evenementService.compterEvenements()));
-            objets.add(new Objet("Utilisateur", utilisateurService.compterUtilisateurs()));
-            objets.add(new Objet("Adresse", adresseService.compterAdresses()));
-            objets.add(new Objet("TypeEvenement", typeEvenementService.));
-            objets.add(new Objet("TypeMusique", evenementService.compterEvenements()));
-
+            objets.add(new Objet("artiste", artisteService.compterArtistes()));
+            objets.add(new Objet("evenement", evenementService.compterEvenements()));
+            objets.add(new Objet("utilisateur", utilisateurService.compterUtilisateurs()));
+            objets.add(new Objet("adresse", adresseService.compterAdresses()));
+            objets.add(new Objet("typeevenement", typeEvenementService.compterTypeEvenement()));
+            objets.add(new Objet("typemusique", typeMusiqueService.compterTypeMusique()));
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

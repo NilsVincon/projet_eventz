@@ -37,6 +37,9 @@ public class TypeMusiqueService {
     public List<TypeMusique> findAllTypeMusiques() {
         return typeMusiqueDAO.findAll();
     }
+    public int compterTypeMusique() throws ServiceException{
+        return  (int) typeMusiqueDAO.count();
+    }
 
     public long compterTypeMusiques() throws ServiceException {
         return typeMusiqueDAO.count();

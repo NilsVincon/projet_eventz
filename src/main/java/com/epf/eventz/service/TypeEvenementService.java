@@ -37,5 +37,8 @@ public class TypeEvenementService {
 
             return typeevenementDAO.findAll();
     }
+    public int compterTypeEvenement() throws ServiceException{
+        return (int) typeevenementDAO.count();
+    }
 
 }

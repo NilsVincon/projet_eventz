@@ -46,8 +46,8 @@ public class AdresseService {
         return adresseDAO.findAll();
     }
 
-    public long compterAdresses() throws ServiceException {
-        return adresseDAO.count();
+    public int compterAdresses() throws ServiceException {
+        return (int) adresseDAO.count();
     }
 
     public void modifierAdresse(Long adresseId, Adresse adresse){

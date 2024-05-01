@@ -1,8 +1,6 @@
 package com.epf.eventz.servlet;
 
-import com.epf.eventz.model.Adresse;
 import com.epf.eventz.model.TypeMusique;
-import com.epf.eventz.service.AdresseService;
 import com.epf.eventz.service.TypeMusiqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +19,7 @@ public class TypeMusiqueController {
         this.typeMusiqueService = typeMusiqueService;
     }
 
-    @GetMapping("/listetypemusique")
+    @GetMapping("/admin/listetypemusique")
     public String listTypeMusique(Model model){
         try {
             List<TypeMusique> typeMusiques = typeMusiqueService.findAllTypeMusiques()   ;

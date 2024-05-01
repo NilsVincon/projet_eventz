@@ -9,22 +9,14 @@
 </head>
 <body>
 
-<div th:insert="~{fragments/header :: header}"></div>
+<header th:insert="~{fragments/header :: header}"></header>
 
-<div th:if="${message != null}" class="alert alert-success alert-dismissible fade show text-center message"
-     role="alert">
-    [[${message}]]
-    <button type="button" class="close btn-sm" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">×</span>
-    </button>
-</div>
 
 <div th:if="${typemusiques.size() > 0}">
-    <table class="table table-hover table-responsive-xl">
-        <thead class="thead-light">
+    <table>
+        <thead>
         <tr>
-            <th scope="col">Id</th>*
-
+            <th scope="col">id</th>
             <th scope="col">Description</th>
 
         </tr>
@@ -33,12 +25,26 @@
         <tr th:each="typemusique : ${typemusiques}">
             <th scope="row">[[${typemusique.id_type_musique}]]</th>
             <th scope="row">[[${typemusique.description_type_musique}]]</th>
+            <th>
+                <a class="btn btn-primary"
+                   href="">
+                    <i class="fa fa-play"></i>
+                </a>
+                <a class="btn btn-success"
+                   href="">
+                    <i class="fa fa-edit"></i>
+                </a>
+                <a class="btn btn-danger"
+                   href="">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </th>
         </tr>
         </tbody>
     </table>
 </div>
 
-<div th:insert="~{fragments/footer :: footer}"></div>
+<footer th:insert="~{fragments/footer :: footer}"></footer>
 
 </body>
 </html>
