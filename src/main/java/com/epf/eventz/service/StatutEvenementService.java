@@ -24,9 +24,15 @@ public class StatutEvenementService {
         statutEvenementDAO.save(statut);
     }
 
-    public void supprimerStatut(StatutEvenement statut) throws ServiceException {
+    public void supprimerStatut(Long statutevenementId) throws ServiceException {
 
-        statutEvenementDAO.delete(statut);
+        boolean exists = statutEvenementDAO.existsById(statutevenementId);
+        if (!exists){
+            throw new IllegalStateException(
+                    "statutevenement id"+statutevenementId+"existe pas"
+            );
+        }
+        statutEvenementDAO.deleteById(statutevenementId);
     }
 
     public Optional<StatutEvenement> trouverStatutAvecId(Long id_statut_evenement) throws ServiceException {
@@ -36,6 +42,16 @@ public class StatutEvenementService {
 
     public List<StatutEvenement> trouverTousStatuts() throws ServiceException {
         return statutEvenementDAO.findAll();
+    }
+
+    public void updateStatutevenement(Long statutevenementId, StatutEvenement statutevenement){
+        StatutEvenement statutevenementToUpdate = statutEvenementDAO.findById(statutevenementId)
+                .orElseThrow(() -> new IllegalStateException("L'statutevenement avec l'ID " + statutevenementId + " n'existe pas"));
+
+        statutevenementToUpdate.setDescription_statut_evenement(statutevenement.getDescription_statut_evenement());
+
+
+        statutEvenementDAO.save(statutevenementToUpdate);
     }
 
 }

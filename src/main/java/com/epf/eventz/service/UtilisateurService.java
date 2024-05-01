@@ -25,8 +25,17 @@ public class UtilisateurService {
          utilisateurDAO.save(utilisateur);
     }
 
-    public void supprimerUtilisateur(Utilisateur utilisateur) throws ServiceException {
-        utilisateurDAO.delete(utilisateur);
+    public void supprimerUtilisateur(Long utilisateurId) throws ServiceException {
+        boolean exists = utilisateurDAO.existsById(utilisateurId);
+        System.out.println("second id "+ utilisateurId);
+        if (!exists){
+            System.out.println("bool negatif");
+            throw new IllegalStateException(
+                    "utilisateur id"+utilisateurId+"existe pas"
+            );
+        }
+        System.out.println("bool posss");
+        utilisateurDAO.deleteById(utilisateurId);
     }
 
     public Optional<Utilisateur> trouverUtilisateurAvecId(Long utilisateurId) throws ServiceException {
@@ -40,4 +49,24 @@ public class UtilisateurService {
     public Long compterUtilisateurs() throws ServiceException {
         return utilisateurDAO.count();
     }
+
+    public void modifierUtilisateur(Long utilisateurId, Utilisateur utilisateur){
+        Utilisateur utilisateurToUpdate = utilisateurDAO.findById(utilisateurId)
+                .orElseThrow(() -> new IllegalStateException("L'utilisateur avec l'ID " + utilisateurId + " n'existe pas"));
+
+        utilisateurToUpdate.setAdmin_utilisateur(utilisateur.getAdmin_utilisateur());
+        utilisateurToUpdate.setNom_utilisateur(utilisateur.getNom_utilisateur());
+        utilisateurToUpdate.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
+        utilisateurToUpdate.setEmail_utilisateur(utilisateur.getEmail_utilisateur());
+        utilisateurToUpdate.setMdp_utilisateur(utilisateur.getMdp_utilisateur());
+        utilisateurToUpdate.setPseudo_utilisateur(utilisateur.getPseudo_utilisateur());
+        utilisateurToUpdate.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
+        utilisateurToUpdate.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
+        utilisateurToUpdate.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
+
+
+
+        utilisateurDAO.save(utilisateurToUpdate);
+    }
+    
 }

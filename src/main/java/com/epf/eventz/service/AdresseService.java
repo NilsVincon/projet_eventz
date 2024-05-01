@@ -35,7 +35,7 @@ public class AdresseService {
             );
         }
         System.out.println("bool posss");
-        adresseDAO.deleteById(adresseId);;
+        adresseDAO.deleteById(adresseId);
     }
 
     public Optional<Adresse> trouverAdresseAvecId(long idAdresse) throws ServiceException {
