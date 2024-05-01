@@ -10,9 +10,11 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
 public interface UtilisateurDAO extends JpaRepository<Utilisateur, Long> {
+    Optional<Utilisateur> findByUsername(String username);
 
 }

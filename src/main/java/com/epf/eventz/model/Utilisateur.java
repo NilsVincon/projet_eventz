@@ -29,7 +29,7 @@ public class Utilisateur {
 
     private String mdp_utilisateur;
 
-    private String pseudo_utilisateur;
+    private String username;
 
     private String sexe_utilisateur;
 

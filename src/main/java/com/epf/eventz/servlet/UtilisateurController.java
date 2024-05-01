@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UtilisateurController {
@@ -32,6 +33,20 @@ public class UtilisateurController {
 
         return "index";
     }
+
+    @GetMapping("/profil/{utilisateurName}")
+    public String profilUser(@PathVariable("utilisateurName")String utilisateurName, Model model){
+        try {
+            Optional<Utilisateur> utilisateur =  utilisateurService.trouverUtilisateurAvecname(utilisateurName);
+            model.addAttribute("utilisateur", utilisateur);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "profil";
+    }
+
+
 
     @PostMapping("/addutilisateur")
     public ResponseEntity<String> addUtilisateur(@RequestBody Utilisateur utilisateur){

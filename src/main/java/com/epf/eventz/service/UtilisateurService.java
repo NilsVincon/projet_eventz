@@ -46,7 +46,7 @@ public class UtilisateurService {
         return utilisateurDAO.findAll();
     }
 
-    public Long compterUtilisateurs() throws ServiceException {
+    public long compterUtilisateurs() throws ServiceException {
         return utilisateurDAO.count();
     }
 
@@ -59,7 +59,7 @@ public class UtilisateurService {
         utilisateurToUpdate.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
         utilisateurToUpdate.setEmail_utilisateur(utilisateur.getEmail_utilisateur());
         utilisateurToUpdate.setMdp_utilisateur(utilisateur.getMdp_utilisateur());
-        utilisateurToUpdate.setPseudo_utilisateur(utilisateur.getPseudo_utilisateur());
+        utilisateurToUpdate.setUsername(utilisateur.getUsername());
         utilisateurToUpdate.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
         utilisateurToUpdate.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
         utilisateurToUpdate.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
@@ -67,6 +67,10 @@ public class UtilisateurService {
 
 
         utilisateurDAO.save(utilisateurToUpdate);
+    }
+
+    public Optional<Utilisateur> trouverUtilisateurAvecname(String username) throws ServiceException {
+        return utilisateurDAO.findByUsername(username);
     }
     
 }

@@ -38,7 +38,7 @@ public class HomeAdminController {
         try {
             objets.add(new Objet("artiste", artisteService.countArtistes()));
             objets.add(new Objet("evenement", (int) evenementService.countEvenements()));
-            objets.add(new Objet("utilisateur", utilisateurService.compterUtilisateurs()));
+            objets.add(new Objet("utilisateur", (int) utilisateurService.compterUtilisateurs()));
             objets.add(new Objet("adresse", adresseService.compterAdresses()));
             objets.add(new Objet("typeevenement", typeEvenementService.compterTypeEvenement()));
             objets.add(new Objet("typemusique", typeMusiqueService.compterTypeMusique()));
