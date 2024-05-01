@@ -50,4 +50,10 @@ public class Utilisateur {
 
     @OneToMany(mappedBy = "utilisateur")
     private List<PrefererTypeMusique> prefererTypeMusiques;
+
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Participe> participes;
+
+    @OneToMany(mappedBy = "utilisateur")
+    private List<PrefererTypeEvenement> prefererTypeEvenements;
 }

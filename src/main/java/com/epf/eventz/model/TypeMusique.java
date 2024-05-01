@@ -1,5 +1,6 @@
 package com.epf.eventz.model;
 
+import com.epf.eventz.dao.AvoirTypeMusiqueDAO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +25,8 @@ public class TypeMusique {
 
     @OneToMany(mappedBy = "typeMusique")
     private List<PrefererTypeMusique> prefererTypeMusiques;
+
+    @OneToMany(mappedBy = "typeMusique")
+    private List<AvoirTypeMusique> avoirTypeMusiques;
 
 }

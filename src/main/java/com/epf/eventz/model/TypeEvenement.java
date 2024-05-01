@@ -22,4 +22,7 @@ public class TypeEvenement {
 
     @OneToMany(mappedBy = "typeEvenement")
     private List<Evenement> evenements;
+
+    @OneToMany(mappedBy = "typeEvenement")
+    private List<PrefererTypeEvenement> prefererTypeEvenements;
 }

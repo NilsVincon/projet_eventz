@@ -1,5 +1,6 @@
 package com.epf.eventz.model;
 
+import com.epf.eventz.dao.AvoirTypeMusiqueDAO;
 import jakarta.persistence.*;
 
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table
@@ -31,6 +33,12 @@ public class Evenement {
     @ManyToOne
     @JoinColumn(name = "id_type_evenement")
     private TypeEvenement typeEvenement;
+
+    @OneToMany(mappedBy = "evenement")
+    private List<AvoirTypeMusique> avoirTypeMusiques;
+
+    @OneToMany(mappedBy = "evenement")
+    private List<Participe> participes;
 
     private String nom_evenement;
     private String description_evenement;
