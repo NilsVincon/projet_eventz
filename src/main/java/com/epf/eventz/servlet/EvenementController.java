@@ -1,5 +1,6 @@
 package com.epf.eventz.servlet;
 
+import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.*;
 import com.epf.eventz.security.JwtAuthentificationEntryPoint;
 import com.epf.eventz.service.*;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api/evenement")
@@ -42,6 +44,21 @@ public class EvenementController {
             model.addAttribute("evenements", evenements);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
+        }
+        return "home";
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/details")
+    public String afficherDetails(@RequestParam("id") Long event_id,Model model){
+        try {
+            Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
+            if (evenementOptional.isPresent()){
+                Evenement evenementactuel = evenementOptional.get();
+                model.addAttribute("evenementactuel", evenementactuel);
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
         }
         return "home";
     }
