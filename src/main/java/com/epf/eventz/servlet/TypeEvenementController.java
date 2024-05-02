@@ -31,6 +31,17 @@ public class TypeEvenementController {
 
         return "listetypeevenement";
     }
+    @GetMapping("/creation_event")
+    public String getTypeEvenement(Model model) {
+        try {
+            List<TypeEvenement> typeEvenement = typeEvenementService.trouverTousTypeEvenements();
+            model.addAttribute("typeevenements", typeEvenement);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "creation_event";
+    }
 
     @PostMapping("/addtypeevenement")
     public ResponseEntity<String> addTypeevenement(@RequestBody TypeEvenement typeevenement){

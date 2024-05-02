@@ -1,0 +1,213 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-image: url('../background2.avif');
+    background-size: cover; /* assurez-vous que l'image couvre toute la page */
+    background-position: center; /* centrer l'image */
+  }
+
+  
+  .navbar-brand {
+    float: left;
+    padding: 15px 50px;
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+  }
+  .navbar-brand img {
+    width: 60px; /* Ajustez la taille du logo selon vos besoins */
+  }
+  .navbar-options {
+    float: right;
+    padding: 15px 20px;
+  }
+  .navbar-options a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+  }
+  .navbar-options a:hover {
+    color: #f0b8c5;
+  }
+  .navbar-options img {
+    width: 45px;
+    height: auto;
+    vertical-align: middle;
+  
+  }
+  nav {
+    background-color: #e67b17;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-bottom: 20px; /* Ajoute une marge inférieure */
+  }
+  
+  #eventz-logo {
+    margin-right: 20px;
+  }
+  
+  
+  
+  .container {
+    padding: 20px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+  }
+  #today {
+    float: left;
+  }
+  #today {
+    position: absolute;
+    top: 37px;
+    left: 90px; /* Ajustez selon vos besoins */
+  }
+  #create {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0b8c5;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+  
+  #create:hover {
+    background-color: #f7f8f7;
+  }
+  
+  .sidebar {
+    width: 250px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: -250px;
+    background-color: #f0f0f0;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    padding: 10px 20px;
+  }
+  
+  .sidebar ul li a {
+    color: #f2d4d8;
+    text-decoration: none;
+  }
+  
+  .sidebar ul li a:hover {
+    background-color: #ddd;
+  }
+  
+  .sidebar-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .sidebar-toggle span {
+    font-size: 24px;
+  }
+  
+  .transition-block {
+    width: 80%; /* ajustez la largeur selon vos besoins */
+    margin: 20px auto; /* espace entre les blocs et centrage horizontal */
+    padding: 20px; /* ajout de marge intérieure pour le contenu */
+    background-color: white; /* couleur de fond initiale */
+    position: relative;
+    transition: background-color 2s ease; /* durée et type de transition */
+    border-radius: 10px; /* ajouter des coins arrondis */
+    display: flex; /* utiliser flexbox */
+    align-items: center; /* centrer verticalement */
+    flex-direction: column; /* Disposition des éléments en colonne */
+}
+  
+  .transition-block .content {
+    display: flex; /* utiliser flexbox pour le contenu */
+  }
+  
+  .transition-block img {
+    width: 300px; /* ajustez la taille de l'image selon vos besoins */
+    margin-right: 20px; /* espace entre l'image et le texte */
+  }
+  
+  .transition-block .text {
+    flex: 1; /* permet au texte de prendre autant d'espace que possible */
+    color: whitesmoke;
+  }
+  
+  .transition-block h2, .transition-block p {
+    margin: 0;
+    color: whitesmoke; 
+  }
+  
+  .filter-container {
+    position: sticky;
+    top: 100px; /* Ajustez selon la hauteur de votre barre de navigation */
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto; /* Supprime la marge supérieure */
+    z-index: 1000;
+  }
+  
+  .filter-form {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .filter-item {
+    flex: 1;
+    margin-right: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: pink; /* Ajoute un espacement entre les éléments */
+  }
+  
+  .filter-item:last-child {
+    margin-right: 0; /* Supprime l'espacement du dernier élément */
+  }
+  .filter-container input[type="submit"] {
+    width: 100%; /* Utilise toute la largeur disponible */
+    max-width: 200px; /* Définit une largeur maximale pour éviter que le bouton ne devienne trop large */
+  }
+  .attribute-container {
+    display: flex;
+    align-items: center; /* Alignement vertical */
+    margin-bottom: 15px; /* Ajout d'espace entre chaque attribut */
+}
+
+.attribute-container label {
+    flex: 0 0 150px; /* Largeur fixe pour les étiquettes */
+    margin-right: 15px; /* Espacement entre l'étiquette et le champ */
+    text-align: left; /* Alignement du texte à gauche */
+}
+
+.attribute-container input,
+.attribute-container select,
+.attribute-container textarea {
+    flex: 1; /* Les champs de formulaire prennent tout l'espace disponible */
+    max-width: 300px; /* Ajoute une largeur maximale pour éviter qu'ils ne s'étendent trop */
+}
+.form-container {
+    background-color: pink;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="creer_evenement.css">
+    <title>Créer un événement</title>
+</head>
+<div class="container">
+<header th:insert="~{headeruser :: header}"></header>
+</div>
+<body>
+    <div class="form-container">
+        <form id="eventForm" class="event-form">
+           
+                <div class="attribute-container">
+                    <label for="eventDate">Date:</label>
+                    <input type="date" id="eventDate" name="eventDate">
+                </div>
+                <div class="attribute-container">
+                    <label for="eventCity">Ville:</label>
+                    <input type="text" id="eventCity" name="eventCity" placeholder="Entrez une ville">
+                </div>
+                <div class="attribute-container">
+                    <label for="typeMusique">Type de musique:</label>
+                    <select id="typeMusique" name="typeMusique">
+                        <option th:each="typeMusique : ${typemusiques}" th:value="${typeMusique.getId_type_musique()}" th:text="${typeMusique.getDescription_type_musique()}"></option>
+                    </select>
+                </div>
+            <div class="attribute-container">
+                <label for="typeEvent">Type de musique:</label>
+                <select id="typeEvent" name="typeEvent">
+                    <option th:each="typeEvent : ${typeevenements}" th:value="${typeEvent.getId_type_evenement()}" th:text="${typeEvent.getDescription_type_evenement()}"></option>
+                </select>
+            </div>
+                <div class="attribute-container">
+                    <label for="eventTitle">Titre:</label>
+                    <input type="text" id="eventTitle" name="eventTitle" placeholder="Entrez un titre">
+                </div>
+                <div class="attribute-container">
+                    <label for="eventDescription">Description:</label>
+                    <textarea id="eventDescription" name="eventDescription" placeholder="Entrez une description"></textarea>
+                </div>
+                <div class="attribute-container">
+                    <label for="eventImage">Image:</label>
+                    <input type="file" id="eventImage" name="eventImage">
+                </div>
+       
+            <input type="submit" value="Créer l'événement">
+            <input type="submit" id="visualiserEvenement" value="Visualiser l'événement">
+        </form>
+    </div>
+    <div id="eventInfo" style="display: none;">
+        <div class="form-container">
+            <img id="eventImageDisplay" src="#" alt="Image de l'événement">
+            <div class="text">
+                <h2 id="eventTitleDisplay">Titre de l'événement</h2>
+                <p id="eventDescriptionDisplay">Description de l'événement</p>
+                <p id="eventDateDisplay">Date de l'événement</p>
+                <p id="eventCityDisplay">Ville de l'événement</p>
+                <p id="eventSoireeDisplay">Type de soirée de l'événement</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar-toggle" onclick="toggleSidebar()">
+        <span>&#9776;</span>
+    </div>
+    <aside class="sidebar" id="sidebar">
+        <h2>Chat</h2>
+        <ul>
+            <li><a href="#">Conversation 1</a></li>
+            <li><a href="#">Conversation 2</a></li>
+        </ul>
+    </aside>
+
+    <script src="creer_evenement.js"></script>
+</body>
+</html>

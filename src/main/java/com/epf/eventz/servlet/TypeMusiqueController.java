@@ -33,6 +33,18 @@ public class TypeMusiqueController {
 
         return "listetypemusique";
     }
+    @GetMapping("/creation_event")
+    public String getTypeMusique(Model model){
+        try {
+            List<TypeMusique> typeMusiques = typeMusiqueService.findAllTypeMusiques()   ;
+            model.addAttribute("typemusiques", typeMusiques);
+
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "creation_event";
+    }
 
     @PostMapping("/addtypemusique")
     public ResponseEntity<String> addTypemusique(@RequestBody TypeMusique typemusique){

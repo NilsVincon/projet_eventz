@@ -46,8 +46,8 @@ public class UtilisateurService {
         return (List<Utilisateur>) utilisateurDAO.findAll();
     }
 
-    public long compterUtilisateurs() throws ServiceException {
-        return utilisateurDAO.count();
+    public int compterUtilisateurs() throws ServiceException {
+        return (int) utilisateurDAO.count();
     }
 
     public void modifierUtilisateur(Long utilisateurId, Utilisateur utilisateur){
