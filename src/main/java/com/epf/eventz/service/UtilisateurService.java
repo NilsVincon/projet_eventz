@@ -74,7 +74,7 @@ public class UtilisateurService {
     public Optional<Utilisateur> trouverUtilisateurAvecname(String username) throws ServiceException {
         return utilisateurDAO.findByUsername(username);
     }
-    public List<Utilisateur> trouverAbonnésByUsername(String pseudo_utilisateur) throws ServiceException{
+    public List<Utilisateur> trouverAbonnesByUsername(String pseudo_utilisateur) throws ServiceException{
         Optional<Utilisateur> utilisateur = utilisateurDAO.findByUsername(pseudo_utilisateur);
         if(utilisateur.isPresent()) {
             List<Suivre> suiveurs = utilisateur.get().getSuiveurs();

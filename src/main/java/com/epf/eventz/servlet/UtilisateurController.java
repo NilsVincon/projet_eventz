@@ -5,6 +5,9 @@ import com.epf.eventz.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,17 +50,18 @@ public class UtilisateurController {
 
         return "profil";
     }
-
+@PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/listeamis")
     public String listeAmis(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            List<Utilisateur> suiveurs = utilisateurService.trouverAbonnésByUsername("pseudo");
-            model.addAttribute("utilisateur", suiveurs);
+            List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(authentication.getName());
+            model.addAttribute("suiveurs", suiveurs);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "profil";
+        return "listeamis";
     }
 
 

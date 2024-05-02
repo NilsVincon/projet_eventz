@@ -40,6 +40,7 @@ public class EvenementController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/addevenement")
     public String loginPage() {
+
         return "add_event";
     }
 

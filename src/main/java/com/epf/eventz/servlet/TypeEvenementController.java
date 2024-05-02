@@ -29,18 +29,7 @@ public class TypeEvenementController {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "listetypeevenement";
-    }
-    @GetMapping("/creation_event")
-    public String getTypeEvenement(Model model) {
-        try {
-            List<TypeEvenement> typeEvenement = typeEvenementService.trouverTousTypeEvenements();
-            model.addAttribute("typeevenements", typeEvenement);
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-        }
-
-        return "creation_event";
+        return "admin/listetypeevenement";
     }
 
     @PostMapping("/addtypeevenement")
@@ -52,9 +41,6 @@ public class TypeEvenementController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'typeevenement: " + e.getMessage());
         }
     }
-
-
-
 
     @DeleteMapping(path="/deletetypeevenement/{typeevenementId}")
     public ResponseEntity<String> deleteTypeevenement(@PathVariable("typeevenementId")Long typeevenementId){

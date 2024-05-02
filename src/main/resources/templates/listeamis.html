@@ -168,8 +168,8 @@
                             </div>
                         </div>
                         <div class="text-center">
-                            <h5 class="fs-5 mb-0 fw-semibold"th:text="${utilisateur.pseudo_utilisateur}"></h5>
-                            <p class="mb-0 fs-4" th:text="${utilisateur.description_utilisateur}"></p>
+                            <h5 class="fs-5 mb-0 fw-semibold"th:text="${moi}"></h5>
+                            <p class="mb-0 fs-4" th:text="${helloooo}"></p>
                         </div>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
              tabindex="0">
             <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
                 <h3 class="mb-3 mb-sm-0 fw-semibold d-flex align-items-center">Amis <span
-                        class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2" th:text="${nb_amis}"></span></h3>
+                        class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2">suceurs</span></h3>
                 <form class="position-relative">
                     <input type="text" class="form-control search-chat py-2 ps-5" id="text-srh"
                            placeholder="Search Friends">
@@ -219,12 +219,12 @@
                 </form>
             </div>
             <div class="row">
-                <div class="col-sm-6 col-lg-4" th:each="ami : ${amis}">
+                <div class="col-sm-6 col-lg-4" th:each="suiveur : ${suiveurs}">
                     <div class="card hover-img">
                         <div class="card-body p-4 text-center border-bottom">
                             <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="Avatar" class="rounded-circle mb-3" width="80" height="80">
-                            <h5 class="fw-semibold mb-0" th:text="${ami.pseudo_utilisateur}"></h5>
-                            <span class="text-dark fs-2" th:text="${ami.description_utilisateur}"></span>
+                            <h5 class="fw-semibold mb-0" th:text="${suiveur.username}"></h5>
+                            <span class="text-dark fs-2" th:text="${suiveur.description_utilisateur}"></span>
                         </div>
                     </div>
                 </div>

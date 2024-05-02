@@ -31,7 +31,7 @@ public class TypeMusiqueController {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "listetypemusique";
+        return "/admin/listetypemusique";
     }
     @GetMapping("/creation_event")
     public String getTypeMusique(Model model){

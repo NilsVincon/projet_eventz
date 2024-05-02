@@ -69,7 +69,7 @@ public class AuthentificationController {
                 utilisateur.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/api", token);
+        String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/", token);
         response.addHeader("Set-Cookie", cookieString);
         response.setHeader("Location", "/api/evenement/listeevenement");
         response.setStatus(HttpStatus.FOUND.value());
