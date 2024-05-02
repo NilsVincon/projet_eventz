@@ -71,6 +71,8 @@ public class AuthentificationController {
         String token = jwtGenerator.generateToken(authentication);
         String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/api", token);
         response.addHeader("Set-Cookie", cookieString);
+        response.setHeader("Location", "/api/evenement/listeevenement");
+        response.setStatus(HttpStatus.FOUND.value());
     }
 
     @PostMapping("/logout")
@@ -87,11 +89,11 @@ public class AuthentificationController {
     }
 
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    public String inscription(@ModelAttribute Utilisateur utilisateur){
+    @ResponseStatus(HttpStatus.FOUND)
+    public void inscription(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response){
         logger.info("Utilisateur récupérer : "+utilisateur);
         if(userDAO.existsByUsername(utilisateur.getUsername())){
             logger.error("Username is taken");
-            return "error";
         }
         utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         if (Objects.equals(utilisateur.getRole_utilisateur(), "ADMIN")){
@@ -99,10 +101,10 @@ public class AuthentificationController {
         }
         try {
             utilisateurService.creerUtilisateur(utilisateur);
+            response.setHeader("Location", "/auth/login");
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-        return "login";
     }
 
 
