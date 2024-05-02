@@ -5,6 +5,7 @@ import com.epf.eventz.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_USER')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -52,8 +54,8 @@ public class UtilisateurController {
     public String profilUser(Model model){
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            model.addAttribute("username", username);
+            String user = authentication.getName();
+            model.addAttribute("user", user);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
