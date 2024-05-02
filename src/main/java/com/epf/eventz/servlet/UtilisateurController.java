@@ -34,7 +34,6 @@ public class UtilisateurController {
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
-
         return "index";
     }
 
@@ -57,10 +56,12 @@ public class UtilisateurController {
             Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
             List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(authentication.getName());
             List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(authentication.getName());
-            Utilisateur user = userOptional.get();
-            model.addAttribute("user", user);
-            model.addAttribute("suiveurs", suiveurs);
-            model.addAttribute("suivis", suivis);
+            if (userOptional.isPresent()) {
+                Utilisateur user = userOptional.get();
+                model.addAttribute("user", user);
+                model.addAttribute("suiveurs", suiveurs);
+                model.addAttribute("suivis", suivis);
+            }
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
