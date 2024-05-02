@@ -3,6 +3,7 @@ package com.epf.eventz.service;
 import com.epf.eventz.dao.ArtisteDAO;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Artiste;
+import com.epf.eventz.model.Jouer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,6 +55,18 @@ public class ArtisteService {
 
 
         artisteDAO.save(artisteToUpdate);
+    }
+
+    public StringBuilder afficherTypeMusique(Artiste artiste){
+        List<Jouer> jouerList = artiste.getJouers();
+        StringBuilder typemusique = new StringBuilder();
+        for(Jouer j : jouerList){
+            typemusique.append(" / ").append(j.getTypeMusique().getDescription_type_musique());
+        }
+        if (!typemusique.isEmpty() && typemusique.charAt(1) == '/') {
+            typemusique.deleteCharAt(1);
+        }
+        return typemusique;
     }
 
 

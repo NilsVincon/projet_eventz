@@ -29,4 +29,7 @@ public class TypeMusique {
     @OneToMany(mappedBy = "typeMusique")
     private List<AvoirTypeMusique> avoirTypeMusiques;
 
+    @OneToMany(mappedBy = "typeMusique")
+    private List<Jouer> jouers;
+
 }
