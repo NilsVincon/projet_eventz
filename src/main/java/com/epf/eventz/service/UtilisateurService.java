@@ -88,5 +88,19 @@ public class UtilisateurService {
             throw new ServiceException("Optional vide");
         }
     }
+    public List<Utilisateur> trouverAbonnementByUsername(String pseudo_utilisateur) throws ServiceException{
+        Optional<Utilisateur> utilisateur = utilisateurDAO.findByUsername(pseudo_utilisateur);
+        if(utilisateur.isPresent()) {
+            List<Suivre> suivis = utilisateur.get().getSuivis();
+            List<Utilisateur> following = new ArrayList<>();
+            for (Suivre suivi : suivis) {
+                following.add(suivi.getSuivi());
+            }
+            return following;
+        }
+        else{
+            throw new ServiceException("Optional vide");
+        }
+    }
     
 }

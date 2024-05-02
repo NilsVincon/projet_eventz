@@ -56,7 +56,9 @@ public class UtilisateurController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(authentication.getName());
+            List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(authentication.getName());
             model.addAttribute("suiveurs", suiveurs);
+            model.addAttribute("suivis", suivis);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
