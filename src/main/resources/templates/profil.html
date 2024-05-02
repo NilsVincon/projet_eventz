@@ -79,14 +79,14 @@
                         <div class="d-flex flex-column align-items-center text-center">
                             <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
                             <div class="mt-3">
-                                <h4>John Doe</h4>
+                                <h4><span th:text="${user.username}"></span></h4>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="card mb-3">
+                <div class="card mb-3" >
                     <div class="card-body">
                         <div class="row">
                             <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
@@ -103,7 +103,7 @@
                                 <h6 class="mb-0">Nom</h6>
                             </div>
                             <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
-                                Kenneth Valdez
+                                <span th:text="${user.nom_utilisateur}"></span>
                             </div>
                         </div>
                         <hr>
@@ -112,7 +112,7 @@
                                 <h6 class="mb-0">Email</h6>
                             </div>
                             <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
-                                Kenneth Valdez
+                                <span th:text="${user.email_utilisateur}"></span>
                             </div>
                         </div>
                         <hr>
@@ -121,16 +121,16 @@
                                 <h6 class="mb-0">Date de naissance</h6>
                             </div>
                             <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
-                                (239) 816-9029
+                                <span th:text="${user.naissance_utilisateur}"></span>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
-                                <h6 class="mb-0">Sexe</h6>
+                                <h6 class="mb-0">genre</h6>
                             </div>
                             <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
-                                (239) 816-9029
+                                <span th:text="${user.sexe_utilisateur}"></span>
                             </div>
                         </div>
                         <hr>
@@ -139,7 +139,7 @@
                                 <h6 class="mb-0">Bio</h6>
                             </div>
                             <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                                <span th:text="${user.description_utilisateur}"></span>
                             </div>
                         </div>
 

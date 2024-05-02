@@ -1,167 +1,220 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr" dir="ltr">
 <head>
-<meta charset="utf-8">
-
-
-<title>account setting or edit profile - Bootdey.com</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<style type="text/css">
-    	body {
-    margin: 0;
-    padding-top: 40px;
-    color: #2e323c;
-    background: #f5f6fa;
-    position: relative;
-    height: 100%;
-}
-.account-settings .user-profile {
-    margin: 0 0 1rem 0;
-    padding-bottom: 1rem;
-    text-align: center;
-}
-.account-settings .user-profile .user-avatar {
-    margin: 0 0 1rem 0;
-}
-.account-settings .user-profile .user-avatar img {
-    width: 90px;
-    height: 90px;
-    -webkit-border-radius: 100px;
-    -moz-border-radius: 100px;
-    border-radius: 100px;
-}
-.account-settings .user-profile h5.user-name {
-    margin: 0 0 0.5rem 0;
-}
-.account-settings .user-profile h6.user-email {
-    margin: 0;
-    font-size: 0.8rem;
-    font-weight: 400;
-    color: #9fa8b9;
-}
-.account-settings .about {
-    margin: 2rem 0 0 0;
-    text-align: center;
-}
-.account-settings .about h5 {
-    margin: 0 0 15px 0;
-    color: #007ae1;
-}
-.account-settings .about p {
-    font-size: 0.825rem;
-}
-.form-control {
-    border: 1px solid #cfd1d8;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    font-size: .825rem;
-    background: #ffffff;
-    color: #2e323c;
-}
-
-.card {
-    background: #ffffff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    border: 0;
-    margin-bottom: 1rem;
-}
-
-
+    <meta charset="UTF-8">
+    <title> Modifier mon profil </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins',sans-serif;
+        }
+        body{
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        .container{
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 25px 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
+        }
+        .container .title{
+            font-size: 25px;
+            font-weight: 500;
+            position: relative;
+        }
+        .container .title::before{
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 30px;
+            border-radius: 5px;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        .content form .user-details{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin: 20px 0 12px 0;
+        }
+        form .user-details .input-box{
+            margin-bottom: 15px;
+            width: calc(100% / 2 - 20px);
+        }
+        form .input-box span.details{
+            display: block;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .user-details .input-box input{
+            height: 45px;
+            width: 100%;
+            outline: none;
+            font-size: 16px;
+            border-radius: 5px;
+            padding-left: 15px;
+            border: 1px solid #ccc;
+            border-bottom-width: 2px;
+            transition: all 0.3s ease;
+        }
+        .user-details .input-box input:focus,
+        .user-details .input-box input:valid{
+            border-color: #9b59b6;
+        }
+        form .gender-details .gender-title{
+            font-size: 20px;
+            font-weight: 500;
+        }
+        form .category{
+            display: flex;
+            width: 80%;
+            margin: 14px 0 ;
+            justify-content: space-between;
+        }
+        form .category label{
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        form .category label .dot{
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            margin-right: 10px;
+            background: #d9d9d9;
+            border: 5px solid transparent;
+            transition: all 0.3s ease;
+        }
+        #dot-1:checked ~ .category label .one,
+        #dot-2:checked ~ .category label .two,
+        #dot-3:checked ~ .category label .three{
+            background: #9b59b6;
+            border-color: #d9d9d9;
+        }
+        form input[type="radio"]{
+            display: none;
+        }
+        form .button{
+            height: 45px;
+            margin: 35px 0
+        }
+        form .button input{
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+        }
+        form .button input:hover{
+            /* transform: scale(0.99); */
+            background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+        }
+        @media(max-width: 584px){
+            .container{
+                max-width: 100%;
+            }
+            form .user-details .input-box{
+                margin-bottom: 15px;
+                width: 100%;
+            }
+            form .category{
+                width: 100%;
+            }
+            .content form .user-details{
+                max-height: 300px;
+                overflow-y: scroll;
+            }
+            .user-details::-webkit-scrollbar{
+                width: 5px;
+            }
+        }
+        @media(max-width: 459px){
+            .container .content .category{
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
 <div class="container">
-<div class="row gutters">
-<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
-<div class="card h-100">
-<div class="card-body">
-<div class="account-settings">
-<div class="user-profile">
-<div class="user-avatar">
-<img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+    <div class="title">Modifier mon profil</div>
+    <div class="content">
+        <form id="registrationForm" action="/profil" method="post">
+            <div class="user-details">
+                <div class="input-box">
+                    <span class="details">Nom</span>
+                    <input type="text" placeholder="Entrez votre nom" id="nom_utilisateur" name="nom_utilisateur" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Prenom</span>
+                    <input type="text" placeholder="Entrez votre prenom" id="prenom_utilisateur" name="prenom_utilisateur" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Email</span>
+                    <input type="text" placeholder="Entrez votre email" id="email_utilisateur" name="email_utilisateur" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Mot de passe</span>
+                    <input type="password" placeholder="Entrez votre mot de passe" id="password" name="password" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Pseudo</span>
+                    <input type="text" placeholder="Entrez votre pseudo" id="username" name="username" required>
+                </div>
+                <input type="hidden" id="role_utilisateur" name="role_utilisateur" value="USER">
+                <div class="gender-details">
+                    <input type="radio" name="sexe_utilisateur" id="dot-1" value="Homme">
+                    <input type="radio" name="sexe_utilisateur" id="dot-2" value="Femme">
+                    <input type="radio" name="sexe_utilisateur" id="dot-3" value="Autre">
+                    <span class="gender-title">Gender</span>
+                    <div class="category">
+                        <label for="dot-1">
+                            <span class="dot one"></span>
+                            <span class="gender">Homme</span>
+                        </label>
+                        <label for="dot-2">
+                            <span class="dot two"></span>
+                            <span class="gender">Femme</span>
+                        </label>
+                        <label for="dot-3">
+                            <span class="dot three"></span>
+                            <span class="gender">Autre</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="input-box">
+                    <span class="details">Date de naissance</span>
+                    <input type="date" placeholder="Entrez votre date de naissance" id="naissance_utilisateur" name="naissance_utilisateur" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Description</span>
+                    <input type="text" placeholder="Entrez votre description" id="description_utilisateur" name="description_utilisateur" required>
+                </div>
+            </div>
+            <div class="button">
+                <input type="submit" value="Modifier" id="validation">
+            </div>
+        </form>
+    </div>
 </div>
-<h5 class="user-name">Yuki Hayashi</h5>
-
-</div>
-<div class="about">
-
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
-<div class="card h-100">
-<div class="card-body">
-<div class="row gutters">
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
-</div>
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="fullName">Prénom</label>
-<input type="text" class="form-control" id="fullName" placeholder="Enter full name">
-</div>
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="eMail">Email</label>
-<input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
-</div>
-</div>
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="nom">Nom</label>
-<input type="text" class="form-control" id="nom" placeholder="Enter phone number">
-</div>
-</div>
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="website">Date de naissance</label>
-<input type="url" class="form-control" id="website" placeholder="Website url">
-</div>
-</div>
-</div>
-<div class="row gutters">
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-
-</div>
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="Street">Bio</label>
-<input type="name" class="form-control" id="Street" placeholder="Enter Street">
-</div>
-</div>
-
-<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-<div class="form-group">
-<label for="sexe">Sexe</label>
-<input type="text" class="form-control" id="sexe" placeholder="Zip Code">
-</div>
-</div>
-</div>
-<div class="row gutters">
-<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-<div class="text-right">
-<button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
-<button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-	
-</script>
 </body>
 </html>
+
