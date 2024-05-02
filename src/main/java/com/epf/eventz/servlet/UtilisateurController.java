@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.Authenticator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,6 +41,18 @@ public class UtilisateurController {
         try {
             Optional<Utilisateur> utilisateur =  utilisateurService.trouverUtilisateurAvecname(utilisateurName);
             model.addAttribute("utilisateur", utilisateur);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "profil";
+    }
+
+    @GetMapping("/listeamis")
+    public String listeAmis(Model model){
+        try {
+            List<Utilisateur> suiveurs = utilisateurService.trouverAbonnésByUsername("pseudo");
+            model.addAttribute("utilisateur", suiveurs);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }

@@ -4,10 +4,12 @@ import com.epf.eventz.dao.UtilisateurDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 
+import com.epf.eventz.model.Suivre;
 import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,6 +73,20 @@ public class UtilisateurService {
 
     public Optional<Utilisateur> trouverUtilisateurAvecname(String username) throws ServiceException {
         return utilisateurDAO.findByUsername(username);
+    }
+    public List<Utilisateur> trouverAbonnésByUsername(String pseudo_utilisateur) throws ServiceException{
+        Optional<Utilisateur> utilisateur = utilisateurDAO.findByUsername(pseudo_utilisateur);
+        if(utilisateur.isPresent()) {
+            List<Suivre> suiveurs = utilisateur.get().getSuiveurs();
+            List<Utilisateur> followers = new ArrayList<>();
+            for (Suivre suiveur : suiveurs) {
+                followers.add(suiveur.getSuiveur());
+            }
+            return followers;
+        }
+        else{
+            throw new ServiceException("Optional vide");
+        }
     }
     
 }
