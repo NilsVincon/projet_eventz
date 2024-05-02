@@ -2,6 +2,7 @@ package com.epf.eventz.servlet;
 
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.UtilisateurService;
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@PreAuthorize("hasRole('ROLE_USER')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -66,6 +68,25 @@ public class UtilisateurController {
         return "listeamis";
     }
 
+    @GetMapping("/profil")
+    public String profilUser(Model model){
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            if (userOptional.isPresent()) {
+                Utilisateur user = userOptional.get();
+                model.addAttribute("user", user);
+            } else {
+                // Gérer le cas où l'utilisateur n'est pas trouvé
+            }
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+
+        return "profil";
+    }
+
 
 
     @PostMapping("/addutilisateur")
@@ -77,6 +98,8 @@ public class UtilisateurController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'utilisateur: " + e.getMessage());
         }
     }
+
+
 
 
 
@@ -101,6 +124,37 @@ public class UtilisateurController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'utilisateur: " + e.getMessage());
         }
     }
+
+//    @PutMapping("/modifier/profil")
+//    public ResponseEntity<String> updateProfile(@RequestBody Utilisateur utilisateur) {
+//        try {
+//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//            String username = authentication.getName();
+//            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
+//
+//            if (userOptional.isPresent()) {
+//                Utilisateur existingUser = userOptional.get();
+//                // Mettre à jour les champs du profil avec les nouvelles valeurs
+//                existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
+//                existingUser.setNom_utilisateur(utilisateur.getNom_utilisateur()));
+//                existingUser.setEmail_utilisateur(utilisateur.setEmail_utilisateur(););
+//                existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
+//                existingUser.setSexe(utilisateur.getSexe());
+//                existingUser.setDescription(utilisateur.getDescription());
+//
+//                // Appeler le service pour mettre à jour l'utilisateur
+//                utilisateurService.modifierUtilisateur(existingUser.getId(), existingUser);
+//
+//                return ResponseEntity.ok("Profil mis à jour avec succès");
+//            } else {
+//                return ResponseEntity.notFound().build(); // Utilisateur non trouvé
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Erreur lors de la mise à jour du profil: " + e.getMessage());
+//        }
+//    }
+
 
 }
 

@@ -1,7 +1,11 @@
 package com.epf.eventz.servlet;
 
-import com.epf.eventz.model.Evenement;
-import com.epf.eventz.service.EvenementService;
+import com.epf.eventz.model.*;
+import com.epf.eventz.security.JwtAuthentificationEntryPoint;
+import com.epf.eventz.service.*;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,18 +14,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
 @RequestMapping("/api/evenement")
 public class EvenementController {
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);
 
     private final EvenementService evenementService;
+    private final AdresseService adresseService;
+    private final StatutEvenementService statutEvenementService;
+    private final TypeEvenementService typeEvenementService;
 
     @Autowired
-    public EvenementController(EvenementService evenementService) {
+    public EvenementController(EvenementService evenementService,AdresseService adresseService,StatutEvenementService statutEvenementService,TypeEvenementService typeEvenementService) {
         this.evenementService = evenementService;
+        this.adresseService=adresseService;
+        this.statutEvenementService=statutEvenementService;
+        this.typeEvenementService=typeEvenementService;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -33,8 +43,19 @@ public class EvenementController {
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
+        return "home";
+    }
 
-        return "listeEvenement";
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/details")
+    public String listEvenements(Model model){
+        try {
+            List<Evenement> evenements = evenementService.findAllEvenements();
+            model.addAttribute("evenements", evenements);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+        return "home";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -47,12 +68,20 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/addevenement")
-        public ResponseEntity<String> addEvenement(@ModelAttribute Evenement evenement){
+        public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement typeEvenement, HttpServletResponse response){
         try {
+            typeEvenementService.creerTypeEvenement(typeEvenement);
+            evenement.setTypeEvenement(typeEvenement);
+            adresseService.creerAdresse(adresse);
+            evenement.setAdresse(adresse);
+            statutEvenementService.creerStatut(statutEvenement);
+            evenement.setStatutEvenement(statutEvenement);
             evenementService.addEvenement(evenement);
-            return ResponseEntity.ok("Evenement ajouté avec succès");
+
+            response.setHeader("Location", "/api/evenement/listeevenement");
+            response.setStatus(HttpStatus.FOUND.value());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'evenement: " + e.getMessage());
+            logger.error("Erreur lors de l'ajout de l'evenement");
         }
     }
 

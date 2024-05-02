@@ -36,4 +36,10 @@ public class Artiste {
 
     @OneToMany(mappedBy = "artiste")
     private List<PrefererArtiste> prefererArtistes;
+
+    @OneToMany(mappedBy = "artiste")
+    private List<Performe> performances;
+
+    @OneToMany(mappedBy = "artiste")
+    private List<Jouer> jouers;
 }

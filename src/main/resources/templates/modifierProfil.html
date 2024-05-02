@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="fr" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title> Ajout d'évenement </title>
+    <title> Modifier mon profil </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -99,8 +99,7 @@
         }
         #dot-1:checked ~ .category label .one,
         #dot-2:checked ~ .category label .two,
-        #dot-3:checked ~ .category label .three,
-        #dot-4:checked ~ .category label .four{
+        #dot-3:checked ~ .category label .three{
             background: #9b59b6;
             border-color: #d9d9d9;
         }
@@ -156,95 +155,66 @@
 </head>
 <body>
 <div class="container">
-    <div class="title">Ajoutez des évenements !</div>
+    <div class="title">Modifier mon profil</div>
     <div class="content">
-        <form id="registrationForm" action="/api/evenement/addevenement" method="post">
+        <form id="registrationForm" action="/profil" method="post">
             <div class="user-details">
                 <div class="input-box">
-                    <span class="details">Nom Evenement</span>
-                    <input type="text" id="nom_evenement" name="nom_evenement">
+                    <span class="details">Nom</span>
+                    <input type="text" placeholder="Entrez votre nom" id="nom_utilisateur" name="nom_utilisateur" required>
                 </div>
                 <div class="input-box">
-                    <span class="details">Description</span>
-                    <input type="text" id="description_evenement" name="description_evenement">
+                    <span class="details">Prenom</span>
+                    <input type="text" placeholder="Entrez votre prenom" id="prenom_utilisateur" name="prenom_utilisateur" required>
                 </div>
                 <div class="input-box">
-                    <span class="details">Nombre de place</span>
-                    <input type="number" id="nb_place_evenement" name="nb_place_evenement">
+                    <span class="details">Email</span>
+                    <input type="text" placeholder="Entrez votre email" id="email_utilisateur" name="email_utilisateur" required>
                 </div>
                 <div class="input-box">
-                    <span class="details">Prix evenement</span>
-                    <input type="number" id="prix_evenement" name="prix_evenement">
-                </div>
-
-                <div class="input-box">
-                    <span class="details">Date de Début</span>
-                    <input type="date" placeholder="Entrez la date de début" id="debut_evenement" name="debut_evenement" required>
+                    <span class="details">Mot de passe</span>
+                    <input type="password" placeholder="Entrez votre mot de passe" id="password" name="password" required>
                 </div>
                 <div class="input-box">
-                    <span class="details">Date de Fin</span>
-                    <input type="date" placeholder="Entrez la date de fin" id="fin_evenement" name="fin_evenement" required>
+                    <span class="details">Pseudo</span>
+                    <input type="text" placeholder="Entrez votre pseudo" id="username" name="username" required>
                 </div>
-                <div class="input-box">
-                    <span class="details">Type Evenement</span>
-                    <input type="text" placeholder="Entrez le type d'evenement" id="description_type_evenement" name="description_type_evenement" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">N°</span>
-                    <input type="text" placeholder="Entrez le numéro" id="numero_adresse" name="numero_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Rue</span>
-                    <input type="text" placeholder="Entrez la rue" id="rue_adresse" name="rue_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Ville</span>
-                    <input type="text" placeholder="Entrez la ville" id="ville_adresse" name="ville_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Code Postal</span>
-                    <input type="number" placeholder="Entrez le code postal" id="code_postal_adresse" name="code_postal_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Pays</span>
-                    <input type="text" placeholder="Entrez le pays" id="pays_adresse" name="pays_adresse" required>
-                </div>
+                <input type="hidden" id="role_utilisateur" name="role_utilisateur" value="USER">
                 <div class="gender-details">
-                    <input type="radio" name="public_adresse" id="dot-1" value="false">
-                    <input type="radio" name="public_adresse" id="dot-2" value="true">
-                    <span class="gender-title">Adresse Prive / Public </span>
+                    <input type="radio" name="sexe_utilisateur" id="dot-1" value="Homme">
+                    <input type="radio" name="sexe_utilisateur" id="dot-2" value="Femme">
+                    <input type="radio" name="sexe_utilisateur" id="dot-3" value="Autre">
+                    <span class="gender-title">Gender</span>
                     <div class="category">
                         <label for="dot-1">
                             <span class="dot one"></span>
-                            <span class="gender">Prive</span>
+                            <span class="gender">Homme</span>
                         </label>
                         <label for="dot-2">
                             <span class="dot two"></span>
-                            <span class="gender">Public</span>
+                            <span class="gender">Femme</span>
+                        </label>
+                        <label for="dot-3">
+                            <span class="dot three"></span>
+                            <span class="gender">Autre</span>
                         </label>
                     </div>
                 </div>
-                <div class="gender-details">
-                    <input type="radio" name="description_statut_evenement" id="dot-3" value="Prive">
-                    <input type="radio" name="description_statut_evenement" id="dot-4" value="Public">
-                    <span class="gender-title">Evenement Prive / Public </span>
-                    <div class="category">
-                        <label for="dot-3">
-                            <span class="dot three"></span>
-                            <span class="gender">Prive</span>
-                        </label>
-                        <label for="dot-4">
-                            <span class="dot four"></span>
-                            <span class="gender">Public</span>
-                        </label>
-                    </div>
+                <div class="input-box">
+                    <span class="details">Date de naissance</span>
+                    <input type="date" placeholder="Entrez votre date de naissance" id="naissance_utilisateur" name="naissance_utilisateur" required>
+                </div>
+                <div class="input-box">
+                    <span class="details">Description</span>
+                    <input type="text" placeholder="Entrez votre description" id="description_utilisateur" name="description_utilisateur" required>
                 </div>
             </div>
             <div class="button">
-                <input type="submit" value="Ajouter l'evenement">
+                <input type="submit" value="Modifier" id="validation">
             </div>
         </form>
     </div>
 </div>
 </body>
 </html>
+

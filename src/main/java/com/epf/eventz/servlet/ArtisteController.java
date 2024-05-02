@@ -1,6 +1,9 @@
 package com.epf.eventz.servlet;
 
+import com.epf.eventz.exception.ServiceException;
+import com.epf.eventz.model.Adresse;
 import com.epf.eventz.model.Artiste;
+import com.epf.eventz.model.Jouer;
 import com.epf.eventz.service.ArtisteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ArtisteController {
@@ -65,6 +69,22 @@ public class ArtisteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'artiste: " + e.getMessage());
         }
     }
+    @GetMapping("/artiste/{id}")
+    public String listAdresses(@PathVariable Long id, Model model) throws ServiceException {
+        Optional<Artiste> artisteOptional = artisteService.findArtisteById(id);
+        if (artisteOptional.isPresent()) {
+            Artiste artiste = artisteOptional.get();
+            StringBuilder typemusique = artisteService.afficherTypeMusique(artiste);
+            model.addAttribute("typeMusique", typemusique);
+            model.addAttribute("artiste", artiste);
+            return "profilartiste"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
+        } else {
+            // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple
+            return "redirect:/error"; // Redirection vers une page d'erreur
+        }
+    }
+
+
 
 
 }

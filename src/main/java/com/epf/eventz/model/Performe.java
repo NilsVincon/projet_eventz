@@ -24,7 +24,6 @@ public class Performe {
 
     @ManyToOne
     @JoinColumn(name = "artiste")
-
     private Artiste artiste;
 
     private Date date_debut_performe;
