@@ -4,10 +4,12 @@ import com.epf.eventz.dao.JwtDAO;
 import com.epf.eventz.dao.UtilisateurDAO;
 import com.epf.eventz.dto.ConnexionDTO;
 import com.epf.eventz.dto.InscriptionDTO;
+import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.model.UtilisateurSecurity;
 import com.epf.eventz.security.JwtAuthentificationEntryPoint;
 import com.epf.eventz.security.JwtGenerator;
+import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -34,18 +36,20 @@ public class AuthentificationController {
 
     private AuthenticationManager authenticationManager;
     private UtilisateurDAO userDAO;
+    private UtilisateurService utilisateurService;
     private PasswordEncoder passwordEncoder;
 
     private JwtGenerator jwtGenerator;
     private JwtDAO jwtDAO;
 
     @Autowired
-    public AuthentificationController(AuthenticationManager authenticationManager, UtilisateurDAO userDAO, PasswordEncoder passwordEncoder,JwtGenerator jwtGenerator,JwtDAO jwtDAO) {
+    public AuthentificationController(AuthenticationManager authenticationManager, UtilisateurDAO userDAO, PasswordEncoder passwordEncoder,JwtGenerator jwtGenerator,JwtDAO jwtDAO,UtilisateurService utilisateurService) {
         this.authenticationManager = authenticationManager;
         this.userDAO = userDAO;
         this.passwordEncoder = passwordEncoder;
         this.jwtGenerator=jwtGenerator;
         this.jwtDAO=jwtDAO;
+        this.utilisateurService=utilisateurService;
     }
 
     @GetMapping
@@ -93,7 +97,11 @@ public class AuthentificationController {
         if (Objects.equals(utilisateur.getRole_utilisateur(), "ADMIN")){
             utilisateur.setRole_utilisateur("ADMIN,USER");
         }
-        userDAO.save(utilisateur);
+        try {
+            utilisateurService.creerUtilisateur(utilisateur);
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
         return "login";
     }
 

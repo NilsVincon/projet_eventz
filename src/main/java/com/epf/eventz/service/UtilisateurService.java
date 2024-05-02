@@ -54,11 +54,11 @@ public class UtilisateurService {
         Utilisateur utilisateurToUpdate = utilisateurDAO.findById(utilisateurId)
                 .orElseThrow(() -> new IllegalStateException("L'utilisateur avec l'ID " + utilisateurId + " n'existe pas"));
 
-        utilisateurToUpdate.setAdmin_utilisateur(utilisateur.getAdmin_utilisateur());
+        utilisateurToUpdate.setRole_utilisateur(utilisateur.getRole_utilisateur());
         utilisateurToUpdate.setNom_utilisateur(utilisateur.getNom_utilisateur());
         utilisateurToUpdate.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
         utilisateurToUpdate.setEmail_utilisateur(utilisateur.getEmail_utilisateur());
-        utilisateurToUpdate.setMdp_utilisateur(utilisateur.getMdp_utilisateur());
+        utilisateurToUpdate.setPassword(utilisateur.getPassword());
         utilisateurToUpdate.setUsername(utilisateur.getUsername());
         utilisateurToUpdate.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
         utilisateurToUpdate.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
