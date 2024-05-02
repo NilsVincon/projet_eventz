@@ -9,10 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping(path = "api/v1/adresse")
 public class AdresseController {
 
     private final AdresseService adresseService;
@@ -22,7 +25,8 @@ public class AdresseController {
         this.adresseService = adresseService;
     }
 
-    @GetMapping("/admin/listeadresse")
+    @GetMapping("/listeadresse")
+
     public String listAdresses(Model model){
         try {
             List<Adresse> adresses = adresseService.trouverToutesAdresses();
@@ -69,4 +73,3 @@ public class AdresseController {
     }
 
 }
-
