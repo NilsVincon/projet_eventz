@@ -2,7 +2,6 @@ package com.epf.eventz.servlet;
 
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.UtilisateurService;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.Authenticator;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,19 +50,22 @@ public class UtilisateurController {
         return "profil";
     }
 @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/listeamis")
+    @GetMapping("/profil_utilisateur")
     public String listeAmis(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
+            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
             List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(authentication.getName());
             List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(authentication.getName());
+            Utilisateur user = userOptional.get();
+            model.addAttribute("user", user);
             model.addAttribute("suiveurs", suiveurs);
             model.addAttribute("suivis", suivis);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "listeamis";
+        return "profil_utilisateur";
     }
 
     @GetMapping("/profil")

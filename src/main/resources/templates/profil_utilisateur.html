@@ -9,11 +9,6 @@
             padding-top: 20px;
         }
 
-        .img-fluid {
-            max-width: 100%;
-            height: auto;
-        }
-
         .card {
             margin-bottom: 30px;
         }
@@ -186,8 +181,87 @@
         </div>
     </div>
     <div class="tab-content" id="pills-tabContent">
-        <div class="tab-pane fade show active" id="profil" role="tabpanel" aria-labelledby="pills-profile-tab" th:id="profileTab" th:classappend="${tab == 'profile'} ? 'active' : ''">
-            <!-- Contenu de l'onglet Profile -->
+        <div class="tab-pane fade show active" id="profil" role="tabpanel" aria-labelledby="pills-profil-tab" th:id="profil" th:classappend="${tab == 'profil'} ? 'active' : ''">
+            <div class="container d-flex justify-content-center align-items-center">
+                <div class="main-body">
+                    <div class="row gutters-sm">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="d-flex flex-column align-items-center text-center">
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                        <div class="mt-3">
+                                            <h4><span th:text="${user.username}"></span></h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card mb-3" >
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
+                                            <h6 class="mb-0">Prénom</h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
+                                            <span th:text="${user.prenom_utilisateur}"></span>
+
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
+                                            <h6 class="mb-0">Nom</h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
+                                            <span th:text="${user.nom_utilisateur}"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
+                                            <h6 class="mb-0">Email</h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
+                                            <span th:text="${user.email_utilisateur}"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
+                                            <h6 class="mb-0">Date de naissance</h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
+                                            <span th:text="${user.naissance_utilisateur}"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
+                                            <h6 class="mb-0">genre</h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
+                                            <span th:text="${user.sexe_utilisateur}"></span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4"> <!-- Augmenter la largeur de la colonne -->
+                                            <h6 class="mb-0">Bio</h6>
+                                        </div>
+                                        <div class="col-sm-8 text-secondary"> <!-- Réduire la taille de la colonne -->
+                                            <span th:text="${user.description_utilisateur}"></span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade" id="abonnes" role="tabpanel" aria-labelledby="pills-abonnes-tab" th:id="abonnes" th:classappend="${tab == 'abonnes'} ? 'active' : ''">
             <div class="d-sm-flex align-items-center justify-content-between mt-3 mb-4">
@@ -195,7 +269,7 @@
                         class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2">Abonnés</span></h3>
                 <form class="position-relative">
                     <input type="text" class="form-control search-chat py-2 ps-5" id="abonnes-srh"
-                           placeholder="Search Abonnements">
+                           placeholder="Rechercher abonnés">
                     <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></i>
                 </form>
             </div>
@@ -217,7 +291,7 @@
                         class="badge text-bg-secondary fs-2 rounded-4 py-1 px-2 ms-2">Abonnements</span></h3>
                 <form class="position-relative">
                     <input type="text" class="form-control search-chat py-2 ps-5" id="abonnement-srh"
-                           placeholder="Search Abonnements">
+                           placeholder="Rechercher abonnements">
                     <i class="ti ti-search position-absolute top-50 start-0 translate-middle-y text-dark ms-3"></i>
                 </form>
             </div>

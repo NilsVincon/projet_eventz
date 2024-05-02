@@ -47,18 +47,6 @@ public class EvenementController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/details")
-    public String listEvenements(Model model){
-        try {
-            List<Evenement> evenements = evenementService.findAllEvenements();
-            model.addAttribute("evenements", evenements);
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-        }
-        return "home";
-    }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/addevenement")
     public String loginPage() {
 
