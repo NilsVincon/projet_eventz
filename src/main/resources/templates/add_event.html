@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <title>Ajout d'événement</title>
+</head>
+<body>
+
+<h2>Ajoutez !</h2>
+
+<form id="addFrom" action="/api/evenement/addevenement" method="post">
+    <label for="nom_evenement">Nom de l'événement :</label><br>
+    <input type="text" id="nom_evenement" name="nom_evenement"><br>
+    <label for="description_evenement">Description de l'événement :</label><br>
+    <input type="text" id="description_evenement" name="description_evenement"><br><br>
+    <label for="debut_evenement">Date de début :</label><br>
+    <input type="date" id="debut_evenement" name="debut_evenement"><br><br>
+    <label for="fin_evenement">Date de fin :</label><br>
+    <input type="date" id="fin_evenement" name="fin_evenement"><br><br>
+    <label for="prix_evenement">Prix de l'événement :</label><br>
+    <input type="number" id="prix_evenement" name="prix_evenement"><br><br>
+    <label for="nb_place_evenement">Nombre de places disponibles :</label><br>
+    <input type="number" id="nb_place_evenement" name="nb_place_evenement"><br><br>
+    <button type="submit">Ajouter</button>
+</form>
+</body>
+<script>
+</script>
+</html>

@@ -43,7 +43,7 @@ public class UtilisateurService {
     }
 
     public List<Utilisateur> trouverTousUtilisateurs() throws ServiceException {
-        return utilisateurDAO.findAll();
+        return (List<Utilisateur>) utilisateurDAO.findAll();
     }
 
     public long compterUtilisateurs() throws ServiceException {

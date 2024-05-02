@@ -27,13 +27,13 @@ public class Utilisateur {
 
     private String email_utilisateur;
 
-    private String mdp_utilisateur;
+    private String password;
 
     private String username;
 
     private String sexe_utilisateur;
 
-    private Boolean admin_utilisateur;
+    private String role_utilisateur;
 
     private LocalDate naissance_utilisateur;
 
@@ -56,4 +56,26 @@ public class Utilisateur {
 
     @OneToMany(mappedBy = "utilisateur")
     private List<PrefererTypeEvenement> prefererTypeEvenements;
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "id_utilisateur=" + id_utilisateur +
+                ", nom_utilisateur='" + nom_utilisateur + '\'' +
+                ", prenom_utilisateur='" + prenom_utilisateur + '\'' +
+                ", email_utilisateur='" + email_utilisateur + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", sexe_utilisateur='" + sexe_utilisateur + '\'' +
+                ", role_utilisateur='" + role_utilisateur + '\'' +
+                ", naissance_utilisateur=" + naissance_utilisateur +
+                ", description_utilisateur='" + description_utilisateur + '\'' +
+                ", suivis=" + suivis +
+                ", suiveurs=" + suiveurs +
+                ", prefererArtistes=" + prefererArtistes +
+                ", prefererTypeMusiques=" + prefererTypeMusiques +
+                ", participes=" + participes +
+                ", prefererTypeEvenements=" + prefererTypeEvenements +
+                '}';
+    }
 }

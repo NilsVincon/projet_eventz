@@ -14,5 +14,3 @@ spring:
     check-template-location: true
     suffix: .html
 
-
-

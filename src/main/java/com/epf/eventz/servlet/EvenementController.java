@@ -5,13 +5,16 @@ import com.epf.eventz.service.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
+@RequestMapping("/api/evenement")
 public class EvenementController {
 
     private final EvenementService evenementService;
@@ -21,6 +24,7 @@ public class EvenementController {
         this.evenementService = evenementService;
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/listeevenement")
     public String listEvenements(Model model){
         try {
@@ -33,8 +37,16 @@ public class EvenementController {
         return "listeEvenement";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/addevenement")
+    public String loginPage() {
+        return "add_event";
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/addevenement")
-    public ResponseEntity<String> addEvenement(@RequestBody Evenement evenement){
+        public ResponseEntity<String> addEvenement(@ModelAttribute Evenement evenement){
         try {
             evenementService.addEvenement(evenement);
             return ResponseEntity.ok("Evenement ajouté avec succès");
@@ -42,9 +54,6 @@ public class EvenementController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'evenement: " + e.getMessage());
         }
     }
-
-
-
 
     @DeleteMapping(path="/deleteevenement/{evenementId}")
     public ResponseEntity<String> deleteEvenement(@PathVariable("evenementId")Long evenementId){
