@@ -26,4 +26,8 @@ public class Suivre {
     @JoinColumn(name = "suivi_id")
     private Utilisateur suivi;
 
+    public Suivre(Utilisateur suiveur, Utilisateur suivi) {
+        this.suiveur = suiveur;
+        this.suivi = suivi;
+    }
 }

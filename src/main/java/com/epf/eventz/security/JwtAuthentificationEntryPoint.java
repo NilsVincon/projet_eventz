@@ -24,6 +24,10 @@ public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
         logger.error("Unauthorized error: {}", authException.getMessage());
+        if ("/profil_utilisateur".equals(request.getServletPath()) ||"/api/evenement/addevenement".equals(request.getServletPath())  ) {
+            response.sendRedirect(request.getContextPath() + "/auth/login");
+            return;
+        }
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

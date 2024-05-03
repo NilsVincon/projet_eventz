@@ -57,6 +57,20 @@ public class Utilisateur {
     @OneToMany(mappedBy = "utilisateur")
     private List<PrefererTypeEvenement> prefererTypeEvenements;
 
+    public Utilisateur(String nom_utilisateur, String prenom_utilisateur, String email_utilisateur, String password,
+                       String username, String sexe_utilisateur, String role_utilisateur, LocalDate naissance_utilisateur,
+                       String description_utilisateur) {
+        this.nom_utilisateur = nom_utilisateur;
+        this.prenom_utilisateur = prenom_utilisateur;
+        this.email_utilisateur = email_utilisateur;
+        this.password = password;
+        this.username = username;
+        this.sexe_utilisateur = sexe_utilisateur;
+        this.role_utilisateur = role_utilisateur;
+        this.naissance_utilisateur = naissance_utilisateur;
+        this.description_utilisateur = description_utilisateur;
+    }
+
     @Override
     public String toString() {
         return "Utilisateur{" +

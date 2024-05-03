@@ -39,6 +39,8 @@ public class SecurityConfig {
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/evenement/listeevenement").permitAll()
+                        .requestMatchers("/api/evenement/details").permitAll()
                         .anyRequest().authenticated())
                 .userDetailsService(customUserDetailsService)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

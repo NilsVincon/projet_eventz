@@ -47,4 +47,25 @@ public class Evenement {
     private float prix_evenement;
     private int nb_place_evenement;
 
+    public Evenement(String nom_evenement, String description_evenement, LocalDate debut_evenement, LocalDate fin_evenement, float prix_evenement, int nb_place_evenement) {
+        this.nom_evenement = nom_evenement;
+        this.description_evenement = description_evenement;
+        this.debut_evenement = debut_evenement;
+        this.fin_evenement = fin_evenement;
+        this.prix_evenement = prix_evenement;
+        this.nb_place_evenement = nb_place_evenement;
+    }
+
+    @Override
+    public String toString() {
+        return "Evenement{" +
+                ", nom_evenement='" + nom_evenement + '\'' +
+                ", description_evenement='" + description_evenement + '\'' +
+                ", debut_evenement=" + debut_evenement +
+                ", fin_evenement=" + fin_evenement +
+                ", prix_evenement=" + prix_evenement +
+                ", nb_place_evenement=" + nb_place_evenement +
+                '}';
+    }
 }
+

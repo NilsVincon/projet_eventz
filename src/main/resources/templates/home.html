@@ -154,14 +154,14 @@
         }
 
         .transition-block .text {
-            flex: 1; /* permet au texte de prendre autant d'espace que possible */
-            color: whitesmoke;
+            flex: 1;
+            color: black;
         }
 
         .transition-block h2,
         .transition-block p {
             margin: 0;
-            color: whitesmoke;
+            color: black;
         }
 
         .filter-container {
@@ -198,6 +198,50 @@
             width: 100%; /* Utilise toute la largeur disponible */
             max-width: 200px; /* Définit une largeur maximale pour éviter que le bouton ne devienne trop large */
         }
+        .footer {
+            background-color: #f2f2f2;
+            padding: 50px 0;
+            font-size: 14px;
+        }
+
+        .footer .container {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .footer .footer-section {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .footer h2 {
+            font-size: 18px;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer .contact-form form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer .contact-form input,
+        .footer .contact-form textarea {
+            margin-bottom: 10px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+        }
+
     </style>
     <title>Accueil</title>
 </head>
@@ -261,57 +305,7 @@
         </div>
     </div>
 </div>
-
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h2>About Us</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <div class="contact">
-                    <span><i class="fas fa-phone"></i> 123-456-789</span>
-                    <span><i class="fas fa-envelope"></i> info@eventz.com</span>
-                </div>
-                <div class="socials">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="footer-section links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact-form">
-                <h2>Contact Us</h2>
-                <form action="#" method="post">
-                    <input
-                            type="email"
-                            name="email"
-                            class="text-input contact-input"
-                            placeholder="Your email address"
-                    />
-                    <textarea
-                            rows="4"
-                            name="message"
-                            class="text-input contact-input"
-                            placeholder="Your message"
-                    ></textarea>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2024 Eventz. All rights reserved.
-        </div>
-    </div>
-</footer>
-
+<th:block th:insert="~{fragments/footer :: foot}"></th:block>
 <div class="sidebar-toggle" onclick="toggleSidebar()">
     <span>&#9776;</span>
 </div>

@@ -35,8 +35,7 @@ public class EvenementController {
         this.statutEvenementService=statutEvenementService;
         this.typeEvenementService=typeEvenementService;
     }
-
-    @PreAuthorize("hasRole('ROLE_USER')")
+    
     @GetMapping("/listeevenement")
     public String listEvenements(Model model){
         try {
@@ -48,25 +47,24 @@ public class EvenementController {
         return "home";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/details")
     public String afficherDetails(@RequestParam("id") Long event_id,Model model){
         try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
             if (evenementOptional.isPresent()){
                 Evenement evenementactuel = evenementOptional.get();
+                logger.info(evenementactuel.toString());
                 model.addAttribute("evenementactuel", evenementactuel);
             }
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
-        return "home";
+        return "detail_evenement";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/addevenement")
     public String loginPage() {
-
         return "add_event";
     }
 
