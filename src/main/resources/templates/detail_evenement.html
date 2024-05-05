@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails de l'événement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffc0cb; /* Fond rosé */
+            color: #333; /* Texte en gris foncé */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto; /* Ajout de marge autour du container */
+            padding: 20px;
+            background-color: #fff; /* Fond blanc */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #333; /* Titres en gris foncé */
+        }
+
+        h2 {
+            margin-top: 20px;
+        }
+
+        .info-block {
+            background-color: #f9f9f9; /* Couleur de fond des blocs d'informations */
+            padding: 10px;
+            margin-bottom: 20px; /* Ajout d'une marge entre les blocs */
+            border-radius: 4px;
+        }
+
+        .info-block h2 {
+            color: #333; /* Titres des blocs d'informations en gris foncé */
+        }
+
+        .price {
+            font-weight: bold;
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-button:hover {
+            background-color: #555;
+        }
+
+        .top-left-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="/api/evenement/listeevenement" class="back-button top-left-button">Retourner à l'accueil</a>
+    <h1>Détails de l'événement</h1>
+    <div class="info-block">
+        <h2>Nom de l'événement :</h2>
+        <p th:text="${evenementactuel.nom_evenement}"></p>
+    </div>
+    <div class="info-block">
+        <h2>Description :</h2>
+        <p th:text="${evenementactuel.description_evenement}"></p>
+    </div>
+    <div class="info-block">
+        <h2>Date de début :</h2>
+        <p th:text="${evenementactuel.debut_evenement}"></p>
+    </div>
+    <div class="info-block">
+        <h2>Date de fin :</h2>
+        <p th:text="${evenementactuel.fin_evenement}"></p>
+    </div>
+    <div class="info-block">
+        <h2>Prix :</h2>
+        <p class="price" th:text="${evenementactuel.prix_evenement} + ' €'"></p>
+    </div>
+    <div class="info-block">
+        <h2>Nombre de places :</h2>
+        <p th:text="${evenementactuel.nb_place_evenement}"></p>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr th:each="utilisateur : ${utilisateurs}">
+        <td>
+            <div class="transition-block">
+                <div class="content">
+                    <div class="text">
+                        <form th:action="'/api/friend/addfriend'" method="post">
+                            <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
+                            <button type="submit" style="background:none; border:none; padding:0; margin:0; font-size: 16px; cursor: pointer;">
+                                <h2 th:text="${utilisateur.username}"></h2>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>
