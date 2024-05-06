@@ -23,7 +23,7 @@ public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        logger.error("Unauthorized error: {}", authException.getMessage());
+        logger.error("Aucune connexion en cours");
         if ("/profil_utilisateur".equals(request.getServletPath()) ||"/api/evenement/addevenement".equals(request.getServletPath())  ) {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return;
@@ -35,7 +35,7 @@ public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
         final Map<String, Object> body = new HashMap<>();
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
-        body.put("message", authException.getMessage());
+        body.put("message", "Vous devez être connecté pour accéder à cette ressource");
         body.put("path", request.getServletPath());
         final ObjectMapper mapper = new ObjectMapper();
         mapper.writeValue(response.getOutputStream(), body);

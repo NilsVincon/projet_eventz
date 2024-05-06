@@ -25,16 +25,16 @@ public class SecurityConfig {
     private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public SecurityConfig(CustomUserDetailsService customUserDetailsService,JwtAuthentificationEntryPoint jwtAuthEntryPoint) {
+    public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthentificationEntryPoint jwtAuthEntryPoint) {
         this.customUserDetailsService = customUserDetailsService;
         this.jwtAuthEntryPoint=jwtAuthEntryPoint;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
-                .exceptionHandling((exception)-> exception.authenticationEntryPoint(jwtAuthEntryPoint))
+                .exceptionHandling((exception) -> exception.authenticationEntryPoint(jwtAuthEntryPoint))
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
@@ -50,14 +50,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception
-    {
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 

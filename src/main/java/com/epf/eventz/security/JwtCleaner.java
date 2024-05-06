@@ -16,14 +16,14 @@ public class JwtCleaner {
     @Autowired
     private JwtDAO jwtDAO;
 
-    @Scheduled(fixedRate = 180000)
+    @Scheduled(fixedRate = 30000)
     @Transactional
     public void cleanupExpiredJwtTokens() {
         Date currentDate = new Date();
         jwtDAO.deleteByExpireDateBefore(currentDate);
     }
 
-    @Scheduled(fixedRate = 300000)
+    @Scheduled(fixedRate = 30000)
     @Transactional
     public void cleanupInactifJwtTokens() {
         jwtDAO.deleteInactifJwt();

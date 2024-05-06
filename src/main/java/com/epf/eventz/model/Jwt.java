@@ -19,4 +19,5 @@ public class Jwt {
     private boolean actif;
     private String username;
     private Date expireDate;
+
 }

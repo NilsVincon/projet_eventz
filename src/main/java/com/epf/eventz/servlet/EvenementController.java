@@ -2,9 +2,10 @@ package com.epf.eventz.servlet;
 
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.*;
-import com.epf.eventz.security.JwtAuthentificationEntryPoint;
+/*import com.epf.eventz.security.JwtAuthentificationEntryPoint;*/
 import com.epf.eventz.service.*;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 @RequestMapping("/api/evenement")
 public class EvenementController {
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);
+/*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
 
     private final EvenementService evenementService;
     private final AdresseService adresseService;
@@ -53,7 +55,7 @@ public class EvenementController {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
             if (evenementOptional.isPresent()){
                 Evenement evenementactuel = evenementOptional.get();
-                logger.info(evenementactuel.toString());
+                log.info(evenementactuel.toString());
                 model.addAttribute("evenementactuel", evenementactuel);
             }
         } catch (ServiceException e) {
@@ -62,7 +64,7 @@ public class EvenementController {
         return "detail_evenement";
     }
 
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/addevenement")
     public String loginPage() {
         return "add_event";
@@ -84,7 +86,7 @@ public class EvenementController {
             response.setHeader("Location", "/api/evenement/listeevenement");
             response.setStatus(HttpStatus.FOUND.value());
         } catch (Exception e) {
-            logger.error("Erreur lors de l'ajout de l'evenement");
+            log.error("Erreur lors de l'ajout de l'evenement");
         }
     }
 

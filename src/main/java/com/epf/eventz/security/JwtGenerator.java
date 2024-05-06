@@ -2,8 +2,10 @@ package com.epf.eventz.security;
 
 
 import com.epf.eventz.dao.JwtDAO;
+import com.epf.eventz.exception.TokenExpiredException;
 import com.epf.eventz.model.Jwt;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -20,7 +22,7 @@ public class JwtGenerator {
 
     private JwtDAO jwtDAO;
 
-    public String generateToken(Authentication authentication){
+    public String generateToken(Authentication authentication) {
         String username = authentication.getName();
         Date currentdate = new Date();
         Date expiredate = new Date(currentdate.getTime() + SecurityConstants.JWT_EXPIRATION);
@@ -29,7 +31,7 @@ public class JwtGenerator {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expiredate)
-                .signWith(SignatureAlgorithm.HS512,SecurityConstants.JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.JWT_SECRET)
                 .compact();
         Jwt jwt = Jwt.builder()
                 .valeur(token)
@@ -41,23 +43,32 @@ public class JwtGenerator {
         return token;
     }
 
-    public String getUsernameFromJwt(String token){
-        Claims claims=Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET)
+    public String getUsernameFromJwt(String token) {
+        Claims claims = Jwts.parser().setSigningKey(SecurityConstants.JWT_SECRET)
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
     }
 
-    public boolean validateToken(String token){
+    public boolean validateToken(String token)throws ExpiredJwtException{
         try {
             Jwts
                     .parser()
                     .setSigningKey(SecurityConstants.JWT_SECRET)
                     .parseClaimsJws(token);
             return true;
-        } catch (Exception ex){
-            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect");
         }
+        catch (Exception ex) {
+            throw new AuthenticationCredentialsNotFoundException("Le token est expiré ou incorrect");
+        }
+    }
+
+    public Date getExpirationDateFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(SecurityConstants.JWT_SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getExpiration();
     }
 
 }

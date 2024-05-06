@@ -1,0 +1,12 @@
+<nav th:fragment="nav">
+    <a class="navbar-brand" href="#">
+        <img th:src="@{/Eventz.png}" alt="Eventz Logo" id="eventz-logo"/>
+    </a>
+    <div class="navbar-options">
+        <a href="#" id="sortirCeSoir">Sortir ce soir</a>
+        <a href="/api/evenement/addevenement" id="addevent">Créer un event</a>
+        <a href="/api/friend/addfriend" id="addfriend">Ajouter des amis</a>
+        <a href="/auth/login" id="login">Se connecter</a>
+        <a href="/profil_utilisateur" id="profil">Profil</a>
+    </div>
+</nav>
