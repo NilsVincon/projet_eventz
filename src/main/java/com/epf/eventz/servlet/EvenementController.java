@@ -21,7 +21,7 @@ import java.util.Optional;
 
 @Controller
 @Slf4j
-@RequestMapping("/api/evenement")
+@RequestMapping("/eventz/evenement")
 public class EvenementController {
 /*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
 
@@ -36,17 +36,6 @@ public class EvenementController {
         this.adresseService=adresseService;
         this.statutEvenementService=statutEvenementService;
         this.typeEvenementService=typeEvenementService;
-    }
-    
-    @GetMapping("/listeevenement")
-    public String listEvenements(Model model){
-        try {
-            List<Evenement> evenements = evenementService.findAllEvenements();
-            model.addAttribute("evenements", evenements);
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-        }
-        return "home";
     }
 
     @GetMapping("/details")
@@ -64,15 +53,15 @@ public class EvenementController {
         return "detail_evenement";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/addevenement")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/add")
     public String loginPage() {
         return "add_event";
     }
 
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/addevenement")
+    @PostMapping("/add")
         public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement typeEvenement, HttpServletResponse response){
         try {
             typeEvenementService.creerTypeEvenement(typeEvenement);
@@ -82,8 +71,7 @@ public class EvenementController {
             statutEvenementService.creerStatut(statutEvenement);
             evenement.setStatutEvenement(statutEvenement);
             evenementService.addEvenement(evenement);
-
-            response.setHeader("Location", "/api/evenement/listeevenement");
+            response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
         } catch (Exception e) {
             log.error("Erreur lors de l'ajout de l'evenement");

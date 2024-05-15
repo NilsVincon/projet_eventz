@@ -32,7 +32,7 @@ import java.util.Objects;
 
 @Slf4j
 @Controller
-@RequestMapping("/auth")
+@RequestMapping("/eventz/auth")
 public class AuthentificationController {
 /*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
 
@@ -74,7 +74,7 @@ public class AuthentificationController {
         Date expiration_date = jwtGenerator.getExpirationDateFromToken(token);
         String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/", token);
         response.addHeader("Set-Cookie", cookieString);
-        response.setHeader("Location", "/api/evenement/listeevenement");
+        response.setHeader("Location", "/eventz/home");
         response.setStatus(HttpStatus.FOUND.value());
     }
 
@@ -89,7 +89,7 @@ public class AuthentificationController {
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
         response.addCookie(cookie);
-        response.setHeader("Location", "/api/evenement/listeevenement");
+        response.setHeader("Location", "/eventz/home");
         response.setStatus(HttpStatus.FOUND.value());
     }
 

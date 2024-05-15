@@ -17,12 +17,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/eventz/friend")
 public class SuivreController {
     private final SuivreService suivreService;
     private final UtilisateurService utilisateurService;
@@ -33,7 +35,7 @@ public class SuivreController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/api/friend/addfriend")
+    @GetMapping("/add")
     public String loginPage(Model model) {
         try {
             List<Utilisateur> utilisateurs = utilisateurService.trouverTousUtilisateurs();
@@ -45,7 +47,7 @@ public class SuivreController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping("/api/friend/addfriend")
+    @PostMapping("/add")
     public void ajouter(@RequestParam("id") Long event_id, Model model, HttpServletResponse response){
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -56,12 +58,11 @@ public class SuivreController {
                 Utilisateur utilisateursuivi = utilisateursuiviOptional.get();
                 Utilisateur utilisateursuiveur = utilisateursuiveurOptional.get();
                 suivreService.creerSuivre(new Suivre(utilisateursuiveur,utilisateursuivi));
-                response.setHeader("Location", "/api/evenement/listeevenement");
+                response.setHeader("Location", "/eventz/home");
                 response.setStatus(HttpStatus.FOUND.value());
             }
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
     }
-
 }

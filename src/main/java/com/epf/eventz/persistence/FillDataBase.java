@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
@@ -20,9 +21,14 @@ import java.util.Optional;
 
 @SpringBootApplication
 public class FillDataBase {
-        public static void main(String[] args) {
-            SpringApplication.run(FillDataBase.class, args);
-        }
+    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    String mdpCrypte1 = encoder.encode("user");
+    String mdpCrypte2 = encoder.encode("admin");
+
+    public static void main(String[] args) {
+        SpringApplication.run(FillDataBase.class, args);
+    }
 
     @Bean
     CommandLineRunner commandLineRunner(EvenementService evenementService, UtilisateurService utilisateurService, SuivreService suivreService) {
@@ -72,17 +78,15 @@ public class FillDataBase {
             evenementService.addEvenement(new Evenement("DiscoFever", "Une fièvre disco pour revivre les années folles",
                     LocalDate.of(2025, 9, 15), LocalDate.of(2025, 9, 20),
                     35.0f, 700));
-            Utilisateur utilisateur1 = new Utilisateur("Nadiejoa","Augustin","augustin.nadiejoa@epfedu.fr","mdp","Augustin2002","Homme","USER",LocalDate.of(2002,3,5),"Etudiant Ingénieur Informatique ");
+            Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
+            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateurService.creerUtilisateur(utilisateur1);
-            Utilisateur utilisateur2 = new Utilisateur("Jane", "Doe", "jane.doe@example.com", "password", "jane_doe", "Femme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
-            utilisateurService.creerUtilisateur(utilisateur2);
-            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", "password", "Xavier2003", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateurService.creerUtilisateur(utilisateur3);
             Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("Nils75");
-            if (moiOptional.isPresent()){
+            if (moiOptional.isPresent()) {
                 Utilisateur moi = moiOptional.get();
-                suivreService.creerSuivre(new Suivre(moi,utilisateur1));
-                suivreService.creerSuivre(new Suivre(utilisateur2,moi));
+                suivreService.creerSuivre(new Suivre(moi, utilisateur1));
+                suivreService.creerSuivre(new Suivre(utilisateur3, moi));
             }
         };
     }

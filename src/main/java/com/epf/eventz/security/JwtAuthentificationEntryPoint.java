@@ -24,8 +24,8 @@ public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
         logger.error("Aucune connexion en cours");
-        if ("/profil_utilisateur".equals(request.getServletPath()) ||"/api/evenement/addevenement".equals(request.getServletPath())  ) {
-            response.sendRedirect(request.getContextPath() + "/auth/login");
+        if ("/eventz/user/profil".equals(request.getServletPath()) ||"/eventz/evenement/add".equals(request.getServletPath())  ) {
+            response.sendRedirect(request.getContextPath() + "/eventz/auth/login");
             return;
         }
 

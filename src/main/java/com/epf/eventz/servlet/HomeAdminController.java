@@ -2,14 +2,18 @@ package com.epf.eventz.servlet;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 @Controller
+@RequestMapping("/eventz/admin")
+@PreAuthorize("hasRole('ROLE_ADMIN')")
 public class HomeAdminController {
     private final ArtisteService artisteService;
     private final EvenementService evenementService;
@@ -22,7 +26,7 @@ public class HomeAdminController {
 
     public HomeAdminController(ArtisteService artisteService, EvenementService evenementService, UtilisateurService utilisateurService, AdresseService adresseService, TypeEvenementService typeEvenementService, TypeMusiqueService typeMusiqueService) {this.artisteService = artisteService;this.evenementService = evenementService;this.utilisateurService = utilisateurService;this.adresseService = adresseService;this.typeEvenementService = typeEvenementService;this.typeMusiqueService = typeMusiqueService;}
 
-    @GetMapping("/homeadmin")
+    @GetMapping("/home")
     public String gethome(Model model){
         try {
             ArrayList<Objet> objets = getObjets();

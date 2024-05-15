@@ -2,6 +2,7 @@ package com.epf.eventz.security;
 
 import com.epf.eventz.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.DispatcherType;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,7 +28,7 @@ public class SecurityConfig {
     @Autowired
     public SecurityConfig(CustomUserDetailsService customUserDetailsService, JwtAuthentificationEntryPoint jwtAuthEntryPoint) {
         this.customUserDetailsService = customUserDetailsService;
-        this.jwtAuthEntryPoint=jwtAuthEntryPoint;
+        this.jwtAuthEntryPoint = jwtAuthEntryPoint;
     }
 
     @Bean
@@ -38,9 +39,9 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/evenement/listeevenement").permitAll()
-                        .requestMatchers("/api/evenement/details").permitAll()
+                        .requestMatchers("/eventz/auth/**").permitAll()
+                        .requestMatchers("/eventz/home").permitAll()
+                        .requestMatchers("/eventz/evenement/details").permitAll()
                         .anyRequest().authenticated())
                 .userDetailsService(customUserDetailsService)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
@@ -48,6 +49,23 @@ public class SecurityConfig {
         http.addFilterBefore(jwtAuthentificationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+   /* authz
+            .shouldFilterAllDispatcherTypes(false)
+            .requestMatchers(HttpMethod.POST, "/api/registration").permitAll()
+                                        .requestMatchers(HttpMethod.GET, "/css/**", "/js/**", "/img/**" ,"/signup" ,"/").permitAll()
+                                        .anyRequest().authenticated()
+                                        .and()
+                                        .formLogin()
+                                        .loginPage("/login")
+                                        .defaultSuccessUrl("/")
+                                        .permitAll()
+                                        .and()
+                                        .rememberMe()
+                                        .and()
+                                        .logout()
+                                        .permitAll()
+                                        .deleteCookies("JSESSIONID");*/
 
     @Bean
     public PasswordEncoder passwordEncoder() {

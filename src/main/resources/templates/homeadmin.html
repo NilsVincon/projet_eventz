@@ -11,7 +11,7 @@
 </header>
 <main>
     <div th:each="item : ${items}">
-        <a th:href="@{'/admin/liste' + ${item.nom}+'/'}">
+        <a th:href="@{'/eventz/admin/liste' + ${item.nom}+'/'}">
             <span th:text="${item.nom}"></span>
         </a>
         <span> - </span>

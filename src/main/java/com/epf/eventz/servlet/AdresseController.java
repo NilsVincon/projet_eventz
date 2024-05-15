@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "api/v1/adresse")
+@RequestMapping("/api/v1/adresse")
 public class AdresseController {
 
     private final AdresseService adresseService;

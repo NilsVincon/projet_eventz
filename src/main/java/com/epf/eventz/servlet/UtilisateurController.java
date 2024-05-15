@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@PreAuthorize("hasRole('ROLE_USER')")
+@RequestMapping("/eventz/user")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -27,7 +27,7 @@ public class UtilisateurController {
     }
 
     @GetMapping("/listeutilisateur")
-    public String listUtilisateurs(Model model){
+    public String listUtilisateurs(Model model) {
         try {
             List<Utilisateur> utilisateurs = utilisateurService.trouverTousUtilisateurs();
             model.addAttribute("utilisateurs", utilisateurs);
@@ -38,9 +38,9 @@ public class UtilisateurController {
     }
 
     @GetMapping("/profil/{utilisateurName}")
-    public String profilUser(@PathVariable("utilisateurName")String utilisateurName, Model model){
+    public String profilUser(@PathVariable("utilisateurName") String utilisateurName, Model model) {
         try {
-            Optional<Utilisateur> utilisateur =  utilisateurService.trouverUtilisateurAvecname(utilisateurName);
+            Optional<Utilisateur> utilisateur = utilisateurService.trouverUtilisateurAvecname(utilisateurName);
             model.addAttribute("utilisateur", utilisateur);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
@@ -48,9 +48,11 @@ public class UtilisateurController {
 
         return "profil";
     }
-@PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/profil_utilisateur")
-    public String listeAmis(Model model){
+
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/profil")
+    public String listeAmis(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
             Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
@@ -68,9 +70,10 @@ public class UtilisateurController {
 
         return "profil_utilisateur";
     }
+/*
 
     @GetMapping("/profil")
-    public String profilUser(Model model){
+    public String profilUser(Model model) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -87,11 +90,11 @@ public class UtilisateurController {
 
         return "profil";
     }
+*/
 
 
-
-    @PostMapping("/addutilisateur")
-    public ResponseEntity<String> addUtilisateur(@RequestBody Utilisateur utilisateur){
+    @PostMapping("/add")
+    public ResponseEntity<String> addUtilisateur(@RequestBody Utilisateur utilisateur) {
         try {
             utilisateurService.creerUtilisateur(utilisateur);
             return ResponseEntity.ok("Utilisateur ajouté avec succès");
@@ -101,12 +104,8 @@ public class UtilisateurController {
     }
 
 
-
-
-
-
-    @DeleteMapping(path="/deleteutilisateur/{utilisateurId}")
-    public ResponseEntity<String> deleteUtilisateur(@PathVariable("utilisateurId")Long utilisateurId){
+    @DeleteMapping(path = "/deleteutilisateur/{utilisateurId}")
+    public ResponseEntity<String> deleteUtilisateur(@PathVariable("utilisateurId") Long utilisateurId) {
         try {
             utilisateurService.supprimerUtilisateur(utilisateurId);
             return ResponseEntity.ok("Utilisateur supprimé avec succès");
@@ -116,8 +115,8 @@ public class UtilisateurController {
     }
 
 
-    @PutMapping(path="/modifyutilisateur/{utilisateurId}")
-    public ResponseEntity<String> updateUtilisateur(@PathVariable("utilisateurId") Long utilisateurId, @RequestBody Utilisateur utilisateur){
+    @PutMapping(path = "/modifyutilisateur/{utilisateurId}")
+    public ResponseEntity<String> updateUtilisateur(@PathVariable("utilisateurId") Long utilisateurId, @RequestBody Utilisateur utilisateur) {
         try {
             utilisateurService.modifierUtilisateur(utilisateurId, utilisateur);
             return ResponseEntity.ok("Utilisateur mis à jour avec succès");
