@@ -106,7 +106,7 @@ public class FillDataBase {
             adresseService.creerAdresse(adresseElectroWave);
 
             TypeEvenement typeEvenementElectroWave = new TypeEvenement();
-            typeEvenementElectroWave.setDescription_type_evenement("Musical");
+            typeEvenementElectroWave.setDescription_type_evenement("techno");
             typeEvenementService.creerTypeEvenement(typeEvenementElectroWave);
 
 
