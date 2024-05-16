@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,26 +25,30 @@ import java.util.Optional;
 @Slf4j
 @RequestMapping("/eventz/evenement")
 public class EvenementController {
-/*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
+    /*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
 
     private final EvenementService evenementService;
     private final AdresseService adresseService;
     private final StatutEvenementService statutEvenementService;
     private final TypeEvenementService typeEvenementService;
+    private final UtilisateurService utilisateurService;
+    private final ParticipeService participeService;
 
     @Autowired
-    public EvenementController(EvenementService evenementService,AdresseService adresseService,StatutEvenementService statutEvenementService,TypeEvenementService typeEvenementService) {
+    public EvenementController(EvenementService evenementService, AdresseService adresseService, StatutEvenementService statutEvenementService, TypeEvenementService typeEvenementService, UtilisateurService utilisateurService, ParticipeService participeService) {
         this.evenementService = evenementService;
-        this.adresseService=adresseService;
-        this.statutEvenementService=statutEvenementService;
-        this.typeEvenementService=typeEvenementService;
+        this.adresseService = adresseService;
+        this.statutEvenementService = statutEvenementService;
+        this.typeEvenementService = typeEvenementService;
+        this.utilisateurService = utilisateurService;
+        this.participeService = participeService;
     }
 
     @GetMapping("/details")
-    public String afficherDetails(@RequestParam("id") Long event_id,Model model){
+    public String afficherDetails(@RequestParam("id") Long event_id, Model model) {
         try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
-            if (evenementOptional.isPresent()){
+            if (evenementOptional.isPresent()) {
                 Evenement evenementactuel = evenementOptional.get();
                 log.info(evenementactuel.toString());
                 model.addAttribute("evenementactuel", evenementactuel);
@@ -62,7 +68,7 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
-        public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement typeEvenement, HttpServletResponse response){
+    public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement typeEvenement, HttpServletResponse response) {
         try {
             typeEvenementService.creerTypeEvenement(typeEvenement);
             evenement.setTypeEvenement(typeEvenement);
@@ -78,8 +84,8 @@ public class EvenementController {
         }
     }
 
-    @DeleteMapping(path="/deleteevenement/{evenementId}")
-    public ResponseEntity<String> deleteEvenement(@PathVariable("evenementId")Long evenementId){
+    @DeleteMapping(path = "/deleteevenement/{evenementId}")
+    public ResponseEntity<String> deleteEvenement(@PathVariable("evenementId") Long evenementId) {
         try {
             evenementService.deleteEvenement(evenementId);
             return ResponseEntity.ok("Evenement supprimé avec succès");
@@ -88,9 +94,31 @@ public class EvenementController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/participate")
+    public void participate(@RequestParam("event_id") Long event_id, HttpServletResponse response) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
+            if (evenementOptional.isPresent() && userOptional.isPresent()) {
+                Evenement evenement = evenementOptional.get();
+                Utilisateur utilisateur = userOptional.get();
+                Participe participe = new Participe(evenement, utilisateur);
+                participeService.addParticipe(participe);
+            }
+            response.setHeader("Location", "/eventz/evenement/details?id=" + event_id);
+            response.setStatus(HttpStatus.FOUND.value());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    @PutMapping(path="/modifyevenement/{evenementId}")
-    public ResponseEntity<String> updateEvenement(@PathVariable("evenementId") Long evenementId, @RequestBody Evenement evenement){
+
+    @PutMapping(path = "/modifyevenement/{evenementId}")
+    public ResponseEntity<String> updateEvenement(@PathVariable("evenementId") Long
+                                                          evenementId, @RequestBody Evenement evenement) {
         try {
             evenementService.updateEvenement(evenementId, evenement);
             return ResponseEntity.ok("Evenement mis à jour avec succès");

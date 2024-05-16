@@ -26,4 +26,8 @@ public class Participe {
     @JoinColumn(name = "id_utilisateur")
     private Utilisateur utilisateur;
 
+    public Participe(Evenement evenement, Utilisateur utilisateur) {
+        this.evenement = evenement;
+        this.utilisateur = utilisateur;
+    }
 }
