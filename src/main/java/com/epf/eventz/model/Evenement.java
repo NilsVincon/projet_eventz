@@ -38,6 +38,9 @@ public class Evenement {
     private List<AvoirTypeMusique> avoirTypeMusiques;
 
     @OneToMany(mappedBy = "evenement")
+    private List<Performe> performes;
+
+    @OneToMany(mappedBy = "evenement")
     private List<Participe> participes;
 
     private String nom_evenement;

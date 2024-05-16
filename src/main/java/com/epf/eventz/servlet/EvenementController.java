@@ -2,12 +2,14 @@ package com.epf.eventz.servlet;
 
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.*;
-/*import com.epf.eventz.security.JwtAuthentificationEntryPoint;*/
 import com.epf.eventz.service.*;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.epf.eventz.model.Artiste;
+import com.epf.eventz.model.Evenement;
+import com.epf.eventz.model.Participe;
+import com.epf.eventz.model.Performe;
+import com.epf.eventz.service.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -124,6 +126,28 @@ public class EvenementController {
             return ResponseEntity.ok("Evenement mis à jour avec succès");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'evenement: " + e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "/details/{evenementId}")
+    public String detailsEvenement(@PathVariable Long evenementId, Model model){
+        try {
+            Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
+            if (evenementOptional.isPresent()) {
+                Evenement evenement = evenementOptional.get();
+                List<Artiste> artistes = new ArrayList<>();
+                for (Performe performe : evenement.getPerformes()) {
+                    artistes.add(performe.getArtiste());
+                }
+                model.addAttribute("evenement", evenement);
+                model.addAttribute("artistes", artistes);
+                return "events/event_details_description"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
+            } else {
+                // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple
+                return "redirect:/error-500"; // Redirection vers une page d'erreur
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
         }
     }
 

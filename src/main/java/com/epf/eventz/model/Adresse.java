@@ -34,4 +34,15 @@ public class Adresse {
 
     @OneToMany(mappedBy = "adresse")
     private List<Evenement> evenements;
+    @Override
+    public String toString() {
+        return "Adresse{" +
+                "id_adresse=" + id_adresse +
+                ", numero_adresse='" + numero_adresse + '\'' +
+                ", rue_adresse='" + rue_adresse + '\'' +
+                ", ville_adresse='" + ville_adresse + '\'' +
+                ", code_postal_adresse=" + code_postal_adresse +
+                ", pays_adresse='" + pays_adresse + '\'' +
+                '}';
+    }
 }
