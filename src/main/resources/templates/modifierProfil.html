@@ -157,27 +157,23 @@
 <div class="container">
     <div class="title">Modifier mon profil</div>
     <div class="content">
-        <form id="registrationForm" action="/profil" method="post">
+
+        <form id="updateForm"  action="/modifier/profil" method="post">
+            <input type="hidden" name="_method" value="PUT">
+
             <div class="user-details">
                 <div class="input-box">
-                    <span class="details">Nom</span>
-                    <input type="text" placeholder="Entrez votre nom" id="nom_utilisateur" name="nom_utilisateur" required>
+                    <label for="nom_utilisateur">Nom </label><br>
+                    <input type="text" id="nom_utilisateur" name="nom_utilisateur"><br>
+                </div>
+
+                <div class="input-box">
+                    <label for="email_utilisateur">Email </label><br>
+                    <input type="text" id="email_utilisateur" name="email_utilisateur"><br>
                 </div>
                 <div class="input-box">
-                    <span class="details">Prenom</span>
-                    <input type="text" placeholder="Entrez votre prenom" id="prenom_utilisateur" name="prenom_utilisateur" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Email</span>
-                    <input type="text" placeholder="Entrez votre email" id="email_utilisateur" name="email_utilisateur" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Mot de passe</span>
-                    <input type="password" placeholder="Entrez votre mot de passe" id="password" name="password" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Pseudo</span>
-                    <input type="text" placeholder="Entrez votre pseudo" id="username" name="username" required>
+                    <label for="prenom_utilisateur">Prénom </label><br>
+                    <input type="text" id="prenom_utilisateur" name="prenom_utilisateur"><br>
                 </div>
                 <input type="hidden" id="role_utilisateur" name="role_utilisateur" value="USER">
                 <div class="gender-details">
@@ -201,12 +197,12 @@
                     </div>
                 </div>
                 <div class="input-box">
-                    <span class="details">Date de naissance</span>
-                    <input type="date" placeholder="Entrez votre date de naissance" id="naissance_utilisateur" name="naissance_utilisateur" required>
+                    <label for="naissance_utilisateur">Date de naissance </label><br>
+                    <input type="text" id="naissance_utilisateur" name="naissance_utilisateur"><br>
                 </div>
                 <div class="input-box">
-                    <span class="details">Description</span>
-                    <input type="text" placeholder="Entrez votre description" id="description_utilisateur" name="description_utilisateur" required>
+                    <label for="description_utilisateur">Bio</label><br>
+                    <input type="text" id="description_utilisateur" name="description_utilisateur"><br>
                 </div>
             </div>
             <div class="button">

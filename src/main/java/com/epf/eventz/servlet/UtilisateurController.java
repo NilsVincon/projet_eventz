@@ -125,35 +125,42 @@ public class UtilisateurController {
         }
     }
 
-//    @PutMapping("/modifier/profil")
-//    public ResponseEntity<String> updateProfile(@RequestBody Utilisateur utilisateur) {
-//        try {
-//            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//            String username = authentication.getName();
-//            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
-//
-//            if (userOptional.isPresent()) {
-//                Utilisateur existingUser = userOptional.get();
-//                // Mettre à jour les champs du profil avec les nouvelles valeurs
-//                existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
-//                existingUser.setNom_utilisateur(utilisateur.getNom_utilisateur()));
-//                existingUser.setEmail_utilisateur(utilisateur.setEmail_utilisateur(););
-//                existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
-//                existingUser.setSexe(utilisateur.getSexe());
-//                existingUser.setDescription(utilisateur.getDescription());
-//
-//                // Appeler le service pour mettre à jour l'utilisateur
-//                utilisateurService.modifierUtilisateur(existingUser.getId(), existingUser);
-//
-//                return ResponseEntity.ok("Profil mis à jour avec succès");
-//            } else {
-//                return ResponseEntity.notFound().build(); // Utilisateur non trouvé
-//            }
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Erreur lors de la mise à jour du profil: " + e.getMessage());
-//        }
-//    }
+
+
+    @PutMapping("/modifier/profil")
+    public ResponseEntity<String> updateProfile(@ModelAttribute Utilisateur utilisateur) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
+
+            if (userOptional.isPresent()) {
+                Utilisateur existingUser = userOptional.get();
+                // Mettre à jour les champs du profil avec les nouvelles valeurs
+                existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
+                existingUser.setNom_utilisateur(utilisateur.getNom_utilisateur());
+                existingUser.setEmail_utilisateur(utilisateur.getEmail_utilisateur());
+                existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
+                existingUser.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
+                existingUser.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
+
+                // Appeler le service pour mettre à jour l'utilisateur
+                utilisateurService.modifierUtilisateur((long) existingUser.getId_utilisateur(), existingUser);
+
+                return ResponseEntity.ok("Profil mis à jour avec succès");
+            } else {
+                return ResponseEntity.notFound().build(); // Utilisateur non trouvé
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la mise à jour du profil: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/modifier/profil")
+    public String modifierProfilUser(Model model){
+        return "modifierProfil";
+    }
 
 
 }
