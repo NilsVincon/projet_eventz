@@ -158,28 +158,25 @@
     <div class="title">Modifier mon profil</div>
     <div class="content">
 
-        <form id="updateForm"  action="/modifier/profil" method="post">
+        <form id="updateForm"  action="/eventz/user/modifier/profil" method="post">
             <input type="hidden" name="_method" value="PUT">
 
             <div class="user-details">
                 <div class="input-box">
                     <label for="nom_utilisateur">Nom </label><br>
-                    <input type="text" id="nom_utilisateur" name="nom_utilisateur"><br>
+                    <input type="text" id="nom_utilisateur" name="nom_utilisateur" th:value="${user.nom_utilisateur}"><br>
                 </div>
 
-                <div class="input-box">
-                    <label for="email_utilisateur">Email </label><br>
-                    <input type="text" id="email_utilisateur" name="email_utilisateur"><br>
-                </div>
+
                 <div class="input-box">
                     <label for="prenom_utilisateur">Prénom </label><br>
-                    <input type="text" id="prenom_utilisateur" name="prenom_utilisateur"><br>
+                    <input type="text" id="prenom_utilisateur" name="prenom_utilisateur" th:value="${user.prenom_utilisateur}"><br>
                 </div>
                 <input type="hidden" id="role_utilisateur" name="role_utilisateur" value="USER">
                 <div class="gender-details">
-                    <input type="radio" name="sexe_utilisateur" id="dot-1" value="Homme">
-                    <input type="radio" name="sexe_utilisateur" id="dot-2" value="Femme">
-                    <input type="radio" name="sexe_utilisateur" id="dot-3" value="Autre">
+                    <input type="radio" name="sexe_utilisateur" id="dot-1" value="Homme"  th:checked="${user.sexe_utilisateur == 'Homme'}">
+                    <input type="radio" name="sexe_utilisateur" id="dot-2" value="Femme" th:checked="${user.sexe_utilisateur == 'Femme'}">
+                    <input type="radio" name="sexe_utilisateur" id="dot-3" value="Autre" th:checked="${user.sexe_utilisateur == 'Autre'}">
                     <span class="gender-title">Gender</span>
                     <div class="category">
                         <label for="dot-1">
@@ -198,11 +195,11 @@
                 </div>
                 <div class="input-box">
                     <label for="naissance_utilisateur">Date de naissance </label><br>
-                    <input type="text" id="naissance_utilisateur" name="naissance_utilisateur"><br>
+                    <input type="text" id="naissance_utilisateur" name="naissance_utilisateur" th:value="${user.naissance_utilisateur}"><br>
                 </div>
                 <div class="input-box">
                     <label for="description_utilisateur">Bio</label><br>
-                    <input type="text" id="description_utilisateur" name="description_utilisateur"><br>
+                    <input type="text" id="description_utilisateur" name="description_utilisateur" th:value="${user.description_utilisateur}"><br>
                 </div>
             </div>
             <div class="button">

@@ -1,7 +1,9 @@
 package com.epf.eventz.servlet;
 
+import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.UtilisateurService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +14,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/eventz/user")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -115,31 +119,22 @@ public class UtilisateurController {
     }
 
 
-    @PutMapping(path = "/modifyutilisateur/{utilisateurId}")
-    public ResponseEntity<String> updateUtilisateur(@PathVariable("utilisateurId") Long utilisateurId, @RequestBody Utilisateur utilisateur) {
-        try {
-            utilisateurService.modifierUtilisateur(utilisateurId, utilisateur);
-            return ResponseEntity.ok("Utilisateur mis à jour avec succès");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'utilisateur: " + e.getMessage());
-        }
-    }
 
 
 
-    @PutMapping("/modifier/profil")
-    public ResponseEntity<String> updateProfile(@ModelAttribute Utilisateur utilisateur) {
+
+    @PostMapping("/modifier/profil")
+    public void updateProfile(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response) throws IOException {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
 
-            if (userOptional.isPresent()) {
+                if (userOptional.isPresent()) {
                 Utilisateur existingUser = userOptional.get();
                 // Mettre à jour les champs du profil avec les nouvelles valeurs
                 existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
                 existingUser.setNom_utilisateur(utilisateur.getNom_utilisateur());
-                existingUser.setEmail_utilisateur(utilisateur.getEmail_utilisateur());
                 existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
                 existingUser.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
                 existingUser.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
@@ -147,18 +142,26 @@ public class UtilisateurController {
                 // Appeler le service pour mettre à jour l'utilisateur
                 utilisateurService.modifierUtilisateur((long) existingUser.getId_utilisateur(), existingUser);
 
-                return ResponseEntity.ok("Profil mis à jour avec succès");
+                response.setHeader("Location", "/eventz/user/profil");
+                response.setStatus(HttpStatus.FOUND.value());
+
             } else {
-                return ResponseEntity.notFound().build(); // Utilisateur non trouvé
+                    response.sendError(HttpStatus.NOT_FOUND.value(), "Utilisateur non trouvé");
             }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Erreur lors de la mise à jour du profil: " + e.getMessage());
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur lors de la mise à jour du profil: " + e.getMessage());
         }
     }
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/modifier/profil")
-    public String modifierProfilUser(Model model){
+    public String modifierProfilUser(Model model) throws ServiceException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
+        if (userOptional.isPresent()) {
+            Utilisateur user = userOptional.get();
+            model.addAttribute("user", user);
+        }
         return "modifierProfil";
     }
 
