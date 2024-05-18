@@ -34,6 +34,9 @@ public class Artiste {
 
     private String description_artiste;
 
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] pdpArtiste;
+
     @OneToMany(mappedBy = "artiste")
     private List<PrefererArtiste> prefererArtistes;
 

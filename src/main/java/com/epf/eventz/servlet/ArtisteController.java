@@ -4,10 +4,14 @@ import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Adresse;
 import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Jouer;
+import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.ArtisteService;
+import com.epf.eventz.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @Controller
+@RequestMapping("/eventz/artiste")
 public class ArtisteController {
 
     private final ArtisteService artisteService;
@@ -82,6 +88,25 @@ public class ArtisteController {
             // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple
             return "redirect:/error"; // Redirection vers une page d'erreur
         }
+    }
+
+
+    @GetMapping("/profile-image/{userId}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable Long userId) {
+        try {
+            Optional<Artiste> artisteOptional = artisteService.findArtisteById(userId);
+            if (artisteOptional.isPresent()) {
+                Artiste artiste = artisteOptional.get();
+                if (artiste.getPdpArtiste() != null) {
+                    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(artiste.getPdpArtiste());
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 

@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/eventz/auth/**").permitAll()
                         .requestMatchers("/eventz/home").permitAll()
                         .requestMatchers("/eventz/evenement/details").permitAll()
+                        .requestMatchers("/eventz/artiste/**").permitAll()
                         .anyRequest().authenticated())
                 .userDetailsService(customUserDetailsService)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))

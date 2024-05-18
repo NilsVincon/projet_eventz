@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,15 @@ public class FillDataBase {
     private final AdresseService adresseService;
     private final StatutEvenementService statutEvenementService;
     private final TypeEvenementService typeEvenementService;
+    private final ArtisteService artisteService;
 
     @Autowired
-    public FillDataBase(EvenementService evenementService,AdresseService adresseService,StatutEvenementService statutEvenementService,TypeEvenementService typeEvenementService) {
+    public FillDataBase(EvenementService evenementService,AdresseService adresseService,StatutEvenementService statutEvenementService,TypeEvenementService typeEvenementService, ArtisteService artisteService) {
         this.evenementService = evenementService;
         this.adresseService=adresseService;
         this.statutEvenementService=statutEvenementService;
         this.typeEvenementService=typeEvenementService;
+        this.artisteService=artisteService;
     }
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -43,6 +47,19 @@ public class FillDataBase {
     @Bean
     CommandLineRunner commandLineRunner(EvenementService evenementService, UtilisateurService utilisateurService, SuivreService suivreService) {
         return args -> {
+
+            //ajout d'un artiste
+            File file = new File("C:\\Users\\guilh\\OneDrive\\Documents\\#Cours\\#EPF4A\\Projet\\projet_eventz\\projet_eventz\\src\\main\\resources\\templates\\logo_connexion.png");
+            byte[] imageData = new byte[(int) file.length()];
+            try (FileInputStream fis = new FileInputStream(file)) {
+                fis.read(imageData);
+            }
+            Artiste artiste = new Artiste();
+            artiste.setDescription_artiste("dfdjsflsdj");
+            artiste.setNom_artiste("bzbz");
+            artiste.setPdpArtiste(imageData);
+            artisteService.addArtiste(artiste);
+
             // Ajout de l'événement "TechnoFest"
             Adresse adresseTechnoFest = new Adresse();
             adresseTechnoFest.setNumero_adresse("123");
