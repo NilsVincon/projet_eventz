@@ -1,7 +1,5 @@
 package com.epf.eventz.servlet.error;
 
-import com.epf.eventz.exception.TokenExpiredException;
-import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ProblemDetail;
 import org.springframework.security.access.AccessDeniedException;

@@ -169,11 +169,11 @@ public class FillDataBase {
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateurService.creerUtilisateur(utilisateur1);
             utilisateurService.creerUtilisateur(utilisateur3);
-            Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("Nils75");
+            Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("admin");
             if (moiOptional.isPresent()) {
                 Utilisateur moi = moiOptional.get();
                 suivreService.creerSuivre(new Suivre(moi, utilisateur1));
-                suivreService.creerSuivre(new Suivre(utilisateur3, moi));
+                suivreService.creerSuivre(new Suivre(utilisateur1,moi));
             }
         };
     }

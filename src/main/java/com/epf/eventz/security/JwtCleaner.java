@@ -1,6 +1,6 @@
 package com.epf.eventz.security;
 
-import com.epf.eventz.dao.JwtDAO;
+import com.epf.eventz.service.JwtService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -13,20 +13,16 @@ import java.util.Date;
 @EnableScheduling
 public class JwtCleaner {
 
-    @Autowired
-    private JwtDAO jwtDAO;
+    private final JwtService jwtService;
 
-    @Scheduled(fixedRate = 30000)
-    @Transactional
-    public void cleanupExpiredJwtTokens() {
-        Date currentDate = new Date();
-        jwtDAO.deleteByExpireDateBefore(currentDate);
+    public JwtCleaner(JwtService jwtService) {
+        this.jwtService = jwtService;
     }
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 1000*15)
     @Transactional
     public void cleanupInactifJwtTokens() {
-        jwtDAO.deleteInactifJwt();
+        jwtService.supprimerJwtInactifs();
     }
 
 }

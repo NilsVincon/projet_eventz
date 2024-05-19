@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -91,5 +92,20 @@ public class Utilisateur {
                 ", participes=" + participes +
                 ", prefererTypeEvenements=" + prefererTypeEvenements +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Utilisateur that = (Utilisateur) o;
+        return Objects.equals(username, that.username) &&
+                Objects.equals(email_utilisateur, that.email_utilisateur) &&
+                Objects.equals(naissance_utilisateur, that.naissance_utilisateur);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(username, email_utilisateur, naissance_utilisateur);
     }
 }

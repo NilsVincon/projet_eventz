@@ -4,6 +4,7 @@ import com.epf.eventz.dao.SuivreDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Suivre;
+import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,10 @@ public class SuivreService {
 
     public void creerSuivre(Suivre suivre) throws ServiceException {
         suivreDAO.save(suivre);
+    }
+
+    public boolean existsParSuiveurEtSuivi(Utilisateur suiveur,Utilisateur suivi){
+        return suivreDAO.existsBySuiveurAndSuivi(suiveur,suivi);
     }
 
     public void supprimerSuivre(Suivre suivre) throws ServiceException {

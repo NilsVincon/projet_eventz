@@ -13,7 +13,6 @@ import java.util.Date;
 @Repository
 public interface JwtDAO extends CrudRepository<Jwt,Long> {
     <Optional> Jwt findByValeur(String valeur);
-    void deleteByExpireDateBefore(Date date);
     <Optional> Jwt findByUsername(String username);
     @Modifying
     @Query("DELETE FROM Jwt j WHERE j.actif = false")
@@ -22,4 +21,8 @@ public interface JwtDAO extends CrudRepository<Jwt,Long> {
     @Modifying
     @Query("UPDATE Jwt SET actif = :actif WHERE username = :username")
     void setLogoutStatus(@Param("username") String username, @Param("actif") boolean actif);
+
+    @Modifying
+    @Query("UPDATE Jwt SET actif = :actif WHERE valeur = :valeur")
+    void setLogoutStatusByValue(@Param("valeur") String valeur, @Param("actif") boolean actif);
 }
