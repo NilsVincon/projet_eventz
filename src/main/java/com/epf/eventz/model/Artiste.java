@@ -23,6 +23,14 @@ public class Artiste {
 
     private String nom_artiste;
 
+    public Artiste(String nom_artiste, String description_artiste, List<PrefererArtiste> prefererArtistes, List<Performe> performances, List<Jouer> jouers) {
+        this.nom_artiste = nom_artiste;
+        this.description_artiste = description_artiste;
+        this.prefererArtistes = prefererArtistes;
+        this.performances = performances;
+        this.jouers = jouers;
+    }
+
     @Override
     public String toString() {
         return "Artiste{" +

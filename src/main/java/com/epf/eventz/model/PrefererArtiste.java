@@ -26,4 +26,17 @@ public class PrefererArtiste {
     @JoinColumn(name = "utilisateur")
     private Utilisateur utilisateur;
 
+    public PrefererArtiste(Artiste artiste, Utilisateur utilisateur) {
+        this.artiste = artiste;
+        this.utilisateur = utilisateur;
+    }
+
+    @Override
+    public String toString() {
+        return "PrefererArtiste{" +
+                "id_preferer_artiste=" + id_preferer_artiste +
+                ", artiste=" + artiste +
+                ", utilisateur=" + utilisateur +
+                '}';
+    }
 }
