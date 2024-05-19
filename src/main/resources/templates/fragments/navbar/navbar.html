@@ -1,6 +1,7 @@
 <nav th:fragment="nav">
-    <a class="navbar-brand" href="#">
-        <img th:src="@{images/Eventz.png}" alt="Eventz Logo" id="eventz-logo"/>
+    <link th:href="@{/css/nav/navbar.css}" rel="stylesheet" type="text/css"/>
+    <a class="navbar-brand" href="/eventz/home">
+        <img th:src="@{/images/Eventz.png}" alt="Eventz Logo" id="eventz-logo"/>
     </a>
     <div class="navbar-options">
         <a href="#" id="sortirCeSoir">Sortir ce soir</a>
@@ -10,3 +11,4 @@
         <a href="/eventz/user/profil" id="profil">Profil</a>
     </div>
 </nav>
+

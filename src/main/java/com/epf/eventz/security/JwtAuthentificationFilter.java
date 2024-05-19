@@ -55,8 +55,8 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
             for (Cookie cookie : cookies) {
                 if ("JwtToken".equals(cookie.getName())) {
                     token = cookie.getValue();
-                    if (jwtGenerator.isTokenExpired(token) && jwtGenerator.isAdressIpcorrect(token,request)) { //PERMET D'ETENDRE LA DUREE DE LA SESSION
-                        jwtService.setLogoutStatusByValue(token,false);
+                    if (jwtGenerator.isTokenExpired(token) && jwtGenerator.isAdressIpcorrect(token, request)) { //PERMET D'ETENDRE LA DUREE DE LA SESSION
+                        jwtService.setLogoutStatusByValue(token, false);
                         String username = jwtGenerator.getUsernameFromExpiredJwt(token);
                         Optional<Utilisateur> utilisateurOptional = utilisateurDAO.findByUsername(username);
                         if (utilisateurOptional.isPresent()) {
@@ -68,7 +68,7 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
                                             null,
                                             utilisateurSecurity.getAuthorities());
                             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-                            token = jwtGenerator.generateToken(authenticationToken,request);
+                            token = jwtGenerator.generateToken(authenticationToken, request);
                             String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/", token);
                             response.addHeader("Set-Cookie", cookieString);
                             logger.info("Nouveau token créé !");
@@ -100,7 +100,6 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
                 }
             }
         }
-        filterChain.doFilter(request, response); // TU PEUX ESSAYER LE METTRE EN HAUT POUR MIEUX AFFICHER LES ERREURS
+        filterChain.doFilter(request, response);
     }
-
 }

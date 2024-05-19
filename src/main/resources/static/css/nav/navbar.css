@@ -1,0 +1,46 @@
+nav {
+    background-color: #e67b17;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    margin-bottom: 20px;
+}
+
+.navbar-brand {
+    float: left;
+    padding: 15px 50px;
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    width: 60px;
+}
+
+#eventz-logo {
+    margin-right: 20px;
+}
+
+.navbar-options {
+    float: right;
+    padding: 25px 20px;
+}
+
+.navbar-options a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 18px;
+}
+
+.navbar-options a:hover {
+    color: #f0b8c5;
+}
+
+.navbar-options img {
+    width: 45px;
+    height: auto;
+    vertical-align: middle;
+}

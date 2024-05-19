@@ -40,6 +40,7 @@ public class SecurityConfig {
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/eventz/auth/**").permitAll()
+                        .requestMatchers("/static/**", "/images/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/eventz/home").permitAll()
                         .requestMatchers("/eventz/evenement/details").permitAll()
                         .requestMatchers("/eventz/artiste/**").permitAll()
