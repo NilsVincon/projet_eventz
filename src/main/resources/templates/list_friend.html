@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr th:each="amis : ${listeAmis}">
+        <td>
+            <div class="transition-block">
+                <div class="content">
+                    <div class="text">
+                        <p th:text="${amis.username}"></p>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

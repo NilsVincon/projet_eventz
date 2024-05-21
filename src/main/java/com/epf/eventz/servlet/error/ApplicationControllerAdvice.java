@@ -19,20 +19,20 @@ public class ApplicationControllerAdvice {
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(value = BadCredentialsException.class)
-    public @ResponseBody ProblemDetail BadCredentialsException(BadCredentialsException e){
-        log.error(e.getMessage(),e);
+    public @ResponseBody ProblemDetail BadCredentialsException(BadCredentialsException e) {
+        log.error(e.getMessage(), e);
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 UNAUTHORIZED,
                 "Identifiants incorrects"
         );
-        problemDetail.setProperty("erreur","nous n'avons pas pu vous identifier");
+        problemDetail.setProperty("erreur", "nous n'avons pas pu vous identifier");
         return problemDetail;
     }
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(value = AuthenticationCredentialsNotFoundException.class)
-    public @ResponseBody ProblemDetail AuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException e){
-        log.error(e.getMessage(),e);
+    public @ResponseBody ProblemDetail AuthenticationCredentialsNotFoundException(AuthenticationCredentialsNotFoundException e) {
+        log.error(e.getMessage(), e);
         return ProblemDetail.forStatusAndDetail(
                 UNAUTHORIZED,
                 "Token est incorrect "
@@ -41,8 +41,8 @@ public class ApplicationControllerAdvice {
 
     @ResponseStatus(FORBIDDEN)
     @ExceptionHandler(value = AccessDeniedException.class)
-    public @ResponseBody ProblemDetail AccessDeniedException(AccessDeniedException ae){
-        log.error(ae.getMessage(),ae);
+    public @ResponseBody ProblemDetail AccessDeniedException(AccessDeniedException ae) {
+        log.error(ae.getMessage(), ae);
         return ProblemDetail.forStatusAndDetail(
                 FORBIDDEN,
                 "Vous n'avez pas le droit d'accéder à cette ressources"
@@ -51,7 +51,7 @@ public class ApplicationControllerAdvice {
 
     @ResponseStatus(UNAUTHORIZED)
     @ExceptionHandler(value = Exception.class)
-    public Map<String,String> exceptionHandler(Exception e){
-        return Map.of("erreur",e.getMessage());
+    public Map<String, String> exceptionHandler(Exception e) {
+        return Map.of("erreur", e.getMessage());
     }
 }

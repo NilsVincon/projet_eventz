@@ -29,6 +29,11 @@ public class SuivreService {
         return suivreDAO.existsBySuiveurAndSuivi(suiveur,suivi);
     }
 
+    public boolean estAmis(Utilisateur user1,Utilisateur user2){
+        return suivreDAO.areFriend(user1,user2);
+    }
+
+
     public void supprimerSuivre(Suivre suivre) throws ServiceException {
         suivreDAO.delete(suivre);
     }

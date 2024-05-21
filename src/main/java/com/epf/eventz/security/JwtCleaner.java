@@ -19,7 +19,7 @@ public class JwtCleaner {
         this.jwtService = jwtService;
     }
 
-    @Scheduled(fixedRate = 1000*15)
+    @Scheduled(fixedRate = 1000*60)
     @Transactional
     public void cleanupInactifJwtTokens() {
         jwtService.supprimerJwtInactifs();

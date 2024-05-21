@@ -45,7 +45,6 @@ public class FillDataBase {
     @Bean
     CommandLineRunner commandLineRunner(EvenementService evenementService, UtilisateurService utilisateurService, SuivreService suivreService, ArtisteService artisteService, PrefererArtisteService prefererArtisteService) {
         return args -> {
-
             //ajout d'un artiste
             File file = new File("src/main/resources/static/images/logo_connexion.png");
             byte[] imageData = new byte[(int) file.length()];

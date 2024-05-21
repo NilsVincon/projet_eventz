@@ -157,7 +157,7 @@
 <div class="container">
     <div class="title">Inscription</div>
     <div class="content">
-        <form id="registrationForm" action="/auth/register" method="post">
+        <form id="registrationForm" action="register" method="post">
             <div class="user-details">
                 <div class="input-box">
                     <span class="details">Nom</span>
@@ -202,7 +202,7 @@
                 </div>
                 <div class="input-box">
                     <span class="details">Date de naissance</span>
-                    <input type="date" placeholder="Entrez votre date de naissance" id="naissance_utilisateur" name="naissance_utilisateur" required>
+                    <label for="naissance_utilisateur"></label><input type="date" placeholder="Entrez votre date de naissance" id="naissance_utilisateur" name="naissance_utilisateur" max="2024-06-13" required>
                 </div>
                 <div class="input-box">
                     <span class="details">Description</span>

@@ -1,7 +1,6 @@
 package com.epf.eventz.servlet;
 
 import com.epf.eventz.dao.UtilisateurDAO;
-import com.epf.eventz.exception.ControllerException;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.model.UtilisateurSecurity;
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,7 +24,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.Objects;
 
 @Slf4j
@@ -60,7 +57,7 @@ public class AuthentificationController {
 
     @GetMapping("/login")
     public String loginPage() {
-        return "login";
+        return "authentification/login";
     }
 
 
@@ -95,7 +92,7 @@ public class AuthentificationController {
 
     @GetMapping("/register")
     public String registerPage() {
-        return "register";
+        return "authentification/register";
     }
 
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
@@ -111,7 +108,7 @@ public class AuthentificationController {
         }
         try {
             utilisateurService.creerUtilisateur(utilisateur);
-            response.setHeader("Location", "/auth/login");
+            response.setHeader("Location", "/eventz/auth/login");
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

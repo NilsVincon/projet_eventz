@@ -27,33 +27,28 @@ public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
-        logger.error("Aucune connexion en cours");
-        if ("/eventz/user/profil".equals(request.getServletPath()) ||"/eventz/evenement/add".equals(request.getServletPath())  ) {
-            response.sendRedirect(request.getContextPath() + "/eventz/auth/login");
-            return;
-        }
 
         int statusCode;
         String errorMessage;
 
         if (authException instanceof BadCredentialsException) {
             statusCode = HttpServletResponse.SC_UNAUTHORIZED; // 401
-            errorMessage = "Bad credentials";
+            errorMessage = "Mauvais nom d'utilisateur ou mot de passe";
         } else if (authException instanceof DisabledException) {
             statusCode = HttpServletResponse.SC_FORBIDDEN; // 403
-            errorMessage = "User is disabled";
+            errorMessage = "Vous n'avez pas le droit d'accéder à cette ressource";
         } else {
             statusCode = HttpServletResponse.SC_UNAUTHORIZED; // 401 as default
-            errorMessage = authException.getMessage() != null ? authException.getMessage() : "Unauthorized";
+            errorMessage = authException.getMessage() != null ? authException.getMessage() : "Vous devez être connecté";
+            response.sendRedirect(request.getContextPath() + "/eventz/auth/login");
         }
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(statusCode);
 
         final Map<String, Object> body = new HashMap<>();
-        body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
-        body.put("error", "Unauthorized");
-        body.put("message", "Vous devez être connecté pour accéder à cette ressource");
+        body.put("status", statusCode);
+        body.put("message", errorMessage);
         body.put("path", request.getServletPath());
 
         try (OutputStream outputStream = response.getOutputStream()) {

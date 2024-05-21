@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class SuivreController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/add")
-    public String loginPage(Model model) {
+    public String addFriendPage(Model model) {
         try {
             List<Utilisateur> utilisateurs = utilisateurService.trouverTousUtilisateurs();
             model.addAttribute("utilisateurs", utilisateurs);
@@ -48,6 +49,38 @@ public class SuivreController {
             model.addAttribute("message", e.getMessage());
         }
         return "add_friend";
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/list")
+    public String ListFriendPage(Model model) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> utilisateurActuelOptional = null;
+            List<Utilisateur> utilisateursAmis = new ArrayList<>();
+            try {
+                utilisateurActuelOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurActuelOptional.isPresent()) {
+                Utilisateur utilisateurActuel = utilisateurActuelOptional.get();
+                List<Utilisateur> tousLesUtilisateurs = utilisateurService.trouverTousUtilisateurs();
+                for (Utilisateur utilisateur : tousLesUtilisateurs) {
+                    if (!utilisateur.equals(utilisateurActuel)) {
+                        boolean isMutual = suivreService.estAmis(utilisateurActuel, utilisateur);
+                        if(isMutual){
+                            utilisateursAmis.add(utilisateur);
+                        }
+                    }
+                }
+            }
+            model.addAttribute("listeAmis",utilisateursAmis);
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+        return "list_friend";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

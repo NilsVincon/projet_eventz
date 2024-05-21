@@ -51,6 +51,15 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = "";
         Cookie[] cookies = request.getCookies();
+        String requestURL = request.getRequestURL().toString();
+        String expectedSuffix = "eventz/auth/login";
+        if (requestURL.endsWith(expectedSuffix)) {
+            Cookie jwtCookie = new Cookie("JwtToken", null);
+            jwtCookie.setMaxAge(0);
+            jwtCookie.setPath("/");
+            response.addCookie(jwtCookie);
+            cookies=null;
+        }
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("JwtToken".equals(cookie.getName())) {

@@ -15,4 +15,10 @@ import java.util.List;
 public interface SuivreDAO extends JpaRepository<Suivre, Long> {
 
     boolean existsBySuiveurAndSuivi(Utilisateur suiveur, Utilisateur suivi);
+
+    default boolean areFriend(Utilisateur user1, Utilisateur user2) {
+        return existsBySuiveurAndSuivi(user1, user2) && existsBySuiveurAndSuivi(user2, user1);
+    }
+
+
 }
