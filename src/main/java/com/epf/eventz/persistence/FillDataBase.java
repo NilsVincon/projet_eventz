@@ -47,7 +47,7 @@ public class FillDataBase {
         return args -> {
 
             //ajout d'un artiste
-            File file = new File("C:\\Users\\guilh\\OneDrive\\Documents\\#Cours\\#EPF4A\\Projet\\projet_eventz\\projet_eventz\\src\\main\\resources\\templates\\logo_connexion.png");
+            File file = new File("src/main/resources/static/images/logo_connexion.png");
             byte[] imageData = new byte[(int) file.length()];
             try (FileInputStream fis = new FileInputStream(file)) {
                 fis.read(imageData);
