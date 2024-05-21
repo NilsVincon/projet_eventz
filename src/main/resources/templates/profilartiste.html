@@ -167,7 +167,7 @@
         </form>
     </div>
     <div class="card">
-        <div class="firstinfo"><img src="https://bootdey.com/img/Content/avatar/avatar6.png"/>
+        <div class="firstinfo"><img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}" />
             <div class="profileinfo">
                 <h1 th:text="${artiste.nom_artiste}"></h1>
                 <h3 th:text="${typeMusique}"></h3>
