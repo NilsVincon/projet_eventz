@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-<<<<<<< HEAD
-    <data-source source="LOCAL" name="projet_eventz@localhost" uuid="4c8f7d3b-faa1-4446-a2e9-0ea67bc886bf">
-=======
-    <data-source source="LOCAL" name="projet_eventz@localhost" uuid="a11ce293-2e59-4b6e-8be1-ec789d0405ba">
->>>>>>> f06569b (bouton suivi artiste fini)
+    <data-source source="LOCAL" name="projet_eventz@localhost" uuid="d7a9f66b-0caf-4374-a7f2-14e1e1216154">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
