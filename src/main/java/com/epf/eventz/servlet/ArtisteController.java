@@ -22,7 +22,7 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping("/eventz/artiste")
+@RequestMapping("/eventz")
 public class ArtisteController {
 
     private final ArtisteService artisteService;
@@ -127,7 +127,7 @@ public class ArtisteController {
                 else{
                     prefererArtisteService.supprimerPrefererArtiste(prefererArtisteService.findByArtisteAndUtilisateur(artiste,utilisateur));
                 }
-                return "redirect:/artiste/" + id_artiste;
+                return "redirect:/eventz/artiste/" + id_artiste;
             } else {
                 return "redirect:/error";
             }
