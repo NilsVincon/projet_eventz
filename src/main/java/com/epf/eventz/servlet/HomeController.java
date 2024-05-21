@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -26,6 +28,10 @@ public class HomeController {
         try {
             List<Evenement> evenements = evenementService.findAllEvenements();
             model.addAttribute("evenements", evenements);
+            Set<String> uniqueEventTypes = evenements.stream()
+                    .map(e -> e.getTypeEvenement().getDescription_type_evenement())
+                    .collect(Collectors.toSet());
+            model.addAttribute("uniqueEventTypes", uniqueEventTypes);
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
