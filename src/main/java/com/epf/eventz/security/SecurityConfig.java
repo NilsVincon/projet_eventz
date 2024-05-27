@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -39,11 +40,13 @@ public class SecurityConfig {
                 .sessionManagement(httpSecuritySessionManagementConfigurer ->
                         httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                         .requestMatchers("/eventz/auth/**").permitAll()
                         .requestMatchers("/static/**", "/images/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/eventz/home").permitAll()
                         .requestMatchers("/eventz/evenement/details").permitAll()
                         .requestMatchers("/eventz/artiste/**").permitAll()
+                        .requestMatchers("/eventz/user/profile-image/**").permitAll()
                         .anyRequest().authenticated())
                 .userDetailsService(customUserDetailsService)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
@@ -85,4 +88,9 @@ public class SecurityConfig {
         return new JwtAuthentificationFilter();
     }
 
+    @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return web -> web.ignoring().requestMatchers(
+                "/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**");
+    }
 }

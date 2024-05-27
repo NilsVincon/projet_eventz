@@ -1,11 +1,13 @@
 package com.epf.eventz.servlet;
 
 import com.epf.eventz.exception.ServiceException;
+import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -20,7 +22,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/eventz/user")
-@PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -62,11 +64,13 @@ public class UtilisateurController {
             Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
             List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(authentication.getName());
             List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(authentication.getName());
-            if (userOptional.isPresent()) {
+            List<Artiste> artistes=utilisateurService.trouverArtistesByUsername(authentication.getName());
+            if (userOptional.isPresent())  {
                 Utilisateur user = userOptional.get();
                 model.addAttribute("user", user);
                 model.addAttribute("suiveurs", suiveurs);
                 model.addAttribute("suivis", suivis);
+                model.addAttribute("artistes", artistes);
             }
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
@@ -163,6 +167,24 @@ public class UtilisateurController {
             model.addAttribute("user", user);
         }
         return "modifierProfil";
+    }
+
+    @GetMapping("/profile-image/{userId}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable Long userId) {
+        try {
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecId(userId);
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                if (utilisateur.getPdpUtilisateur() != null) {
+                    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(utilisateur.getPdpUtilisateur());
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 

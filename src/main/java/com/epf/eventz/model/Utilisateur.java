@@ -40,6 +40,9 @@ public class Utilisateur {
 
     private String description_utilisateur;
 
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] pdpUtilisateur;
+
     @OneToMany(mappedBy = "suiveur")
     private List<Suivre> suivis;
 

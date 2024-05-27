@@ -24,14 +24,16 @@ public class FillDataBase {
     private final StatutEvenementService statutEvenementService;
     private final TypeEvenementService typeEvenementService;
     private final ArtisteService artisteService;
+    private final PrefererArtisteService prefererArtisteService;
 
     @Autowired
-    public FillDataBase(EvenementService evenementService,AdresseService adresseService,StatutEvenementService statutEvenementService,TypeEvenementService typeEvenementService, ArtisteService artisteService) {
+    public FillDataBase(EvenementService evenementService,AdresseService adresseService,StatutEvenementService statutEvenementService,TypeEvenementService typeEvenementService, ArtisteService artisteService, PrefererArtisteService prefererArtisteService) {
         this.evenementService = evenementService;
         this.adresseService=adresseService;
         this.statutEvenementService=statutEvenementService;
         this.typeEvenementService=typeEvenementService;
         this.artisteService=artisteService;
+        this.prefererArtisteService=prefererArtisteService;
     }
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -201,13 +203,16 @@ public class FillDataBase {
             artisteService.addArtiste(new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref,ListePerforme ,ListeJouer));
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
+            utilisateur1.setPdpUtilisateur(imageData);
+            utilisateur3.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur1);
             utilisateurService.creerUtilisateur(utilisateur3);
             Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("user");
             if (moiOptional.isPresent()) {
                 Utilisateur moi = moiOptional.get();
-                suivreService.creerSuivre(new Suivre(moi, utilisateur1));
-                suivreService.creerSuivre(new Suivre(utilisateur1,moi));
+                suivreService.creerSuivre(new Suivre(moi, utilisateur3));
+                suivreService.creerSuivre(new Suivre(utilisateur3, moi));
+                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste, moi));
             }
         };
     }

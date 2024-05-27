@@ -4,6 +4,8 @@ import com.epf.eventz.dao.UtilisateurDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
 
+import com.epf.eventz.model.Artiste;
+import com.epf.eventz.model.PrefererArtiste;
 import com.epf.eventz.model.Suivre;
 import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,6 +104,21 @@ public class UtilisateurService {
             }
             return following;
         } else {
+            throw new ServiceException("Optional vide");
+        }
+    }
+
+    public List<Artiste> trouverArtistesByUsername(String pseudo_utilisateur) throws ServiceException{
+        Optional<Utilisateur> utilisateur = utilisateurDAO.findByUsername(pseudo_utilisateur);
+        if(utilisateur.isPresent()) {
+            List<PrefererArtiste> artistesSuivis = utilisateur.get().getPrefererArtistes();
+            List<Artiste> following = new ArrayList<>();
+            for (PrefererArtiste prefererArtiste : artistesSuivis) {
+                following.add(prefererArtiste.getArtiste());
+            }
+            return following;
+        }
+        else{
             throw new ServiceException("Optional vide");
         }
     }
