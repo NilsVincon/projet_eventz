@@ -1,17 +1,17 @@
-nav {
-    background-color: #e67b17;
-    overflow: hidden;
+.nav {
+    background-color: #e67b17 ;
+    overflow: visible ;
     position: sticky;
     top: 0;
-    z-index: 1000;
-    margin-bottom: 20px;
+    z-index: 1;
+    margin-bottom: 40px;
 }
 
 .navbar-brand {
+
     float: left;
     padding: 15px 50px;
     font-size: 20px;
-    color: white;
     text-decoration: none;
 }
 
@@ -26,9 +26,12 @@ nav {
 .navbar-options {
     float: right;
     padding: 25px 20px;
+    display: flex;
+    gap: 15px;
 }
 
 .navbar-options a {
+    margin-right: 20px;
     color: white;
     text-decoration: none;
     margin-left: 20px;
@@ -44,3 +47,34 @@ nav {
     height: auto;
     vertical-align: middle;
 }
+
+.relative:hover .absolute {
+    display: block !important;
+
+}
+.navbar-options {
+    display: flex;
+    gap: 15px;
+}
+
+.relative:hover .dropdown-menu {
+    display: block !important;
+
+}
+
+.dropdown-menu {
+    display: none;
+
+}
+.menu-items {
+    background-color: whitesmoke;
+    color: #ffffff;
+}
+
+.menu-items:hover {
+    background-color: rgba(229, 160, 176, 0.62);
+    color: black;
+}
+
+
+

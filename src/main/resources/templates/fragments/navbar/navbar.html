@@ -1,5 +1,8 @@
-<nav th:fragment="nav">
+<nav th:fragment="nav" class="nav">
+
     <link th:href="@{/css/nav/navbar.css}" rel="stylesheet" type="text/css"/>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
     <a class="navbar-brand" href="/eventz/home">
         <img th:src="@{/images/Eventz.png}" alt="Eventz Logo" id="eventz-logo"/>
     </a>
@@ -9,7 +12,52 @@
         <a href="/eventz/friend/add" id="addfriend">Ajouter des amis</a>
         <a href="/eventz/friend/list" id="myfriends">Mes amis</a>
         <a href="/eventz/auth/login" id="login">Se connecter</a>
-        <a href="/eventz/user/profil" id="profil">Profil</a>
+        <div th:if="${connecte}" class="relative inline-block text-left">
+            <a href="/eventz/user/profil" id="profil" class="inline-flex items-center">
+                Profil
+            </a>
+            <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg" id="profilDropdown" role="menu">
+                <div class="p-2 menu-items">
+                    <a href="/eventz/user/profil" class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Profil</a>
+                    <a href="#" class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Paramètres</a>
+                    <a href="#" class="block rounded-lg px-4 py-2 text-sm text-gray-500 hover:bg-gray-50 hover:text-gray-700" role="menuitem">Jsp</a>
+                </div>
+                <div class="p-2">
+                    <form method="GET" action="/eventz/auth/logout">
+                        <button type="submit" class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50" role="menuitem">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                            </svg>
+                            Déconnexion
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </nav>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const profilLink = document.getElementById('profil');
+        const dropdown = profilLink.nextElementSibling;
+
+        profilLink.addEventListener('mouseenter', function () {
+            dropdown.classList.remove('hidden');
+        });
+
+        profilLink.addEventListener('mouseleave', function () {
+            setTimeout(function () {
+                dropdown.classList.add('hidden');
+            }, 200); // Ajoute un délai pour permettre à l'utilisateur de déplacer sa souris vers le menu
+        });
+
+        dropdown.addEventListener('mouseenter', function () {
+            dropdown.classList.remove('hidden');
+        });
+
+        dropdown.addEventListener('mouseleave', function () {
+            dropdown.classList.add('hidden');
+        });
+    });
+</script>
 

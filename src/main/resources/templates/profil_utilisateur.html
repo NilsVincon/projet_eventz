@@ -241,7 +241,7 @@
         <div class="row" th:each="suiveur, iterStat : ${suiveurs}">
             <div class="col-md-4 mb-4">
                 <div class="card hover-img">
-                    <div class="card-body p-4 text-center border-bottom d-flex align-items-center">
+                    <div class="card-body p-4 text-center d-flex align-items-center">
                         <img th:src="@{'/eventz/user/profile-image/' + ${suiveur.id_utilisateur}}" alt="Avatar" class="rounded-circle mb-3 me-3" style="width: 50px; height: 50px;">
                         <h5 class="fw-semibold mb-0" th:text="${suiveur.nom_utilisateur}">Nom Artiste</h5>
                     </div>
@@ -257,7 +257,7 @@
         <div class="row" th:each="suivi, iterStat : ${suivis}">
             <div class="col-md-4 mb-4">
                 <div class="card hover-img">
-                    <div class="card-body p-4 text-center border-bottom d-flex align-items-center">
+                    <div class="card-body p-4 text-center d-flex align-items-center">
                         <img th:src="@{'/eventz/user/profile-image/' + ${suivi.id_utilisateur}}" alt="Avatar" class="rounded-circle mb-3">
                         <h5 class="fw-semibold mb-0" th:text="${suivi.nom_utilisateur}">Nom Artiste</h5>
                     </div>
@@ -274,7 +274,7 @@
             <div class="col-md-4 mb-4">
                 <a th:href="@{'/eventz/artiste/' + ${artiste.id_artiste}}" class="text-decoration-none">
                     <div class="card hover-img">
-                        <div class="card-body p-4 text-center border-bottom d-flex align-items-center">
+                        <div class="card-body p-4 text-center d-flex align-items-center">
                             <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}" alt="Avatar" class="rounded-circle mb-3 me-3" style="width: 50px; height: 50px;">
                             <h5 class="fw-semibold mb-0 text-light" th:text="${artiste.nom_artiste}">Nom Artiste</h5>
                         </div>
