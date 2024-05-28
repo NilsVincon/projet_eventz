@@ -22,7 +22,7 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping("/eventz")
+@RequestMapping("/eventz/artiste")
 public class ArtisteController {
 
     private final ArtisteService artisteService;
@@ -80,7 +80,7 @@ public class ArtisteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'artiste: " + e.getMessage());
         }
     }
-    @GetMapping("/artiste/{id}")
+    @GetMapping("/{id}")
     public String listAdresses(@PathVariable Long id, Model model) throws ServiceException {
         Optional<Artiste> artisteOptional = artisteService.findArtisteById(id);
         if (artisteOptional.isPresent()) {

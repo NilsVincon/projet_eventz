@@ -200,7 +200,14 @@ public class FillDataBase {
             List<Performe> ListePerforme = new ArrayList<Performe>();
             List<Jouer> ListeJouer = new ArrayList<Jouer>();
 
-            artisteService.addArtiste(new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref,ListePerforme ,ListeJouer));
+            Artiste playbloi = new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref,ListePerforme ,ListeJouer);
+            Artiste artiste1 = new Artiste();
+            artiste1.setPdpArtiste(imageData);
+            artiste1.setDescription_artiste("okkk");
+            artiste1.setNom_artiste("jul");
+
+            artisteService.addArtiste(playbloi);
+            artisteService.addArtiste(artiste1);
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateur1.setPdpUtilisateur(imageData);
@@ -213,6 +220,8 @@ public class FillDataBase {
                 suivreService.creerSuivre(new Suivre(moi, utilisateur3));
                 suivreService.creerSuivre(new Suivre(utilisateur3, moi));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste, moi));
+                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, moi));
+                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste1, moi));
             }
         };
     }

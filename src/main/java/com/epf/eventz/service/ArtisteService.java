@@ -7,6 +7,10 @@ import com.epf.eventz.model.Jouer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +24,18 @@ public class ArtisteService {
     }
 
     public void addArtiste(Artiste artiste){
+        if (artiste.getPdpArtiste() == null){
+            File file = new File("src/main/resources/static/images/logo_connexion.png");
+            byte[] imageData = new byte[(int) file.length()];
+            try (FileInputStream fis = new FileInputStream(file)) {
+                fis.read(imageData);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            artiste.setPdpArtiste(imageData);
+        }
         artisteDAO.save(artiste);
         System.out.println(artiste);
     }

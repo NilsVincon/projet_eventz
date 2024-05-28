@@ -11,6 +11,10 @@ import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +33,18 @@ public class UtilisateurService {
         if(utilisateur.getNaissance_utilisateur().getYear()<16){
            throw new ServiceException("Vous êtes trop jeune pour vous inscrire");
         }
-
+        if (utilisateur.getPdpUtilisateur() == null){
+            File file = new File("src/main/resources/static/images/logo_connexion.png");
+            byte[] imageData = new byte[(int) file.length()];
+            try (FileInputStream fis = new FileInputStream(file)) {
+                fis.read(imageData);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            utilisateur.setPdpUtilisateur(imageData);
+        }
         utilisateurDAO.save(utilisateur);
     }
 
