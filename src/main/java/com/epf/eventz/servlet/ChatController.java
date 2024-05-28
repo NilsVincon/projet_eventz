@@ -1,6 +1,9 @@
 package com.epf.eventz.servlet;
 
+import com.epf.eventz.dao.ChatMessageDAO;
 import com.epf.eventz.model.ChatMessage;
+import com.epf.eventz.service.ChatMessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -11,13 +14,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.List;
+
 @Controller
 public class ChatController {
+
+    @Autowired
+    private ChatMessageService chatMessageService;
 
     @GetMapping("/eventz/chat")
     public String getChat(Model model){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         model.addAttribute("username",authentication.getName());
+        List<ChatMessage> messages = chatMessageService.findAll();
+        model.addAttribute("messages",messages);
         return "chat";
     }
 
@@ -26,6 +36,7 @@ public class ChatController {
     public ChatMessage sendMessage(
             @Payload ChatMessage chatMessage
     ) {
+        chatMessageService.save(chatMessage);
         return chatMessage;
     }
 

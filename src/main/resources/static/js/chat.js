@@ -21,6 +21,7 @@ function connect() {
     stompClient.connect({}, onConnected, onError);
 }
 
+
 function onConnected() {
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);

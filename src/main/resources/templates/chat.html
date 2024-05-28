@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Chat General</title>
     <link rel="stylesheet" href="/css/chat.css" />
+    <script th:inline="javascript">
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF';
+            var color = '#';
+            for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+    </script>
 </head>
 <body>
 <noscript>
@@ -20,7 +30,15 @@
             Connecting...
         </div>
         <ul id="messageArea">
-
+            <li th:each="message : ${messages}" th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
+                <div th:if="${message.type != 'JOIN' && message.type != 'LEAVE'}">
+                    <i th:style="'background-color: ' + ${message.id_chat}">
+                        <span th:text="${message.sender.substring(0, 1)}"></span>
+                    </i>
+                    <span th:text="${message.sender}"></span>
+                </div>
+                <p th:text="${message.type == 'JOIN' ? message.sender + ' joined!' : message.type == 'LEAVE' ? message.sender + ' left!' : message.content}"></p>
+            </li>
         </ul>
         <form id="messageForm" name="messageForm">
             <div class="form-group">
