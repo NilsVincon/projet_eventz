@@ -6,6 +6,7 @@ var connectingElement = document.querySelector('.connecting');
 
 var stompClient = null;
 var username = document.querySelector('#username').value;
+var userId = document.querySelector('#userId').value;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -38,12 +39,12 @@ function onError(error) {
 
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
-    if(messageContent && stompClient) {
+    if (messageContent && stompClient) {
         var chatMessage = {
             sender: username,
             content: messageInput.value,
             type: 'CHAT',
-            destination : 'General Chat'
+            destination: 'General Chat'
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         messageInput.value = '';
@@ -56,7 +57,7 @@ function onMessageReceived(payload) {
 
     var messageElement = document.createElement('li');
 
-    if(message.type === 'JOIN') {
+    if (message.type === 'JOIN') {
         messageElement.classList.add('event-message');
         message.content = message.sender + ' joined!';
     } else if (message.type === 'LEAVE') {
@@ -65,10 +66,16 @@ function onMessageReceived(payload) {
     } else {
         messageElement.classList.add('chat-message');
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        var avatarElement = document.createElement('div');
+        var iconElement = document.createElement('i'); // Création de l'élément <i>
+        var imageElement = document.createElement('img'); // Création de l'élément image
+        imageElement.setAttribute('src', '/eventz/user/profile-image/' + userId); // Définir l'attribut src de l'image
+        imageElement.setAttribute('alt', 'Profile Picture'); // Définir l'attribut alt de l'image
+        imageElement.classList.add('profile-picture'); // Ajouter la classe profile-picture à l'image
+
+        iconElement.appendChild(imageElement); // Ajouter l'élément image à l'élément <i>
+
+        avatarElement.appendChild(iconElement); // Ajouter l'élément <i> à l'élément div
 
         messageElement.appendChild(avatarElement);
 
@@ -77,6 +84,7 @@ function onMessageReceived(payload) {
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
     }
+
 
     var textElement = document.createElement('p');
     var messageText = document.createTextNode(message.content);
@@ -88,16 +96,5 @@ function onMessageReceived(payload) {
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
-function getAvatarColor(messageSender) {
-    var hash = 0;
-    for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-    var index = Math.abs(hash % colors.length);
-    return colors[index];
-}
-
-// Auto-connect when the script is loaded
 connect();
-
 messageForm.addEventListener('submit', sendMessage, true);

@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-html,body {
+html, body {
     height: 100%;
     overflow: hidden;
 }
@@ -82,7 +82,7 @@ button.default {
 }
 
 button.primary {
-    background-color: #6db33f;
+    background-color: #2cbae0;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
     color: #fff;
 }
@@ -137,6 +137,13 @@ button.accent {
     height: calc(100% - 60px);
     max-height: 600px;
     position: relative;
+}
+
+.profile-picture {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 #chat-page ul {

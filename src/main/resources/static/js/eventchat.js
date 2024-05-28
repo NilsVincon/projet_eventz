@@ -7,6 +7,7 @@ var connectingElement = document.querySelector('.connecting');
 var stompClient = null;
 var username = document.querySelector('#username').value;
 var eventname = document.querySelector('#eventname').value;
+var userId = document.querySelector('#userId').value;
 var cleaneventname = eventname.replace(/\s+/g, '').toLowerCase();
 var destinationAddUser = "/app/chat.addUser/" + cleaneventname;
 var destinationSendMessage = "/app/chat.sendMessage/" + cleaneventname
@@ -73,10 +74,16 @@ function onMessageReceived(payload) {
     } else {
         messageElement.classList.add('chat-message');
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        var avatarElement = document.createElement('div');
+        var iconElement = document.createElement('i'); // Création de l'élément <i>
+        var imageElement = document.createElement('img'); // Création de l'élément image
+        imageElement.setAttribute('src', '/eventz/user/profile-image/' + userId); // Définir l'attribut src de l'image
+        imageElement.setAttribute('alt', 'Profile Picture'); // Définir l'attribut alt de l'image
+        imageElement.classList.add('profile-picture'); // Ajouter la classe profile-picture à l'image
+
+        iconElement.appendChild(imageElement); // Ajouter l'élément image à l'élément <i>
+
+        avatarElement.appendChild(iconElement); // Ajouter l'élément <i> à l'élément div
 
         messageElement.appendChild(avatarElement);
 
@@ -96,14 +103,6 @@ function onMessageReceived(payload) {
     messageArea.scrollTop = messageArea.scrollHeight;
 }
 
-function getAvatarColor(messageSender) {
-    var hash = 0;
-    for (var i = 0; i < messageSender.length; i++) {
-        hash = 31 * hash + messageSender.charCodeAt(i);
-    }
-    var index = Math.abs(hash % colors.length);
-    return colors[index];
-}
 
 connect();
 

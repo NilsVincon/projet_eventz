@@ -48,7 +48,7 @@ public class FillDataBase {
     CommandLineRunner commandLineRunner(EvenementService evenementService, UtilisateurService utilisateurService, SuivreService suivreService, ArtisteService artisteService, PrefererArtisteService prefererArtisteService) {
         return args -> {
             //ajout d'un artiste
-            File file = new File("src/main/resources/static/images/logo_connexion.png");
+            File file = new File("src/main/resources/static/images/adrien-laurent.jpeg");
             byte[] imageData = new byte[(int) file.length()];
             try (FileInputStream fis = new FileInputStream(file)) {
                 fis.read(imageData);
@@ -209,7 +209,7 @@ public class FillDataBase {
             artisteService.addArtiste(playbloi);
             artisteService.addArtiste(artiste1);
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
-            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
+            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateur1.setPdpUtilisateur(imageData);
             utilisateur3.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur1);

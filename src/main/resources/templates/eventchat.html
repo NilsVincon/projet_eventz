@@ -1,10 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <title>Chat General</title>
   <link rel="stylesheet" href="/css/eventchat.css" />
+  <style>
+    .profile-picture {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  </style>
 </head>
 <body>
 <noscript>
@@ -12,8 +19,9 @@
 </noscript>
 <div id="chat-page" th:if="${authorization == true}">
   <div class="chat-container">
-    <input type="hidden" id="username" th:value="${username}" />
+    <input type="hidden" id="username" th:value="${user.username}" />
     <input type="hidden" id="eventname" th:value="${eventname}">
+    <input type="hidden" id="userId" th:value="${user.id_utilisateur}" />
     <div class="chat-header">
       <h2 th:text="${eventname} + Chat"></h2>
     </div>
@@ -23,10 +31,10 @@
     <ul id="messageArea">
       <li th:each="message : ${messages}" th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
         <div th:if="${message.type != 'JOIN' && message.type != 'LEAVE'}">
-          <i th:style="'background-color: ' + ${message.id_chat}">
-            <span th:text="${message.sender.substring(0, 1)}"></span>
+          <i>
+            <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" alt="Profile Picture" class="profile-picture">
           </i>
-          <span th:text="${message.sender}"></span>
+          <span th:text="${user.username}"></span>
         </div>
         <p th:text="${message.type == 'JOIN' ? message.sender + ' joined!' : message.type == 'LEAVE' ? message.sender + ' left!' : message.content}"></p>
       </li>

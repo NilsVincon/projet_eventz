@@ -45,7 +45,16 @@ public class ChatController {
     @GetMapping("/eventz/generalchat")
     public String getGeneralChat(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("username", authentication.getName());
+        Optional<Utilisateur> utilisateurOptional = null;
+        try {
+            utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        if (utilisateurOptional.isPresent()){
+            Utilisateur utilisateur = utilisateurOptional.get();
+            model.addAttribute("user", utilisateur );
+        }
         List<ChatMessage> messages = chatMessageService.findByDestination("General Chat");
         model.addAttribute("messages", messages);
         return "generalchat";
@@ -76,7 +85,6 @@ public class ChatController {
     @GetMapping("/eventz/eventchat/{evenementid}")
     public String getEventChat(Model model, @PathVariable String evenementid) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        model.addAttribute("username", authentication.getName());
         long eventid = Long.parseLong(evenementid);
         Boolean authorization = false;
         try {
@@ -91,6 +99,7 @@ public class ChatController {
                     nom_evenement = nom_evenement.replaceAll("\\s+", "").toLowerCase();
                     List<ChatMessage> messages = chatMessageService.findByDestination(nom_evenement);
                     model.addAttribute("messages", messages);
+                    model.addAttribute("user", utilisateur);
                     authorization = true;
                 }
             }

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -12,7 +11,8 @@
 </noscript>
 <div id="chat-page" >
     <div class="chat-container">
-        <input type="hidden" id="username" th:value="${username}" />
+        <input type="hidden" id="username" th:value="${user.username}" />
+        <input type="hidden" id="userId" th:value="${user.id_utilisateur}" />
         <div class="chat-header">
             <h2>General Chat</h2>
         </div>
@@ -22,10 +22,10 @@
         <ul id="messageArea">
             <li th:each="message : ${messages}" th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
                 <div th:if="${message.type != 'JOIN' && message.type != 'LEAVE'}">
-                    <i th:style="'background-color: ' + ${message.id_chat}">
-                        <span th:text="${message.sender.substring(0, 1)}"></span>
+                    <i>
+                        <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" alt="Profile Picture" class="profile-picture">
                     </i>
-                    <span th:text="${message.sender}"></span>
+                    <span th:text="${user.username}"></span>
                 </div>
                 <p th:text="${message.type == 'JOIN' ? message.sender + ' joined!' : message.type == 'LEAVE' ? message.sender + ' left!' : message.content}"></p>
             </li>
