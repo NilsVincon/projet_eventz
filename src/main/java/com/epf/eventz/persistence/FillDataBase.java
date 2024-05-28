@@ -222,6 +222,7 @@ public class FillDataBase {
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste, moi));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, moi));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste1, moi));
+
             }
         };
     }
