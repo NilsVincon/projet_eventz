@@ -8,6 +8,8 @@ import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ParticipeService {
 
@@ -24,6 +26,9 @@ public class ParticipeService {
 
     public Boolean existsByUtilisateurAndEvenement(Utilisateur utilisateur,Evenement evenement){
         return participeDAO.existsByUtilisateurAndEvenement(utilisateur,evenement);
+    }
+    public List<Evenement> findEvenementsByUtilisateur(Utilisateur utilisateur) {
+        return participeDAO.findEvenementsByUtilisateur(utilisateur);
     }
     
 }

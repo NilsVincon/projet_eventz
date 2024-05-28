@@ -6,6 +6,8 @@ import com.epf.eventz.model.Participe;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.persistence.ConnectionManager;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,4 +20,6 @@ public interface ParticipeDAO extends JpaRepository<Participe, Long> {
 
     boolean existsByUtilisateurAndEvenement(Utilisateur utilisateur, Evenement evenement);
 
+    @Query("SELECT p.evenement FROM Participe p WHERE p.utilisateur = :utilisateur")
+    List<Evenement> findEvenementsByUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
 }
