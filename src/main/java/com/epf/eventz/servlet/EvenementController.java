@@ -59,6 +59,7 @@ public class EvenementController {
             throw new RuntimeException(e);
         }
         return "detail_evenement";
+
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

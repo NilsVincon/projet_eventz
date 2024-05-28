@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <title>Chat General</title>
+  <link rel="stylesheet" href="/css/eventchat.css" />
+</head>
+<body>
+<noscript>
+  <h2>Sorry! Your browser doesn't support Javascript</h2>
+</noscript>
+<div id="chat-page" th:if="${authorization == true}">
+  <div class="chat-container">
+    <input type="hidden" id="username" th:value="${username}" />
+    <input type="hidden" id="eventname" th:value="${eventname}">
+    <div class="chat-header">
+      <h2 th:text="${eventname} + Chat"></h2>
+    </div>
+    <div class="connecting">
+      Connecting...
+    </div>
+    <ul id="messageArea">
+      <li th:each="message : ${messages}" th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
+        <div th:if="${message.type != 'JOIN' && message.type != 'LEAVE'}">
+          <i th:style="'background-color: ' + ${message.id_chat}">
+            <span th:text="${message.sender.substring(0, 1)}"></span>
+          </i>
+          <span th:text="${message.sender}"></span>
+        </div>
+        <p th:text="${message.type == 'JOIN' ? message.sender + ' joined!' : message.type == 'LEAVE' ? message.sender + ' left!' : message.content}"></p>
+      </li>
+    </ul>
+    <form id="messageForm" name="messageForm">
+      <div class="form-group">
+        <div class="input-group clearfix">
+          <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+          <button type="submit" class="primary">Send</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<h2>Vous ne participez pas à cet évènement </h2>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="/js/eventchat.js"></script>
+</body>
+</html>

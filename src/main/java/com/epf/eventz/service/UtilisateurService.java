@@ -109,6 +109,7 @@ public class UtilisateurService {
         }
     }
 
+
     public List<Utilisateur> trouverAbonnementByUsername(String pseudo_utilisateur) throws ServiceException {
         Optional<Utilisateur> utilisateur = utilisateurDAO.findByUsername(pseudo_utilisateur);
         if (utilisateur.isPresent()) {

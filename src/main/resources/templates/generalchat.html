@@ -4,17 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Chat General</title>
-    <link rel="stylesheet" href="/css/chat.css" />
-    <script th:inline="javascript">
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF';
-            var color = '#';
-            for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        }
-    </script>
+    <link rel="stylesheet" href="/css/generalchat.css" />
 </head>
 <body>
 <noscript>
@@ -53,6 +43,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-<script src="/js/chat.js"></script>
+<script src="/js/generalchat.js"></script>
 </body>
 </html>
