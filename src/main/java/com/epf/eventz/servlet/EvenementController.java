@@ -22,9 +22,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -78,21 +76,26 @@ public class EvenementController {
             }
             if (utilisateurOptional.isPresent()) {
                 Utilisateur utilisateur = utilisateurOptional.get();
-                List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                List<Evenement> mesevenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                List<Evenement> mesevenementsorganise = evenementService.findEvenementsByOrganisateur(utilisateur);
                 if (evenement != null && !evenement.isEmpty()) {
                     if (evenement.equals("avenir")) {
-                        evenements = evenements.stream()
+                        mesevenements = mesevenements.stream()
                                 .filter(e -> e.getDebut_evenement().isAfter(LocalDate.now()))
                                 .collect(Collectors.toList());
+                    }
+                    if (evenement.equals("organise")) {
+                        mesevenements = evenementService.findEvenementsByOrganisateur(utilisateur);
                     } else if (evenement.equals("passe")) {
-                        evenements = evenements.stream()
+                        mesevenements = mesevenements.stream()
                                 .filter(e -> e.getDebut_evenement().isBefore(LocalDate.now()))
                                 .collect(Collectors.toList());
-                    }  else {
-                        // Valeur invalide, gestion des erreurs si nécessaire
+                    } else {
+
                     }
                 }
-                model.addAttribute("evenementsparticipe", evenements);
+                model.addAttribute("evenementorganise", mesevenementsorganise);
+                model.addAttribute("mesevenements", mesevenements);
             }
         }
         return "events/mes_evenements";
@@ -108,10 +111,15 @@ public class EvenementController {
             } catch (ServiceException e) {
                 throw new RuntimeException(e);
             }
-            if(utilisateurOptional.isPresent()){
+            if (utilisateurOptional.isPresent()) {
                 Utilisateur utilisateur = utilisateurOptional.get();
-                List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
-                model.addAttribute("evenementsparticipe", evenements);
+
+                List<Evenement> evenementsParticipe = participeService.findEvenementsByUtilisateur(utilisateur);
+                List<Evenement> evenementsOrganises = evenementService.findEvenementsByOrganisateur(utilisateur);
+                model.addAttribute("evenementorganise", evenementsOrganises);
+                Set<Evenement> mesEvenements = new HashSet<>(evenementsParticipe);
+                mesEvenements.addAll(evenementsOrganises);
+                model.addAttribute("mesevenements", new ArrayList<>(mesEvenements));
             }
         }
         return "events/mes_evenements";
@@ -127,14 +135,24 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
-    public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement typeEvenement, HttpServletResponse response) {
+    public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse
+            adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement
+                                     typeEvenement, HttpServletResponse response) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> organisateurOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            Utilisateur organisateur = null;
+            if (organisateurOptional.isPresent()) {
+                organisateur = organisateurOptional.get();
+            }
             typeEvenementService.creerTypeEvenement(typeEvenement);
             evenement.setTypeEvenement(typeEvenement);
             adresseService.creerAdresse(adresse);
             evenement.setAdresse(adresse);
             statutEvenementService.creerStatut(statutEvenement);
             evenement.setStatutEvenement(statutEvenement);
+            evenement.setOrganisateur(organisateur);
             evenementService.addEvenement(evenement);
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
@@ -187,7 +205,7 @@ public class EvenementController {
     }
 
     @GetMapping(path = "/details/{evenementId}")
-    public String detailsEvenement(@PathVariable Long evenementId, Model model){
+    public String detailsEvenement(@PathVariable Long evenementId, Model model) {
         try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {

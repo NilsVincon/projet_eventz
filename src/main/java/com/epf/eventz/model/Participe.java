@@ -19,7 +19,7 @@ public class Participe {
     private int id_participe;
 
     @ManyToOne
-    @JoinColumn(name="id_evenement")
+    @JoinColumn(name="idEvenement")
     private Evenement evenement;
 
     @ManyToOne

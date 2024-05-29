@@ -6,9 +6,11 @@ import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Evenement;
+import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,6 +52,10 @@ public class EvenementService {
         return evenementDAO.count();
 
     }
+/*
+    public Boolean isOrganisateur(Utilisateur utilisateur,Long idevenement){
+        return evenementDAO.existsByOrganisateurAndIdEvenement(utilisateur,idevenement);
+    }*/
 
     public void updateEvenement(Long evenementId, Evenement evenement){
         Evenement evenementToUpdate = evenementDAO.findById(evenementId)
@@ -61,10 +67,17 @@ public class EvenementService {
         evenementToUpdate.setFin_evenement(evenement.getFin_evenement());
         evenementToUpdate.setPrix_evenement(evenement.getPrix_evenement());
         evenementToUpdate.setNb_place_evenement(evenement.getNb_place_evenement());
-
-
-
         evenementDAO.save(evenementToUpdate);
+    }
+
+    public List<Evenement> findEvenementsByOrganisateur(Utilisateur organisateur) {
+        List<Evenement> evenements = new ArrayList<>();
+        for (Evenement evenement:evenementDAO.findAll()){
+            if (evenementDAO.existsByOrganisateurAndIdEvenement(organisateur,evenement.getIdEvenement())){
+                evenements.add(evenement);
+            }
+        }
+        return evenements;
     }
     
     

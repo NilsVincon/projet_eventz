@@ -425,7 +425,7 @@
                     <div class="cover">
                         <div class="gray-shade"></div>
                         <figure>
-                            <img th:src="${evenementactuel.hasPdp() ? '/eventz/evenement/image/' + evenementactuel.id_evenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" class="img-fluid profile-cover" alt="profile cover">
+                            <img th:src="${evenementactuel.hasPdp() ? '/eventz/evenement/image/' + evenementactuel.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" class="img-fluid profile-cover" alt="profile cover">
                         </figure>
                         <div class="cover-body d-flex justify-content-between align-items-center">
                             <div>
@@ -602,7 +602,7 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <form id="participerForm1" action="/eventz/evenement/participate" method="post">
-                                        <input type="hidden" name="event_id" th:value="${evenementactuel.id_evenement}">
+                                        <input type="hidden" name="event_id" th:value="${evenementactuel.idEvenement}">
                                         <button type="submit" class="btn btn-success">Participer</button>
                                     </form>
                                     <button type="button" class="btn btn-info">C'est sympa ça</button>
@@ -639,7 +639,7 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <form id="participerForm2" action="/eventz/evenement/participate" method="post">
-                                        <input type="hidden" name="event_id" th:value="${evenementactuel.id_evenement}">
+                                        <input type="hidden" name="event_id" th:value="${evenementactuel.idEvenement}">
                                         <button type="submit" class="btn btn-success">Participer</button>
                                     </form>
                                     <button type="button" class="btn btn-info">C'est sympa ça</button>
@@ -675,7 +675,7 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <form id="participerForm3" action="/eventz/evenement/participate" method="post">
-                                        <input type="hidden" name="event_id" th:value="${evenementactuel.id_evenement}">
+                                        <input type="hidden" name="event_id" th:value="${evenementactuel.idEvenement}">
                                         <button type="submit" class="btn btn-success">Participer</button>
                                     </form>
                                     <button type="button" class="btn btn-info">C'est sympa ça</button>

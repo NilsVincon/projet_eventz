@@ -21,11 +21,15 @@ public class Evenement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_evenement;
+    private Long idEvenement;
 
     @ManyToOne
     @JoinColumn(name = "id_statut_evenement")
     private StatutEvenement statutEvenement;
+
+    @ManyToOne
+    @JoinColumn(name = "id_organisateur")
+    private Utilisateur organisateur;
 
     @ManyToOne
     @JoinColumn(name = "id_adresse")
