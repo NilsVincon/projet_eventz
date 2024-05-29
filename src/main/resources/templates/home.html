@@ -64,7 +64,10 @@
             color: #f2d4d8;
             text-decoration: none;
         }
-
+        .event-image {
+            width: 450px;
+            height: 280px;
+        }
         .sidebar ul li a:hover {
             background-color: #ddd;
         }
@@ -335,7 +338,7 @@
     data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
                         <div class="col-lg-5 col-sm-12 ">
                             <div class="position-relative">
-                                <img src="https://www.bootdey.com/image/450x280/FFB6C1/000000" alt>
+                                <img class="event-image" th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.id_evenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}" alt="">
                                 <div class="events-date">
                                     <div class="font-size28">
                                         <p th:text="${evenement.debut_evenement.getDayOfMonth()}"></p>
@@ -388,7 +391,7 @@
                          th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
     data-date=${evenement?.debut_evenement},
     data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
-                        <div class="col-lg-7 order-2 order-lg-1">
+                        <div class="col-lg-7 order-2 order-lg-2">
                             <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
                                 <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
                                     <a th:href="'/eventz/evenement/details?id=' + ${evenement.id_evenement}"
@@ -406,9 +409,9 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-5 order-1 order-lg-2">
+                        <div class="col-lg-5 order-1 order-lg-1">
                             <div class="position-relative">
-                                <img src="https://www.bootdey.com/image/450x280/87CEFA/000000" alt>
+                                <img class="event-image" th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.id_evenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" alt="">
                                 <div class="events-date">
                                     <div class="font-size28"><p
                                             th:text="${evenement.debut_evenement.getDayOfMonth()}"></p></div>

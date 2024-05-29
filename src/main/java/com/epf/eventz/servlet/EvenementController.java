@@ -12,6 +12,7 @@ import com.epf.eventz.model.Performe;
 import com.epf.eventz.service.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,9 +20,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -59,6 +63,58 @@ public class EvenementController {
             throw new RuntimeException(e);
         }
         return "detail_evenement";
+
+    }
+
+    @GetMapping("/afficherEvenement")
+    public String afficherEvenement(@RequestParam("evenement") String evenement, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("anonymousUser")) {
+            Optional<Utilisateur> utilisateurOptional = null;
+            try {
+                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                if (evenement != null && !evenement.isEmpty()) {
+                    if (evenement.equals("avenir")) {
+                        evenements = evenements.stream()
+                                .filter(e -> e.getDebut_evenement().isAfter(LocalDate.now()))
+                                .collect(Collectors.toList());
+                    } else if (evenement.equals("passe")) {
+                        evenements = evenements.stream()
+                                .filter(e -> e.getDebut_evenement().isBefore(LocalDate.now()))
+                                .collect(Collectors.toList());
+                    }  else {
+                        // Valeur invalide, gestion des erreurs si nécessaire
+                    }
+                }
+                model.addAttribute("evenementsparticipe", evenements);
+            }
+        }
+        return "events/mes_evenements";
+    }
+
+    @GetMapping("/list")
+    public String afficherMesEvenements(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("anonymousUser")) {
+            Optional<Utilisateur> utilisateurOptional = null;
+            try {
+                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if(utilisateurOptional.isPresent()){
+                Utilisateur utilisateur = utilisateurOptional.get();
+                List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                model.addAttribute("evenementsparticipe", evenements);
+            }
+        }
+        return "events/mes_evenements";
 
     }
 
@@ -150,6 +206,24 @@ public class EvenementController {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/image/{eventId}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable Long eventId) {
+        try {
+            Optional<Evenement> evenementOptional = evenementService.findEvenementById(eventId);
+            if (evenementOptional.isPresent()) {
+                Evenement evenement = evenementOptional.get();
+                if (evenement.getPdpEvenement() != null) {
+                    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(evenement.getPdpEvenement());
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 }

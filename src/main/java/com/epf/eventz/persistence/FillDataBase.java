@@ -53,6 +53,16 @@ public class FillDataBase {
             try (FileInputStream fis = new FileInputStream(file)) {
                 fis.read(imageData);
             }
+            File file1 = new File("src/main/resources/static/images/rockfest.png");
+            byte[] imageData1 = new byte[(int) file1.length()];
+            try (FileInputStream fis1 = new FileInputStream(file1)) {
+                fis1.read(imageData1);
+            }
+            File file2 = new File("src/main/resources/static/images/technofest.jpg");
+            byte[] imageData2 = new byte[(int) file2.length()];
+            try (FileInputStream fis2 = new FileInputStream(file2)) {
+                fis2.read(imageData2);
+            }
             Artiste artiste = new Artiste();
             artiste.setDescription_artiste("dfdjsflsdj");
             artiste.setNom_artiste("bzbz");
@@ -83,6 +93,7 @@ public class FillDataBase {
             technoFest.setAdresse(adresseTechnoFest);
             technoFest.setTypeEvenement(typeEvenementTechnoFest);
             technoFest.setStatutEvenement(statutEvenementTechnoFest);
+            technoFest.setPdpEvenement(imageData2);
             evenementService.addEvenement(technoFest);
 
             // Ajout de l'événement "RockMania"
@@ -109,6 +120,7 @@ public class FillDataBase {
             rockMania.setAdresse(adresseRockMania);
             rockMania.setTypeEvenement(typeEvenementRockMania);
             rockMania.setStatutEvenement(statutEvenementRockMania);
+            rockMania.setPdpEvenement(imageData1);
             evenementService.addEvenement(rockMania);
 
             // Ajout de l'événement "ElectroWave"
