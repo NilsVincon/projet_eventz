@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -18,19 +19,32 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequestMapping("/eventz")
 public class HomeController {
-    private final EvenementService evenementService;
 
     @Autowired
-    public HomeController(EvenementService evenementService) {
-        this.evenementService = evenementService;
-    }
+    private EvenementService evenementService;
+
+    @Autowired
+    private UtilisateurService utilisateurService;
+
+    @Autowired
+    private ParticipeService participeService;
+
+
 
     @GetMapping("/home")
-    public String listEvenements(Model model){
+    public String listEvenements(Model model) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Boolean connecte=false;
-            if(!authentication.getName().equals("anonymousUser")){connecte = true;
+            Boolean connecte = false;
+            if (!authentication.getName().equals("anonymousUser")) {
+                connecte = true;
+                Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+                if(utilisateurOptional.isPresent()){
+                    Utilisateur utilisateur = utilisateurOptional.get();
+                    model.addAttribute("username", utilisateur.getUsername());
+                  //  List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                  ///  model.addAttribute("evenementsparticipe", evenements);
+                }
             }
             model.addAttribute("connecte", connecte);
             List<Evenement> evenements = evenementService.findAllEvenements();
@@ -39,7 +53,7 @@ public class HomeController {
                     .map(e -> e.getTypeEvenement().getDescription_type_evenement())
                     .collect(Collectors.toSet());
             model.addAttribute("uniqueEventTypes", uniqueEventTypes);
-            model.addAttribute("profileOptions" ,List.of("Profil","Amis","Paramètres","Déconnexion"));
+            model.addAttribute("profileOptions", List.of("Profil", "Amis", "Paramètres", "Déconnexion"));
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
