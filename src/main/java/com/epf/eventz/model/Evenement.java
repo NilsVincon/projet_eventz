@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,14 +21,18 @@ public class Evenement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id_evenement;
+    private Long idEvenement;
 
     @ManyToOne
     @JoinColumn(name = "id_statut_evenement")
     private StatutEvenement statutEvenement;
 
     @ManyToOne
-    @JoinColumn(name= "id_adresse")
+    @JoinColumn(name = "id_organisateur")
+    private Utilisateur organisateur;
+
+    @ManyToOne
+    @JoinColumn(name = "id_adresse")
     private Adresse adresse;
 
     @ManyToOne
@@ -43,12 +48,18 @@ public class Evenement {
     @OneToMany(mappedBy = "evenement")
     private List<Participe> participes;
 
+    @OneToMany(mappedBy = "evenement")
+    private List<ChatMessage> chatMessages;
+
     private String nom_evenement;
     private String description_evenement;
     private LocalDate debut_evenement;
     private LocalDate fin_evenement;
     private float prix_evenement;
     private int nb_place_evenement;
+
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] pdpEvenement;
 
     public Evenement(String nom_evenement, String description_evenement, LocalDate debut_evenement, LocalDate fin_evenement, float prix_evenement, int nb_place_evenement) {
         this.nom_evenement = nom_evenement;
@@ -70,5 +81,11 @@ public class Evenement {
                 ", nb_place_evenement=" + nb_place_evenement +
                 '}';
     }
+
+    public Boolean hasPdp() {
+        return pdpEvenement != null;
+    }
+
+
 }
 

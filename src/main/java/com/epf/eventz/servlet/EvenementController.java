@@ -12,6 +12,7 @@ import com.epf.eventz.model.Performe;
 import com.epf.eventz.service.EvenementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,9 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+
+import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Slf4j
@@ -59,6 +61,69 @@ public class EvenementController {
             throw new RuntimeException(e);
         }
         return "detail_evenement";
+
+    }
+
+    @GetMapping("/afficherEvenement")
+    public String afficherEvenement(@RequestParam("evenement") String evenement, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("anonymousUser")) {
+            Optional<Utilisateur> utilisateurOptional = null;
+            try {
+                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                List<Evenement> mesevenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                List<Evenement> mesevenementsorganise = evenementService.findEvenementsByOrganisateur(utilisateur);
+                if (evenement != null && !evenement.isEmpty()) {
+                    if (evenement.equals("avenir")) {
+                        mesevenements = mesevenements.stream()
+                                .filter(e -> e.getDebut_evenement().isAfter(LocalDate.now()))
+                                .collect(Collectors.toList());
+                    }
+                    if (evenement.equals("organise")) {
+                        mesevenements = evenementService.findEvenementsByOrganisateur(utilisateur);
+                    } else if (evenement.equals("passe")) {
+                        mesevenements = mesevenements.stream()
+                                .filter(e -> e.getDebut_evenement().isBefore(LocalDate.now()))
+                                .collect(Collectors.toList());
+                    } else {
+
+                    }
+                }
+                model.addAttribute("evenementorganise", mesevenementsorganise);
+                model.addAttribute("mesevenements", mesevenements);
+            }
+        }
+        return "events/mes_evenements";
+    }
+
+    @GetMapping("/list")
+    public String afficherMesEvenements(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("anonymousUser")) {
+            Optional<Utilisateur> utilisateurOptional = null;
+            try {
+                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+
+                List<Evenement> evenementsParticipe = participeService.findEvenementsByUtilisateur(utilisateur);
+                List<Evenement> evenementsOrganises = evenementService.findEvenementsByOrganisateur(utilisateur);
+                model.addAttribute("evenementorganise", evenementsOrganises);
+                Set<Evenement> mesEvenements = new HashSet<>(evenementsParticipe);
+                mesEvenements.addAll(evenementsOrganises);
+                model.addAttribute("mesevenements", new ArrayList<>(mesEvenements));
+            }
+        }
+        return "events/mes_evenements";
+
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -70,14 +135,24 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
-    public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement typeEvenement, HttpServletResponse response) {
+    public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse
+            adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement
+                                     typeEvenement, HttpServletResponse response) {
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> organisateurOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            Utilisateur organisateur = null;
+            if (organisateurOptional.isPresent()) {
+                organisateur = organisateurOptional.get();
+            }
             typeEvenementService.creerTypeEvenement(typeEvenement);
             evenement.setTypeEvenement(typeEvenement);
             adresseService.creerAdresse(adresse);
             evenement.setAdresse(adresse);
             statutEvenementService.creerStatut(statutEvenement);
             evenement.setStatutEvenement(statutEvenement);
+            evenement.setOrganisateur(organisateur);
             evenementService.addEvenement(evenement);
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
@@ -130,7 +205,7 @@ public class EvenementController {
     }
 
     @GetMapping(path = "/details/{evenementId}")
-    public String detailsEvenement(@PathVariable Long evenementId, Model model){
+    public String detailsEvenement(@PathVariable Long evenementId, Model model) {
         try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
@@ -149,6 +224,24 @@ public class EvenementController {
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @GetMapping("/image/{eventId}")
+    public ResponseEntity<byte[]> getProfileImage(@PathVariable Long eventId) {
+        try {
+            Optional<Evenement> evenementOptional = evenementService.findEvenementById(eventId);
+            if (evenementOptional.isPresent()) {
+                Evenement evenement = evenementOptional.get();
+                if (evenement.getPdpEvenement() != null) {
+                    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(evenement.getPdpEvenement());
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
 }

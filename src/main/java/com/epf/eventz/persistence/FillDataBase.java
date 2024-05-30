@@ -48,16 +48,58 @@ public class FillDataBase {
     CommandLineRunner commandLineRunner(EvenementService evenementService, UtilisateurService utilisateurService, SuivreService suivreService, ArtisteService artisteService, PrefererArtisteService prefererArtisteService) {
         return args -> {
             //ajout d'un artiste
-            File file = new File("src/main/resources/static/images/logo_connexion.png");
+            File file = new File("src/main/resources/static/images/adrien-laurent.jpeg");
             byte[] imageData = new byte[(int) file.length()];
             try (FileInputStream fis = new FileInputStream(file)) {
                 fis.read(imageData);
             }
+            File file1 = new File("src/main/resources/static/images/rockfest.png");
+            byte[] imageData1 = new byte[(int) file1.length()];
+            try (FileInputStream fis1 = new FileInputStream(file1)) {
+                fis1.read(imageData1);
+            }
+            File file2 = new File("src/main/resources/static/images/technofest.jpg");
+            byte[] imageData2 = new byte[(int) file2.length()];
+            try (FileInputStream fis2 = new FileInputStream(file2)) {
+                fis2.read(imageData2);
+            }
+
+            List<PrefererArtiste> ListeArtistePref = new ArrayList<PrefererArtiste>();
+            List<Performe> ListePerforme = new ArrayList<Performe>();
+            List<Jouer> ListeJouer = new ArrayList<Jouer>();
+
             Artiste artiste = new Artiste();
             artiste.setDescription_artiste("dfdjsflsdj");
             artiste.setNom_artiste("bzbz");
             artiste.setPdpArtiste(imageData);
             artisteService.addArtiste(artiste);
+
+            Artiste playbloi = new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref,ListePerforme ,ListeJouer);
+            Artiste artiste1 = new Artiste();
+            artiste1.setPdpArtiste(imageData);
+            artiste1.setDescription_artiste("okkk");
+            artiste1.setNom_artiste("jul");
+
+            artisteService.addArtiste(playbloi);
+            artisteService.addArtiste(artiste1);
+
+
+            Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
+            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
+            utilisateur1.setPdpUtilisateur(imageData);
+            utilisateur3.setPdpUtilisateur(imageData);
+            utilisateurService.creerUtilisateur(utilisateur1);
+            utilisateurService.creerUtilisateur(utilisateur3);
+            Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("user");
+            if (moiOptional.isPresent()) {
+                Utilisateur moi = moiOptional.get();
+                suivreService.creerSuivre(new Suivre(moi, utilisateur3));
+                suivreService.creerSuivre(new Suivre(utilisateur3, moi));
+                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste, moi));
+                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, moi));
+                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste1, moi));
+
+            }
 
             // Ajout de l'événement "TechnoFest"
             Adresse adresseTechnoFest = new Adresse();
@@ -83,6 +125,8 @@ public class FillDataBase {
             technoFest.setAdresse(adresseTechnoFest);
             technoFest.setTypeEvenement(typeEvenementTechnoFest);
             technoFest.setStatutEvenement(statutEvenementTechnoFest);
+            technoFest.setPdpEvenement(imageData2);
+            technoFest.setOrganisateur(utilisateur1);
             evenementService.addEvenement(technoFest);
 
             // Ajout de l'événement "RockMania"
@@ -109,6 +153,8 @@ public class FillDataBase {
             rockMania.setAdresse(adresseRockMania);
             rockMania.setTypeEvenement(typeEvenementRockMania);
             rockMania.setStatutEvenement(statutEvenementRockMania);
+            rockMania.setPdpEvenement(imageData1);
+            rockMania.setOrganisateur(utilisateur3);
             evenementService.addEvenement(rockMania);
 
             // Ajout de l'événement "ElectroWave"
@@ -136,6 +182,7 @@ public class FillDataBase {
             electroWave.setAdresse(adresseElectroWave);
             electroWave.setTypeEvenement(typeEvenementElectroWave);
             electroWave.setStatutEvenement(statutEvenementElectroWave);
+            electroWave.setOrganisateur(utilisateur1);
             evenementService.addEvenement(electroWave);
 
             // Ajout de l'événement "IndieFest"
@@ -162,6 +209,7 @@ public class FillDataBase {
             indieFest.setAdresse(adresseIndieFest);
             indieFest.setTypeEvenement(typeEvenementIndieFest);
             indieFest.setStatutEvenement(statutEvenementIndieFest);
+            indieFest.setOrganisateur(utilisateur3);
             evenementService.addEvenement(indieFest);
             evenementService.addEvenement(new Evenement("RapCity", "Le rendez-vous des amateurs de rap et de hip-hop",
                     LocalDate.of(2024, 11, 15), LocalDate.of(2024, 11, 20),
@@ -196,33 +244,7 @@ public class FillDataBase {
             evenementService.addEvenement(new Evenement("DiscoFever", "Une fièvre disco pour revivre les années folles",
                     LocalDate.of(2025, 9, 15), LocalDate.of(2025, 9, 20),
                     35.0f, 700));
-            List<PrefererArtiste> ListeArtistePref = new ArrayList<PrefererArtiste>();
-            List<Performe> ListePerforme = new ArrayList<Performe>();
-            List<Jouer> ListeJouer = new ArrayList<Jouer>();
 
-            Artiste playbloi = new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref,ListePerforme ,ListeJouer);
-            Artiste artiste1 = new Artiste();
-            artiste1.setPdpArtiste(imageData);
-            artiste1.setDescription_artiste("okkk");
-            artiste1.setNom_artiste("jul");
-
-            artisteService.addArtiste(playbloi);
-            artisteService.addArtiste(artiste1);
-            Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
-            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
-            utilisateur1.setPdpUtilisateur(imageData);
-            utilisateur3.setPdpUtilisateur(imageData);
-            utilisateurService.creerUtilisateur(utilisateur1);
-            utilisateurService.creerUtilisateur(utilisateur3);
-            Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("user");
-            if (moiOptional.isPresent()) {
-                Utilisateur moi = moiOptional.get();
-                suivreService.creerSuivre(new Suivre(moi, utilisateur3));
-                suivreService.creerSuivre(new Suivre(utilisateur3, moi));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste, moi));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, moi));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste1, moi));
-            }
         };
     }
 }

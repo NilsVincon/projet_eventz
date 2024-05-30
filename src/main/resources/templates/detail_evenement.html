@@ -464,8 +464,7 @@
                     <div class="cover">
                         <div class="gray-shade"></div>
                         <figure>
-                            <img src="https://www.bootdey.com/image/450x280/FFB6C1/000000"
-                                 class="img-fluid profile-cover" alt="profile cover">
+                            <img th:src="${evenementactuel.hasPdp() ? '/eventz/evenement/image/' + evenementactuel.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" class="img-fluid profile-cover" alt="profile cover">
                         </figure>
                         <div class="cover-body d-flex justify-content-between align-items-center">
                             <div>
@@ -716,7 +715,8 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center justify-content-between">
                                     <form id="participerForm1" action="/eventz/evenement/participate" method="post">
-                                        <input type="hidden" name="event_id" th:value="${evenementactuel.id_evenement}">
+
+                                        <input type="hidden" name="event_id" th:value="${evenementactuel.idEvenement}">
                                         <button id="msgboxShowMessage" type="button" class="btn btn-success" onclick="submitForm()">Participer</button>
                                     </form>
                                     <button type="button" class="btn btn-info">C'est sympa ça</button>
@@ -860,113 +860,113 @@
 </div>
 <th:block th:insert="~{fragments/footer :: foot}"></th:block>
 <script>
-class MessageBox {
-    constructor(option) {
-        this.option = option || {};
-        this.msgBoxArea = document.getElementById('msgboxArea');
-    }
-
-    show(msg, callback, closeLabel) {
-        if (closeLabel === undefined || closeLabel === null) {
-            closeLabel = "Close";
+    class MessageBox {
+        constructor(option) {
+            this.option = option || {};
+            this.msgBoxArea = document.getElementById('msgboxArea');
         }
 
-        const option = this.option;
-
-        const msgboxBox = document.createElement("DIV");
-        const msgboxContent = document.createElement("DIV");
-        const msgboxCommand = document.createElement("DIV");
-        const msgboxClose = document.createElement("A");
-
-        msgboxContent.classList.add("msgbox-content");
-        msgboxContent.innerText = msg;
-
-        msgboxCommand.classList.add("msgbox-command");
-
-        msgboxClose.classList.add("msgbox-close");
-        msgboxClose.setAttribute("href", "#");
-        msgboxClose.innerText = closeLabel;
-
-        msgboxBox.classList.add("msgbox-box");
-        msgboxBox.appendChild(msgboxContent);
-
-        if (option.hideCloseButton === false || option.hideCloseButton === undefined) {
-            msgboxCommand.appendChild(msgboxClose);
-            msgboxBox.appendChild(msgboxCommand);
-        }
-
-        this.msgBoxArea.appendChild(msgboxBox);
-
-        msgboxClose.onclick = (evt) => {
-            evt.preventDefault();
-            if (msgboxBox.classList.contains("msgbox-box-hide")) {
-                return;
+        show(msg, callback, closeLabel) {
+            if (closeLabel === undefined || closeLabel === null) {
+                closeLabel = "Close";
             }
-            clearTimeout(this.msgboxTimeout);
-            this.msgboxTimeout = null;
-            this.hide(msgboxBox, callback);
-        };
 
-        if (option.closeTime > 0) {
-            this.msgboxTimeout = setTimeout(() => {
+            const option = this.option;
+
+            const msgboxBox = document.createElement("DIV");
+            const msgboxContent = document.createElement("DIV");
+            const msgboxCommand = document.createElement("DIV");
+            const msgboxClose = document.createElement("A");
+
+            msgboxContent.classList.add("msgbox-content");
+            msgboxContent.innerText = msg;
+
+            msgboxCommand.classList.add("msgbox-command");
+
+            msgboxClose.classList.add("msgbox-close");
+            msgboxClose.setAttribute("href", "#");
+            msgboxClose.innerText = closeLabel;
+
+            msgboxBox.classList.add("msgbox-box");
+            msgboxBox.appendChild(msgboxContent);
+
+            if (option.hideCloseButton === false || option.hideCloseButton === undefined) {
+                msgboxCommand.appendChild(msgboxClose);
+                msgboxBox.appendChild(msgboxCommand);
+            }
+
+            this.msgBoxArea.appendChild(msgboxBox);
+
+            msgboxClose.onclick = (evt) => {
+                evt.preventDefault();
+                if (msgboxBox.classList.contains("msgbox-box-hide")) {
+                    return;
+                }
+                clearTimeout(this.msgboxTimeout);
+                this.msgboxTimeout = null;
                 this.hide(msgboxBox, callback);
-            }, option.closeTime);
-        }
-    }
-
-    hideMessageBox(msgboxBox) {
-        return new Promise(resolve => {
-            msgboxBox.ontransitionend = () => {
-                resolve();
             };
-        });
+
+            if (option.closeTime > 0) {
+                this.msgboxTimeout = setTimeout(() => {
+                    this.hide(msgboxBox, callback);
+                }, option.closeTime);
+            }
+        }
+
+        hideMessageBox(msgboxBox) {
+            return new Promise(resolve => {
+                msgboxBox.ontransitionend = () => {
+                    resolve();
+                };
+            });
+        }
+
+        async hide(msgboxBox, callback) {
+            if (msgboxBox !== null) {
+                msgboxBox.classList.add("msgbox-box-hide");
+            }
+            await this.hideMessageBox(msgboxBox);
+            this.msgBoxArea.removeChild(msgboxBox);
+            clearTimeout(this.msgboxTimeout);
+            if (typeof callback === "function") {
+                callback();
+            }
+        }
     }
 
-    async hide(msgboxBox, callback) {
-        if (msgboxBox !== null) {
-            msgboxBox.classList.add("msgbox-box-hide");
-        }
-        await this.hideMessageBox(msgboxBox);
-        this.msgBoxArea.removeChild(msgboxBox);
-        clearTimeout(this.msgboxTimeout);
-        if (typeof callback === "function") {
-            callback();
-        }
+    const msgboxShowMessage = document.querySelector("#msgboxShowMessage");
+    const msgbox = new MessageBox({
+        closeTime: 10000,
+        hideCloseButton: false
+    });
+
+    const msgboxNoClose = new MessageBox({
+        closeTime: 5000,
+        hideCloseButton: true
+    });
+
+
+
+    msgboxShowMessage.addEventListener("click", () => {
+        msgbox.show("tu particpe à l'événement ", null);
+    });
+    function submitForm() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/eventz/evenement/participate', true);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log(xhr.responseText);
+            } else {
+                console.error('Erreur lors de la soumission du formulaire : ' + xhr.status);
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Erreur lors de la requête AJAX');
+        };
+        var formData = new FormData(document.getElementById('participerForm1'));
+        xhr.send(formData);
     }
-}
-
-const msgboxShowMessage = document.querySelector("#msgboxShowMessage");
-const msgbox = new MessageBox({
-    closeTime: 10000,
-    hideCloseButton: false
-});
-
-const msgboxNoClose = new MessageBox({
-    closeTime: 5000,
-    hideCloseButton: true
-});
-
-
-
-msgboxShowMessage.addEventListener("click", () => {
-    msgbox.show("tu particpe à l'événement ", null);
-});
-function submitForm() {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '/eventz/evenement/participate', true);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            console.log(xhr.responseText);
-        } else {
-            console.error('Erreur lors de la soumission du formulaire : ' + xhr.status);
-        }
-    };
-    xhr.onerror = function () {
-        console.error('Erreur lors de la requête AJAX');
-    };
-    var formData = new FormData(document.getElementById('participerForm1'));
-    xhr.send(formData);
-}
 </script>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

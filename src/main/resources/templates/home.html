@@ -47,6 +47,7 @@
             height: 100%;
             position: fixed;
             top: 0;
+            overflow: visible;
             left: -250px;
             background-color: #f0f0f0;
             transition: left 0.3s ease;
@@ -65,7 +66,10 @@
             color: #f2d4d8;
             text-decoration: none;
         }
-
+        .event-image {
+            width: 450px;
+            height: 280px;
+        }
         .sidebar ul li a:hover {
             background-color: #ddd;
         }
@@ -429,7 +433,7 @@
     data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
                         <div class="col-lg-5 col-sm-12 ">
                             <div class="position-relative">
-                                <img src="https://www.bootdey.com/image/450x280/FFB6C1/000000" alt>
+                                <img class="event-image" th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}" alt="">
                                 <div class="events-date">
                                     <div class="font-size28">
                                         <p th:text="${evenement.debut_evenement.getDayOfMonth()}"></p>
@@ -456,7 +460,7 @@
                         <div class="col-lg-7 col-sm-12">
                             <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
                                 <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
-                                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.id_evenement}"
+                                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
                                        class="text-theme-color"><h2 th:text="${evenement.nom_evenement}"></h2></a></h5>
                                 <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
                                     <li><i class="far fa-clock margin-10px-right"></i> <a
@@ -466,7 +470,7 @@
                                 </ul>
                                 <p th:text="${evenement.description_evenement}"></p>
                                 <a class="butn small margin-10px-top md-no-margin-top"
-                                   th:href="'/eventz/evenement/details?id=' + ${evenement.id_evenement}">Read More <i
+                                   th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}">Read More <i
                                         class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
                             </div>
 
@@ -482,10 +486,10 @@
                          th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
     data-date=${evenement?.debut_evenement},
     data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
-                        <div class="col-lg-7 order-2 order-lg-1">
+                        <div class="col-lg-7 order-2 order-lg-2">
                             <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
                                 <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
-                                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.id_evenement}"
+                                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
                                        class="text-theme-color"><h2 th:text="${evenement.nom_evenement}"></h2></a></h5>
                                 <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
                                     <li><i class="far fa-clock margin-10px-right"></i> <a
@@ -495,14 +499,14 @@
                                 </ul>
                                 <p th:text="${evenement.description_evenement}"></p>
                                 <a class="butn small margin-10px-top md-no-margin-top"
-                                   th:href="'/eventz/evenement/details?id=' + ${evenement.id_evenement}">Read More <i
+                                   th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}">Read More <i
                                         class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
                             </div>
                         </div>
 
-                        <div class="col-lg-5 order-1 order-lg-2">
+                        <div class="col-lg-5 order-1 order-lg-1">
                             <div class="position-relative">
-                                <img src="https://www.bootdey.com/image/450x280/87CEFA/000000" alt>
+                                <img class="event-image" th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" alt="">
                                 <div class="events-date">
                                     <div class="font-size28"><p
                                             th:text="${evenement.debut_evenement.getDayOfMonth()}"></p></div>
@@ -556,8 +560,17 @@
 <aside class="sidebar" id="sidebar">
     <h2>Chat</h2>
     <ul>
-        <li><a href="#">Conversation 1</a></li>
-        <li><a href="#">Conversation 2</a></li>
+        <li><a href="#"></a></li>
+        <li><a href="#"></a></li>
+        <li><a href="#"></a></li>
+        <li th:if="${evenementsparticipe != null}" th:each="evenement : ${evenementsparticipe}">
+            <a th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
+                <span th:text="${evenement.nom_evenement} + ' '+ Chat"></span>
+            </a>
+        </li>
+        <li><a href="/eventz/generalchat">Général Chat</a></li>
+        <li ><a href="#"></a><span>Participez à plus d'événement pour accéder à plus de conversations</span>
+        </li>
     </ul>
 </aside>
 <script>
