@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -25,4 +26,22 @@ public class TypeEvenement {
 
     @OneToMany(mappedBy = "typeEvenement")
     private List<PrefererTypeEvenement> prefererTypeEvenements;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TypeEvenement that = (TypeEvenement) o;
+        return Objects.equals(description_type_evenement,that.description_type_evenement);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description_type_evenement);
+    }
+
+    @Override
+    public String toString() {
+        return description_type_evenement;
+    }
 }

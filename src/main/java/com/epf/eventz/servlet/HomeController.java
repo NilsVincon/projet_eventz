@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -28,6 +29,9 @@ public class HomeController {
 
     @Autowired
     private ParticipeService participeService;
+
+    @Autowired
+    private TypeEvenementService typeEvenementService;
 
 
 
@@ -55,9 +59,8 @@ public class HomeController {
             model.addAttribute("connecte", connecte);
             List<Evenement> evenements = evenementService.findAllEvenements();
             model.addAttribute("evenements", evenements);
-            Set<String> uniqueEventTypes = evenements.stream()
-                    .map(e -> e.getTypeEvenement().getDescription_type_evenement())
-                    .collect(Collectors.toSet());
+            List<TypeEvenement> typeEvenements = typeEvenementService.trouverTousTypeEvenements();
+            Set<TypeEvenement> uniqueEventTypes = new HashSet<>(typeEvenements);
             model.addAttribute("uniqueEventTypes", uniqueEventTypes);
             model.addAttribute("profileOptions", List.of("Profil", "Amis", "Paramètres", "Déconnexion"));
         } catch (Exception e) {

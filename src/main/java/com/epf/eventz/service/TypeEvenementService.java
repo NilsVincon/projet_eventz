@@ -50,10 +50,7 @@ public class TypeEvenementService {
     public void updateTypeevenement(Long typeevenementId, TypeEvenement typeevenement){
         TypeEvenement typeevenementToUpdate = typeevenementDAO.findById(typeevenementId)
                 .orElseThrow(() -> new IllegalStateException("L'typeevenement avec l'ID " + typeevenementId + " n'existe pas"));
-
         typeevenementToUpdate.setDescription_type_evenement(typeevenement.getDescription_type_evenement());
-
-
         typeevenementDAO.save(typeevenementToUpdate);
     }
 

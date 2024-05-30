@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                         .requestMatchers("/eventz/auth/**").permitAll()
+                        .requestMatchers("/eventz/evenement/image/**").permitAll()
                         .requestMatchers("/static/**", "/images/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/eventz/home").permitAll()
                         .requestMatchers("/eventz/evenement/details").permitAll()
@@ -89,9 +90,4 @@ public class SecurityConfig {
         return new JwtAuthentificationFilter();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().requestMatchers(
-                "/static/**", "/css/**", "/js/**", "/images/**", "/webjars/**");
-    }
 }
