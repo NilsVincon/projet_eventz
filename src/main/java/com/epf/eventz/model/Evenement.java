@@ -57,17 +57,19 @@ public class Evenement {
     private LocalDate fin_evenement;
     private float prix_evenement;
     private int nb_place_evenement;
+    private Boolean public_evenement;
 
     @Column(columnDefinition = "LONGBLOB")
     private byte[] pdpEvenement;
 
-    public Evenement(String nom_evenement, String description_evenement, LocalDate debut_evenement, LocalDate fin_evenement, float prix_evenement, int nb_place_evenement) {
+    public Evenement(String nom_evenement, String description_evenement, LocalDate debut_evenement, LocalDate fin_evenement, float prix_evenement, int nb_place_evenement, boolean public_evenement) {
         this.nom_evenement = nom_evenement;
         this.description_evenement = description_evenement;
         this.debut_evenement = debut_evenement;
         this.fin_evenement = fin_evenement;
         this.prix_evenement = prix_evenement;
         this.nb_place_evenement = nb_place_evenement;
+        this.public_evenement = public_evenement;
     }
 
     @Override

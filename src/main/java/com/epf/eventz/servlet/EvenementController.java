@@ -20,7 +20,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -128,7 +131,15 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/add")
-    public String loginPage() {
+    public String loginPage(Model model) {
+        try {
+            List<TypeEvenement> typeEvenements = typeEvenementService.trouverTousTypeEvenements();
+            Set<TypeEvenement> typeEvenementsUnique = new HashSet<>(typeEvenements);
+            model.addAttribute("typeEvenements",typeEvenementsUnique);
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+
         return "add_event";
     }
 
@@ -136,7 +147,7 @@ public class EvenementController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
     public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse
-            adresse, @ModelAttribute StatutEvenement statutEvenement, @ModelAttribute TypeEvenement
+            adresse, @ModelAttribute StatutEvenement statutEvenement, @RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, @ModelAttribute TypeEvenement
                                      typeEvenement, HttpServletResponse response) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -153,6 +164,10 @@ public class EvenementController {
             statutEvenementService.creerStatut(statutEvenement);
             evenement.setStatutEvenement(statutEvenement);
             evenement.setOrganisateur(organisateur);
+            if (!pdpEvenementMultiPart.isEmpty()) {
+                byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
+                evenement.setPdpEvenement(pdpBytes);
+            }
             evenementService.addEvenement(evenement);
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());

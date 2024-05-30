@@ -1,250 +1,404 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="fr" dir="ltr">
+<!doctype html>
+<html lang="fr" dir="ltr">
 <head>
-    <meta charset="UTF-8">
-    <title> Ajout d'évenement </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"/>
+    <title>Ajoutez votre événement</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-        *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins',sans-serif;
+        textarea {
+            max-height: 220px;
+            resize: vertical;
         }
-        body{
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-        }
-        .container{
-            max-width: 700px;
-            width: 100%;
-            background-color: #fff;
-            padding: 25px 30px;
-            border-radius: 5px;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.15);
-        }
-        .container .title{
-            font-size: 25px;
-            font-weight: 500;
-            position: relative;
-        }
-        .container .title::before{
-            content: "";
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            height: 3px;
-            width: 30px;
-            border-radius: 5px;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-        }
-        .content form .user-details{
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin: 20px 0 12px 0;
-        }
-        form .user-details .input-box{
-            margin-bottom: 15px;
-            width: calc(100% / 2 - 20px);
-        }
-        form .input-box span.details{
-            display: block;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-        .user-details .input-box input{
-            height: 45px;
-            width: 100%;
-            outline: none;
-            font-size: 16px;
-            border-radius: 5px;
-            padding-left: 15px;
-            border: 1px solid #ccc;
-            border-bottom-width: 2px;
-            transition: all 0.3s ease;
-        }
-        .user-details .input-box input:focus,
-        .user-details .input-box input:valid{
-            border-color: #9b59b6;
-        }
-        form .gender-details .gender-title{
-            font-size: 20px;
-            font-weight: 500;
-        }
-        form .category{
-            display: flex;
-            width: 80%;
-            margin: 14px 0 ;
-            justify-content: space-between;
-        }
-        form .category label{
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        form .category label .dot{
-            height: 18px;
-            width: 18px;
-            border-radius: 50%;
-            margin-right: 10px;
-            background: #d9d9d9;
-            border: 5px solid transparent;
-            transition: all 0.3s ease;
-        }
-        #dot-1:checked ~ .category label .one,
-        #dot-2:checked ~ .category label .two,
-        #dot-3:checked ~ .category label .three,
-        #dot-4:checked ~ .category label .four{
-            background: #9b59b6;
-            border-color: #d9d9d9;
-        }
-        form input[type="radio"]{
+
+        .hidden {
             display: none;
         }
-        form .button{
-            height: 45px;
-            margin: 35px 0
-        }
-        form .button input{
-            height: 100%;
-            width: 100%;
-            border-radius: 5px;
-            border: none;
-            color: #fff;
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-        }
-        form .button input:hover{
-            /* transform: scale(0.99); */
-            background: linear-gradient(-135deg, #71b7e6, #9b59b6);
-        }
-        @media(max-width: 584px){
-            .container{
-                max-width: 100%;
-            }
-            form .user-details .input-box{
-                margin-bottom: 15px;
-                width: 100%;
-            }
-            form .category{
-                width: 100%;
-            }
-            .content form .user-details{
-                max-height: 300px;
-                overflow-y: scroll;
-            }
-            .user-details::-webkit-scrollbar{
-                width: 5px;
-            }
-        }
-        @media(max-width: 459px){
-            .container .content .category{
-                flex-direction: column;
-            }
+
+        .active {
+            display: block;
         }
     </style>
 </head>
-<body>
-<div class="container">
-    <div class="title">Ajoutez des évenements !</div>
-    <div class="content">
-        <form id="registrationForm" action="/eventz/evenement/add" method="post">
-            <div class="user-details">
-                <div class="input-box">
-                    <span class="details">Nom Evenement</span>
-                    <input type="text" id="nom_evenement" name="nom_evenement">
-                </div>
-                <div class="input-box">
-                    <span class="details">Description</span>
-                    <input type="text" id="description_evenement" name="description_evenement">
-                </div>
-                <div class="input-box">
-                    <span class="details">Nombre de place</span>
-                    <input type="number" id="nb_place_evenement" name="nb_place_evenement">
-                </div>
-                <div class="input-box">
-                    <span class="details">Prix evenement</span>
-                    <input type="number" id="prix_evenement" name="prix_evenement">
-                </div>
-
-                <div class="input-box">
-                    <span class="details">Date de Début</span>
-                    <input type="date" placeholder="Entrez la date de début" id="debut_evenement" name="debut_evenement" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Date de Fin</span>
-                    <input type="date" placeholder="Entrez la date de fin" id="fin_evenement" name="fin_evenement" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Type Evenement</span>
-                    <input type="text" placeholder="Entrez le type d'evenement" id="description_type_evenement" name="description_type_evenement" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">N°</span>
-                    <input type="text" placeholder="Entrez le numéro" id="numero_adresse" name="numero_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Rue</span>
-                    <input type="text" placeholder="Entrez la rue" id="rue_adresse" name="rue_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Ville</span>
-                    <input type="text" placeholder="Entrez la ville" id="ville_adresse" name="ville_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Code Postal</span>
-                    <input type="number" placeholder="Entrez le code postal" id="code_postal_adresse" name="code_postal_adresse" required>
-                </div>
-                <div class="input-box">
-                    <span class="details">Pays</span>
-                    <input type="text" placeholder="Entrez le pays" id="pays_adresse" name="pays_adresse" required>
-                </div>
-                <div class="gender-details">
-                    <input type="radio" name="public_adresse" id="dot-1" value="false">
-                    <input type="radio" name="public_adresse" id="dot-2" value="true">
-                    <span class="gender-title">Adresse Prive / Public </span>
-                    <div class="category">
-                        <label for="dot-1">
-                            <span class="dot one"></span>
-                            <span class="gender">Prive</span>
-                        </label>
-                        <label for="dot-2">
-                            <span class="dot two"></span>
-                            <span class="gender">Public</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="gender-details">
-                    <input type="radio" name="description_statut_evenement" id="dot-3" value="Prive">
-                    <input type="radio" name="description_statut_evenement" id="dot-4" value="Public">
-                    <span class="gender-title">Evenement Prive / Public </span>
-                    <div class="category">
-                        <label for="dot-3">
-                            <span class="dot three"></span>
-                            <span class="gender">Prive</span>
-                        </label>
-                        <label for="dot-4">
-                            <span class="dot four"></span>
-                            <span class="gender">Public</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="button">
-                <input type="submit" value="Ajouter l'evenement">
-            </div>
-        </form>
+<body
+        class="h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-600"
+>
+<div class="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg">
+    <div class="text-2xl font-semibold text-center mb-4">
+        Ajoutez des événements !
     </div>
+    <form id="registrationForm" action="/eventz/evenement/add" method="post" enctype="multipart/form-data">
+        <!-- Step 1 -->
+        <!-- Step 1 -->
+        <div class="step active">
+            <div class="mb-4">
+                <label
+                        for="nom_evenement"
+                        class="block text-sm font-medium text-gray-700"
+                >Nom Evenement*</label
+                >
+                <input
+                        type="text"
+                        id="nom_evenement"
+                        name="nom_evenement"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label for="description_evenement" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea id="description_evenement" name="description_evenement" rows="4"
+                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"></textarea>
+            </div>
+            <div class="mb-4">
+                <label
+                        for="description_type_evenement"
+                        class="block text-sm font-medium text-gray-700"
+                >Type Evenement*</label
+                >
+                <input
+                        type="text"
+                        id="description_type_evenement"
+                        name="description_type_evenement"
+                        required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="debut_evenement"
+                        class="block text-sm font-medium text-gray-700"
+                >Date de Début*</label
+                >
+                <input
+                        type="date"
+                        id="debut_evenement"
+                        name="debut_evenement"
+                        required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="fin_evenement"
+                        class="block text-sm font-medium text-gray-700"
+                >Date de Fin*</label
+                >
+                <input
+                        type="date"
+                        id="fin_evenement"
+                        name="fin_evenement"
+                        required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="flex justify-end">
+                <button
+                        type="button"
+                        onclick="nextStep()"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                    Suivant
+                </button>
+            </div>
+        </div>
+        <!-- Step 2 -->
+        <div class="step hidden">
+            <div class="mb-4">
+                <label
+                        for="nb_place_evenement"
+                        class="block text-sm font-medium text-gray-700"
+                >Nombre de place</label
+                >
+                <input
+                        type="number"
+                        id="nb_place_evenement"
+                        name="nb_place_evenement"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="prix_evenement"
+                        class="block text-sm font-medium text-gray-700"
+                >Prix evenement</label
+                >
+                <input
+                        type="number"
+                        id="prix_evenement"
+                        name="prix_evenement"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+            <span class="block text-sm font-medium text-gray-700"
+            >Événement Privé / Public</span
+            >
+                <div class="flex items-center mt-2">
+                    <button
+                            id="privateEvenementBtn"
+                            type="button"
+                            onclick="toggleEventPrivacy(true)"
+                            class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                        </svg>
+                        Privé
+                    </button>
+                    <button
+                            id="publicEvenementBtn"
+                            type="button"
+                            onclick="toggleEventPrivacy(false)"
+                            class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-4"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                        </svg>
+
+                        Public
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-between">
+                <button
+                        type="button"
+                        onclick="previousStep()"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
+                    Précédent
+                </button>
+                <button
+                        type="button"
+                        onclick="nextStep()"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                    Suivant
+                </button>
+            </div>
+        </div>
+        <!-- Step 3 -->
+        <div class="step hidden">
+            <div class="mb-4">
+                <label
+                        for="numero_adresse"
+                        class="block text-sm font-medium text-gray-700"
+                >N°</label
+                >
+                <input
+                        type="text"
+                        id="numero_adresse"
+                        name="numero_adresse"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="rue_adresse"
+                        class="block text-sm font-medium text-gray-700"
+                >Rue</label
+                >
+                <input
+                        type="text"
+                        id="rue_adresse"
+                        name="rue_adresse"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="ville_adresse"
+                        class="block text-sm font-medium text-gray-700"
+                >Ville</label
+                >
+                <input
+                        type="text"
+                        id="ville_adresse"
+                        name="ville_adresse"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="code_postal_adresse"
+                        class="block text-sm font-medium text-gray-700"
+                >Code Postal</label
+                >
+                <input
+                        type="number"
+                        id="code_postal_adresse"
+                        name="code_postal_adresse"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+                <label
+                        for="pays_adresse"
+                        class="block text-sm font-medium text-gray-700"
+                >Pays</label
+                >
+                <input
+                        type="text"
+                        id="pays_adresse"
+                        name="pays_adresse"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
+            </div>
+            <div class="mb-4">
+            <span class="block text-sm font-medium text-gray-700"
+            >Adresse Privée / Publique</span
+            >
+                <div class="flex items-center mt-2">
+                    <button
+                            id="privateAdresseBtn"
+                            type="button"
+                            onclick="toggleAdressePrivacy(true)"
+                            class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                        </svg>
+                        Privé
+                    </button>
+                    <button
+                            id="publicAdresseBtn"
+                            type="button"
+                            onclick="toggleAdressePrivacy(false)"
+                            class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-4"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                  d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                        </svg>
+                        Public
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-between">
+                <button
+                        type="button"
+                        onclick="previousStep()"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                >
+                    Précédent
+                </button>
+                <button
+                        type="button"
+                        onclick="nextStep()"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                >
+                    Suivant
+                </button>
+            </div>
+        </div>
+        <!-- Step 4 -->
+        <div class="step hidden">
+            <div class="mb-4">
+                <label for="pdpEvenementMultiPart" class="block text-sm font-medium text-gray-700">Ajouter photo de couverture</label>
+                <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <img src="" id="evenementImage" alt>
+            </div>
+            <div class="mb-4">
+                <button type="button"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                    Créer une playlist
+                </button>
+            </div>
+            <div class="mb-4">
+                <button type="button"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                    Créer une liste de covoiturage
+                </button>
+            </div>
+            <div class="flex justify-between">
+                <button type="button" onclick="previousStep()"
+                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    Précédent
+                </button>
+                <button type="submit"
+                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                    Ajouter l'événement
+                </button>
+            </div>
+        </div>
+        <input type="hidden" id="public_evenement" name="public_evenement" value="false">
+        <input type="hidden" id="public_adresse" name="public_adresse" value="false">
+    </form>
 </div>
+
+<script>
+    function nextStep() {
+        const currentStep = document.querySelector(".step.active");
+        const nextStep = currentStep.nextElementSibling;
+        if (nextStep && nextStep.classList.contains("step")) {
+            currentStep.classList.remove("active");
+            currentStep.classList.add("hidden");
+            nextStep.classList.remove("hidden");
+            nextStep.classList.add("active");
+        }
+    }
+
+    function previousStep() {
+        const currentStep = document.querySelector(".step.active");
+        const previousStep = currentStep.previousElementSibling;
+        if (previousStep && previousStep.classList.contains("step")) {
+            currentStep.classList.remove("active");
+            currentStep.classList.add("hidden");
+            previousStep.classList.remove("hidden");
+            previousStep.classList.add("active");
+        }
+    }
+
+    function toggleEventPrivacy(isPrivate) {
+        const publicEvenementInput = document.getElementById("public_evenement");
+        if (isPrivate) {
+            publicEvenementInput.value = "false";
+            document.getElementById("privateEvenementBtn").classList.add("bg-red-500");
+            document.getElementById("privateEvenementBtn").classList.remove("bg-gray-300");
+            document.getElementById("publicEvenementBtn").classList.add("bg-gray-300");
+            document.getElementById("publicEvenementBtn").classList.remove("bg-green-500");
+        } else {
+            publicEvenementInput.value = "true";
+            document.getElementById("privateEvenementBtn").classList.remove("bg-red-500");
+            document.getElementById("privateEvenementBtn").classList.add("bg-gray-300");
+            document.getElementById("publicEvenementBtn").classList.remove("bg-gray-300");
+            document.getElementById("publicEvenementBtn").classList.add("bg-green-500");
+        }
+    }
+
+    function toggleAdressePrivacy(isPrivate) {
+        const publicAdresseInput = document.getElementById("public_adresse");
+        if (isPrivate) {
+            publicAdresseInput.value = "false";
+            document.getElementById("privateAdresseBtn").classList.add("bg-red-500");
+            document.getElementById("privateAdresseBtn").classList.remove("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.add("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.remove("bg-green-500");
+        } else {
+            publicAdresseInput.value = "true";
+            document.getElementById("privateAdresseBtn").classList.remove("bg-red-500");
+            document.getElementById("privateAdresseBtn").classList.add("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.remove("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.add("bg-green-500");
+        }
+    }
+
+    document.getElementById('pdpEvenementMultiPart').addEventListener('change', function(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('evenementImage');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    });
+
+</script>
 </body>
 </html>

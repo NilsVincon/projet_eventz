@@ -549,9 +549,14 @@
                             <p class="text-muted" th:text="${evenementactuel.debut_evenement}"></p>
                         </div>
                         <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">localisation:</label>
-                            <p class="text-muted"
-                               th:text="${evenementactuel.adresse.numero_adresse} +' ' +${evenementactuel.adresse.rue_adresse} +' ' + ${evenementactuel.adresse.ville_adresse} +' ' + ${evenementactuel.adresse.pays_adresse} "></p>
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Localisation:</label>
+                            <th:block th:if="${evenementactuel.adresse.public_adresse}">
+                                <p class="text-muted"
+                                   th:text="${evenementactuel.adresse.numero_adresse} + ' ' + ${evenementactuel.adresse.rue_adresse} + ' ' + ${evenementactuel.adresse.ville_adresse} + ' ' + ${evenementactuel.adresse.pays_adresse} "></p>
+                            </th:block>
+                            <th:block th:unless="${evenementactuel.adresse.public_adresse}">
+                                <p class="text-muted">L'adresse est privée pour l'instant.</p>
+                            </th:block>
                         </div>
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">type event :</label>

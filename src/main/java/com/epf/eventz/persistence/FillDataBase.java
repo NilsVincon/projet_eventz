@@ -121,7 +121,7 @@ public class FillDataBase {
 
             Evenement technoFest = new Evenement("TechnoFest", "Le festival de techno le plus attendu de l'année",
                     LocalDate.of(2024, 7, 15), LocalDate.of(2024, 7, 20),
-                    40.0f, 800);
+                    40.0f, 800,true);
             technoFest.setAdresse(adresseTechnoFest);
             technoFest.setTypeEvenement(typeEvenementTechnoFest);
             technoFest.setStatutEvenement(statutEvenementTechnoFest);
@@ -136,7 +136,7 @@ public class FillDataBase {
             adresseRockMania.setVille_adresse("Lyon");
             adresseRockMania.setCode_postal_adresse(12345);
             adresseRockMania.setPays_adresse("France");
-            adresseRockMania.setPublic_adresse(true);
+            adresseRockMania.setPublic_adresse(false);
             adresseService.creerAdresse(adresseRockMania);
 
             TypeEvenement typeEvenementRockMania = new TypeEvenement();
@@ -149,7 +149,7 @@ public class FillDataBase {
 
             Evenement rockMania = new Evenement("RockMania", "Un festival de rock explosif avec les meilleurs groupes du moment",
                     LocalDate.of(2024, 8, 10), LocalDate.of(2024, 8, 15),
-                    45.0f, 1000);
+                    45.0f, 1000,true);
             rockMania.setAdresse(adresseRockMania);
             rockMania.setTypeEvenement(typeEvenementRockMania);
             rockMania.setStatutEvenement(statutEvenementRockMania);
@@ -178,7 +178,7 @@ public class FillDataBase {
 
             Evenement electroWave = new Evenement("ElectroWave", "Plongez dans l'univers de l'électro avec des DJs renommés",
                     LocalDate.of(2024, 9, 5), LocalDate.of(2024, 9, 10),
-                    35.0f, 600);
+                    35.0f, 600,true);
             electroWave.setAdresse(adresseElectroWave);
             electroWave.setTypeEvenement(typeEvenementElectroWave);
             electroWave.setStatutEvenement(statutEvenementElectroWave);
@@ -205,45 +205,46 @@ public class FillDataBase {
 
             Evenement indieFest = new Evenement("IndieFest", "Un festival indie pour découvrir les nouveaux talents de la scène musicale",
                     LocalDate.of(2024, 10, 1), LocalDate.of(2024, 10, 7),
-                    30.0f, 500);
+                    30.0f, 500,true);
             indieFest.setAdresse(adresseIndieFest);
             indieFest.setTypeEvenement(typeEvenementIndieFest);
             indieFest.setStatutEvenement(statutEvenementIndieFest);
             indieFest.setOrganisateur(utilisateur3);
+            indieFest.setPublic_evenement(true);
             evenementService.addEvenement(indieFest);
             evenementService.addEvenement(new Evenement("RapCity", "Le rendez-vous des amateurs de rap et de hip-hop",
                     LocalDate.of(2024, 11, 15), LocalDate.of(2024, 11, 20),
-                    50.0f, 1200));
+                    50.0f, 1200,true));
             evenementService.addEvenement(new Evenement("MetalFury", "Un festival qui va faire trembler les murs avec du metal puissant",
                     LocalDate.of(2024, 12, 5), LocalDate.of(2024, 12, 10),
-                    45.0f, 900));
+                    45.0f, 900,true));
             evenementService.addEvenement(new Evenement("ReggaeVibes", "Venez ressentir les bonnes vibrations du reggae",
                     LocalDate.of(2025, 1, 15), LocalDate.of(2025, 1, 20),
-                    40.0f, 700));
+                    40.0f, 700,true));
             evenementService.addEvenement(new Evenement("PunkRiot", "Un festival punk rebelle et plein d'énergie",
                     LocalDate.of(2025, 2, 10), LocalDate.of(2025, 2, 15),
-                    35.0f, 800));
+                    35.0f, 800,true));
             evenementService.addEvenement(new Evenement("HardcoreMadness", "Le festival ultime pour les fans de hardcore",
                     LocalDate.of(2025, 3, 5), LocalDate.of(2025, 3, 10),
-                    50.0f, 1000));
+                    50.0f, 1000,true));
             evenementService.addEvenement(new Evenement("DubstepFrenzy", "Plongez dans l'univers hypnotique du dubstep",
                     LocalDate.of(2025, 4, 1), LocalDate.of(2025, 4, 7),
-                    45.0f, 900));
+                    45.0f, 900,true));
             evenementService.addEvenement(new Evenement("PopExplosion", "Un festival pop coloré et plein de surprises",
                     LocalDate.of(2025, 5, 15), LocalDate.of(2025, 5, 20),
-                    40.0f, 800));
+                    40.0f, 800,true));
             evenementService.addEvenement(new Evenement("SkaCarnival", "Le carnaval du ska pour danser toute la nuit",
                     LocalDate.of(2025, 6, 10), LocalDate.of(2025, 6, 15),
-                    35.0f, 700));
+                    35.0f, 700,true));
             evenementService.addEvenement(new Evenement("JazzFusion", "Un festival de jazz qui mélange les genres et les influences",
                     LocalDate.of(2025, 7, 5), LocalDate.of(2025, 7, 10),
-                    45.0f, 900));
+                    45.0f, 900,true));
             evenementService.addEvenement(new Evenement("FunkGroove", "Plongez dans l'univers groovy du funk et de la soul",
                     LocalDate.of(2025, 8, 1), LocalDate.of(2025, 8, 7),
-                    40.0f, 800));
+                    40.0f, 800,true));
             evenementService.addEvenement(new Evenement("DiscoFever", "Une fièvre disco pour revivre les années folles",
                     LocalDate.of(2025, 9, 15), LocalDate.of(2025, 9, 20),
-                    35.0f, 700));
+                    35.0f, 700,true));
 
         };
     }

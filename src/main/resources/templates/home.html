@@ -66,10 +66,12 @@
             color: #f2d4d8;
             text-decoration: none;
         }
+
         .event-image {
             width: 450px;
             height: 280px;
         }
+
         .sidebar ul li a:hover {
             background-color: #ddd;
         }
@@ -198,7 +200,7 @@
         }
 
         body {
-             background-image: url("/images/background.webp");
+            background-image: url("/images/background.webp");
         }
 
         .events-date {
@@ -286,6 +288,7 @@
         .margin-10px-right {
             margin-right: 10px;
         }
+
         /*****************************/
         /* MESSAGE BOX RELATED CLASS */
         /*          (START)          */
@@ -316,9 +319,11 @@
             background-color: gray;
 
         }
+
         .msgbox-box.msgbox-box-hide {
             opacity: 0;
         }
+
         .msgbox-box:last-child {
             margin: 0;
         }
@@ -346,13 +351,16 @@
             position: relative;
             transition: color 64ms ease-out, text-shadow 64ms ease-out;
         }
+
         .msgbox-close:hover {
             color: #efefef;
             text-shadow: 0 0 4px #ffffff;
         }
+
         .msgbox-close:first-child {
             margin-left: auto;
         }
+
         .msgbox-close:last-child {
             margin-right: 0;
         }
@@ -363,6 +371,7 @@
                 right: 80px;
             }
         }
+
         @media (min-width: 768px) {
             .msgbox-area {
                 width: 480px;
@@ -372,11 +381,11 @@
                 right: 15px;
             }
         }
+
         /*****************************/
         /* MESSAGE BOX RELATED CLASS */
         /*           (END)           */
         /*****************************/
-
 
 
     </style>
@@ -423,117 +432,126 @@
     <table>
         <tbody>
         <tr th:each="evenement, eventIndex : ${evenements}">
-            <td>
-                <div th:if="${eventIndex.even}">
+            <div th:if="${evenement.public_evenement==true}">
+                <td>
+                    <div th:if="${eventIndex.even}">
 
 
-                    <div class="row align-items-center event-block no-gutters margin-40px-bottom"
-                         th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
+                        <div class="row align-items-center event-block no-gutters margin-40px-bottom"
+                             th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
     data-date=${evenement?.debut_evenement},
     data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
-                        <div class="col-lg-5 col-sm-12 ">
-                            <div class="position-relative">
-                                <img class="event-image" th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}" alt="">
-                                <div class="events-date">
-                                    <div class="font-size28">
-                                        <p th:text="${evenement.debut_evenement.getDayOfMonth()}"></p>
+                            <div class="col-lg-5 col-sm-12 ">
+                                <div class="position-relative">
+                                    <img class="event-image"
+                                         th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
+                                         alt="">
+                                    <div class="events-date">
+                                        <div class="font-size28">
+                                            <p th:text="${evenement.debut_evenement.getDayOfMonth()}"></p>
+                                        </div>
+                                        <div class="font-size14">
+                                            <th:block th:switch="${evenement.debut_evenement.getMonthValue()}">
+                                                <p th:case="1">Jan</p>
+                                                <p th:case="2">Fév</p>
+                                                <p th:case="3">Mar</p>
+                                                <p th:case="4">Avr</p>
+                                                <p th:case="5">Mai</p>
+                                                <p th:case="6">Juin</p>
+                                                <p th:case="7">Juil</p>
+                                                <p th:case="8">Août</p>
+                                                <p th:case="9">Sept</p>
+                                                <p th:case="10">Oct</p>
+                                                <p th:case="11">Nov</p>
+                                                <p th:case="12">Déc</p>
+                                            </th:block>
+                                        </div>
                                     </div>
-                                    <div class="font-size14">
-                                        <th:block th:switch="${evenement.debut_evenement.getMonthValue()}">
-                                            <p th:case="1">Jan</p>
-                                            <p th:case="2">Fév</p>
-                                            <p th:case="3">Mar</p>
-                                            <p th:case="4">Avr</p>
-                                            <p th:case="5">Mai</p>
-                                            <p th:case="6">Juin</p>
-                                            <p th:case="7">Juil</p>
-                                            <p th:case="8">Août</p>
-                                            <p th:case="9">Sept</p>
-                                            <p th:case="10">Oct</p>
-                                            <p th:case="11">Nov</p>
-                                            <p th:case="12">Déc</p>
-                                        </th:block>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-sm-12">
+                                <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
+                                    <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
+                                        <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
+                                           class="text-theme-color"><h2 th:text="${evenement.nom_evenement}"></h2></a>
+                                    </h5>
+                                    <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
+                                        <li><i class="far fa-clock margin-10px-right"></i> <a
+                                                th:text="${evenement.debut_evenement}"></a></li>
+                                        <li><i class="fas fa-user margin-5px-right"></i> <a
+                                                th:text="'Nombre de places: ' + ${evenement.nb_place_evenement}"></a>
+                                        </li>
+                                    </ul>
+                                    <p th:text="${evenement.description_evenement}"></p>
+                                    <a class="butn small margin-10px-top md-no-margin-top"
+                                       th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}">Read More <i
+                                            class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div th:if="${eventIndex.odd}">
+
+
+                        <div class="row align-items-center event-block no-gutters margin-40px-bottom"
+                             th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
+    data-date=${evenement?.debut_evenement},
+    data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
+                            <div class="col-lg-7 order-2 order-lg-2">
+                                <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
+                                    <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
+                                        <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
+                                           class="text-theme-color"><h2 th:text="${evenement.nom_evenement}"></h2></a>
+                                    </h5>
+                                    <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
+                                        <li><i class="far fa-clock margin-10px-right"></i> <a
+                                                th:text="${evenement.debut_evenement}"></a></li>
+                                        <li><i class="fas fa-user margin-5px-right"></i><a
+                                                th:text="'Nombre de places: ' + ${evenement.nb_place_evenement}"></a>
+                                        </li>
+                                    </ul>
+                                    <p th:text="${evenement.description_evenement}"></p>
+                                    <a class="butn small margin-10px-top md-no-margin-top"
+                                       th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}">Read More <i
+                                            class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-5 order-1 order-lg-1">
+                                <div class="position-relative">
+                                    <img class="event-image"
+                                         th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
+                                         alt="">
+                                    <div class="events-date">
+                                        <div class="font-size28"><p
+                                                th:text="${evenement.debut_evenement.getDayOfMonth()}"></p></div>
+                                        <div class="font-size14">
+                                            <th:block th:switch="${evenement.debut_evenement.getMonthValue()}">
+                                                <p th:case="1">Jan</p>
+                                                <p th:case="2">Fév</p>
+                                                <p th:case="3">Mar</p>
+                                                <p th:case="4">Avr</p>
+                                                <p th:case="5">Mai</p>
+                                                <p th:case="6">Juin</p>
+                                                <p th:case="7">Juil</p>
+                                                <p th:case="8">Août</p>
+                                                <p th:case="9">Sept</p>
+                                                <p th:case="10">Oct</p>
+                                                <p th:case="11">Nov</p>
+                                                <p th:case="12">Déc</p>
+                                            </th:block>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-7 col-sm-12">
-                            <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
-                                <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
-                                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
-                                       class="text-theme-color"><h2 th:text="${evenement.nom_evenement}"></h2></a></h5>
-                                <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
-                                    <li><i class="far fa-clock margin-10px-right"></i> <a
-                                            th:text="${evenement.debut_evenement}"></a></li>
-                                    <li><i class="fas fa-user margin-5px-right"></i> <a
-                                            th:text="'Nombre de places: ' + ${evenement.nb_place_evenement}"></a></li>
-                                </ul>
-                                <p th:text="${evenement.description_evenement}"></p>
-                                <a class="butn small margin-10px-top md-no-margin-top"
-                                   th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}">Read More <i
-                                        class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
-                            </div>
-
-                        </div>
                     </div>
-                </div>
+                </td>
+            </div>
 
-
-                <div th:if="${eventIndex.odd}">
-
-
-                    <div class="row align-items-center event-block no-gutters margin-40px-bottom"
-                         th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
-    data-date=${evenement?.debut_evenement},
-    data-ville=${(evenement?.adresse != null and evenement?.adresse?.ville_adresse != null and evenement?.adresse?.public_adresse) ? evenement?.adresse?.ville_adresse : ''}">
-                        <div class="col-lg-7 order-2 order-lg-2">
-                            <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
-                                <h5 class="margin-15px-bottom md-margin-10px-bottom font-size22 md-font-size20 xs-font-size18 font-weight-500">
-                                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
-                                       class="text-theme-color"><h2 th:text="${evenement.nom_evenement}"></h2></a></h5>
-                                <ul class="event-time margin-10px-bottom md-margin-5px-bottom">
-                                    <li><i class="far fa-clock margin-10px-right"></i> <a
-                                            th:text="${evenement.debut_evenement}"></a></li>
-                                    <li><i class="fas fa-user margin-5px-right"></i><a
-                                            th:text="'Nombre de places: ' + ${evenement.nb_place_evenement}"></a></li>
-                                </ul>
-                                <p th:text="${evenement.description_evenement}"></p>
-                                <a class="butn small margin-10px-top md-no-margin-top"
-                                   th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}">Read More <i
-                                        class="fas fa-long-arrow-alt-right margin-10px-left"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-5 order-1 order-lg-1">
-                            <div class="position-relative">
-                                <img class="event-image" th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" alt="">
-                                <div class="events-date">
-                                    <div class="font-size28"><p
-                                            th:text="${evenement.debut_evenement.getDayOfMonth()}"></p></div>
-                                    <div class="font-size14">
-                                        <th:block th:switch="${evenement.debut_evenement.getMonthValue()}">
-                                            <p th:case="1">Jan</p>
-                                            <p th:case="2">Fév</p>
-                                            <p th:case="3">Mar</p>
-                                            <p th:case="4">Avr</p>
-                                            <p th:case="5">Mai</p>
-                                            <p th:case="6">Juin</p>
-                                            <p th:case="7">Juil</p>
-                                            <p th:case="8">Août</p>
-                                            <p th:case="9">Sept</p>
-                                            <p th:case="10">Oct</p>
-                                            <p th:case="11">Nov</p>
-                                            <p th:case="12">Déc</p>
-                                        </th:block>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-            </td>
         </tr>
         </tbody>
     </table>
@@ -569,7 +587,7 @@
             </a>
         </li>
         <li><a href="/eventz/generalchat">Général Chat</a></li>
-        <li ><a href="#"></a><span>Participez à plus d'événement pour accéder à plus de conversations</span>
+        <li><a href="#"></a><span>Participez à plus d'événement pour accéder à plus de conversations</span>
         </li>
     </ul>
 </aside>
@@ -682,6 +700,7 @@
             event.preventDefault();
         });
     });
+
     class MessageBox {
         constructor(option) {
             this.option = option || {};
