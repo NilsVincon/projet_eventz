@@ -8,6 +8,8 @@
           integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
 
     <style>
+        @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
+
         .container {
             padding: 20px;
             display: flex;
@@ -196,7 +198,7 @@
         }
 
         body {
-            background: #ffffff;
+             background-image: url("/images/background.webp");
         }
 
         .events-date {
@@ -284,12 +286,105 @@
         .margin-10px-right {
             margin-right: 10px;
         }
+        /*****************************/
+        /* MESSAGE BOX RELATED CLASS */
+        /*          (START)          */
+        /*****************************/
+        .msgbox-area {
+            font-size: inherit;
+            max-height: 100%;
+            position: fixed;
+            bottom: 15px;
+            left: 20px;
+            right: 20px;
+            z-index: 100;
+
+        }
+
+        .msgbox-box {
+            font-size: inherit;
+            color: #ffffff;
+            margin: 0 0 1rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.65);
+            -webkit-backdrop-filter: blur(4px);
+            backdrop-filter: blur(4px);
+            transition: opacity 256ms ease-in;
+            background-color: gray;
+
+        }
+        .msgbox-box.msgbox-box-hide {
+            opacity: 0;
+        }
+        .msgbox-box:last-child {
+            margin: 0;
+        }
+
+        .msgbox-content {
+            font-size: inherit;
+            padding: 1.5rem;
+            padding-bottom: 0.75rem;
+            flex-shrink: 1;
+        }
+
+        .msgbox-command {
+            padding: 1.5rem;
+            padding-top: 0.75rem;
+            display: flex;
+        }
+
+        .msgbox-close {
+            color: #ffffff;
+            font-size: inherit;
+            text-decoration: none;
+            margin: 0 10px;
+            flex-grow: 0;
+            flex-shrink: 0;
+            position: relative;
+            transition: color 64ms ease-out, text-shadow 64ms ease-out;
+        }
+        .msgbox-close:hover {
+            color: #efefef;
+            text-shadow: 0 0 4px #ffffff;
+        }
+        .msgbox-close:first-child {
+            margin-left: auto;
+        }
+        .msgbox-close:last-child {
+            margin-right: 0;
+        }
+
+        @media (min-width: 481px) and (max-width: 767px) {
+            .msgbox-area {
+                left: 80px;
+                right: 80px;
+            }
+        }
+        @media (min-width: 768px) {
+            .msgbox-area {
+                width: 480px;
+                height: 0;
+                top: 15px;
+                left: auto;
+                right: 15px;
+            }
+        }
+        /*****************************/
+        /* MESSAGE BOX RELATED CLASS */
+        /*           (END)           */
+        /*****************************/
+
 
 
     </style>
     <title>Accueil</title>
 </head>
 <body>
+
+<div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
 <th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
 
 <div class="container">
@@ -586,6 +681,92 @@
             updateDateInput();
             event.preventDefault();
         });
+    });
+    class MessageBox {
+        constructor(option) {
+            this.option = option || {};
+            this.msgBoxArea = document.getElementById('msgboxArea');
+        }
+
+        show(msg, callback, closeLabel) {
+            if (closeLabel === undefined || closeLabel === null) {
+                closeLabel = "Close";
+            }
+
+            const option = this.option;
+
+            const msgboxBox = document.createElement("DIV");
+            const msgboxContent = document.createElement("DIV");
+            const msgboxCommand = document.createElement("DIV");
+            const msgboxClose = document.createElement("A");
+
+            msgboxContent.classList.add("msgbox-content");
+            msgboxContent.innerText = msg;
+
+            msgboxCommand.classList.add("msgbox-command");
+
+            msgboxClose.classList.add("msgbox-close");
+            msgboxClose.setAttribute("href", "#");
+            msgboxClose.innerText = closeLabel;
+
+            msgboxBox.classList.add("msgbox-box");
+            msgboxBox.appendChild(msgboxContent);
+
+            if (option.hideCloseButton === false || option.hideCloseButton === undefined) {
+                msgboxCommand.appendChild(msgboxClose);
+                msgboxBox.appendChild(msgboxCommand);
+            }
+
+            this.msgBoxArea.appendChild(msgboxBox);
+
+            msgboxClose.onclick = (evt) => {
+                evt.preventDefault();
+                if (msgboxBox.classList.contains("msgbox-box-hide")) {
+                    return;
+                }
+                clearTimeout(this.msgboxTimeout);
+                this.msgboxTimeout = null;
+                this.hide(msgboxBox, callback);
+            };
+
+            if (option.closeTime > 0) {
+                this.msgboxTimeout = setTimeout(() => {
+                    this.hide(msgboxBox, callback);
+                }, option.closeTime);
+            }
+        }
+
+        hideMessageBox(msgboxBox) {
+            return new Promise(resolve => {
+                msgboxBox.ontransitionend = () => {
+                    resolve();
+                };
+            });
+        }
+
+        async hide(msgboxBox, callback) {
+            if (msgboxBox !== null) {
+                msgboxBox.classList.add("msgbox-box-hide");
+            }
+            await this.hideMessageBox(msgboxBox);
+            this.msgBoxArea.removeChild(msgboxBox);
+            clearTimeout(this.msgboxTimeout);
+            if (typeof callback === "function") {
+                callback();
+            }
+        }
+    }
+
+    const msgbox = new MessageBox({
+        closeTime: 5000,
+        hideCloseButton: false
+    });
+
+
+    // Show message box automatically when the page loads
+    window.addEventListener('load', () => {
+        const username = msgboxArea.getAttribute('data-username');
+        msgbox.show("Hello, bienvenue " + username + " ça fait longtemps fdp ", null);
     });
 </script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

@@ -43,6 +43,11 @@ public class HomeController {
                     Utilisateur utilisateur = utilisateurOptional.get();
                     List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
                     model.addAttribute("evenementsparticipe", evenements);
+
+                    model.addAttribute("username", utilisateur.getUsername());
+                  //  List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
+                  ///  model.addAttribute("evenementsparticipe", evenements);
+
                 }
             }
             model.addAttribute("connecte", connecte);
