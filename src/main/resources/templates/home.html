@@ -365,6 +365,15 @@
         .msgbox-close:last-child {
             margin-right: 0;
         }
+        .transform-left {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+
+        .transform-right {
+            transform: translateX(0);
+            transition: transform 0.3s ease;
+        }
 
         @media (min-width: 481px) and (max-width: 767px) {
             .msgbox-area {
@@ -574,9 +583,9 @@
 
 
 <div class="sidebar-toggle" onclick="toggleSidebar()">
-    <span>&#9776;</span>
-</div>
-<aside class="sidebar" id="sidebar">
+   <div id="sideicon">&#9776;</div>
+
+<div class="sidebar in" id="sidebar">
     <h2>Chat</h2>
     <ul>
         <li><a href="#"></a></li>
@@ -591,15 +600,21 @@
         <li><a href="#"></a><span>Participez à plus d'événement pour accéder à plus de conversations</span>
         </li>
     </ul>
-</aside>
+</div>
+</div>
 <script>
 
     function toggleSidebar() {
         var sidebar = document.getElementById("sidebar");
+        var sideicon = document.getElementById("sideicon");
         if (sidebar.style.left === "0px") {
             sidebar.style.left = "-250px";
+            sideicon.classList.add('transform-left');
+            sideicon.classList.remove('transform-right');
         } else {
             sidebar.style.left = "0px";
+            sideicon.classList.add('transform-right');
+            sideicon.classList.remove('transform-left');
         }
     }
 

@@ -146,9 +146,12 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
-    public void addEvenement(@ModelAttribute Evenement evenement, @ModelAttribute Adresse
-            adresse, @ModelAttribute StatutEvenement statutEvenement, @RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, @ModelAttribute TypeEvenement
-                                     typeEvenement, HttpServletResponse response) {
+    public void addEvenement(@ModelAttribute Evenement evenement,
+                             @ModelAttribute Adresse adresse,
+                             @ModelAttribute StatutEvenement statutEvenement,
+                             @RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart,
+                             @ModelAttribute TypeEvenement typeEvenement,
+                             HttpServletResponse response) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
@@ -157,25 +160,39 @@ public class EvenementController {
             if (organisateurOptional.isPresent()) {
                 organisateur = organisateurOptional.get();
             }
-            typeEvenementService.creerTypeEvenement(typeEvenement);
-            evenement.setTypeEvenement(typeEvenement);
-            adresseService.creerAdresse(adresse);
-            evenement.setAdresse(adresse);
-            statutEvenementService.creerStatut(statutEvenement);
-            evenement.setStatutEvenement(statutEvenement);
+
+            if (typeEvenement != null && typeEvenement.getDescription_type_evenement() != null) {
+                typeEvenementService.creerTypeEvenement(typeEvenement);
+                evenement.setTypeEvenement(typeEvenement);
+            }
+
+            if (adresse != null && adresse.getRue_adresse() != null) {
+                adresseService.creerAdresse(adresse);
+                evenement.setAdresse(adresse);
+            }
+
+            if (statutEvenement != null && statutEvenement.getDescription_statut_evenement() != null) {
+                statutEvenementService.creerStatut(statutEvenement);
+                evenement.setStatutEvenement(statutEvenement);
+            }
+
             evenement.setOrganisateur(organisateur);
-            participeService.addParticipe(new Participe(evenement,organisateur));
-            if (!pdpEvenementMultiPart.isEmpty()) {
+
+            if (pdpEvenementMultiPart != null && !pdpEvenementMultiPart.isEmpty()) {
                 byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
                 evenement.setPdpEvenement(pdpBytes);
             }
+
             evenementService.addEvenement(evenement);
+            participeService.addParticipe(new Participe(evenement, organisateur));
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
         } catch (Exception e) {
-            log.error("Erreur lors de l'ajout de l'evenement");
+            log.error("Erreur lors de l'ajout de l'evenement", e);
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
     }
+
 
     @DeleteMapping(path = "/deleteevenement/{evenementId}")
     public ResponseEntity<String> deleteEvenement(@PathVariable("evenementId") Long evenementId) {

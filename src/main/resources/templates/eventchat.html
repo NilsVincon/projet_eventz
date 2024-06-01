@@ -31,7 +31,7 @@
     <div class="connecting pt-2 text-center text-blue-100 w-full">
       Connecting...
     </div>
-    <div class="flex-1 overflow-y-scroll mt-2">
+    <div id="messageContainer" class="flex-1 mt-2 overflow-y-auto">
       <ul id="messageArea" class="px-5">
         <li th:each="message : ${messages}"
             th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
