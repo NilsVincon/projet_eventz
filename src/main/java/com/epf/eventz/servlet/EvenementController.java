@@ -164,6 +164,7 @@ public class EvenementController {
             statutEvenementService.creerStatut(statutEvenement);
             evenement.setStatutEvenement(statutEvenement);
             evenement.setOrganisateur(organisateur);
+            participeService.addParticipe(new Participe(evenement,organisateur));
             if (!pdpEvenementMultiPart.isEmpty()) {
                 byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
                 evenement.setPdpEvenement(pdpBytes);

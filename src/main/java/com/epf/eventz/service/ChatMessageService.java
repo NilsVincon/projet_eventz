@@ -2,11 +2,13 @@ package com.epf.eventz.service;
 
 import com.epf.eventz.dao.ChatMessageDAO;
 import com.epf.eventz.model.ChatMessage;
+import com.epf.eventz.model.Evenement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ChatMessageService {

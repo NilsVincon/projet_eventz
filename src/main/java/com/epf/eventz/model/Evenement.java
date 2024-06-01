@@ -48,9 +48,6 @@ public class Evenement {
     @OneToMany(mappedBy = "evenement")
     private List<Participe> participes;
 
-    @OneToMany(mappedBy = "evenement")
-    private List<ChatMessage> chatMessages;
-
     private String nom_evenement;
     private String description_evenement;
     private LocalDate debut_evenement;

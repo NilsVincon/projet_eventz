@@ -113,8 +113,7 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage/{eventname}")
     @SendTo("/topic/{eventname}")
     public ChatMessage sendEventMessage(
-            @Payload ChatMessage chatMessage,
-            @DestinationVariable String eventname
+            @Payload ChatMessage chatMessage
     ) {
         chatMessageService.censorMessage(chatMessage);
         chatMessageService.save(chatMessage);

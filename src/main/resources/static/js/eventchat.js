@@ -66,38 +66,43 @@ function onMessageReceived(payload) {
     var messageElement = document.createElement('li');
 
     if (message.type === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
+        messageElement.classList.add('event-message', 'text-center', 'text-blue-100');
+        messageElement.textContent = message.sender + ' a rejoin!';
     } else if (message.type === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+        messageElement.classList.add('event-message', 'text-center', 'text-blue-100');
+        messageElement.textContent = message.sender + ' est parti!';
     } else {
-        messageElement.classList.add('chat-message');
+        messageElement.classList.add('chat-message', 'flex', 'items-center', 'py-3');
 
         var avatarElement = document.createElement('div');
-        var iconElement = document.createElement('i'); // Création de l'élément <i>
-        var imageElement = document.createElement('img'); // Création de l'élément image
-        imageElement.setAttribute('src', '/eventz/user/profile-image/' + userId); // Définir l'attribut src de l'image
-        imageElement.setAttribute('alt', 'Profile Picture'); // Définir l'attribut alt de l'image
-        imageElement.classList.add('profile-picture'); // Ajouter la classe profile-picture à l'image
+        avatarElement.classList.add('flex-shrink-0');
 
-        iconElement.appendChild(imageElement); // Ajouter l'élément image à l'élément <i>
+        var imageElement = document.createElement('img');
+        imageElement.setAttribute('src', '/eventz/user/profile-image/' + userId);
+        imageElement.setAttribute('alt', 'Profile Picture');
+        imageElement.onerror = function() {
+            this.src = '/images/logo_connexion.png';
+        };
+        imageElement.classList.add('w-14', 'h-14', 'object-cover', 'rounded-full');
 
-        avatarElement.appendChild(iconElement); // Ajouter l'élément <i> à l'élément div
-
+        avatarElement.appendChild(imageElement);
         messageElement.appendChild(avatarElement);
 
+        var messageContentElement = document.createElement('div');
+        messageContentElement.classList.add('ml-2');
+
         var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+        usernameElement.classList.add('font-extrabold','text-blue-100');
+        usernameElement.textContent = message.sender;
+        messageContentElement.appendChild(usernameElement);
+
+        var textElement = document.createElement('p');
+        textElement.classList.add('text-blue-100');
+        textElement.textContent = message.content;
+        messageContentElement.appendChild(textElement);
+
+        messageElement.appendChild(messageContentElement);
     }
-
-    var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
-
-    messageElement.appendChild(textElement);
 
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;

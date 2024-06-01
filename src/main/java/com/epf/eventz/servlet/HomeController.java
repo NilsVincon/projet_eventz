@@ -48,8 +48,6 @@ public class HomeController {
                     model.addAttribute("evenementsparticipe", evenements);
 
                     model.addAttribute("username", utilisateur.getUsername());
-                  //  List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
-                  ///  model.addAttribute("evenementsparticipe", evenements);
 
 
                 }

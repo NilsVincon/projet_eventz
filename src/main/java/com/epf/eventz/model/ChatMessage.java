@@ -19,7 +19,4 @@ public class ChatMessage {
     private String content;
     private String sender;
     private String destination;
-    @ManyToOne
-    private Evenement evenement;
-
 }
