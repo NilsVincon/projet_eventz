@@ -33,23 +33,21 @@ import java.util.stream.Collectors;
 @RequestMapping("/eventz/evenement")
 public class EvenementController {
     /*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
-
-    private final EvenementService evenementService;
-    private final AdresseService adresseService;
-    private final StatutEvenementService statutEvenementService;
-    private final TypeEvenementService typeEvenementService;
-    private final UtilisateurService utilisateurService;
-    private final ParticipeService participeService;
+    @Autowired
+    private EvenementService evenementService;
+    @Autowired
+    private AdresseService adresseService;
+    @Autowired
+    private StatutEvenementService statutEvenementService;
+    @Autowired
+    private TypeEvenementService typeEvenementService;
+    @Autowired
+    private UtilisateurService utilisateurService;
+    @Autowired
+    private ParticipeService participeService;
 
     @Autowired
-    public EvenementController(EvenementService evenementService, AdresseService adresseService, StatutEvenementService statutEvenementService, TypeEvenementService typeEvenementService, UtilisateurService utilisateurService, ParticipeService participeService) {
-        this.evenementService = evenementService;
-        this.adresseService = adresseService;
-        this.statutEvenementService = statutEvenementService;
-        this.typeEvenementService = typeEvenementService;
-        this.utilisateurService = utilisateurService;
-        this.participeService = participeService;
-    }
+    private ArtisteService artisteService;
 
     @GetMapping("/details")
     public String afficherDetails(@RequestParam("id") Long event_id, Model model) {
@@ -136,6 +134,9 @@ public class EvenementController {
             List<TypeEvenement> typeEvenements = typeEvenementService.trouverTousTypeEvenements();
             Set<TypeEvenement> typeEvenementsUnique = new HashSet<>(typeEvenements);
             model.addAttribute("typeEvenements",typeEvenementsUnique);
+            List<Artiste> artistes = artisteService.findAllArtistes();
+            model.addAttribute("artistes",artistes);
+
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

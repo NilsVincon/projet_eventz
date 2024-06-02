@@ -7,6 +7,8 @@ import com.epf.eventz.service.ArtisteService;
 import com.epf.eventz.service.UtilisateurService;
 import com.epf.eventz.model.*;
 import com.epf.eventz.service.PrefererArtisteService;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,12 +18,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
 
 
 @Controller
+@Slf4j
 @RequestMapping("/eventz/artiste")
 public class ArtisteController {
 
@@ -37,7 +41,7 @@ public class ArtisteController {
     }
 
     @GetMapping("/admin/listeartiste")
-    public String listArtistes(Model model){
+    public String listArtistes(Model model) {
         try {
             List<Artiste> artistes = artisteService.findAllArtistes();
             model.addAttribute("artistes", artistes);
@@ -47,8 +51,9 @@ public class ArtisteController {
 
         return "listeArtiste";
     }
+
     @PostMapping("/addartiste")
-    public ResponseEntity<String> addArtiste(@RequestBody Artiste artiste){
+    public ResponseEntity<String> addArtiste(@RequestBody Artiste artiste) {
         try {
             artisteService.addArtiste(artiste);
             return ResponseEntity.ok("Artiste ajouté avec succès");
@@ -57,11 +62,26 @@ public class ArtisteController {
         }
     }
 
+    @PostMapping("/addartistefromevent")
+    public ResponseEntity<String> addArtisteFromEvent(@ModelAttribute Artiste artiste, @RequestParam MultipartFile pdpArtisteMultiPart) {
+        try {
+            if (pdpArtisteMultiPart != null && !pdpArtisteMultiPart.isEmpty()) {
+                byte[] pdpBytes = pdpArtisteMultiPart.getBytes();
+                artiste.setPdpArtiste(pdpBytes);
+            }
+            artisteService.addArtiste(artiste);
+            Long artisteId = artiste.getId_artiste();
+            String artisteName = artiste.getNom_artiste();
+            return ResponseEntity.ok("success," + artisteId + "," + artisteName);
+        } catch (Exception e) {
+            log.error("Erreur lors de l'ajout de l'evenement", e);
+            return ResponseEntity.status(500).body("error");
+        }
+    }
 
 
-
-    @DeleteMapping(path="/deleteartiste/{artisteId}")
-    public ResponseEntity<String> deleteArtiste(@PathVariable("artisteId")Long artisteId){
+    @DeleteMapping(path = "/deleteartiste/{artisteId}")
+    public ResponseEntity<String> deleteArtiste(@PathVariable("artisteId") Long artisteId) {
         try {
             artisteService.deleteArtiste(artisteId);
             return ResponseEntity.ok("Artiste supprimé avec succès");
@@ -71,8 +91,9 @@ public class ArtisteController {
     }
 
 
-    @PutMapping(path="/modifyartiste/{artisteId}")
-    public ResponseEntity<String> updateArtiste(@PathVariable("artisteId") Long artisteId, @RequestBody Artiste artiste){
+    @PutMapping(path = "/modifyartiste/{artisteId}")
+    public ResponseEntity<String> updateArtiste(@PathVariable("artisteId") Long artisteId, @RequestBody Artiste
+            artiste) {
         try {
             artisteService.updateArtiste(artisteId, artiste);
             return ResponseEntity.ok("Artiste mis à jour avec succès");
@@ -80,6 +101,7 @@ public class ArtisteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'artiste: " + e.getMessage());
         }
     }
+
     @GetMapping("/{id}")
     public String listAdresses(@PathVariable Long id, Model model) throws ServiceException {
         Optional<Artiste> artisteOptional = artisteService.findArtisteById(id);
@@ -109,8 +131,10 @@ public class ArtisteController {
             return "redirect:/error";
         }
     }
+
     @PostMapping("/follow")
-    public String suivreArtiste(@RequestParam("id_artiste") Long id_artiste, @ModelAttribute PrefererArtiste prefererArtiste) {
+    public String suivreArtiste(@RequestParam("id_artiste") Long id_artiste, @ModelAttribute PrefererArtiste
+            prefererArtiste) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Optional<Artiste> artisteOptional = artisteService.findArtisteById(id_artiste);
@@ -119,13 +143,12 @@ public class ArtisteController {
             if (artisteOptional.isPresent() && utilisateurOptional.isPresent()) {
                 Artiste artiste = artisteOptional.get();
                 Utilisateur utilisateur = utilisateurOptional.get();
-                if(!prefererArtisteService.countPrefereArtisteByAll(artiste, utilisateur)) {
+                if (!prefererArtisteService.countPrefereArtisteByAll(artiste, utilisateur)) {
                     prefererArtiste.setArtiste(artiste);
                     prefererArtiste.setUtilisateur(utilisateur);
                     prefererArtisteService.creerPrefererArtiste(prefererArtiste);
-                }
-                else{
-                    prefererArtisteService.supprimerPrefererArtiste(prefererArtisteService.findByArtisteAndUtilisateur(artiste,utilisateur));
+                } else {
+                    prefererArtisteService.supprimerPrefererArtiste(prefererArtisteService.findByArtisteAndUtilisateur(artiste, utilisateur));
                 }
                 return "redirect:/eventz/artiste/" + id_artiste;
             } else {
@@ -154,8 +177,6 @@ public class ArtisteController {
         }
         return null;
     }
-
-
 
 
 }
