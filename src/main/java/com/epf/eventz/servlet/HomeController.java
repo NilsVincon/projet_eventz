@@ -39,9 +39,7 @@ public class HomeController {
     public String listEvenements(Model model) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            Boolean connecte = false;
             if (!authentication.getName().equals("anonymousUser")) {
-                connecte = true;
                 Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
                 if(utilisateurOptional.isPresent()){
                     Utilisateur utilisateur = utilisateurOptional.get();
@@ -56,7 +54,6 @@ public class HomeController {
 
                 }
             }
-            model.addAttribute("connecte", connecte);
             List<Evenement> evenements = evenementService.findAllEvenements();
             model.addAttribute("evenements", evenements);
             List<TypeEvenement> typeEvenements = typeEvenementService.trouverTousTypeEvenements();
