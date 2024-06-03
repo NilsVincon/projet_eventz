@@ -15,6 +15,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
@@ -122,19 +124,19 @@ public class UtilisateurController {
         }
     }
 
-
-
-
-
-
     @PostMapping("/modifier/profil")
-    public void updateProfile(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response) throws IOException {
+    public void updateProfile(
+            @ModelAttribute Utilisateur utilisateur,
+            @RequestParam("pdpUtilisateurInput") MultipartFile pdpUtilisateurInput,
+            HttpServletResponse response,
+            RedirectAttributes redirectAttributes) throws IOException {
+
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String username = authentication.getName();
             Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
 
-                if (userOptional.isPresent()) {
+            if (userOptional.isPresent()) {
                 Utilisateur existingUser = userOptional.get();
                 // Mettre à jour les champs du profil avec les nouvelles valeurs
                 existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
@@ -142,6 +144,13 @@ public class UtilisateurController {
                 existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
                 existingUser.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
                 existingUser.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
+                existingUser.setUsername(utilisateur.getUsername());
+
+                // Gérer la mise à jour de l'image de profil
+                if (!pdpUtilisateurInput.isEmpty()) {
+                    byte[] pdpBytes = pdpUtilisateurInput.getBytes();
+                    existingUser.setPdpUtilisateur(pdpBytes);
+                }
 
                 // Appeler le service pour mettre à jour l'utilisateur
                 utilisateurService.modifierUtilisateur((long) existingUser.getId_utilisateur(), existingUser);
@@ -150,22 +159,17 @@ public class UtilisateurController {
                 response.setStatus(HttpStatus.FOUND.value());
 
             } else {
-                    response.sendError(HttpStatus.NOT_FOUND.value(), "Utilisateur non trouvé");
+                response.sendError(HttpStatus.NOT_FOUND.value(), "Utilisateur non trouvé");
             }
         } catch (Exception e) {
             response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur lors de la mise à jour du profil: " + e.getMessage());
         }
     }
+
+
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/modifier/profil")
-    public String modifierProfilUser(Model model) throws ServiceException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
-        if (userOptional.isPresent()) {
-            Utilisateur user = userOptional.get();
-            model.addAttribute("user", user);
-        }
+    public String modifierProfilUser() throws ServiceException {
         return "modifierProfil";
     }
 
