@@ -46,6 +46,8 @@ public class EvenementController {
     @Autowired
     private ParticipeService participeService;
     @Autowired
+    private EmailService emailService;
+    @Autowired
     private PerformeService performeService;
 
     @Autowired
@@ -135,9 +137,9 @@ public class EvenementController {
         try {
             List<TypeEvenement> typeEvenements = typeEvenementService.trouverTousTypeEvenements();
             Set<TypeEvenement> typeEvenementsUnique = new HashSet<>(typeEvenements);
-            model.addAttribute("typeEvenements",typeEvenementsUnique);
+            model.addAttribute("typeEvenements", typeEvenementsUnique);
             List<Artiste> artistes = artisteService.findAllArtistes();
-            model.addAttribute("artistes",artistes);
+            model.addAttribute("artistes", artistes);
 
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -163,6 +165,20 @@ public class EvenementController {
             Utilisateur organisateur = null;
             if (organisateurOptional.isPresent()) {
                 organisateur = organisateurOptional.get();
+            }
+
+            if (evenement.getPublic_evenement().equals(false)) {
+                String subject = "Votre nouvel évènement privé : " + evenement.getNom_evenement();
+                String lienEvenement = "http://localhost:8080/eventz/evenement/details?id=" + evenement.getIdEvenement();
+                String organisateurEmailAdresse = organisateur.getEmail_utilisateur();
+                String bodyEmail = "Bonjour " + organisateur.getPrenom_utilisateur() + " " + organisateur.getNom_utilisateur() + ",\n\n"
+                        + "Vous venez de créer un évènement privé sur Eventz : " + evenement.getNom_evenement() + ".\n\n"
+                        + "Voici le lien que vous pouvez partager avec vos amis pour qu'ils puissent rejoindre l'évènement :"
+                        + lienEvenement +"\n\n"
+                        + "Merci d'avoir choisi Eventz pour organiser vos évènements. Nous vous souhaitons une excellente soirée.\n\n"
+                        + "Cordialement,\n\n"
+                        + "L'équipe Eventz";
+                emailService.sendEmail(organisateurEmailAdresse, subject, bodyEmail);
             }
 
             if (typeEvenement != null && typeEvenement.getDescription_type_evenement() != null) {
@@ -194,7 +210,7 @@ public class EvenementController {
                 Optional<Artiste> artisteOptional = artisteService.findArtisteById(id);
                 if (artisteOptional.isPresent()) {
                     Artiste artiste = artisteOptional.get();
-                    Performe performance = new Performe(evenement,artiste);
+                    Performe performance = new Performe(evenement, artiste);
                     performeService.creer(performance);
                 }
             }
@@ -230,14 +246,13 @@ public class EvenementController {
             if (evenementOptional.isPresent() && userOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
                 Utilisateur utilisateur = userOptional.get();
-                if (participeService.nbparticipants(evenement)+1 < evenement.getNb_place_evenement()){
+                if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
                     Participe participe = new Participe(evenement, utilisateur);
                     participeService.addParticipe(participe);
-                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id+"&fullevent="+false);
+                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id + "&fullevent=" + false);
                     response.setStatus(HttpStatus.FOUND.value());
-                }
-                else {
-                    response.setHeader("Location","/eventz/evenement/details?id=" + event_id+"&fullevent="+true);
+                } else {
+                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id + "&fullevent=" + true);
                     response.setStatus(HttpStatus.FOUND.value());
                 }
             }

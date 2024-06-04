@@ -6,6 +6,7 @@ import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.model.UtilisateurSecurity;
 /*import com.epf.eventz.security.JwtAuthentificationEntryPoint;*/
 import com.epf.eventz.security.JwtGenerator;
+import com.epf.eventz.service.EmailService;
 import com.epf.eventz.service.JwtService;
 import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.Cookie;
@@ -31,24 +32,20 @@ import java.util.Objects;
 @RequestMapping("/eventz/auth")
 public class AuthentificationController {
 
-
-    private AuthenticationManager authenticationManager;
-    private UtilisateurDAO userDAO;
-    private UtilisateurService utilisateurService;
-    private PasswordEncoder passwordEncoder;
-
-    private JwtGenerator jwtGenerator;
-    private JwtService jwtService;
-
     @Autowired
-    public AuthentificationController(AuthenticationManager authenticationManager, UtilisateurDAO userDAO, PasswordEncoder passwordEncoder, JwtGenerator jwtGenerator, JwtService jwtService, UtilisateurService utilisateurService) {
-        this.authenticationManager = authenticationManager;
-        this.userDAO = userDAO;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtGenerator = jwtGenerator;
-        this.jwtService = jwtService;
-        this.utilisateurService = utilisateurService;
-    }
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private UtilisateurDAO userDAO;
+    @Autowired
+    private UtilisateurService utilisateurService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private JwtGenerator jwtGenerator;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping
     public Iterable<Utilisateur> findAll() {
@@ -108,6 +105,14 @@ public class AuthentificationController {
         }
         try {
             utilisateurService.creerUtilisateur(utilisateur);
+            String bodyBienvenue = "Bonjour " + utilisateur.getPrenom_utilisateur() + " " + utilisateur.getNom_utilisateur() + ",\n\n"
+                    + "Nous sommes ravis que vous ayez choisi Eventz pour passer vos meilleures soirées !\n"
+                    + "Notre équipe est là pour vous accompagner et vous aider à organiser des événements inoubliables.\n\n"
+                    + "N'hésitez pas à nous contacter si vous avez la moindre question ou si vous avez besoin d'aide.\n\n"
+                    + "Bienvenue dans la communauté Eventz !\n\n"
+                    + "Cordialement,\n\n"
+                    + "L'équipe Eventz";
+            emailService.sendEmail(utilisateur.getEmail_utilisateur(),"Bienvenue chez Eventz !!",bodyBienvenue);
             response.setHeader("Location", "/eventz/auth/login");
         } catch (ServiceException e) {
             throw new RuntimeException(e);

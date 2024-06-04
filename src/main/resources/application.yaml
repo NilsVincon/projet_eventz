@@ -16,4 +16,16 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
+  mail:
+    host: smtp.gmail.com
+    username: eventz.epf@gmail.com
+    password: uzeu ywmv cpdv wjmi
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    port: 587
+
 
