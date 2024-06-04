@@ -13,5 +13,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PerformeService {
+    @Autowired
+    PerformeDAO performeDAO;
+
+    public void creer(Performe performe){
+        performeDAO.save(performe);
+    }
 
 }

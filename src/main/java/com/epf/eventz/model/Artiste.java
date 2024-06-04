@@ -37,6 +37,11 @@ public class Artiste {
     @OneToMany(mappedBy = "artiste")
     private List<Jouer> jouers;
 
+    public Artiste(String nom_artiste,String description_artiste){
+        this.nom_artiste = nom_artiste;
+        this.description_artiste = description_artiste;
+    }
+
     public Artiste(String nom_artiste, String description_artiste, List<PrefererArtiste> prefererArtistes, List<Performe> performances, List<Jouer> jouers) {
         this.nom_artiste = nom_artiste;
         this.description_artiste = description_artiste;

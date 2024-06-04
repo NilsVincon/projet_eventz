@@ -74,14 +74,25 @@ public class FillDataBase {
             artisteService.addArtiste(artiste);
 
             Artiste playbloi = new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref, ListePerforme, ListeJouer);
-            Artiste artiste1 = new Artiste();
-            artiste1.setPdpArtiste(imageData);
-            artiste1.setDescription_artiste("okkk");
-            artiste1.setNom_artiste("jul");
-
             artisteService.addArtiste(playbloi);
+            Artiste artiste1 = new Artiste("Jul","Le J c'est le S");
+            Artiste artiste2 = new Artiste("Naps","Le J c'est le S");
+            Artiste artiste3 = new Artiste("J9","Le J c'est le S");
+            Artiste artiste4 = new Artiste("PLK","Le J c'est le S");
+            Artiste artiste5 = new Artiste("PNL","Le J c'est le S");
+            Artiste artiste6 = new Artiste("ZKR","Le J c'est le S");
+            Artiste artiste7 = new Artiste("JackUZI","Le J c'est le S");
+            Artiste artiste8 = new Artiste("BenoitLeThug","Le J c'est le S");
+            Artiste artiste9 = new Artiste("MichiBOO","Le J c'est le S");
             artisteService.addArtiste(artiste1);
-
+            artisteService.addArtiste(artiste2);
+            artisteService.addArtiste(artiste3);
+            artisteService.addArtiste(artiste4);
+            artisteService.addArtiste(artiste5);
+            artisteService.addArtiste(artiste6);
+            artisteService.addArtiste(artiste7);
+            artisteService.addArtiste(artiste8);
+            artisteService.addArtiste(artiste9);
 
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");

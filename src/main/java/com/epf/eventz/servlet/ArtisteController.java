@@ -72,6 +72,7 @@ public class ArtisteController {
             artisteService.addArtiste(artiste);
             Long artisteId = artiste.getId_artiste();
             String artisteName = artiste.getNom_artiste();
+            log.info(artiste.getNom_artiste()+" à bien été ajouté");
             return ResponseEntity.ok("success," + artisteId + "," + artisteName);
         } catch (Exception e) {
             log.error("Erreur lors de l'ajout de l'evenement", e);

@@ -25,8 +25,11 @@ public class Performe {
     @ManyToOne
     @JoinColumn(name = "artiste")
     private Artiste artiste;
+   /* private Date date_debut_performe;
+    private Date date_fin_performe;*/
 
-    private Date date_debut_performe;
-
-    private Date date_fin_performe;
+    public Performe(Evenement evenement, Artiste artiste) {
+        this.evenement = evenement;
+        this.artiste = artiste;
+    }
 }

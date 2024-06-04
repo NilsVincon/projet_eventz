@@ -45,6 +45,8 @@ public class EvenementController {
     private UtilisateurService utilisateurService;
     @Autowired
     private ParticipeService participeService;
+    @Autowired
+    private PerformeService performeService;
 
     @Autowired
     private ArtisteService artisteService;
@@ -152,6 +154,7 @@ public class EvenementController {
                              @ModelAttribute StatutEvenement statutEvenement,
                              @RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart,
                              @ModelAttribute TypeEvenement typeEvenement,
+                             @RequestParam("selectedArtistIdsInput") List<String> listIdArtists,
                              HttpServletResponse response) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -185,6 +188,17 @@ public class EvenementController {
             }
 
             evenementService.addEvenement(evenement);
+
+            for (String idString : listIdArtists) {
+                Long id = Long.parseLong(idString);
+                Optional<Artiste> artisteOptional = artisteService.findArtisteById(id);
+                if (artisteOptional.isPresent()) {
+                    Artiste artiste = artisteOptional.get();
+                    Performe performance = new Performe(evenement,artiste);
+                    performeService.creer(performance);
+                }
+            }
+
             participeService.addParticipe(new Participe(evenement, organisateur));
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
@@ -216,11 +230,17 @@ public class EvenementController {
             if (evenementOptional.isPresent() && userOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
                 Utilisateur utilisateur = userOptional.get();
-                Participe participe = new Participe(evenement, utilisateur);
-                participeService.addParticipe(participe);
+                if (participeService.nbparticipants(evenement)+1 < evenement.getNb_place_evenement()){
+                    Participe participe = new Participe(evenement, utilisateur);
+                    participeService.addParticipe(participe);
+                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id+"&fullevent="+false);
+                    response.setStatus(HttpStatus.FOUND.value());
+                }
+                else {
+                    response.setHeader("Location","/eventz/evenement/details?id=" + event_id+"&fullevent="+true);
+                    response.setStatus(HttpStatus.FOUND.value());
+                }
             }
-            response.setHeader("Location", "/eventz/evenement/details?id=" + event_id);
-            response.setStatus(HttpStatus.FOUND.value());
         } catch (ServiceException e) {
             throw new RuntimeException(e);
         }

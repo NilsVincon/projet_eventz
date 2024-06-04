@@ -30,5 +30,9 @@ public class ParticipeService {
     public List<Evenement> findEvenementsByUtilisateur(Utilisateur utilisateur) {
         return participeDAO.findEvenementsByUtilisateur(utilisateur);
     }
-    
+
+    public int nbparticipants(Evenement evenement){
+        return participeDAO.countParticipantsByEvenement(evenement);
+    }
+
 }

@@ -41,12 +41,20 @@
             max-width: 500px; /* Max width of the modal content */
         }
 
+
         body.modal-open {
             overflow: hidden; /* Prevent scrolling when modal is open */
         }
 
+        .ring-selection {
+            outline: 4px solid rgb(117, 30, 128);
+            outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+
         body.modal-open .content {
-            filter: blur(5px); /* Blur effect for the background */
+            filter: blur(10px);
         }
     </style>
 </head>
@@ -226,13 +234,20 @@
         <!-- Step 4 -->
         <div class="step hidden">
             <div class="text-2xl font-semibold text-center mb-4">Ajoutez des artistes !</div>
-            <div>
-                <select id="artistes" name="artistes[]" multiple
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
-                    <option value="" disabled>Choisissez des artistes</option>
-                    <option th:each="artiste : ${artistes}" th:text="${artiste.nom_artiste}" th:value="${artiste.id_artiste}"></option>
-                    <option value="add_manually">Ajouter un artiste manuellement</option>
-                </select>
+            <div class="flex item-center justify-center mt-10">
+                <div class="rounded-xl w-fit h-fit shadow" onclick="openModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                         stroke-width="1.5" class="h-44 w-44">
+                        <defs>
+                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#3b82f6"/>
+                                <stop offset="100%" stop-color="#8b5cf6"/>
+                            </linearGradient>
+                        </defs>
+                        <path stroke="url(#gradient)" stroke-linecap="round" stroke-linejoin="round"
+                              d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766"/>
+                    </svg>
+                </div>
             </div>
 
             <div class="flex justify-between">
@@ -247,7 +262,7 @@
                         type="button"
                         onclick="nextStep()"
                         id="step4Button"
-                        class="mt-6 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        class="mt-6 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
                     Continuer
                 </button>
@@ -286,40 +301,106 @@
                 </button>
             </div>
         </div>
+
         <input type="hidden" id="public_evenement" name="public_evenement" value="false">
         <input type="hidden" id="public_adresse" name="public_adresse" value="false">
+        <input type="hidden" id="selectedArtistIdsInput" name="selectedArtistIdsInput">
     </form>
 </div>
+<!-- Modal -->
+
 <div id="artistModal" class="modal flex">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+    <span class="close mb-auto mt-20" onclick="closeModal()">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="3" stroke="white" class="size-9">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
+        </svg>
+    </span>
+    <div class="bg-gray-200 rounded-lg relative shadow h-2/3 w-1/2 ml-10 overflow-y-auto flex flex-wrap pt-2 pb-7">
+        <div th:each="artiste, iterStat : ${artistes}"
+             th:id="${artiste.nom_artiste}"
+             class="mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-r from-blue-400 to-purple-600 h-28 w-72 shadow artist"
+             th:data-id="${artiste.id_artiste}">
+            <div class="flex h-full w-full" onclick="makeSelect(this)">
+                <img class="object-cover rounded-full h-20 w-20 mt-4 ml-3" alt=""
+                     th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}"/>
+                <span class="ml-10 text-2xl mt-10" th:value="${artiste.id_artiste}"
+                      th:text="${artiste.nom_artiste}"></span>
+            </div>
+        </div>
+    </div>
+    <button class="mt-auto mb-24 ml-7 font-extrabold py-3 px-2 bg-green-600 text-white rounded-xl shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
+            type="button" onclick="closeModal()">
+        Confirmer
+    </button>
+    <div class="modal-content h-fit w-1/4 ml-8">
         <h2 class="text-xl font-semibold mb-4">Ajouter un nouvel artiste</h2>
-        <form id="artisteForm" action="/eventz/artiste/addartistefromevent" method="post" enctype="multipart/form-data" target="hidden_iframe" onsubmit="submitForm(event)">
+        <form
+                id="artisteForm"
+                action="/eventz/artiste/addartistefromevent"
+                method="post"
+                enctype="multipart/form-data"
+                target="hidden_iframe"
+                onsubmit="submitForm(event)"
+        >
             <div class="mb-4">
-                <label for="nom_artiste" class="block text-sm font-medium text-gray-700">Nom de l'artiste</label>
-                <input type="text" id="nom_artiste" name="nom_artiste" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <label
+                        for="nom_artiste"
+                        class="block text-sm font-medium text-gray-700"
+                >Nom de l'artiste</label
+                >
+                <input
+                        type="text"
+                        id="nom_artiste"
+                        name="nom_artiste"
+                        required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
             </div>
             <div class="mb-4">
-                <label for="description_artiste" class="block text-sm font-medium text-gray-700">Description</label>
-                <input type="text" id="description_artiste" name="description_artiste" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <label
+                        for="description_artiste"
+                        class="block text-sm font-medium text-gray-700"
+                >Description</label
+                >
+                <input
+                        type="text"
+                        id="description_artiste"
+                        name="description_artiste"
+                        required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                />
             </div>
             <div class="mb-4">
-                <label for="pdpArtisteMultiPart" class="block text-sm font-medium text-gray-700">Ajouter une photo d'artiste</label>
+                <label
+                        for="pdpArtisteMultiPart"
+                        class="block text-sm font-medium text-gray-700"
+                >Ajouter une photo d'artiste</label
+                >
                 <div class="flex">
-                    <input type="file" id="pdpArtisteMultiPart" name="pdpArtisteMultiPart" accept="image/*"
-                           class="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                    <input
+                            type="file"
+                            id="pdpArtisteMultiPart"
+                            name="pdpArtisteMultiPart"
+                            accept="image/*"
+                            class="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                    />
                 </div>
                 <div class="flex justify-end">
-                    <button type="submit"
-                            class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                    <button
+                            type="submit"
+                            class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                    >
                         Ajouter
                     </button>
                 </div>
             </div>
         </form>
-        <iframe id="hidden_iframe" name="hidden_iframe" style="display:none;"></iframe>
+        <iframe
+                id="hidden_iframe"
+                name="hidden_iframe"
+                style="display: none"
+        ></iframe>
     </div>
 </div>
 
@@ -329,39 +410,41 @@
     toggleAdressePrivacy(true);
     closeModal();
 
-    document.getElementById('artistes').addEventListener('change', function () {
-        if (this.value === 'add_manually') {
-            openModal();
-        }
-    });
-
-    function addToDropdown(id, name) {
-        var select = document.getElementById('artistes');
-        var option = document.createElement('option');
-        option.value = id;
-        option.text = name;
-        select.add(option, 1);
-    }
 
     function submitForm(event) {
         event.preventDefault();
         var iframe = document.getElementById('hidden_iframe');
         iframe.src = 'about:blank';
-        iframe.onload = function() {
+        iframe.onload = function () {
             var response = iframe.contentDocument.body.innerText;
             if (response.includes("success")) {
-                closeModal();
                 var parts = response.split(",");
                 var artisteId = parts[1];
                 var artisteName = parts[2];
-                addToDropdown(artisteId, artisteName);
+                addToArtistes(artisteId, artisteName);
                 alert('Artiste ajouté avec succès!');//TODO REMPLACER PAR NOTIF DE AZIZ
             } else {
                 alert('Une erreur s\'est produite. Veuillez réessayer.');
             }
         };
         document.getElementById('artisteForm').submit();
+        document.getElementById('artisteForm').reset();
+        document.getElementById('artisteImage').remove();
     }
+
+    function addToArtistes(id, name) {
+        var newArtistDiv = document.createElement('div');
+        newArtistDiv.className = "mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-r from-blue-400 to-purple-600 h-28 w-72 shadow artist";
+        newArtistDiv.id = name;
+        newArtistDiv.setAttribute('data-id', id);
+        newArtistDiv.innerHTML = '<div class="flex h-full w-full" onclick="makeSelect(this)">' +
+            '<img class="object-cover rounded-full h-20 w-20 mt-4 ml-3 " alt="" src="/eventz/artiste/profile-image/' + id + '">' +
+            '<span class="ml-10 text-2xl mt-10">' + name + '</span>' +
+            '</div>';
+        var artisteContainer = document.querySelector('.bg-gray-200');
+        artisteContainer.insertBefore(newArtistDiv, artisteContainer.firstChild);
+    }
+
     function openModal() {
         document.getElementById('artistModal').style.display = 'flex';
         document.body.classList.add('modal-open');
@@ -370,7 +453,6 @@
     function closeModal() {
         document.getElementById('artistModal').style.display = 'none';
         document.body.classList.remove('modal-open');
-        document.getElementById('artistes').value = "";  // Reset the select value
     }
 
     function showStep(index) {
@@ -478,22 +560,38 @@
         reader.readAsDataURL(event.target.files[0]);
     });
 
-    document.getElementById('pdpArtisteMultiPart').addEventListener('change', function (event) {
-        var reader = new FileReader();
-        reader.onload = function () {
-            var output = document.getElementById('artisteImage');
-            if (!output) {
-                output = document.createElement('img');
-                output.id = 'artisteImage';
-                output.className = 'w-20 h-20 object-cover rounded-full ml-10';
-                output.alt = '';
-                var input = document.getElementById('pdpArtisteMultiPart');
-                input.insertAdjacentElement('afterend', output);
-            }
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
+
+    function makeSelect(element) {
+        element.classList.toggle('ring-selection');
+        const artistId = element.closest('.artist').getAttribute('data-id');
+        const selectedArtistIdsInput = document.getElementById('selectedArtistIdsInput');
+        let currentSelectedIds = selectedArtistIdsInput.value.split(',').filter(id => id !== '');
+        if (currentSelectedIds.includes(artistId)) {
+            currentSelectedIds = currentSelectedIds.filter(id => id !== artistId);
+        } else {
+            currentSelectedIds.push(artistId);
+        }
+        selectedArtistIdsInput.value = currentSelectedIds.join(',');
+    }
+
+    document
+        .getElementById("pdpArtisteMultiPart")
+        .addEventListener("change", function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById("artisteImage");
+                if (!output) {
+                    output = document.createElement("img");
+                    output.id = "artisteImage";
+                    output.className = "w-20 h-20 object-cover rounded-full ml-10";
+                    output.alt = "";
+                    var input = document.getElementById("pdpArtisteMultiPart");
+                    input.insertAdjacentElement("afterend", output);
+                }
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
 
     showStep(currentStep);
 </script>
