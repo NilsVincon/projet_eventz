@@ -1,0 +1,5 @@
+profil : 
+
+nom utilisateur pas droit sous photo 
+
+quand modif profil, entrer de date bizzare 
