@@ -82,14 +82,14 @@
             </div>
             <div class="mb-4">
                 <label for="debut_evenement" class="block text-sm font-medium text-gray-700">Date de Début*</label>
-                <input type="date" id="debut_evenement" name="debut_evenement" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <input type="date" id="debut_evenement" name="debut_evenement" required max="2025-12-31" onchange="validateDates()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
             </div>
+            <p id="date-error-1" class="text-xs italic text-red-700 mt-2"></p>
             <div class="mb-4">
                 <label for="fin_evenement" class="block text-sm font-medium text-gray-700">Date de Fin*</label>
-                <input type="date" id="fin_evenement" name="fin_evenement" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <input type="date" id="fin_evenement" name="fin_evenement" required max="2025-12-31" onchange="validateDates()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
             </div>
+            <p id="date-error-2" class="text-xs italic text-red-700 mt-2 "></p>
             <div class="flex justify-end">
                 <button type="button" onclick="nextStep()"
                         class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
@@ -274,9 +274,10 @@
             <div class="mb-4">
                 <label for="pdpEvenementMultiPart" class="block text-sm font-medium text-gray-700">Ajouter photo de
                     couverture</label>
+                <div class="flex items-center justify-center">
                 <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
-                <img src="" id="evenementImage" alt>
+                </div>
             </div>
             <div class="mb-4">
                 <button type="button"
@@ -432,6 +433,30 @@
         document.getElementById('artisteImage').remove();
     }
 
+    function validateDates() {
+        let debutEvenement = document.getElementById('debut_evenement').value;
+        let finEvenement = document.getElementById('fin_evenement').value;
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        let debutDate = new Date(debutEvenement);
+        let finDate = new Date(finEvenement);
+        let isValid = true;
+        if (debutDate < today || finDate < today) {
+            document.getElementById('date-error-1').textContent = "* N'entrez que des dates futures.";
+            isValid = false;
+        } else {
+            document.getElementById('date-error-1').textContent = "";
+        }
+        if (debutDate >= finDate) {
+            document.getElementById('date-error-2').textContent = "* Non valide";
+            isValid = false;
+        } else {
+            document.getElementById('date-error-2').textContent = "";
+        }
+        return isValid;
+    }
+
+
     function addToArtistes(id, name) {
         var newArtistDiv = document.createElement('div');
         newArtistDiv.className = "mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-r from-blue-400 to-purple-600 h-28 w-72 shadow artist";
@@ -443,6 +468,7 @@
             '</div>';
         var artisteContainer = document.querySelector('.bg-gray-200');
         artisteContainer.insertBefore(newArtistDiv, artisteContainer.firstChild);
+        makeSelect(newArtistDiv.querySelector('div'));
     }
 
     function openModal() {
@@ -501,8 +527,15 @@
 
     function nextStep() {
         if (validateStep()) {
-            currentStep = Math.min(currentStep + 1, document.querySelectorAll('.step').length - 1);
-            showStep(currentStep);
+            if (currentStep === 0) {
+                if (validateDates()) {
+                    currentStep = Math.min(currentStep + 1, document.querySelectorAll('.step').length - 1);
+                    showStep(currentStep);
+                }
+            } else {
+                currentStep = Math.min(currentStep + 1, document.querySelectorAll('.step').length - 1);
+                showStep(currentStep);
+            }
         }
     }
 
@@ -551,22 +584,32 @@
         }
     });
 
-    document.getElementById('pdpEvenementMultiPart').addEventListener('change', function (event) {
-        var reader = new FileReader();
-        reader.onload = function () {
-            var output = document.getElementById('evenementImage');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
-
+    document
+        .getElementById("pdpEvenementMultiPart")
+        .addEventListener("change", function (event) {
+            var reader = new FileReader();
+            reader.onload = function () {
+                var output = document.getElementById("evenementImage");
+                if (!output) {
+                    output = document.createElement("img");
+                    output.id = "evenementImage";
+                    output.className = "object-cover w-52 h-52 mt-10 ml-10";
+                    output.alt = "";
+                    var input = document.getElementById("pdpEvenementMultiPart");
+                    input.insertAdjacentElement("afterend", output);
+                }
+                output.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        });
 
     function makeSelect(element) {
+        const isSelected = element.classList.contains('ring-selection');
         element.classList.toggle('ring-selection');
         const artistId = element.closest('.artist').getAttribute('data-id');
         const selectedArtistIdsInput = document.getElementById('selectedArtistIdsInput');
         let currentSelectedIds = selectedArtistIdsInput.value.split(',').filter(id => id !== '');
-        if (currentSelectedIds.includes(artistId)) {
+        if (isSelected) {
             currentSelectedIds = currentSelectedIds.filter(id => id !== artistId);
         } else {
             currentSelectedIds.push(artistId);
