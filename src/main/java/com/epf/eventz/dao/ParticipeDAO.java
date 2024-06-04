@@ -25,4 +25,7 @@ public interface ParticipeDAO extends JpaRepository<Participe, Long> {
 
     @Query("SELECT p.evenement FROM Participe p WHERE p.utilisateur = :utilisateur")
     List<Evenement> findEvenementsByUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
+
+    @Query("SELECT p.utilisateur FROM Participe p WHERE p.evenement = :evenement")
+    List<Utilisateur> findUtilisateurByEvent(@Param("evenement") Evenement evenement);
 }

@@ -284,6 +284,11 @@ public class EvenementController {
                     artistes.add(performe.getArtiste());
                 }
                 model.addAttribute("evenement", evenement);
+                List<Utilisateur> Utilisateurs = new ArrayList<>();
+                for (Participe participe : evenement.getParticipes()) {
+                    Utilisateurs.add(participe.getUtilisateur());
+                }
+                model.addAttribute("Utilisateurs", Utilisateurs);
                 model.addAttribute("artistes", artistes);
                 return "events/event_details_description"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
             } else {

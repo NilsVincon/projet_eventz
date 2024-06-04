@@ -78,7 +78,7 @@
         }
 
         .sidebar-toggle {
-            position: fixed;
+            position: relative;
             top: 20px;
             left: 20px;
             cursor: pointer;
@@ -201,7 +201,8 @@
         }
 
         body {
-            background-image: url("/images/background.webp");
+            background-image: url("/images/hetheka.jpeg");
+            position: sticky ;
         }
 
         .events-date {
@@ -401,7 +402,7 @@
     </style>
     <title>Accueil</title>
 </head>
-<body>
+<body >
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
 <th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
@@ -582,26 +583,7 @@
 <th:block th:insert="~{fragments/footer :: foot}"></th:block>
 
 
-<div class="sidebar-toggle" onclick="toggleSidebar()">
-   <div id="sideicon">&#9776;</div>
 
-<div class="sidebar in" id="sidebar">
-    <h2>Chat</h2>
-    <ul>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li><a href="#"></a></li>
-        <li th:if="${evenementsparticipe != null}" th:each="evenement : ${evenementsparticipe}">
-            <a th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
-                <span th:text="${evenement.nom_evenement} + ' '+ Chat"></span>
-            </a>
-        </li>
-        <li><a href="/eventz/generalchat">Général Chat</a></li>
-        <li><a href="#"></a><span>Participez à plus d'événement pour accéder à plus de conversations</span>
-        </li>
-    </ul>
-</div>
-</div>
 <script>
 
     function toggleSidebar() {
