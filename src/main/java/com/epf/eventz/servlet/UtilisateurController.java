@@ -5,6 +5,7 @@ import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.HttpServletResponse;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,16 +46,31 @@ public class UtilisateurController {
         return "index";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/profil/{utilisateurName}")
     public String profilUser(@PathVariable("utilisateurName") String utilisateurName, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         try {
-            Optional<Utilisateur> utilisateur = utilisateurService.trouverUtilisateurAvecname(utilisateurName);
-            model.addAttribute("utilisateur", utilisateur);
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(utilisateurName);
+            if (utilisateurOptional.isPresent())  {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(utilisateur.getUsername());
+                List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(utilisateur.getUsername());
+                List<Artiste> artistes=utilisateurService.trouverArtistesByUsername(utilisateur.getUsername());
+                model.addAttribute("suiveurs", suiveurs);
+                model.addAttribute("suivis", suivis);
+                model.addAttribute("artistes", artistes);
+                if (authentication.getName().equals(utilisateurName)){
+                    model.addAttribute("user", utilisateur);
+                    return "profil_utilisateur";
+                }
+                model.addAttribute("utilisateur", utilisateur);
+            }
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "profil";
+        return "profil_ami";
     }
 
 
