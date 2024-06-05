@@ -1,4 +1,4 @@
-<nav th:fragment="nav" class="bg-gradient-to-l from-purple-900 to-gray-700 via-purple-600 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+<nav th:fragment="nav" class="dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <link href="../../output.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -10,6 +10,9 @@
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+        nav{
+            font-family: 'Dela Gothic One',sans-serif;
+        }
         #wrapper {
             padding-left: 0;
             transition: all 0.5s ease;
@@ -427,7 +430,7 @@
             </button>
             <a href="/eventz/home" class="flex items-center">
                 <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo"/>
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
+                <span class="self-center text-4xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
             </a>
         </div>
         <div class="flex items-center md:order-2 space-x-8 rtl:space-x-reverse">
