@@ -73,8 +73,8 @@ public class EvenementController {
 
     }
 
-    @GetMapping("/afficherEvenement")
-    public String afficherEvenement(@RequestParam("evenement") String evenement, Model model) {
+    @GetMapping("/afficherEvenement/{evenement}")
+    public String afficherEvenement(@PathVariable("evenement") String evenement, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.getName().equals("anonymousUser")) {
             Optional<Utilisateur> utilisateurOptional = null;
