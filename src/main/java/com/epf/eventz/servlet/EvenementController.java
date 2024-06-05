@@ -243,10 +243,11 @@ public class EvenementController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostMapping(path = "/update")
-    public void updateEvenement(@RequestParam("id") Long
-                                                          evenementId, @RequestBody Evenement evenement, HttpServletResponse response) throws IOException {
+    @PostMapping(path = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void updateEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement,@ModelAttribute Adresse adresse,
+                                                                @ModelAttribute TypeEvenement typeEvenement,@RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, HttpServletResponse response) throws IOException {
         try {
+            log.info("Evenement :"+evenement.getNom_evenement());
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement existingevenement = evenementOptional.get();
@@ -256,6 +257,23 @@ public class EvenementController {
                 existingevenement.setFin_evenement(evenement.getFin_evenement());
                 existingevenement.setPrix_evenement(evenement.getPrix_evenement());
                 existingevenement.setNb_place_evenement(evenement.getNb_place_evenement());
+                existingevenement.setPublic_evenement(evenement.getPublic_evenement());
+
+                if (pdpEvenementMultiPart != null && !pdpEvenementMultiPart.isEmpty()) {
+                    byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
+                    existingevenement.setPdpEvenement(pdpBytes);
+                }
+
+                if (typeEvenement != null && typeEvenement.getDescription_type_evenement() != null) {
+                    typeEvenementService.creerTypeEvenement(typeEvenement);
+                    existingevenement.setTypeEvenement(typeEvenement);
+                }
+
+                if (adresse != null && adresse.getRue_adresse() != null) {
+                    adresseService.creerAdresse(adresse);
+                    existingevenement.setAdresse(adresse);
+                }
+
 
                 // Appeler le service pour mettre à jour l'utilisateur
                 evenementService.updateEvenement(evenementId, existingevenement);

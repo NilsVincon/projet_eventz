@@ -31,16 +31,19 @@
         Modifier l'événement !
     </div>
     <form id="registrationForm" action="/eventz/evenement/update" method="post" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <input type="hidden" name="id" th:value="${event.idEvenement}">
+        <input type="hidden" id="public_evenement" name="public_evenement" th:value="${event.public_evenement}">
+        <input type="hidden" id="adresse_evenement" name="adresse_evenement" th:value="${event.adresse.isPublic_adresse()}">
         <!-- Informations générales -->
         <div class="col-span-1 md:col-span-1 p-4 border rounded-lg shadow-sm">
             <div class="text-xl font-semibold mb-2">Informations Générales</div>
             <div class="mb-4">
                 <label for="nom_evenement" class="block text-sm font-medium text-gray-700">Nom Événement*</label>
-                <input type="text" id="nom_evenement" name="nom_evenement" th:value="${event.nom_evenement}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
+                <input type="text" id="nom_evenement" name="nom_evenement" th:value="${event.public_evenement}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
             </div>
             <div class="mb-4">
                 <label for="description_evenement" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea id="description_evenement" name="description_evenement" th:text="${event.description_evenement}" rows="4"  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"></textarea>
+                <textarea id="description_evenement" name="description_evenement" th:text="${event.adresse.isPublic_adresse()}" rows="4"  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"></textarea>
             </div>
             <div class="mb-4">
                 <label for="description_type_evenement" class="block text-sm font-medium text-gray-700">Type Événement*</label>
@@ -72,13 +75,13 @@
             <div class="mb-4">
                 <span class="block text-sm font-medium text-gray-700">Événement Privé / Public</span>
                 <div class="flex items-center mt-2">
-                    <button id="privateEvenementBtn" type="button" onclick="toggleEventPrivacy(true)" th:value="${event.public_evenement == false}" class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    <button id="privateEvenementBtn" type="button" onclick="toggleEventPrivacy(true)" class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
                         </svg>
                         Privé
                     </button>
-                    <button id="publicEvenementBtn" type="button" onclick="toggleEventPrivacy(false)" th:value="${event.public_evenement == true}" class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
+                    <button id="publicEvenementBtn" type="button" onclick="toggleEventPrivacy(false)" class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
                         </svg>
@@ -117,13 +120,13 @@
                 <div class="mb-1">
                     <span class="block text-sm font-medium text-gray-700">Adresse Privé / Public</span>
                     <div class="flex items-center mt-2">
-                        <button id="privateAdresseBtn" type="button" onclick="toggleEventPrivacy(true)"  class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                        <button id="privateAdresseBtn" type="button" onclick="toggleAdressePrivacy(true)"  class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
                             </svg>
                             Privé
                         </button>
-                        <button id="publicAdresseBtn" type="button" onclick="toggleEventPrivacy(false)" class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
+                        <button id="publicAdresseBtn" type="button" onclick="toggleAdressePrivacy(false)" class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
                             </svg>
@@ -142,17 +145,14 @@
                     <img th:src="${event.hasPdp() ? '/eventz/evenement/image/' + event.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" class="img-fluid profile-cover" alt="profile cover">
                 </figure>
                 <label for="pdpEvenementMultiPart" class="block text-sm font-medium text-gray-700">Ajouter photo de couverture</label>
-                <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" th:value="${event.getPdpEvenement()}" accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-                <img src="" id="evenementImage" alt>
+                <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart"  accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
+
             </div>
         </div>
 
         <!-- Boutons de navigation -->
-        <div class="col-span-4 md:col-span-4 p-4 border rounded-lg shadow-sm">
-            <div class="flex justify-between">
-                <button type="button" onclick="previousStep()" class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    Précédent
-                </button>
+        <div class="col-span-4 md:col-span-4 p-4">
+            <div class="flex justify-end">
                 <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Modifier l'événement
                 </button>
@@ -162,27 +162,13 @@
 </div>
 
 <script>
-    function nextStep() {
-        const currentStep = document.querySelector(".step.active");
-        const nextStep = currentStep.nextElementSibling;
-        if (nextStep && nextStep.classList.contains("step")) {
-            currentStep.classList.remove("active");
-            currentStep.classList.add("hidden");
-            nextStep.classList.remove("hidden");
-            nextStep.classList.add("active");
-        }
-    }
 
-    function previousStep() {
-        const currentStep = document.querySelector(".step.active");
-        const previousStep = currentStep.previousElementSibling;
-        if (previousStep && previousStep.classList.contains("step")) {
-            currentStep.classList.remove("active");
-            currentStep.classList.add("hidden");
-            previousStep.classList.remove("hidden");
-            previousStep.classList.add("active");
-        }
-    }
+
+    const publicEvenementInput = document.getElementById("public_evenement");
+    toggleEventPrivacy(!publicEvenementInput);
+
+    const publicAdresseInput = document.getElementById("adresse_evenement");
+    toggleAdressePrivacy(!publicAdresseInput);
 
     function toggleEventPrivacy(isPrivate) {
         const publicEvenementInput = document.getElementById("public_evenement");
@@ -201,10 +187,35 @@
         }
     }
 
-    document.getElementById('pdpEvenementMultiPart').addEventListener('change', function(event) {
+    function toggleAdressePrivacy(isPrivate) {
+        const publicAdresseInput = document.getElementById("adresse_evenement");
+        if (isPrivate) {
+            publicAdresseInput.value = "false";
+            document.getElementById("privateAdresseBtn").classList.add("bg-red-500");
+            document.getElementById("privateAdresseBtn").classList.remove("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.add("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.remove("bg-green-500");
+        } else {
+            publicAdresseInput.value = "true";
+            document.getElementById("privateAdresseBtn").classList.remove("bg-red-500");
+            document.getElementById("privateAdresseBtn").classList.add("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.remove("bg-gray-300");
+            document.getElementById("publicAdresseBtn").classList.add("bg-green-500");
+        }
+    }
+
+    document.getElementById('pdpEvenementMultiPart').addEventListener("change", function (event) {
         var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('evenementImage');
+        reader.onload = function () {
+            var output = document.getElementById("evenementImage");
+            if (!output) {
+                output = document.createElement("img");
+                output.id = "evenementImage";
+                output.className = "object-cover w-52 h-52 mt-10 ml-10";
+                output.alt = "";
+                var input = document.getElementById("pdpEvenementMultiPart");
+                input.insertAdjacentElement("afterend", output);
+            }
             output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
