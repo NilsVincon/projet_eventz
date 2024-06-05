@@ -201,8 +201,12 @@
         }
 
         body {
-            background-image: url("/images/hetheka.jpeg");
-            position: sticky ;
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;
+            height:100%;
+            margin: 0;
         }
 
         .events-date {
@@ -402,14 +406,10 @@
     </style>
     <title>Accueil</title>
 </head>
-<body >
+<body class="h-screen">
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
 <th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
-
-<div class="container">
-    <h1>Bienvenue sur votre site</h1>
-</div>
 <div class="filter-container">
     <form id="filterForm1" class="filter-form">
         <div class="filter-item">
