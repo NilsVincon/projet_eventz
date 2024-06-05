@@ -60,6 +60,7 @@ public class ChatController {
         return "generalchat";
     }
 
+
     @MessageMapping("/chat.sendMessage")
     @SendTo("/topic/public")
     public ChatMessage sendGeneralMessage(

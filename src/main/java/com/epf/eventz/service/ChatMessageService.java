@@ -24,6 +24,7 @@ public class ChatMessageService {
         return chatMessageDAO.findByDestination(destination);
     }
 
+
     public ChatMessage save(ChatMessage chatMessage) {
         return chatMessageDAO.save(chatMessage);
     }
