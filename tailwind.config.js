@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        horizon: ['horizon', 'sans-serif'],
+        mainFont: ['Dela Gothic One', 'sans-serif'], // Remplacez 'Roboto' par le nom de votre police
       },
     },
   },

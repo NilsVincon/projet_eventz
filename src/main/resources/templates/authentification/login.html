@@ -16,8 +16,10 @@
             height: 100%;
             width: 100%;
             place-items: center;
-            background: #f2f2f2;
-            /* background: linear-gradient(-135deg, #c850c0, #4158d0); */
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;
         }
         ::selection{
             background: #4158d0;
@@ -104,9 +106,6 @@
             user-select: none;
             padding-left: 5px;
         }
-        form .content .pass-link{
-            color: "";
-        }
         form .field input[type="submit"]{
             color: #fff;
             border: none;
@@ -140,22 +139,22 @@
 <body>
 <div class="wrapper">
     <div class="title">
-        Login Form
+        Connexion
     </div>
     <form id="loginForm" action="/eventz/auth/login" method="post">
         <div class="field">
             <input type="text" id="username" name="username" required>
-            <label>Pseudo</label>
+            <label>Identifiant</label>
         </div>
         <div class="field">
             <input type="password" id="password" name="password" required>
-            <label>Mot de passse</label>
+            <label>Mot de passe</label>
         </div>
         <div class="field">
             <input type="submit" value="Connexion">
         </div>
         <div class="signup-link">
-            Pas encore inscris ? <a href="/eventz/auth/register">Inscription</a>
+            Pas encore inscrit ? <a href="/eventz/auth/register">Inscription</a>
         </div>
     </form>
 </div>

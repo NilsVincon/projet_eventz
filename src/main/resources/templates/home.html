@@ -9,8 +9,6 @@
           integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous"/>
 
     <style>
-        @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700");
-
         .container {
             padding: 20px;
             display: flex;
@@ -405,11 +403,14 @@
 
     </style>
     <title>Accueil</title>
+
 </head>
 <body class="h-screen">
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
+<div class="mt-10">
 <th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
+</div>
 <div class="filter-container">
     <form id="filterForm1" class="filter-form">
         <div class="filter-item">
