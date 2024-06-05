@@ -236,6 +236,7 @@ public class EvenementController {
         Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
         if (evenementOptional.isPresent()) {
             Evenement evenement = evenementOptional.get();
+
             model.addAttribute("event", evenement);
         }
         return "update_event";
