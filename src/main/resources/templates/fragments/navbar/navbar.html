@@ -3,6 +3,14 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
+
+        body {
+            margin-top: 64px; /* Adjust this value to match the height of your navigation bar */
+        }
+
+
+
+
         #wrapper {
             padding-left: 0;
             transition: all 0.5s ease;
@@ -422,15 +430,21 @@
                             </div>
                             <ul class="list-unstyled chat-list mt-2 mb-0" >
                                 <li class="clearfix active">
-                                    <img th:src="@{/images/Eventz.png}" class="h-16" alt="avatar" id="eventz-logog" />
+                                    <a href="/eventz/generalchat">
+                                    <img th:src="@{/images/Eventz.png}" class="h-16" alt="avatar" id="eventz-logog" href="/eventz/generalchat" />
                                     <div class="about">
                                         <div class="name" href="/eventz/generalchat" >Général Chat</div>
                                         <div class="status"> <i class="fa fa-circle online"></i> left 7 mins ago </div>
                                     </div>
+                                    </a>
                                 </li>
-                            </ul>
+
+
+                             </ul>
                             <ul class="list-unstyled chat-list mt-2 mb-0" th:if="${evenementsparticipe != null}" th:each="evenement : ${evenementsparticipe}">
                                 <li class="clearfix active">
+                                    <a  th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
+
                                     <img class="h-16"
                                          th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
                                          alt="avatar">
@@ -438,6 +452,7 @@
                                         <div class="name" th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}" th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
                                         <div class="status"> <i class="fa fa-circle online"></i> left 7 mins ago </div>
                                     </div>
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -470,8 +485,10 @@
                 <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg" id="profilDropdown" role="menu">
                     <div class="p-2 menu-items">
                         <a href="/eventz/user/profil" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Profil</a>
-                        <a href="/eventz/user/profil#abonnements-section" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Amis</a>
+
+                        <a href="/eventz/friend/add" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Amis</a>
                         <a href="/eventz/user/profil#settings" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Paramètres</a>
+
                     </div>
                     <div class="p-2">
                         <form method="GET" action="/eventz/auth/logout">
@@ -498,7 +515,7 @@
             </button>
         </div>
 
-    </div>
+     </div>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
