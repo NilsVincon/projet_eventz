@@ -68,7 +68,7 @@ public class AuthentificationController {
         response.addHeader("Set-Cookie", cookieString);
         response.setHeader("Location", "/eventz/home");
         response.setStatus(HttpStatus.FOUND.value());
-        log.info("Connexion réussi !");
+        log.info("Connexion réussie !");
     }
 
     @GetMapping("/logout")
@@ -95,7 +95,7 @@ public class AuthentificationController {
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.FOUND)
     public void inscription(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response) {
-        log.info("Utilisateur récupérer : " + utilisateur);
+        log.info("Utilisateur récupéré : " + utilisateur);
         if (userDAO.existsByUsername(utilisateur.getUsername())) {
             log.error("Username is taken");
         }

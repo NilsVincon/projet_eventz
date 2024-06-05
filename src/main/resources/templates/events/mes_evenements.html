@@ -135,7 +135,7 @@
                      class="event-image" alt="profile cover">
                 <span th:text="${evenement.nom_evenement}">Nom de l'événement</span>
                 <div th:if="${evenementorganise.contains(evenement)}">
-                    <a th:href="${'/eventz/evenement/modifyevenement/' + evenement.idEvenement}">
+                    <a th:href="${'/eventz/evenement/update?id=' + evenement.idEvenement}">
                         <p class="red">Votre évènement <img th:src="@{/images/edit.png}" alt="Modifier"
                                                             style="float: right; width: 55px; height: 55px;margin-top: -20px;"/></p>
 

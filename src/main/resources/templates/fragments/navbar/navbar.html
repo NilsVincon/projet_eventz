@@ -1,8 +1,15 @@
 <nav th:fragment="nav" class="dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <link href="../../output.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
+
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
+
     <style>
+
 
         body {
             margin-top: 200px; /* Adjust this value to match the height of your navigation bar */
@@ -15,24 +22,33 @@
             z-index: 1000;
         }
 
+
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+        nav{
+            font-family: 'Dela Gothic One',sans-serif;
+        }
+
         #wrapper {
             padding-left: 0;
             transition: all 0.5s ease;
         }
 
         #wrapper.toggled {
-            padding-left: 250px;
+            padding-left: 350px;
         }
 
         #sidebar-wrapper {
             z-index: 1000;
             position: fixed;
-            left: 250px;
+            left: 350px;
             width: 0;
-            height: 80%;
-            margin-left: -250px;
+
+            margin-top: 56px;
+            height: 100%;
+            margin-left: -350px;
+
             overflow-y: auto;
-            background: #fff;
+            background: #f4f4f5;
             transition: all 0.5s ease;
         }
 
@@ -41,7 +57,7 @@
         }
 
         #wrapper.toggled #sidebar-wrapper {
-            width: 250px;
+            width: 350px;
         }
 
         #page-content-wrapper {
@@ -52,13 +68,13 @@
 
         #wrapper.toggled #page-content-wrapper {
             position: absolute;
-            margin-right: -250px;
+            margin-right: -350px;
         }
 
         .sidebar-nav {
             position: absolute;
             top: 0;
-            width: 250px;
+            width: 350px;
             margin: 0;
             padding: 0;
             list-style: none;
@@ -84,24 +100,24 @@
             text-decoration: none;
         }
 
-        .sidebar-nav>.sidebar-brand {
+        .sidebar-nav > .sidebar-brand {
             height: 65px;
             font-size: 18px;
             line-height: 60px;
         }
 
-        .sidebar-nav>.sidebar-brand a {
+        .sidebar-nav > .sidebar-brand a {
             color: #999999;
         }
 
-        .sidebar-nav>.sidebar-brand a:hover {
+        .sidebar-nav > .sidebar-brand a:hover {
             color: #fff;
             background: none;
         }
 
-        @media(min-width:768px) {
+        @media (min-width: 768px) {
             #wrapper {
-                padding-left: 250px;
+                padding-left: 350px;
             }
 
             #wrapper.toggled {
@@ -109,7 +125,7 @@
             }
 
             #sidebar-wrapper {
-                width: 250px;
+                width: 350px;
             }
 
             #wrapper.toggled #sidebar-wrapper {
@@ -127,16 +143,6 @@
             }
         }
 
-        #sidebar-wrapper li.active>a:after {
-            border-right: 17px solid #f4f3ef;
-            border-top: 17px solid transparent;
-            border-bottom: 17px solid transparent;
-            content: "";
-            display: inline-block;
-            position: absolute;
-            right: -1px;
-        }
-
         .sidebar-brand {
             border-bottom: 1px solid rgba(102, 97, 91, 0.3);
         }
@@ -146,7 +152,7 @@
             margin: 0 20px;
         }
 
-        .navbar .navbar-nav>li>a p {
+        .navbar .navbar-nav > li > a p {
             display: inline-block;
             margin: 0;
         }
@@ -165,10 +171,8 @@
         }
 
 
-
-
         .chat-app .people-list {
-            width: 280px;
+            width: 380px;
             position: absolute;
             left: 0;
             top: 0;
@@ -177,7 +181,7 @@
         }
 
         .chat-app .chat {
-            margin-left: 280px;
+            margin-left: 380px;
             border-left: 1px solid #eaeaea
         }
 
@@ -285,47 +289,17 @@
             position: relative
         }
 
-        .chat .chat-history .message:after {
-            bottom: 100%;
-            left: 7%;
-            border: solid transparent;
-            content: " ";
-            height: 0;
-            width: 0;
-            position: absolute;
-            pointer-events: none;
-            border-bottom-color: #fff;
-            border-width: 10px;
-            margin-left: -10px
-        }
 
         .chat .chat-history .my-message {
             background: #efefef
         }
 
-        .chat .chat-history .my-message:after {
-            bottom: 100%;
-            left: 30px;
-            border: solid transparent;
-            content: " ";
-            height: 0;
-            width: 0;
-            position: absolute;
-            pointer-events: none;
-            border-bottom-color: #efefef;
-            border-width: 10px;
-            margin-left: -10px
-        }
 
         .chat .chat-history .other-message {
             background: #e8f1f3;
             text-align: right
         }
 
-        .chat .chat-history .other-message:after {
-            border-bottom-color: #e8f1f3;
-            left: 93%
-        }
 
         .chat .chat-message {
             padding: 20px
@@ -355,14 +329,6 @@
             float: right
         }
 
-        .clearfix:after {
-            visibility: hidden;
-            display: block;
-            font-size: 0;
-            content: " ";
-            clear: both;
-            height: 0
-        }
 
         @media only screen and (max-width: 767px) {
             .chat-app .people-list {
@@ -398,7 +364,7 @@
                 overflow-x: auto
             }
 
-            .chat-app .chat-history {
+            .chat-app .ch   at-history {
                 height: 600px;
                 overflow-x: auto
             }
@@ -420,73 +386,92 @@
             <div id="wrapper" class="wrapper-content toggled">
                 <div id="sidebar-wrapper">
                     <ul class="sidebar-nav">
-                        <li class="sidebar-brand">
-                            <a href="/eventz/home">
-                                EVENTZ
-                            </a>
-                        </li>
-                        <div id="plist" class="people-list">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                        <div class="h-full w-full mr-2 ml-3 mt-2">
+                            <form class="max-w-md mx-auto">
+                                <label for="default-search"
+                                       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                                <div class="relative">
+                                    <input type="search" id="default-search"
+                                           class="block w-11/12 h-16 p-4 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-purple-700 dark:border-purple-600 dark:placeholder-purple-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-purple-500"
+                                           placeholder="Recherche..." required/>
+                                    <button type="submit" id="search-button"
+                                            class="text-white absolute inset-y-0 right-10 bottom-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                             fill="none" viewBox="0 0 20 20">
+                                            <path stroke="currentColor" stroke-linecap="round"
+                                                  stroke-linejoin="round" stroke-width="2"
+                                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <input type="text" class="form-control" placeholder="Search...">
-                            </div>
-                            <ul class="list-unstyled chat-list mt-2 mb-0" >
+                            </form>
+                        </div>
+                        <div id="plist" class="people-list">
+                            <ul class="list-unstyled mt-4 mb-0 shadow-2xl rounded-2xl">
                                 <li class="clearfix active">
                                     <a href="/eventz/generalchat">
-                                    <img th:src="@{/images/Eventz.png}" class="h-16" alt="avatar" id="eventz-logog" href="/eventz/generalchat" />
-                                    <div class="about">
-                                        <div class="name" href="/eventz/generalchat" >Général Chat</div>
-                                        <div class="status"> <i class="fa fa-circle online"></i> left 7 mins ago </div>
-                                    </div>
+
+                                        <img class="rounded ml-2 mt-2 mb-2 h-24 w-24" th:src="@{/images/Eventz.png}"
+                                             alt="avatar"
+                                             id="eventz-logog"/>
+                                        <div class="about">
+                                            <div class="name font-extrabold text-xl mt-4">Général Chat</div>
+                                            <div class="status"><i class="fa fa-circle online"></i>en ligne...
+                                            </div>
+                                        </div>
                                     </a>
                                 </li>
-
-
-                             </ul>
-                            <ul class="list-unstyled chat-list mt-2 mb-0" th:if="${evenementsparticipe != null}" th:each="evenement : ${evenementsparticipe}">
+                            </ul>
+                            <ul class="list-unstyled mt-2 mb-0 shadow-2xl rounded-2xl"
+                                th:if="${evenementsparticipe != null}"
+                                th:each="evenement : ${evenementsparticipe}">
                                 <li class="clearfix active">
-                                    <a  th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
+                                    <a th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
+                                        <img class="ml-2 mt-2 mb-2 h-24 w-24 rounded"
+                                             th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
+                                             alt="avatar">
+                                        <div class="about">
+                                            <div class="name font-extrabold text-2xl mt-4"
+                                                 th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
+                                            <div class="status"><i class="fa fa-circle online"></i>en ligne...
+                                            </div>
+                                        </div>
 
-                                    <img class="h-16"
-                                         th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
-                                         alt="avatar">
-                                    <div class="about">
-                                        <div class="name" th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}" th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
-                                        <div class="status"> <i class="fa fa-circle online"></i> left 7 mins ago </div>
-                                    </div>
                                     </a>
                                 </li>
                             </ul>
                         </div>
-
                     </ul>
                 </div>
             </div>
-            <button class="btn-menu btn btn-success btn-toggle-menu" type="button">
+            <button class="btn-menu btn btn-toggle-menu focus:ring-purple-300 focus:ring-2" type="button">
                 <i class="fa fa-bars"></i>
             </button>
             <a href="/eventz/home" class="flex items-center">
-                <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
+                <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo"/>
+                <span class="self-center text-4xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
             </a>
         </div>
         <div class="flex items-center md:order-2 space-x-8 rtl:space-x-reverse">
-            <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/add'" class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+            <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/add'"
+                    class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                 Nouvel Eventz
             </button>
 
-            <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/list'" class="text-purple-100 no-underline bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+            <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/list'"
+                    class="text-purple-100 no-underline bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                 Mes Eventz
             </button>
             <div th:if="${connecte}" class="relative inline-block text-left">
-                <a href="/eventz/user/profil" id="profil" class="inline-flex items-center self-center text-2xl text-purple-100 font-semibold whitespace-nowrap dark:text-white">
+                <a href="/eventz/user/profil" id="profil"
+                   class="inline-flex items-center self-center text-2xl text-purple-100 font-semibold whitespace-nowrap dark:text-white">
                     <div class="h-16 w-16 rounded-full overflow-hidden flex items-center justify-center">
-                        <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" alt="profil" class="h-full w-full object-cover">
+                        <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" alt="profil"
+                             class="h-full w-full object-cover">
                     </div>
                 </a>
-                <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg" id="profilDropdown" role="menu">
+                <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                     id="profilDropdown" role="menu">
                     <div class="p-2 menu-items">
                         <a href="/eventz/user/profil" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Profil</a>
 
@@ -496,9 +481,13 @@
                     </div>
                     <div class="p-2">
                         <form method="GET" action="/eventz/auth/logout">
-                            <button type="submit" class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50" role="menuitem">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            <button type="submit"
+                                    class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                                    role="menuitem">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                     stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
                                 </svg>
                                 Déconnexion
                             </button>
@@ -508,13 +497,20 @@
             </div>
             <div th:unless="${connecte}">
                 <a href="/eventz/auth/login">
-                    <button type="button" id="login" class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">Se connecter</button>
+                    <button type="button" id="login"
+                            class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                        Se connecter
+                    </button>
                 </a>
             </div>
-            <button data-collapse-toggle="navbar-sticky" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+            <button data-collapse-toggle="navbar-sticky" type="button"
+                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    aria-controls="navbar-sticky" aria-expanded="false">
                 <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 17 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M1 1h15M1 7h15M1 13h15"/>
                 </svg>
             </button>
         </div>

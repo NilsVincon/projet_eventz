@@ -23,10 +23,13 @@
         }
 
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Dela Gothic One', sans-serif;
             width: 100%;
             min-height: 100%;
-            background: #2e006c;
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;
             font-size: 16px;
             overflow: hidden;
         }
@@ -161,7 +164,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="content">
     <div class="bouton">
-        <form action="/eventz/follow" method="post">
+        <form action="/eventz/artiste/follow" method="post">
             <input type="hidden" th:name="id_artiste" th:value="${artiste.id_artiste}">
             <button type="submit" th:text="${boutonSuivre}"></button>
         </form>

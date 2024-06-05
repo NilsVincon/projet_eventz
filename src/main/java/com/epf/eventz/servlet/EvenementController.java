@@ -27,6 +27,10 @@ import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
+
 
 @Controller
 @Slf4j
@@ -225,6 +229,70 @@ public class EvenementController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/update")
+    public String updatePage(@RequestParam("id") Long evenementId, Model model) throws ServiceException {
+
+        Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
+        if (evenementOptional.isPresent()) {
+            Evenement evenement = evenementOptional.get();
+
+            model.addAttribute("event", evenement);
+        }
+        return "update_event";
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping(path = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void updateEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement,@ModelAttribute Adresse adresse,
+                                                                @ModelAttribute TypeEvenement typeEvenement,@RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, HttpServletResponse response) throws IOException {
+        try {
+            log.info("Evenement :"+evenement.getNom_evenement());
+            Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
+            if (evenementOptional.isPresent()) {
+                Evenement existingevenement = evenementOptional.get();
+                existingevenement.setNom_evenement(evenement.getNom_evenement());
+                existingevenement.setDescription_evenement(evenement.getDescription_evenement());
+                existingevenement.setDebut_evenement(evenement.getDebut_evenement());
+                existingevenement.setFin_evenement(evenement.getFin_evenement());
+                existingevenement.setPrix_evenement(evenement.getPrix_evenement());
+                existingevenement.setNb_place_evenement(evenement.getNb_place_evenement());
+                existingevenement.setPublic_evenement(evenement.getPublic_evenement());
+
+                if (pdpEvenementMultiPart != null && !pdpEvenementMultiPart.isEmpty()) {
+                    byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
+                    existingevenement.setPdpEvenement(pdpBytes);
+                }
+
+                if (typeEvenement != null && typeEvenement.getDescription_type_evenement() != null) {
+                    typeEvenementService.creerTypeEvenement(typeEvenement);
+                    existingevenement.setTypeEvenement(typeEvenement);
+                }
+
+                if (adresse != null && adresse.getRue_adresse() != null) {
+                    adresseService.creerAdresse(adresse);
+                    existingevenement.setAdresse(adresse);
+                }
+
+
+                // Appeler le service pour mettre à jour l'utilisateur
+                evenementService.updateEvenement(evenementId, existingevenement);
+
+                response.setHeader("Location", "/eventz/home");
+                response.setStatus(HttpStatus.FOUND.value());
+
+            } else {
+                response.sendError(HttpStatus.NOT_FOUND.value(), "Utilisateur non trouvé");
+            }
+        } catch (Exception e) {
+            response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur lors de la mise à jour du profil: " + e.getMessage());
+        }
+    }
+
+
+
+
+
     @DeleteMapping(path = "/deleteevenement/{evenementId}")
     public ResponseEntity<String> deleteEvenement(@PathVariable("evenementId") Long evenementId) {
         try {
@@ -262,16 +330,6 @@ public class EvenementController {
     }
 
 
-    @PutMapping(path = "/modifyevenement/{evenementId}")
-    public ResponseEntity<String> updateEvenement(@PathVariable("evenementId") Long
-                                                          evenementId, @RequestBody Evenement evenement) {
-        try {
-            evenementService.updateEvenement(evenementId, evenement);
-            return ResponseEntity.ok("Evenement mis à jour avec succès");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de la mise à jour de l'evenement: " + e.getMessage());
-        }
-    }
 
     @GetMapping(path = "/details/{evenementId}")
     public String detailsEvenement(@PathVariable Long evenementId, Model model) {
