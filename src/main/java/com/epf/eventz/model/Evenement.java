@@ -38,7 +38,7 @@ public class Evenement {
     @ManyToOne
     @JoinColumn(name = "id_type_evenement")
     private TypeEvenement typeEvenement;
-
+    
     @OneToMany(mappedBy = "evenement")
     private List<AvoirTypeMusique> avoirTypeMusiques;
 
