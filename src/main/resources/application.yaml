@@ -19,7 +19,7 @@ spring:
   mail:
     host: smtp.gmail.com
     username: eventz.epf@gmail.com
-    password:
+    password: uzeu ywmv cpdv wjmi
     properties:
       mail:
         smtp:
