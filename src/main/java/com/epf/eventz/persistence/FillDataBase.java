@@ -93,12 +93,16 @@ public class FillDataBase {
             artisteService.addArtiste(artiste7);
             artisteService.addArtiste(artiste8);
             artisteService.addArtiste(artiste9);
+            Utilisateur utilisateur4 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "azizzou", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
+            utilisateur4.setPdpUtilisateur(imageData);
+
 
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateur1.setPdpUtilisateur(imageData);
             utilisateur3.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur1);
+            utilisateurService.creerUtilisateur(utilisateur4);
             utilisateurService.creerUtilisateur(utilisateur3);
             Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("user");
             if (moiOptional.isPresent()) {

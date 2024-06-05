@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/projet_eventz
+    url: jdbc:mysql://localhost:8889/projet_eventz
     username: root
-    password:
+    password: root
   jpa:
     show-sql: true
     hibernate:

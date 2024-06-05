@@ -42,11 +42,33 @@ public class SuivreController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/add")
     public String addFriendPage(Model model) {
-        try {
-            List<Utilisateur> utilisateurs = utilisateurService.trouverTousUtilisateurs();
-            model.addAttribute("utilisateurs", utilisateurs);
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> utilisateurActuelOptional = null;
+            List<Utilisateur> utilisateursAmis = new ArrayList<>();
+            try {
+                utilisateurActuelOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurActuelOptional.isPresent()) {
+                Utilisateur utilisateurActuel = utilisateurActuelOptional.get();
+            model.addAttribute("username", utilisateurActuel.getUsername());
+                model.addAttribute("utilisateurActuel", utilisateurActuel);
+                List<Utilisateur> utilisateurs = null;
+                try {
+                    utilisateurs = utilisateurService.trouverTousUtilisateurs();
+                } catch (ServiceException e) {
+                    throw new RuntimeException(e);
+                }
+                model.addAttribute("utilisateurs", utilisateurs);
+            for ( Utilisateur utilisateur : utilisateurs){
+                if (suivreService.estAmis(utilisateurActuel,utilisateur)){
+                    utilisateursAmis.add(utilisateur);
+                }
+            }
+            model.addAttribute("amis",utilisateursAmis);
+
         }
         return "add_friend";
     }

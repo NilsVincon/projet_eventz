@@ -5,22 +5,23 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="output.css" rel="stylesheet">
     <style type="text/css">
         body {
-            margin-top: 20px;
-            background: #FAFAFA;
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;
+            height: 100%;
+            margin: 0;
+            padding-top: 100px; /* Adjust this value to match the height of your navigation bar */
         }
-
-        /*==================================================
-      Nearby People CSS
-      ==================================================*/
 
         .people-nearby .google-maps {
             background: #f8f8f8;
-            border-radius: 4px;
-            border: 1px solid #f1f2f2;
-            padding: 20px;
-            margin-bottom: 20px;
+            border-radius: 30px;
+            padding: 50px;
+            margin-bottom: 50px;
         }
 
         .people-nearby .google-maps .map {
@@ -30,10 +31,10 @@
         }
 
         .people-nearby .nearby-user {
-            padding: 20px 0;
-            border-top: 1px solid #f1f2f2;
-            border-bottom: 1px solid #f1f2f2;
-            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 20px;
+            margin-bottom: 50px;
+            border-radius: 10px;
         }
 
         img.profile-photo-lg {
@@ -45,36 +46,40 @@
 </head>
 
 <body>
-<th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
 <div class="container">
     <div class="row">
         <div class="col-md-8">
             <div class="people-nearby">
 
-
-                    <table>
-
-                        <tr th:each="utilisateur : ${utilisateurs}">
-                            <td>
-                                <div class="nearby-user">
-                                <div class="row">
-                                    <div class="col-md-2 col-sm-2">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="user" class="profile-photo-lg">
+                <div class="nearby-user" th:each="utilisateur : ${utilisateurs}">
+                    <div class="row">
+                        <div class="col-md-2 col-sm-2">
+                                        <img th:src="@{'/eventz/user/profile-image/' + ${utilisateur.id_utilisateur}}" alt="user" class="profile-photo-lg">
                                     </div>
                                     <div class="col-md-7 col-sm-7">
-                                        <h5><a href="#" class="profile-link" th:text="${utilisateur.username}"></a></h5>
+                                        <h3><a th:href="'/eventz/user/profil/' + ${utilisateur.username}" class="profile-link" th:text="${utilisateur.username}"></a></h3>
                                         <p th:text="${utilisateur.description_utilisateur}"></p>
                                         <p class="text-muted" th:text="${utilisateur.sexe_utilisateur}"></p>
                                     </div>
                                     <div class="col-md-3 col-sm-3">
-                                        <button class="btn btn-primary pull-right" type="submit" th:action="'/eventz/friend/add'" >Add Friend</button>
+                                        <div th:if="${utilisateurActuel.id_utilisateur == utilisateur.id_utilisateur}">
+                                            <button class="btn btn-info pull-right" type="button">Your Profile</button>
+                                        </div>
+                                        <div th:if="${utilisateurActuel.id_utilisateur != utilisateur.id_utilisateur}">
+                                            <div th:if="${#lists.contains(amis, utilisateur)}">
+                                                <button class="btn btn-secondary pull-right" type="button" disabled>Already Friends</button>
+                                            </div>
+                                            <div th:if="${!#lists.contains(amis, utilisateur)}">
+                                                <form th:action="@{/eventz/friend/add}" method="post">
+                                                    <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
+                                                    <input type="hidden" name="utilisateurName" th:value="${utilisateur.username}" />
+                                                    <button class="btn btn-primary pull-right" type="submit">Add Friend</button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 </div>
-                            </td>
-                        </tr>
-                    </table>
-
 
             </div>
         </div>
