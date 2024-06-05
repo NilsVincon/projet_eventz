@@ -6,6 +6,14 @@
     <link href="../output.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+        nav{
+            font-family: 'Dela Gothic One',sans-serif;
+        }
+
+        .policeperso{
+            font-family: 'Dela Gothic One',sans-serif;
+        }
 
         body {
             background-image: url("/images/BG.png");
@@ -31,16 +39,16 @@
     <div id="choixEvenementForm" class="flex justify-center items-center mb-14">
         <a class="mt-7" th:href="'/eventz/evenement/afficherEvenement/avenir'">
             <label tabindex="0"
-                   class="inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 focus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
+                   class="policeperso inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 focus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
                 à venir</label>
         </a><br><br>
         <a class="mt-7" th:href="'/eventz/evenement/afficherEvenement/passe'">
-            <label class="inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 ffocus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
+            <label class="policeperso inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 ffocus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
                 passé</label>
         </a><br><br>
         <a class="mt-7" th:href="'/eventz/evenement/afficherEvenement/organise'">
             <label tabindex="0"
-                   class="inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 focus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
+                   class="policeperso inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 focus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
                 Organise</label>
         </a>
     </div>
@@ -51,7 +59,7 @@
                 <img th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
                      class="mt-4 rounded-lg mb-2 object-cover w-72 h-40" alt="profile cover">
                 <div class="mb-2">
-                    <span class="font-bold text-2xl text-gray-100" th:text="${evenement.nom_evenement}">Nom de l'événement</span>
+                    <span class="policeperso text-2xl text-gray-100" th:text="${evenement.nom_evenement}">Nom de l'événement</span>
                 </div>
                 <div class="absolute top-0 right-0" th:if="${evenementorganise.contains(evenement)}">
                     <a th:href="${'/eventz/evenement/update?id=' + evenement.idEvenement}" class="mb-auto">
