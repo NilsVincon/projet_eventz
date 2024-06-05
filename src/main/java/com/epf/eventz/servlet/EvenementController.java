@@ -53,25 +53,10 @@ public class EvenementController {
     private EmailService emailService;
     @Autowired
     private PerformeService performeService;
-
     @Autowired
     private ArtisteService artisteService;
-
-    @GetMapping("/details")
-    public String afficherDetails(@RequestParam("id") Long event_id, Model model) {
-        try {
-            Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
-            if (evenementOptional.isPresent()) {
-                Evenement evenementactuel = evenementOptional.get();
-                log.info(evenementactuel.toString());
-                model.addAttribute("evenementactuel", evenementactuel);
-            }
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
-        return "detail_evenement";
-
-    }
+    @Autowired
+    private SuivreService suivreService;
 
     @GetMapping("/afficherEvenement/{evenement}")
     public String afficherEvenement(@PathVariable("evenement") String evenement, Model model) {
@@ -356,6 +341,16 @@ public class EvenementController {
 
     @GetMapping(path = "/details/{evenementId}")
     public String detailsEvenement(@PathVariable Long evenementId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Utilisateur utilisateur = null;
+        try {
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            if (utilisateurOptional.isPresent()) {
+                utilisateur = utilisateurOptional.get();
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
         try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
@@ -365,13 +360,13 @@ public class EvenementController {
                     artistes.add(performe.getArtiste());
                 }
                 model.addAttribute("evenement", evenement);
-                List<Utilisateur> Utilisateurs = new ArrayList<>();
-                for (Participe participe : evenement.getParticipes()) {
-                    Utilisateurs.add(participe.getUtilisateur());
-                }
-                model.addAttribute("Utilisateurs", Utilisateurs);
+                List<Utilisateur> amis = suivreService.findAmisByUtilisateur(utilisateur);
+                List<Utilisateur> amisParticipent = participeService.findParticipantsByEvenementAndAmis(evenement, amis);
+                model.addAttribute("amisParticipent", amisParticipent);
+                long nb_orga = evenementService.countEvenementsByOrganisateur(evenement.getOrganisateur());
+                model.addAttribute("nb_orga", nb_orga);
                 model.addAttribute("artistes", artistes);
-                return "events/event_details_description"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
+                return "detail_evenement"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
             } else {
                 // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple
                 return "redirect:/error-500"; // Redirection vers une page d'erreur

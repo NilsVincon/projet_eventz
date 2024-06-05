@@ -5,6 +5,8 @@ import com.epf.eventz.model.Suivre;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.persistence.ConnectionManager;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -21,6 +23,11 @@ public interface SuivreDAO extends JpaRepository<Suivre, Long> {
     }
     Suivre findBySuiveurAndSuivi(Utilisateur suiveur, Utilisateur suivi);
     void deleteBySuiveurAndSuivi(Utilisateur suiveur, Utilisateur suivi);
+
+
+    @Query("SELECT s1.suiveur FROM Suivre s1 WHERE s1.suivi = :utilisateur AND EXISTS " +
+            "(SELECT s2 FROM Suivre s2 WHERE s2.suiveur = s1.suivi AND s2.suivi = s1.suiveur)")
+    List<Utilisateur> findAmisByUtilisateur(@Param("utilisateur") Utilisateur utilisateur);
 
 
 

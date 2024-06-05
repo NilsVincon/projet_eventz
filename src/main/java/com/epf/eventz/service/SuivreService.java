@@ -67,4 +67,7 @@ public class SuivreService {
         }
     }
 
+    public List<Utilisateur> findAmisByUtilisateur(Utilisateur utilisateur){
+        return suivreDAO.findAmisByUtilisateur(utilisateur);
+    }
 }

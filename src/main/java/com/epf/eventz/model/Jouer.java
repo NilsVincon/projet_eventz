@@ -26,5 +26,8 @@ public class Jouer {
     @JoinColumn(name = "id_typeMusique")
     private TypeMusique typeMusique;
 
-
+    public Jouer(Artiste artiste, TypeMusique typeMusique) {
+        this.artiste = artiste;
+        this.typeMusique = typeMusique;
+    }
 }

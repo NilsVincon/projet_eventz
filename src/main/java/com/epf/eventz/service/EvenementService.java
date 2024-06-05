@@ -86,6 +86,11 @@ public class EvenementService {
         LocalDate maintenant = LocalDate.now();
         return evenements.stream()
                 .collect(Collectors.partitioningBy(evenement -> evenement.getDebut_evenement().isAfter(maintenant)));
+
+    }
+
+    public Long countEvenementsByOrganisateur(Utilisateur organisateur) {
+        return evenementDAO.countByOrganisateur(organisateur);
     }
     
     

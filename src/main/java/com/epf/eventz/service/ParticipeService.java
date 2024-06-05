@@ -40,6 +40,8 @@ public class ParticipeService {
     public List<Utilisateur> findUtilisateurByEvent(Evenement evenement) {
         return participeDAO.findUtilisateurByEvent(evenement);
     }
-    
 
+    public List<Utilisateur> findParticipantsByEvenementAndAmis(Evenement evenement, List<Utilisateur> amis) {
+        return participeDAO.findParticipantsByEvenementAndAmis(evenement, amis);
+    }
 }
