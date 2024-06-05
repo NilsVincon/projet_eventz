@@ -5,7 +5,11 @@ module.exports = {
   "./src/main/resources/templates/fragments/navbar/*.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        horizon: ['horizon', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

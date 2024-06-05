@@ -1,10 +1,8 @@
 <nav th:fragment="nav" class="bg-gradient-to-l from-purple-900 to-gray-700 via-purple-600 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
     <link href="../../output.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-
         #wrapper {
             padding-left: 0;
             transition: all 0.5s ease;
@@ -399,17 +397,13 @@
                 height: 480px;
                 overflow-x: auto
             }
-
             .chat-app .chat-history {
                 height: calc(100vh - 350px);
                 overflow-x: auto
             }
         }
     </style>
-
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-
-
         <div class="flex items-center space-x-4 rtl:space-x-reverse">
             <div id="wrapper" class="wrapper-content toggled">
                 <div id="sidebar-wrapper">
@@ -467,7 +461,6 @@
             <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/list'" class="text-purple-100 no-underline bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
                 Mes Eventz
             </button>
-
             <div th:if="${connecte}" class="relative inline-block text-left">
                 <a href="/eventz/user/profil" id="profil" class="inline-flex items-center self-center text-2xl text-purple-100 font-semibold whitespace-nowrap dark:text-white">
                     <div class="h-16 w-16 rounded-full overflow-hidden flex items-center justify-center">
@@ -477,8 +470,8 @@
                 <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg" id="profilDropdown" role="menu">
                     <div class="p-2 menu-items">
                         <a href="/eventz/user/profil" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Profil</a>
-                        <a href="#" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Amis</a>
-                        <a href="#" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Paramètres</a>
+                        <a href="/eventz/user/profil#abonnements-section" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Amis</a>
+                        <a href="/eventz/user/profil#settings" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Paramètres</a>
                     </div>
                     <div class="p-2">
                         <form method="GET" action="/eventz/auth/logout">
