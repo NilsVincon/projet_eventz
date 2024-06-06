@@ -373,8 +373,7 @@
 </head>
 <body class="h-screen">
 
-<div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
-<div class="h-36">
+<div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username},data-connexion=${connexion}"></div><div class="h-36">
     <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
 </div>
 
@@ -733,10 +732,16 @@
         hideCloseButton: false
     });
 
+
     // Show message box automatically when the page loads
     window.addEventListener('load', () => {
-        const username = msgboxArea.getAttribute('data-username');
-        msgbox.show(null, "Hello 🤗, bienvenue " + username + " sur EVENTZ");
+        
+        const dataconnexion = msgboxArea.getAttribute('data-connexion');
+        if (dataconnexion === 'true') { // Vérifie si dataconnexion est 'true' (sous forme de chaîne)
+            const username = msgboxArea.getAttribute('data-username');
+            msgbox.show(null, "Hello 🤗, bienvenue " + username + " sur EVENTZ");
+        }
+
     });
     </script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

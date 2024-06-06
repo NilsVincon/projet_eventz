@@ -2,6 +2,7 @@ package com.epf.eventz.servlet;
 
 import com.epf.eventz.model.*;
 import com.epf.eventz.service.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,7 +37,7 @@ public class HomeController {
 
 
     @GetMapping("/home")
-    public String listEvenements(Model model) {
+    public String listEvenements(Model model, HttpSession session) {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!authentication.getName().equals("anonymousUser")) {
@@ -44,12 +45,16 @@ public class HomeController {
                 if(utilisateurOptional.isPresent()){
                     Utilisateur utilisateur = utilisateurOptional.get();
 
+                    boolean isFirstLogin = false;
+                    if (session.getAttribute("firstLogin") == null) {
+                        isFirstLogin = true;
+                        session.setAttribute("firstLogin", true);
+                    }
+                    log.info("is first connexion ? : "+isFirstLogin);
                     List<Evenement> evenements = participeService.findEvenementsByUtilisateur(utilisateur);
                     model.addAttribute("evenementsparticipe", evenements);
-
                     model.addAttribute("username", utilisateur.getUsername());
-
-
+                    model.addAttribute("connexion", isFirstLogin);
                 }
             }
             List<Evenement> evenements = evenementService.findAllEvenements();
