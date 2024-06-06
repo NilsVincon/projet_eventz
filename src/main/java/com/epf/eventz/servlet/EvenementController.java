@@ -355,7 +355,7 @@ public class EvenementController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/delete")
-    public void deleteEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement, HttpServletResponse response) throws IOException {
+    public void deleteEvenement(@RequestParam("idEvenement") Long evenementId, @ModelAttribute Evenement evenement, HttpServletResponse response) throws IOException {
         evenementService.deleteEvenement(evenementId);
         response.sendRedirect("/eventz/home");
     }

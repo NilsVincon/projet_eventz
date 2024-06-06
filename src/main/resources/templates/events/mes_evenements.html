@@ -7,12 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
-        nav{
-            font-family: 'Dela Gothic One',sans-serif;
+        nav {
+            font-family: 'Dela Gothic One', sans-serif;
         }
 
-        .policeperso{
-            font-family: 'Dela Gothic One',sans-serif;
+        .policeperso {
+            font-family: 'Dela Gothic One', sans-serif;
         }
 
         #resultatEvenements::-webkit-scrollbar {
@@ -44,15 +44,82 @@
             margin: 0;
         }
 
-
         #choixEvenementForm input[type="radio"] {
             display: none;
         }
 
+        .icon-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
 
+        .icon {
+            margin-top: 5px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .icon-large {
+            width: 24px;
+            height: 24px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .modal-buttons {
+            margin-top: 20px;
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .modal-button.cancel-button {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        .modal-button.confirm-button {
+            background-color: #ff5050;
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        .modal-button.cancel-button:hover,
+        .modal-button.confirm-button:hover {
+            background-color: #ccc;
+        }
     </style>
 </head>
 <body class="flex flex-col h-screen m-0">
+
 <th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
 <div class="flex-1 p-5 rounded-lg shadow-md overflow-y-auto">
     <h1 class="text-center text-gray-800 mb-5">Mes évènements</h1>
@@ -75,26 +142,27 @@
     <div id="resultatEvenements" class="flex flex-nowrap overflow-x-auto">
         <div th:each="evenement : ${mesevenements}"
              class="mb-4 relative flex justify-center items-start event bg-gray-300 hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
+            <form id="deleteForm" method="post" th:action="@{'/eventz/evenement/delete'}">
+                <input type="hidden" name="idEvenement" id="idEvenement" th:value="${evenement.idEvenement}">
+            </form>
             <a th:href="@{'/eventz/evenement/details?id=' + ${evenement.idEvenement}}">
                 <img th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
                      class="mt-4 rounded-lg mb-2 object-cover w-72 h-40" alt="profile cover">
                 <div class="mb-2">
                     <span class="policeperso text-2xl text-gray-100" th:text="${evenement.nom_evenement}">Nom de l'événement</span>
                 </div>
-                <div class="absolute top-0 right-0" th:if="${evenementorganise.contains(evenement)}">
-                    <a th:href="${'/eventz/evenement/update?id=' + evenement.idEvenement}" class="mb-auto">
+                <div class="icon-container absolute top-0 right-0" th:if="${evenementorganise.contains(evenement)}">
+                    <a th:href="${'/eventz/evenement/update?id=' + evenement.idEvenement}" class="icon mb-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6">
+                             stroke="currentColor" class="w-6 h-6 icon-large">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
                         </svg>
                     </a>
-                </div>
-                <div th:if="${evenementorganise.contains(evenement)}">
-                    <a th:href="${'/eventz/evenement/delete?id=' + evenement.idEvenement}">
-                        <p class="red">Supprimer votre évènement <img th:src="@{/images/edit.png}" alt="Modifier"
-                                                                     style="float: right; width: 55px; height: 55px;margin-top: -20px;"/></p>
-
+                    <a href="javascript:void(0);" class="icon mt-2" onclick="openModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
+                        </svg>
                     </a>
                 </div>
             </a>
@@ -102,5 +170,35 @@
     </div>
 </div>
 <th:block th:insert="~{fragments/footer :: footer}"></th:block>
+
+<!-- Modal de confirmation -->
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h2>Confirmation de suppression</h2>
+        <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+        <div class="modal-buttons">
+            <button class="modal-button cancel-button" onclick="closeModal()">Annuler</button>
+            <button class="modal-button confirm-button" onclick="confirmDelete()">Supprimer</button>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    var modal = document.getElementById("myModal");
+
+    function openModal() {
+        modal.style.display = "block";
+    }
+
+    function closeModal() {
+        modal.style.display = "none";
+    }
+
+    function confirmDelete() {
+        document.getElementById('deleteForm').submit();
+    }
+</script>
 </body>
 </html>

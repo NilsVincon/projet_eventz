@@ -81,6 +81,10 @@
     </div>
 </div>
 
+<form id="deleteForm" method="post" th:action="@{'/eventz/evenement/delete'}">
+    <input type="hidden" name="idEvenement" id="idEvenement" th:value="${evenement.idEvenement}">
+</form>
+
 <button onclick="openModal()">Ouvrir la modale</button>
 
 <script>
