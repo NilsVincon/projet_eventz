@@ -58,8 +58,8 @@
             object-fit: cover;
         }
 
-        .policeperso{
-            font-family: 'Dela Gothic One',sans-serif;
+        .policeperso {
+            font-family: 'Dela Gothic One', sans-serif;
         }
 
         .transition-block {
@@ -99,7 +99,6 @@
             padding: 20px;
             width: 172px;
             border-radius: 10px;
-            background-color: rgba(167, 128, 213, 0.84);
         }
 
         .bg-custom-color {
@@ -377,32 +376,30 @@
 <body class="h-screen overflow-y-auto">
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
-<div class="h-36">
-    <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
-</div>
+<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
 
 
 <div class="p-5 rounded-lg w-full max-w-2xl mx-auto z-50 justify-between flex">
     <form id="filterForm1" class="h-11/12">
         <div class="flex">
-            <div class="filter-item">
-                <label class="font-bold text-purple-900" for="cityFilter1">Ville</label>
+            <div class="flex flex-col items-center space-y-2 mr-6">
+                <label class="policeperso text-red-50" for="cityFilter1">Ville</label>
                 <input
-                        class="w-36 bg-purple-800 bg-opacity-0 border rounded-sm border-purple-900 text-purple-600 text-opacity-90 focus:ring-1 focus:border-purple-500 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
+                        class="w-28 bg-purple-800 bg-opacity-0 text-purple-50 focus:ring-1 focus:border-purple-500 focus:rounded-sm focus:ring-purple-500 focus:outline-none placeholder-purple-50"
                         type="text"
                         id="cityFilter1"
                         name="cityFilter1"
                         placeholder="Entrez une ville"
                 />
             </div>
-            <div class="filter-item">
-                <label class="font-bold text-purple-900" for="dateFilter1">Date</label> <br>
-                <input class="bg-purple-800 bg-opacity-0 border rounded-sm border-purple-900 text-purple-600 text-opacity-90 focus:ring-1 focus:border-purple-500 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
+            <div class="flex flex-col items-center space-y-2 mr-6">
+                <label class="policeperso text-red-50" for="dateFilter1">Date</label>
+                <input class="w-28 bg-purple-800 bg-opacity-0 text-purple-50 focus:ring-1 focus:border-purple-500 focus:rounded-sm focus:ring-purple-500 focus:outline-none placeholder-purple-50"
                        type="date" max="2030-12-31" id="dateFilter1" name="dateFilter1"/>
             </div>
-            <div class="filter-item">
-                <label class="font-bold text-purple-900" for="soireeFilter">Type de soirée</label>
-                <select class="bg-purple-800 bg-opacity-0 border rounded-sm border-purple-900 text-purple-600 text-opacity-90 focus:ring-1 focus:border-purple-500 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
+            <div class="flex flex-col items-center space-y-2">
+                <label class="policeperso text-red-50" for="soireeFilter">Type de soirée</label>
+                <select class="w-32 bg-purple-800 bg-opacity-0 text-purple-50 focus:ring-1 focus:border-purple-500 focus:bg-purple-400 focus:rounded-sm focus:ring-purple-500 focus:outline-none placeholder-purple-50"
                         id="soireeFilter" name="soireeFilter">
                     <option value="">Type de soirée</option>
                     <th:block th:each="type : ${uniqueEventTypes}">
@@ -410,7 +407,7 @@
                     </th:block>
                 </select>
             </div>
-            <input class="bg-custom-color h-12 mt-6 w-24 rounded-sm text-purple-800 font-extrabold text-opacity-90 focus:ring-2 focus:border-purple-700 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
+            <input class="ml-8 bg-custom-color h-12 mt-3 w-24 rounded-sm text-purple-800 font-extrabold text-opacity-90 focus:ring-2 focus:border-purple-700 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
                    type="submit" value="Filtrer"/>
         </div>
     </form>
@@ -459,7 +456,8 @@
                             </div>
                             <div class="col-lg-5 col-sm-12">
                                 <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
-                                    <h2 class="policeperso text-red-50 text-5xl font-extrabold mb-8" th:text="${evenement.nom_evenement}"></h2>
+                                    <h2 class="policeperso text-red-50 text-5xl font-extrabold mb-8"
+                                        th:text="${evenement.nom_evenement}"></h2>
                                     <ul class="event-time mb-2 mr-2">
                                         <li>
                                             <div class="flex items-center">
