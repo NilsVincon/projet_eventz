@@ -15,6 +15,26 @@
             font-family: 'Dela Gothic One',sans-serif;
         }
 
+        #resultatEvenements::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        #resultatEvenements::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+
+        #resultatEvenements::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: rgba(192, 79, 218, 0.45);
+        }
+
+        #resultatEvenements::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(159, 49, 176, 0.7);
+        }
+
         body {
             background-image: url("/images/BG.png");
             background-size: cover;
@@ -36,7 +56,7 @@
 <th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
 <div class="flex-1 p-5 rounded-lg shadow-md overflow-y-auto">
     <h1 class="text-center text-gray-800 mb-5">Mes évènements</h1>
-    <div id="choixEvenementForm" class="flex justify-center items-center mb-14">
+    <div id="choixEvenementForm" class="flex justify-center items-center mb-28">
         <a class="mt-7" th:href="'/eventz/evenement/afficherEvenement/avenir'">
             <label tabindex="0"
                    class="policeperso inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 focus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
@@ -49,12 +69,12 @@
         <a class="mt-7" th:href="'/eventz/evenement/afficherEvenement/organise'">
             <label tabindex="0"
                    class="policeperso inline-block cursor-pointer px-4 py-2 text-gray-200 bg-opacity-20 bg-black rounded mr-4 transition-colors duration-300 hover:bg-black hover:bg-opacity-50 focus:bg-gray-400 focus:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-opacity-60">Évènement
-                Organise</label>
+                Organisé</label>
         </a>
     </div>
-    <div id="resultatEvenements" class="flex flex-nowrap">
+    <div id="resultatEvenements" class="flex flex-nowrap overflow-x-auto">
         <div th:each="evenement : ${mesevenements}"
-             class="relative flex justify-center items-start event bg-gray-300 hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
+             class="mb-4 relative flex justify-center items-start event bg-gray-300 hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
             <a th:href="@{'/eventz/evenement/details?id=' + ${evenement.idEvenement}}">
                 <img th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
                      class="mt-4 rounded-lg mb-2 object-cover w-72 h-40" alt="profile cover">
