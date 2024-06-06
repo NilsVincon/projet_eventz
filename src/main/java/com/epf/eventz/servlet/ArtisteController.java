@@ -4,6 +4,7 @@ import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.ArtisteService;
+import com.epf.eventz.service.EvenementService;
 import com.epf.eventz.service.UtilisateurService;
 import com.epf.eventz.model.*;
 import com.epf.eventz.service.PrefererArtisteService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -32,12 +34,14 @@ public class ArtisteController {
     private final ArtisteService artisteService;
     private final PrefererArtisteService prefererArtisteService;
     private final UtilisateurService utilisateurService;
+    private final EvenementService evenementService;
 
     @Autowired
-    public ArtisteController(ArtisteService artisteService, PrefererArtisteService prefererArtisteService, UtilisateurService utilisateurService) {
+    public ArtisteController(ArtisteService artisteService, PrefererArtisteService prefererArtisteService, UtilisateurService utilisateurService, EvenementService evenementService) {
         this.artisteService = artisteService;
         this.prefererArtisteService = prefererArtisteService;
         this.utilisateurService = utilisateurService;
+        this.evenementService = evenementService;
     }
 
     @GetMapping("/admin/listeartiste")
@@ -111,6 +115,10 @@ public class ArtisteController {
             StringBuilder typemusique = artisteService.afficherTypeMusique(artiste);
             model.addAttribute("typeMusique", typemusique);
             model.addAttribute("artiste", artiste);
+            List<Evenement> evenements = artisteService.getEvenementsByArtisteId(id);
+            Map<Boolean, List<Evenement>> eventz = evenementService.separerEvenementsParDate(evenements);
+            model.addAttribute("eventPasse", eventz.get(false));
+            model.addAttribute("eventAVenir", eventz.get(true));
 
             try {
                 Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
