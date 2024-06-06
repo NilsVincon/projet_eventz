@@ -59,7 +59,7 @@ function onMessageReceived(payload) {
 
     if (message.type === 'JOIN') {
         messageElement.classList.add('event-message', 'text-center', 'text-blue-100');
-        messageElement.textContent = message.sender + ' a rejoin!';
+        messageElement.textContent = message.sender + ' a rejoint!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message', 'text-center', 'text-blue-100');
         messageElement.textContent = message.sender + ' est parti!';
