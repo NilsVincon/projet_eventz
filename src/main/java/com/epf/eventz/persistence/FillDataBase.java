@@ -33,6 +33,10 @@ public class FillDataBase {
     private PrefererArtisteService prefererArtisteService;
     @Autowired
     private ParticipeService participeService;
+    @Autowired
+    private JouerService jouerService;
+    @Autowired
+    private PerformeService performeService;
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -99,16 +103,18 @@ public class FillDataBase {
 
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "user", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
-            utilisateur1.setPdpUtilisateur(imageData);
+            Utilisateur utilisateur2 = new Utilisateur("Andreani", "Xavier", "jane.d@example.com", mdpCrypte2, "admiNNN", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateur3.setPdpUtilisateur(imageData);
-            Utilisateur utilisateur5 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "azizzofiffu", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
+            utilisateur4.setPdpUtilisateur(imageData);
+            utilisateur2.setPdpUtilisateur(imageData);
+            Utilisateur utilisateur5 = new Utilisateur("Andreani", "Xavier", "jane.doe@eple.co", mdpCrypte1, "abbbb", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateur5.setPdpUtilisateur(imageData);
+            Utilisateur utilisateur6 = new Utilisateur("Andreani", "Xavier", "jane.doe@ele.co", mdpCrypte1, "accc", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
+            utilisateur6.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur1);
             utilisateurService.creerUtilisateur(utilisateur4);
             utilisateurService.creerUtilisateur(utilisateur3);
             utilisateurService.creerUtilisateur(utilisateur5);
-            Utilisateur utilisateur6 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "ghui", "Homme", "USER", LocalDate.of(2001, 3, 5), "Etudiant Ingénieur Informatique ");
-            utilisateur6.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur6);
             Utilisateur utilisateur7 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "florent", "Homme", "USER", LocalDate.of(2001, 3, 5), "Etudiant Ingénieur Informatique ");
             utilisateur7.setPdpUtilisateur(imageData);
@@ -116,11 +122,23 @@ public class FillDataBase {
             Utilisateur utilisateur8 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "marc", "Homme", "USER", LocalDate.of(2001, 3, 5), "Etudiant Ingénieur Informatique ");
             utilisateur8.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur8);
+            utilisateurService.creerUtilisateur(utilisateur2);
+            utilisateurService.creerUtilisateur(utilisateur4);
+            utilisateurService.creerUtilisateur(utilisateur5);
+            utilisateurService.creerUtilisateur(utilisateur6);
             Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("user");
             if (moiOptional.isPresent()) {
                 Utilisateur moi = moiOptional.get();
                 suivreService.creerSuivre(new Suivre(moi, utilisateur3));
                 suivreService.creerSuivre(new Suivre(utilisateur3, moi));
+                suivreService.creerSuivre(new Suivre(moi, utilisateur2));
+                suivreService.creerSuivre(new Suivre(utilisateur2, moi));
+                suivreService.creerSuivre(new Suivre(moi, utilisateur4));
+                suivreService.creerSuivre(new Suivre(utilisateur4, moi));
+                suivreService.creerSuivre(new Suivre(moi, utilisateur5));
+                suivreService.creerSuivre(new Suivre(utilisateur5, moi));
+                suivreService.creerSuivre(new Suivre(moi, utilisateur6));
+                suivreService.creerSuivre(new Suivre(utilisateur6, moi));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste, moi));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, moi));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste1, moi));
@@ -273,6 +291,18 @@ public class FillDataBase {
                     35.0f, 700, true));
 
             participeService.addParticipe(new Participe(technoFest, utilisateur1));
+            participeService.addParticipe(new Participe(technoFest, utilisateur3));
+            participeService.addParticipe(new Participe(technoFest, utilisateur2));
+            participeService.addParticipe(new Participe(technoFest, utilisateur5));
+            participeService.addParticipe(new Participe(technoFest, utilisateur4));
+            participeService.addParticipe(new Participe(technoFest, utilisateur6));
+            performeService.creer(new Performe(technoFest, artiste1));
+            performeService.creer(new Performe(technoFest, artiste6));
+            performeService.creer(new Performe(technoFest, artiste2));
+            performeService.creer(new Performe(technoFest, artiste3));
+            performeService.creer(new Performe(technoFest, artiste4));
+            performeService.creer(new Performe(technoFest, artiste5));
+
 
         };
     }

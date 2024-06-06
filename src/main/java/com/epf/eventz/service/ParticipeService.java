@@ -24,8 +24,16 @@ public class ParticipeService {
         participeDAO.save(participe);
     }
 
+    public void deleteParticipe(Participe participe){
+        participeDAO.delete(participe);
+    }
+
     public Boolean existsByUtilisateurAndEvenement(Utilisateur utilisateur,Evenement evenement){
         return participeDAO.existsByUtilisateurAndEvenement(utilisateur,evenement);
+    }
+
+    public Participe findByUtilisateurAndEvenement(Utilisateur utilisateur, Evenement evenement){
+        return participeDAO.findByUtilisateurAndEvenement(utilisateur, evenement);
     }
     public List<Evenement> findEvenementsByUtilisateur(Utilisateur utilisateur) {
         return participeDAO.findEvenementsByUtilisateur(utilisateur);
@@ -40,6 +48,8 @@ public class ParticipeService {
     public List<Utilisateur> findUtilisateurByEvent(Evenement evenement) {
         return participeDAO.findUtilisateurByEvent(evenement);
     }
-    
 
+    public List<Utilisateur> findParticipantsByEvenementAndAmis(Evenement evenement, List<Utilisateur> amis) {
+        return participeDAO.findParticipantsByEvenementAndAmis(evenement, amis);
+    }
 }

@@ -53,25 +53,10 @@ public class EvenementController {
     private EmailService emailService;
     @Autowired
     private PerformeService performeService;
-
     @Autowired
     private ArtisteService artisteService;
-
-    @GetMapping("/details")
-    public String afficherDetails(@RequestParam("id") Long event_id, Model model) {
-        try {
-            Optional<Evenement> evenementOptional = evenementService.findEvenementById(event_id);
-            if (evenementOptional.isPresent()) {
-                Evenement evenementactuel = evenementOptional.get();
-                log.info(evenementactuel.toString());
-                model.addAttribute("evenementactuel", evenementactuel);
-            }
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
-        return "detail_evenement";
-
-    }
+    @Autowired
+    private SuivreService suivreService;
 
     @GetMapping("/afficherEvenement/{evenement}")
     public String afficherEvenement(@PathVariable("evenement") String evenement, Model model) {
@@ -316,42 +301,7 @@ public class EvenementController {
 
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/delete")
-    public String deletePage(@RequestParam("id") Long evenementId, Model model, HttpServletResponse response) throws ServiceException, IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!authentication.getName().equals("anonymousUser")) {
-            Optional<Utilisateur> utilisateurOptional = null;
-            try {
-                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
-            } catch (ServiceException e) {
-                throw new RuntimeException(e);
-            }
-            if (utilisateurOptional.isPresent()) {
-                Utilisateur utilisateur = utilisateurOptional.get();
-                try {
 
-                    // Trouver l'événement par ID
-                    Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
-
-                    if (evenementOptional.isPresent()) {
-                        Evenement evenement = evenementOptional.get();
-                        Utilisateur organisateur = evenement.getOrganisateur();
-
-                        // Vérifier si l'utilisateur connecté est l'organisateur de l'événement
-                        if (organisateur.equals(utilisateur)) {
-                            model.addAttribute("event", evenement);
-                            return "delete_event";
-                        }
-                    }
-                } catch (Exception e) {
-                    response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur lors de la suppression de l'événement: " + e.getMessage());
-                }
-
-            }
-        }
-        return null ;
-    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/delete")
@@ -372,13 +322,18 @@ public class EvenementController {
             if (evenementOptional.isPresent() && userOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
                 Utilisateur utilisateur = userOptional.get();
-                if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
+                if (participeService.existsByUtilisateurAndEvenement(utilisateur, evenement)){
+                    participeService.deleteParticipe(participeService.findByUtilisateurAndEvenement(utilisateur, evenement));
+                    response.setHeader("Location", "/eventz/evenement/details/" + event_id);
+                    response.setStatus(HttpStatus.FOUND.value());
+                }
+                else if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
                     Participe participe = new Participe(evenement, utilisateur);
                     participeService.addParticipe(participe);
-                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id + "&fullevent=" + false);
+                    response.setHeader("Location", "/eventz/evenement/details/" + event_id);
                     response.setStatus(HttpStatus.FOUND.value());
                 } else {
-                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id + "&fullevent=" + true);
+                    response.setHeader("Location", "/eventz/evenement/details/" + event_id);
                     response.setStatus(HttpStatus.FOUND.value());
                 }
             }
@@ -391,22 +346,30 @@ public class EvenementController {
 
     @GetMapping(path = "/details/{evenementId}")
     public String detailsEvenement(@PathVariable Long evenementId, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Utilisateur utilisateur = null;
         try {
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
+                if (utilisateurOptional.isPresent()) {
+                    utilisateur = utilisateurOptional.get();
+                    boolean participe = participeService.existsByUtilisateurAndEvenement(utilisateur, evenement);
+                    model.addAttribute("boutonParticipe", !participe ? "INTÉRESSÉ•E" : "DESINTÉRESSÉ•E");
+                }
                 List<Artiste> artistes = new ArrayList<>();
                 for (Performe performe : evenement.getPerformes()) {
                     artistes.add(performe.getArtiste());
                 }
                 model.addAttribute("evenement", evenement);
-                List<Utilisateur> Utilisateurs = new ArrayList<>();
-                for (Participe participe : evenement.getParticipes()) {
-                    Utilisateurs.add(participe.getUtilisateur());
-                }
-                model.addAttribute("Utilisateurs", Utilisateurs);
-                model.addAttribute("artistes", artistes);
-                return "events/event_details_description"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
+                List<Utilisateur> amis = suivreService.findAmisByUtilisateur(utilisateur);
+                List<Utilisateur> amisParticipent = participeService.findParticipantsByEvenementAndAmis(evenement, amis);
+                model.addAttribute("amisParticipent", amisParticipent);
+                long nb_orga = evenementService.countEvenementsByOrganisateur(evenement.getOrganisateur());
+                model.addAttribute("nb_orga", nb_orga);
+                    model.addAttribute("artistes", artistes);
+                return "detail_evenement"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
             } else {
                 // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple
                 return "redirect:/error-500"; // Redirection vers une page d'erreur

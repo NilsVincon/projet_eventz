@@ -10,9 +10,12 @@ import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EvenementService {
@@ -78,6 +81,16 @@ public class EvenementService {
             }
         }
         return evenements;
+    }
+    public Map<Boolean, List<Evenement>> separerEvenementsParDate(List<Evenement> evenements) {
+        LocalDate maintenant = LocalDate.now();
+        return evenements.stream()
+                .collect(Collectors.partitioningBy(evenement -> evenement.getDebut_evenement().isAfter(maintenant)));
+
+    }
+
+    public Long countEvenementsByOrganisateur(Utilisateur organisateur) {
+        return evenementDAO.countByOrganisateur(organisateur);
     }
     
     

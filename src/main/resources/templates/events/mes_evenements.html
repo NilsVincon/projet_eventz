@@ -11,6 +11,28 @@
             font-family: 'Dela Gothic One', sans-serif;
         }
 
+
+
+        body::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: rgba(192, 79, 218, 0.45);
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(159, 49, 176, 0.7);
+        }
+
         .policeperso {
             font-family: 'Dela Gothic One', sans-serif;
         }
@@ -76,53 +98,11 @@
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.5);
         }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .modal-buttons {
-            margin-top: 20px;
-        }
-
-        .modal-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .modal-button.cancel-button {
-            background-color: #ddd;
-            color: #333;
-        }
-
-        .modal-button.confirm-button {
-            background-color: #ff5050;
-            color: #fff;
-            margin-left: 10px;
-        }
-
-        .modal-button.cancel-button:hover,
-        .modal-button.confirm-button:hover {
-            background-color: #ccc;
-        }
     </style>
 </head>
-<body class="flex flex-col h-screen m-0">
-
-<th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
+<body class="flex flex-col h-screen">
+<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
 <div class="flex-1 p-5 rounded-lg shadow-md overflow-y-auto">
-    <h1 class="text-center text-gray-800 mb-5">Mes évènements</h1>
     <div id="choixEvenementForm" class="flex justify-center items-center mb-28">
         <a class="mt-7" th:href="'/eventz/evenement/afficherEvenement/avenir'">
             <label tabindex="0"
@@ -141,11 +121,11 @@
     </div>
     <div id="resultatEvenements" class="flex flex-nowrap overflow-x-auto">
         <div th:each="evenement : ${mesevenements}"
-             class="mb-4 relative flex justify-center items-start event bg-gray-300 hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
+             class="mb-4 relative flex justify-center items-start event hover:bg-gray-400 hover:bg-opacity-50 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
             <form id="deleteForm" method="post" th:action="@{'/eventz/evenement/delete'}">
                 <input type="hidden" name="idEvenement" id="idEvenement" th:value="${evenement.idEvenement}">
             </form>
-            <a th:href="@{'/eventz/evenement/details?id=' + ${evenement.idEvenement}}">
+            <a class="hover:no-underline" th:href="@{'/eventz/evenement/details?id=' + ${evenement.idEvenement}}">
                 <img th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
                      class="mt-4 rounded-lg mb-2 object-cover w-72 h-40" alt="profile cover">
                 <div class="mb-2">
@@ -154,13 +134,13 @@
                 <div class="icon-container absolute top-0 right-0" th:if="${evenementorganise.contains(evenement)}">
                     <a th:href="${'/eventz/evenement/update?id=' + evenement.idEvenement}" class="icon mb-auto">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="w-6 h-6 icon-large">
+                             stroke="currentColor" class="w-6 h-6 text-red-50 icon-large">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                   d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
                         </svg>
                     </a>
                     <a href="javascript:void(0);" class="icon mt-2" onclick="openModal()">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="red" class="size-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-400 size-6">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
                         </svg>
                     </a>
@@ -173,12 +153,13 @@
 
 <!-- Modal de confirmation -->
 <div id="myModal" class="modal">
-    <div class="modal-content">
-        <h2>Confirmation de suppression</h2>
-        <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
-        <div class="modal-buttons">
-            <button class="modal-button cancel-button" onclick="closeModal()">Annuler</button>
-            <button class="modal-button confirm-button" onclick="confirmDelete()">Supprimer</button>
+    <div class="w-1/4 bg-purple-50 bg-opacity-92 w-4/10 mt-44 mx-auto p-5 border border-gray-799 rounded-lg shadow-md text-center">
+        <h2 class="text-2xl mb-3 font-bold text-gray-800 policeperso">Confirmation de suppression</h2>
+        <p class="mb-1">Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+        <div class="mt-5"> <!-- Added mt-5 to apply margin-top: 20px; -->
+            <button class="bg-gray-300 font-bold text-gray-600 w-24 h-12 rounded-lg hover:bg-gray-400" onclick="closeModal()">Annuler</button>
+
+            <button class="ml-4 bg-red-400 font-bold text-gray-50 w-24 h-12 rounded-lg hover:bg-red-500" onclick="confirmDelete()">Supprimer</button>
         </div>
     </div>
 </div>

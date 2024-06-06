@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table
@@ -85,6 +87,15 @@ public class Evenement {
         return pdpEvenement != null;
     }
 
+    public String printDebut(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH);
+        return debut_evenement.format(formatter);
+    }
+
+    public String printFin(){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", Locale.FRENCH);
+        return fin_evenement.format(formatter);
+    }
 
 }
 

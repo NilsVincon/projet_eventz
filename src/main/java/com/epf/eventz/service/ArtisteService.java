@@ -1,8 +1,11 @@
 package com.epf.eventz.service;
 
 import com.epf.eventz.dao.ArtisteDAO;
+import com.epf.eventz.dao.PerformeDAO;
 import com.epf.eventz.exception.ServiceException;
 import com.epf.eventz.model.Artiste;
+import com.epf.eventz.model.Performe;
+import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Jouer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +16,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArtisteService {
     private ArtisteDAO artisteDAO;
+    private PerformeDAO performeDAO;
+
 
     @Autowired
-    public ArtisteService(ArtisteDAO artisteDAO) {
+    public ArtisteService(ArtisteDAO artisteDAO, PerformeDAO performeDAO) {
         this.artisteDAO = artisteDAO;
+        this.performeDAO = performeDAO;
     }
 
     public void addArtiste(Artiste artiste){
@@ -83,6 +90,13 @@ public class ArtisteService {
             typemusique.deleteCharAt(1);
         }
         return typemusique;
+    }
+
+    public List<Evenement> getEvenementsByArtisteId(Long artisteId) {
+        Artiste artiste = artisteDAO.findById(artisteId).orElseThrow(() -> new RuntimeException("Artiste not found"));
+        return performeDAO.findByArtiste(artiste).stream()
+                .map(Performe::getEvenement)
+                .collect(Collectors.toList());
     }
 
 

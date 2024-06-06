@@ -1,6 +1,7 @@
 package com.epf.eventz.dao;
 
 import com.epf.eventz.exception.DAOException;
+import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Performe;
 import com.epf.eventz.persistence.ConnectionManager;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,5 @@ import java.util.function.LongFunction;
 
 @Repository
 public interface PerformeDAO extends JpaRepository<Performe, Long> {
+    List<Performe> findByArtiste(Artiste artiste);
 }
