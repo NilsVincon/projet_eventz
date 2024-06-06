@@ -98,46 +98,6 @@
             overflow: auto;
             background-color: rgba(0, 0, 0, 0.5);
         }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 40%;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .modal-buttons {
-            margin-top: 20px;
-        }
-
-        .modal-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
-        }
-
-        .modal-button.cancel-button {
-            background-color: #ddd;
-            color: #333;
-        }
-
-        .modal-button.confirm-button {
-            background-color: #ff5050;
-            color: #fff;
-            margin-left: 10px;
-        }
-
-        .modal-button.cancel-button:hover,
-        .modal-button.confirm-button:hover {
-            background-color: #ccc;
-        }
     </style>
 </head>
 <body class="flex flex-col h-screen">
@@ -193,12 +153,13 @@
 
 <!-- Modal de confirmation -->
 <div id="myModal" class="modal">
-    <div class="modal-content">
-        <h2>Confirmation de suppression</h2>
-        <p>Êtes-vous sûr de vouloir supprimer cet événement ?</p>
-        <div class="modal-buttons">
-            <button class="modal-button cancel-button" onclick="closeModal()">Annuler</button>
-            <button class="modal-button confirm-button" onclick="confirmDelete()">Supprimer</button>
+    <div class="w-1/4 bg-purple-50 bg-opacity-92 w-4/10 mt-44 mx-auto p-5 border border-gray-799 rounded-lg shadow-md text-center">
+        <h2 class="text-2xl mb-3 font-bold text-gray-800 policeperso">Confirmation de suppression</h2>
+        <p class="mb-1">Êtes-vous sûr de vouloir supprimer cet événement ?</p>
+        <div class="mt-5"> <!-- Added mt-5 to apply margin-top: 20px; -->
+            <button class="bg-gray-300 font-bold text-gray-600 w-24 h-12 rounded-lg hover:bg-gray-400" onclick="closeModal()">Annuler</button>
+
+            <button class="ml-4 bg-red-400 font-bold text-gray-50 w-24 h-12 rounded-lg hover:bg-red-500" onclick="confirmDelete()">Supprimer</button>
         </div>
     </div>
 </div>

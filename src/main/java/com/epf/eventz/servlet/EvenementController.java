@@ -316,42 +316,7 @@ public class EvenementController {
 
 
 
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @GetMapping("/delete")
-    public String deletePage(@RequestParam("id") Long evenementId, Model model, HttpServletResponse response) throws ServiceException, IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!authentication.getName().equals("anonymousUser")) {
-            Optional<Utilisateur> utilisateurOptional = null;
-            try {
-                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
-            } catch (ServiceException e) {
-                throw new RuntimeException(e);
-            }
-            if (utilisateurOptional.isPresent()) {
-                Utilisateur utilisateur = utilisateurOptional.get();
-                try {
 
-                    // Trouver l'événement par ID
-                    Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
-
-                    if (evenementOptional.isPresent()) {
-                        Evenement evenement = evenementOptional.get();
-                        Utilisateur organisateur = evenement.getOrganisateur();
-
-                        // Vérifier si l'utilisateur connecté est l'organisateur de l'événement
-                        if (organisateur.equals(utilisateur)) {
-                            model.addAttribute("event", evenement);
-                            return "delete_event";
-                        }
-                    }
-                } catch (Exception e) {
-                    response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur lors de la suppression de l'événement: " + e.getMessage());
-                }
-
-            }
-        }
-        return null ;
-    }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/delete")
