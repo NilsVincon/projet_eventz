@@ -46,51 +46,12 @@
             background-color: #f7f8f7;
         }
 
-        .sidebar {
-            width: 250px;
-            height: 100%;
-            position: fixed;
-            top: 0;
-            overflow: visible;
-            left: -250px;
-            background-color: #f0f0f0;
-            transition: left 0.3s ease;
-        }
-
-        .sidebar ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .sidebar ul li {
-            padding: 10px 20px;
-        }
-
-        .sidebar ul li a {
-            color: #f2d4d8;
-            text-decoration: none;
-        }
 
         .event-image {
             width: 450px;
             height: 280px;
         }
 
-        .sidebar ul li a:hover {
-            background-color: #ddd;
-        }
-
-        .sidebar-toggle {
-            position: relative;
-            top: 20px;
-            left: 20px;
-            cursor: pointer;
-            z-index: 1000;
-        }
-
-        .sidebar-toggle span {
-            font-size: 24px;
-        }
 
         .transition-block {
             width: 80%; /* ajustez la largeur selon vos besoins */
@@ -134,7 +95,7 @@
             width: 100%;
             max-width: 800px;
             margin: 0 auto;
-            z-index: 1000;
+            /*z-index: 1000;*/
         }
 
         .filter-form {
@@ -208,7 +169,7 @@
             background-size: cover;
             background-repeat: repeat-y;
             background-attachment: scroll;
-            height:100%;
+            height: 100%;
             margin: 0;
         }
 
@@ -373,6 +334,7 @@
         .msgbox-close:last-child {
             margin-right: 0;
         }
+
         .transform-left {
             transform: translateX(-100%);
             transition: transform 0.3s ease;
@@ -400,12 +362,6 @@
             }
         }
 
-        /*****************************/
-        /* MESSAGE BOX RELATED CLASS */
-        /*           (END)           */
-        /*****************************/
-
-
     </style>
     <title>Accueil</title>
 
@@ -413,7 +369,11 @@
 <body class="h-screen">
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}"></div>
-<th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
+<div class="h-36">
+    <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+</div>
+
+
 <div class="filter-container">
     <form id="filterForm1" class="filter-form">
         <div class="filter-item">
@@ -584,26 +544,10 @@
     </div>
 </div>
 
-<th:block th:insert="~{fragments/footer :: foot}"></th:block>
-
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
 
 
 <script>
-
-    function toggleSidebar() {
-        var sidebar = document.getElementById("sidebar");
-        var sideicon = document.getElementById("sideicon");
-        if (sidebar.style.left === "0px") {
-            sidebar.style.left = "-250px";
-            sideicon.classList.add('transform-left');
-            sideicon.classList.remove('transform-right');
-        } else {
-            sidebar.style.left = "0px";
-            sideicon.classList.add('transform-right');
-            sideicon.classList.remove('transform-left');
-        }
-    }
-
     window.addEventListener("load", function () {
         var filterForm = document.getElementById("filterForm1");
         if (filterForm) {

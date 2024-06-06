@@ -1,49 +1,35 @@
-<footer class="footer" th:fragment="foot">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-section about">
-                <h2>About Us</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                <div class="contact">
-                    <span><i class="fas fa-phone"></i> 123-456-789</span>
-                    <span><i class="fas fa-envelope"></i> info@eventz.com</span>
-                </div>
-                <div class="socials">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="footer-section links">
-                <h2>Quick Links</h2>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Events</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section contact-form">
-                <h2>Contact Us</h2>
-                <form action="#" method="post">
-                    <input
-                            type="email"
-                            name="email"
-                            class="text-input contact-input"
-                            placeholder="Your email address"
-                    />
-                    <textarea
-                            rows="4"
-                            name="message"
-                            class="text-input contact-input"
-                            placeholder="Your message"
-                    ></textarea>
-                    <button type="submit" class="btn btn-primary">Send</button>
-                </form>
-            </div>
+<footer th:fragment="footer" class="rounded-lg shadow dark:bg-gray-900 m-4">
+    <link href="../output.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+        footer{
+            font-family: 'Dela Gothic One',sans-serif;
+        }
+    </style>
+
+    <div class="w-full max-w-screen-xl mx-auto p-4 md:py-8">
+        <div class="sm:flex sm:items-center sm:justify-between">
+            <a href="/eventz/home" class="flex items-center mb-0.5 sm:mb-0 space-x-3 rtl:space-x-reverse">
+                <img th:src="@{/images/Eventz.png}" class="h-10" alt="Eventz Logo" />
+                <span class="self-center text-2xl text-purple-100 font-de whitespace-nowrap dark:text-white">Eventz</span>
+            </a>
+            <ul class="flex flex-wrap items-center space-x-5 mb-0.5 text-sm font-medium text-purple-100 sm:mb-0 dark:text-gray-400">
+                <li>
+                    <a href="#" class="hover:underline me-4 md:me-6">À propos de nous</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline me-4 md:me-6">Conditions générales d'utilisation</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline me-4 md:me-6">Politique données personnelles</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">Contact</a>
+                </li>
+            </ul>
         </div>
-        <div class="footer-bottom">
-            &copy; 2024 Eventz. All rights reserved.
-        </div>
+        <hr class="my-1 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-6" />
+        <span class="block text-sm mt-1 text-purple-100 sm:text-center dark:text-gray-400">© 2024 <a href="/eventz/home" class="hover:underline">Eventz™</a>. All Rights Reserved.</span>
     </div>
 </footer>
+

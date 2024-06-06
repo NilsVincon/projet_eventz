@@ -1,4 +1,4 @@
-<nav th:fragment="nav" class="dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+<nav th:fragment="nav" class="dark:bg-gray-900 fixed w-full z-20 top-0 start-0 dark:border-gray-600">
     <link href="../../output.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 
@@ -117,436 +117,526 @@
 
         @media (min-width: 768px) {
             #wrapper {
-                padding-left: 350px;
+                padding-left: 0;
+                transition: all 0.5s ease;
             }
 
             #wrapper.toggled {
-                padding-left: 0;
+                padding-left: 350px;
             }
 
             #sidebar-wrapper {
-                width: 350px;
+                z-index: 1000;
+                position: fixed;
+                left: 350px;
+                width: 0;
+                margin-top: 56px;
+                height: 100%;
+                margin-left: -350px;
+                overflow-y: auto;
+                background: #f4f4f5;
+                transition: all 0.5s ease;
+            }
+
+            #sidebar-wrapper {
+                box-shadow: inset -1px 0px 0px 0px #DDDDDD;
             }
 
             #wrapper.toggled #sidebar-wrapper {
-                width: 0;
+                width: 350px;
             }
 
             #page-content-wrapper {
-                padding: 20px;
-                position: relative;
+                width: 100%;
+                position: absolute;
+                padding: 15px;
             }
 
             #wrapper.toggled #page-content-wrapper {
-                position: relative;
-                margin-right: 0;
+                position: absolute;
+                margin-right: -350px;
             }
-        }
 
-        .sidebar-brand {
-            border-bottom: 1px solid rgba(102, 97, 91, 0.3);
-        }
+            .sidebar-nav {
+                position: absolute;
+                top: 0;
+                width: 350px;
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
 
-        .sidebar-brand {
-            padding: 18px 0px;
-            margin: 0 20px;
-        }
+            .sidebar-nav li {
+                text-indent: 20px;
+                line-height: 40px;
+            }
 
-        .navbar .navbar-nav > li > a p {
-            display: inline-block;
-            margin: 0;
-        }
+            .sidebar-nav li a {
+                display: block;
+                text-decoration: none;
+                color: #999999;
+            }
 
-        p {
-            font-size: 16px;
-            line-height: 1.4em;
-        }
+            .sidebar-nav li a:hover {
+                text-decoration: none;
+            }
 
-        .btn-menu {
-            border-radius: 3px;
-            padding: 4px 12px;
-            margin: 5px 5px 5px 0;
-            font-size: 14px;
-            float: left;
-        }
+            .sidebar-nav li a:active,
+            .sidebar-nav li a:focus {
+                text-decoration: none;
+            }
 
+            .sidebar-nav > .sidebar-brand {
+                height: 65px;
+                font-size: 18px;
+                line-height: 60px;
+            }
 
-        .chat-app .people-list {
-            width: 380px;
-            position: absolute;
-            left: 0;
-            top: 0;
-            padding: 20px;
-            z-index: 7
-        }
+            .sidebar-nav > .sidebar-brand a {
+                color: #999999;
+            }
 
-        .chat-app .chat {
-            margin-left: 380px;
-            border-left: 1px solid #eaeaea
-        }
+            .sidebar-nav > .sidebar-brand a:hover {
+                color: #fff;
+                background: none;
+            }
 
-        .people-list {
-            -moz-transition: .5s;
-            -o-transition: .5s;
-            -webkit-transition: .5s;
-            transition: .5s
-        }
+            @media (min-width: 768px) {
+                #wrapper {
+                    padding-left: 350px;
+                }
 
-        .people-list .chat-list li {
-            padding: 10px 15px;
-            list-style: none;
-            border-radius: 3px
-        }
+                #wrapper.toggled {
+                    padding-left: 0;
+                }
 
-        .people-list .chat-list li:hover {
-            background: #efefef;
-            cursor: pointer
-        }
+                #sidebar-wrapper {
+                    width: 350px;
+                }
 
-        .people-list .chat-list li.active {
-            background: #efefef
-        }
+                #wrapper.toggled #sidebar-wrapper {
+                    width: 0;
+                }
 
-        .people-list .chat-list li .name {
-            font-size: 15px
-        }
+                #page-content-wrapper {
+                    padding: 20px;
+                    position: relative;
+                }
 
-        .people-list .chat-list img {
-            width: 45px;
-            border-radius: 50%
-        }
+                #wrapper.toggled #page-content-wrapper {
+                    position: relative;
+                    margin-right: 0;
+                }
+            }
 
-        .people-list img {
-            float: left;
-            border-radius: 50%
-        }
+            .sidebar-brand {
+                padding: 18px 0px;
+                margin: 0 20px;
+            }
 
-        .people-list .about {
-            float: left;
-            padding-left: 8px
-        }
+            .navbar .navbar-nav > li > a p {
+                display: inline-block;
+                margin: 0;
+            }
 
-        .people-list .status {
-            color: #999;
-            font-size: 13px
-        }
+            p {
+                font-size: 16px;
+                line-height: 1.4em;
+            }
 
-        .chat .chat-header {
-            padding: 15px 20px;
-            border-bottom: 2px solid #f4f7f6
-        }
-
-        .chat .chat-header img {
-            float: left;
-            border-radius: 40px;
-            width: 40px
-        }
-
-        .chat .chat-header .chat-about {
-            float: left;
-            padding-left: 10px
-        }
-
-        .chat .chat-history {
-            padding: 20px;
-            border-bottom: 2px solid #fff
-        }
-
-        .chat .chat-history ul {
-            padding: 0
-        }
-
-        .chat .chat-history ul li {
-            list-style: none;
-            margin-bottom: 30px
-        }
-
-        .chat .chat-history ul li:last-child {
-            margin-bottom: 0px
-        }
-
-        .chat .chat-history .message-data {
-            margin-bottom: 15px
-        }
-
-        .chat .chat-history .message-data img {
-            border-radius: 40px;
-            width: 40px
-        }
-
-        .chat .chat-history .message-data-time {
-            color: #434651;
-            padding-left: 6px
-        }
-
-        .chat .chat-history .message {
-            color: #444;
-            padding: 18px 20px;
-            line-height: 26px;
-            font-size: 16px;
-            border-radius: 7px;
-            display: inline-block;
-            position: relative
-        }
+            .btn-menu {
+                border-radius: 3px;
+                padding: 4px 12px;
+                margin: 5px 5px 5px 0;
+                font-size: 14px;
+                float: left;
+            }
 
 
-        .chat .chat-history .my-message {
-            background: #efefef
-        }
-
-
-        .chat .chat-history .other-message {
-            background: #e8f1f3;
-            text-align: right
-        }
-
-
-        .chat .chat-message {
-            padding: 20px
-        }
-
-        .online,
-        .offline,
-        .me {
-            margin-right: 2px;
-            font-size: 8px;
-            vertical-align: middle
-        }
-
-        .online {
-            color: #86c541
-        }
-
-        .offline {
-            color: #e47297
-        }
-
-        .me {
-            color: #1d8ecd
-        }
-
-        .float-right {
-            float: right
-        }
-
-
-        @media only screen and (max-width: 767px) {
             .chat-app .people-list {
-                height: 465px;
-                width: 100%;
-                overflow-x: auto;
-                background: #fff;
-                left: -400px;
-                display: none
-            }
-
-            .chat-app .people-list.open {
-                left: 0
+                width: 380px;
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 20px;
+                z-index: 7
             }
 
             .chat-app .chat {
-                margin: 0
+                margin-left: 380px;
+                border-left: 1px solid #eaeaea
             }
 
-            .chat-app .chat .chat-header {
-                border-radius: 0.55rem 0.55rem 0 0
+            .people-list {
+                -moz-transition: .5s;
+                -o-transition: .5s;
+                -webkit-transition: .5s;
+                transition: .5s
             }
 
-            .chat-app .chat-history {
-                height: 300px;
-                overflow-x: auto
+            .people-list .chat-list li {
+                padding: 10px 15px;
+                list-style: none;
+                border-radius: 3px
+            }
+
+            .people-list .chat-list li:hover {
+                background: #efefef;
+                cursor: pointer
+            }
+
+            .people-list .chat-list li.active {
+                background: #efefef
+            }
+
+            .people-list .chat-list li .name {
+                font-size: 15px
+            }
+
+            .people-list .chat-list img {
+                width: 45px;
+                border-radius: 50%
+            }
+
+            .people-list img {
+                float: left;
+                border-radius: 50%
+            }
+
+            .people-list .about {
+                float: left;
+                padding-left: 8px
+            }
+
+            .people-list .status {
+                color: #999;
+                font-size: 13px
+            }
+
+            .chat .chat-header {
+                padding: 15px 20px;
+                border-bottom: 2px solid #f4f7f6
+            }
+
+            .chat .chat-header img {
+                float: left;
+                border-radius: 40px;
+                width: 40px
+            }
+
+            .chat .chat-header .chat-about {
+                float: left;
+                padding-left: 10px
+            }
+
+            .chat .chat-history {
+                padding: 20px;
+                border-bottom: 2px solid #fff
+            }
+
+            .chat .chat-history ul {
+                padding: 0
+            }
+
+            .chat .chat-history ul li {
+                list-style: none;
+                margin-bottom: 30px
+            }
+
+            .chat .chat-history ul li:last-child {
+                margin-bottom: 0px
+            }
+
+            .chat .chat-history .message-data {
+                margin-bottom: 15px
+            }
+
+            .chat .chat-history .message-data img {
+                border-radius: 40px;
+                width: 40px
+            }
+
+            .chat .chat-history .message-data-time {
+                color: #434651;
+                padding-left: 6px
+            }
+
+            .chat .chat-history .message {
+                color: #444;
+                padding: 18px 20px;
+                line-height: 26px;
+                font-size: 16px;
+                border-radius: 7px;
+                display: inline-block;
+                position: relative
+            }
+
+
+            .chat .chat-history .my-message {
+                background: #efefef
+            }
+
+
+            .chat .chat-history .other-message {
+                background: #e8f1f3;
+                text-align: right
+            }
+
+
+            .chat .chat-message {
+                padding: 20px
+            }
+
+            .online,
+            .offline,
+            .me {
+                margin-right: 2px;
+                font-size: 8px;
+                vertical-align: middle
+            }
+
+            .online {
+                color: #86c541
+            }
+
+            .offline {
+                color: #e47297
+            }
+
+            .me {
+                color: #1d8ecd
+            }
+
+            .float-right {
+                float: right
+            }
+
+            @media only screen and (max-width: 767px) {
+                .chat-app .people-list {
+                    height: 465px;
+                    width: 100%;
+                    overflow-x: auto;
+                    background: #fff;
+                    left: -400px;
+                    display: none
+                }
+
+                .chat-app .people-list.open {
+                    left: 0
+                }
+
+                .chat-app .chat {
+                    margin: 0
+                }
+
+                .chat-app .chat .chat-header {
+                    border-radius: 0.55rem 0.55rem 0 0
+                }
+
+                .chat-app .chat-history {
+                    height: 300px;
+                    overflow-x: auto
+                }
+            }
+
+            @media only screen and (min-width: 768px) and (max-width: 992px) {
+                .chat-app .chat-list {
+                    height: 650px;
+                    overflow-x: auto
+                }
+
+                .chat-app .chat-history {
+                    height: 600px;
+                    overflow-x: auto
+                }
+            }
+
+            @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
+                .chat-app .chat-list {
+                    height: 480px;
+                    overflow-x: auto
+                }
+
+                .chat-app .chat-history {
+                    height: calc(100vh - 350px);
+                    overflow-x: auto
+                }
             }
         }
+        </style>
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                <div id="wrapper" class="wrapper-content toggled">
+                    <div id="sidebar-wrapper">
+                        <ul class="sidebar-nav">
+                            <div class="h-full w-full mr-2 ml-3 mt-2">
+                                <form class="max-w-md mx-auto">
+                                    <label for="default-search"
+                                           class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                                    <div class="relative">
+                                        <input type="search" id="default-search"
+                                               class="block w-11/12 h-16 p-4 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-purple-700 dark:border-purple-600 dark:placeholder-purple-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-purple-500"
+                                               placeholder="Recherche..." required/>
+                                        <button type="submit" id="search-button"
+                                                class="text-white absolute inset-y-0 right-10 bottom-3 mt-3 bg-purple-700 opacity-70 hover:bg-purple-900 hover:opacity-100 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                                 fill="none" viewBox="0 0 20 20">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                      stroke-linejoin="round" stroke-width="2"
+                                                      d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="plist" class="people-list">
+                                <ul class="list-unstyled mt-4 mb-0 shadow-2xl rounded-2xl">
+                                    <li class="clearfix active">
+                                        <a href="/eventz/generalchat">
+                                            <img class="rounded ml-2 mt-2 mb-2 h-24 w-24" th:src="@{/images/Eventz.png}"
+                                                 alt="avatar"
+                                                 id="eventz-logog"/>
+                                            <div class="about">
+                                                <div class="name font-bold text-xl mt-4">Général Chat</div>
+                                                <div class="status"><i class="fa fa-circle online"></i>en ligne...
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="list-unstyled mt-2 mb-0 shadow-2xl rounded-2xl"
+                                    th:if="${evenementsparticipe != null}"
+                                    th:each="evenement : ${evenementsparticipe}">
+                                    <li class="clearfix active">
+                                        <a th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
+                                            <img class="ml-2 mt-2 mb-2 h-24 w-24 rounded"
+                                                 th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
+                                                 alt="avatar">
+                                            <div class="about">
+                                                <div class="name font-bold text-xl mt-4"
+                                                     th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
+                                                <div class="status"><i class="fa fa-circle online"></i>en ligne...
+                                                </div>
+                                            </div>
 
-        @media only screen and (min-width: 768px) and (max-width: 992px) {
-            .chat-app .chat-list {
-                height: 650px;
-                overflow-x: auto
-            }
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <button class="btn-menu btn btn-toggle-menu focus:ring-purple-300 focus:ring-2" type="button">
+                    <i class="fa fa-bars text-purple-100 opacity-70 size-3"></i>
+                </button>
+                <a href="/eventz/home" class="flex items-center">
+                    <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo"/>
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
+                </a>
 
-            .chat-app .ch   at-history {
-                height: 600px;
-                overflow-x: auto
-            }
-        }
+            </div>
+            <div class="flex items-center md:order-2 space-x-8 rtl:space-x-reverse">
+                <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/add'"
+                        class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                    Nouvel Eventz
+                </button>
 
-        @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
-            .chat-app .chat-list {
-                height: 480px;
-                overflow-x: auto
-            }
-            .chat-app .chat-history {
-                height: calc(100vh - 350px);
-                overflow-x: auto
-            }
-        }
-    </style>
-    <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="flex items-center space-x-4 rtl:space-x-reverse">
-            <div id="wrapper" class="wrapper-content toggled">
-                <div id="sidebar-wrapper">
-                    <ul class="sidebar-nav">
-                        <div class="h-full w-full mr-2 ml-3 mt-2">
-                            <form class="max-w-md mx-auto">
-                                <label for="default-search"
-                                       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                                <div class="relative">
-                                    <input type="search" id="default-search"
-                                           class="block w-11/12 h-16 p-4 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-purple-700 dark:border-purple-600 dark:placeholder-purple-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-purple-500"
-                                           placeholder="Recherche..." required/>
-                                    <button type="submit" id="search-button"
-                                            class="text-white absolute inset-y-0 right-10 bottom-3 mt-3 bg-purple-700 hover:bg-purple-800 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                             fill="none" viewBox="0 0 20 20">
-                                            <path stroke="currentColor" stroke-linecap="round"
-                                                  stroke-linejoin="round" stroke-width="2"
-                                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                        </svg>
-                                    </button>
-                                </div>
+                <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/list'"
+                        class="text-purple-100 no-underline bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                    Mes Eventz
+                </button>
+                <div th:if="${connecte}" class="relative inline-block text-left">
+                    <a href="/eventz/user/profil" id="profil"
+                       class="inline-flex items-center self-center text-2xl text-purple-100 font-semibold whitespace-nowrap dark:text-white">
+                        <div class="h-16 w-16 rounded-full overflow-hidden flex items-center justify-center">
+                            <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" alt="profil"
+                                 class="h-full w-full object-cover">
+                        </div>
+                    </a>
+                    <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
+                         id="profilDropdown" role="menu">
+                        <div class="p-2 menu-items">
+                            <a href="/eventz/user/profil"
+                               class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700"
+                               role="menuitem">Profil</a>
+                            <a href="/eventz/user/profil#abonnements-section"
+                               class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700"
+                               role="menuitem">Amis</a>
+                            <a href="/eventz/user/profil#settings"
+                               class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700"
+                               role="menuitem">Paramètres</a>
+                        </div>
+                        <div class="p-2">
+                            <form method="GET" action="/eventz/auth/logout">
+                                <button type="submit"
+                                        class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
+                                        role="menuitem">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                         viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                                    </svg>
+                                    Déconnexion
+                                </button>
                             </form>
                         </div>
-                        <div id="plist" class="people-list">
-                            <ul class="list-unstyled mt-4 mb-0 shadow-2xl rounded-2xl">
-                                <li class="clearfix active">
-                                    <a href="/eventz/generalchat">
 
-                                        <img class="rounded ml-2 mt-2 mb-2 h-24 w-24" th:src="@{/images/Eventz.png}"
-                                             alt="avatar"
-                                             id="eventz-logog"/>
-                                        <div class="about">
-                                            <div class="name font-extrabold text-xl mt-4">Général Chat</div>
-                                            <div class="status"><i class="fa fa-circle online"></i>en ligne...
-                                            </div>
-                                        </div>
-                                    </a>
-                                </li>
-                            </ul>
-                            <ul class="list-unstyled mt-2 mb-0 shadow-2xl rounded-2xl"
-                                th:if="${evenementsparticipe != null}"
-                                th:each="evenement : ${evenementsparticipe}">
-                                <li class="clearfix active">
-                                    <a th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
-                                        <img class="ml-2 mt-2 mb-2 h-24 w-24 rounded"
-                                             th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
-                                             alt="avatar">
-                                        <div class="about">
-                                            <div class="name font-extrabold text-2xl mt-4"
-                                                 th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
-                                            <div class="status"><i class="fa fa-circle online"></i>en ligne...
-                                            </div>
-                                        </div>
-
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </ul>
-                </div>
-            </div>
-            <button class="btn-menu btn btn-toggle-menu focus:ring-purple-300 focus:ring-2" type="button">
-                <i class="fa fa-bars"></i>
-            </button>
-            <a href="/eventz/home" class="flex items-center">
-                <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo"/>
-                <span class="self-center text-4xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
-            </a>
-        </div>
-        <div class="flex items-center md:order-2 space-x-8 rtl:space-x-reverse">
-            <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/add'"
-                    class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                Nouvel Eventz
-            </button>
-
-            <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/list'"
-                    class="text-purple-100 no-underline bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                Mes Eventz
-            </button>
-            <div th:if="${connecte}" class="relative inline-block text-left">
-                <a href="/eventz/user/profil" id="profil"
-                   class="inline-flex items-center self-center text-2xl text-purple-100 font-semibold whitespace-nowrap dark:text-white">
-                    <div class="h-16 w-16 rounded-full overflow-hidden flex items-center justify-center">
-                        <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" alt="profil"
-                             class="h-full w-full object-cover">
-                    </div>
-                </a>
-                <div class="absolute right-0 z-10 mt-2 hidden w-56 divide-y divide-gray-100 rounded-md border border-gray-100 bg-white shadow-lg"
-                     id="profilDropdown" role="menu">
-                    <div class="p-2 menu-items">
-                        <a href="/eventz/user/profil" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Profil</a>
-
-                        <a href="/eventz/friend/add" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Amis</a>
-                        <a href="/eventz/user/profil#settings" class="block rounded-lg px-4 py-2 text-sm text-purple-950 hover:bg-purple-50 hover:text-purple-700" role="menuitem">Paramètres</a>
-
-                    </div>
-                    <div class="p-2">
-                        <form method="GET" action="/eventz/auth/logout">
-                            <button type="submit"
-                                    class="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-sm text-red-700 hover:bg-red-50"
-                                    role="menuitem">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                     stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                                </svg>
-                                Déconnexion
-                            </button>
-                        </form>
                     </div>
                 </div>
+                <div th:unless="${connecte}">
+                    <a href="/eventz/auth/login">
+                        <button type="button" id="login"
+                                class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
+                            Se connecter
+                        </button>
+                    </a>
+                </div>
+                <button data-collapse-toggle="navbar-sticky" type="button"
+                        class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                        aria-controls="navbar-sticky" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                         viewBox="0 0 17 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M1 1h15M1 7h15M1 13h15"/>
+                    </svg>
+                </button>
             </div>
-            <div th:unless="${connecte}">
-                <a href="/eventz/auth/login">
-                    <button type="button" id="login"
-                            class="text-purple-100 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 font-medium rounded-lg text-lg px-4 py-2 text-center dark:bg-purple-900 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                        Se connecter
-                    </button>
-                </a>
-            </div>
-            <button data-collapse-toggle="navbar-sticky" type="button"
-                    class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                    aria-controls="navbar-sticky" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                     viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M1 1h15M1 7h15M1 13h15"/>
-                </svg>
-            </button>
+
+
         </div>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(function () {
+                $(".btn-toggle-menu").click(function () {
+                    $("#wrapper").toggleClass("toggled");
+                });
+            })
+            document.addEventListener('DOMContentLoaded', function () {
+                const profilLink = document.getElementById('profil');
+                const dropdown = profilLink.nextElementSibling;
 
-     </div>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(function () {
-            $(".btn-toggle-menu").click(function () {
-                $("#wrapper").toggleClass("toggled");
-            });
-        })
-        document.addEventListener('DOMContentLoaded', function () {
-            const profilLink = document.getElementById('profil');
-            const dropdown = profilLink.nextElementSibling;
+                profilLink.addEventListener('mouseenter', function () {
+                    dropdown.classList.remove('hidden');
+                });
 
-            profilLink.addEventListener('mouseenter', function () {
-                dropdown.classList.remove('hidden');
-            });
+                profilLink.addEventListener('mouseleave', function () {
+                    setTimeout(function () {
+                        dropdown.classList.add('hidden');
+                    }, 2000);
+                });
 
-            profilLink.addEventListener('mouseleave', function () {
-                setTimeout(function () {
+                dropdown.addEventListener('mouseenter', function () {
+                    dropdown.classList.remove('hidden');
+                });
+
+                dropdown.addEventListener('mouseleave', function () {
                     dropdown.classList.add('hidden');
-                }, 2000);
+                });
             });
-
-            dropdown.addEventListener('mouseenter', function () {
-                dropdown.classList.remove('hidden');
-            });
-
-            dropdown.addEventListener('mouseleave', function () {
-                dropdown.classList.add('hidden');
-            });
-        });
-    </script>
-</nav>
+        </script>
+    </nav>

@@ -45,7 +45,7 @@ public class Evenement {
     @OneToMany(mappedBy = "evenement")
     private List<Performe> performes;
 
-    @OneToMany(mappedBy = "evenement")
+    @OneToMany(mappedBy = "evenement", cascade = CascadeType.ALL)
     private List<Participe> participes;
 
     private String nom_evenement;
