@@ -90,6 +90,13 @@
                         </svg>
                     </a>
                 </div>
+                <div th:if="${evenementorganise.contains(evenement)}">
+                    <a th:href="${'/eventz/evenement/delete?id=' + evenement.idEvenement}">
+                        <p class="red">Supprimer votre évènement <img th:src="@{/images/edit.png}" alt="Modifier"
+                                                                     style="float: right; width: 55px; height: 55px;margin-top: -20px;"/></p>
+
+                    </a>
+                </div>
             </a>
         </div>
     </div>

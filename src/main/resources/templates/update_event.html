@@ -164,14 +164,14 @@
 <script>
 
 
-    const publicEvenementInput = document.getElementById("public_evenement");
-    toggleEventPrivacy(!publicEvenementInput);
+    publicEvenementInput = document.getElementById("public_evenement");
+    toggleEventPrivacy(!publicEvenementInput );
 
-    const publicAdresseInput = document.getElementById("adresse_evenement");
+    publicAdresseInput = document.getElementById("adresse_evenement");
     toggleAdressePrivacy(!publicAdresseInput);
 
     function toggleEventPrivacy(isPrivate) {
-        const publicEvenementInput = document.getElementById("public_evenement");
+        publicEvenementInput = document.getElementById("public_evenement");
         if (isPrivate) {
             publicEvenementInput.value = "false";
             document.getElementById("privateEvenementBtn").classList.add("bg-red-500");
@@ -188,7 +188,7 @@
     }
 
     function toggleAdressePrivacy(isPrivate) {
-        const publicAdresseInput = document.getElementById("adresse_evenement");
+        publicAdresseInput = document.getElementById("adresse_evenement");
         if (isPrivate) {
             publicAdresseInput.value = "false";
             document.getElementById("privateAdresseBtn").classList.add("bg-red-500");

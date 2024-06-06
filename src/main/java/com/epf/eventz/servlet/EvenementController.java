@@ -233,13 +233,38 @@ public class EvenementController {
     @GetMapping("/update")
     public String updatePage(@RequestParam("id") Long evenementId, Model model) throws ServiceException {
 
-        Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
-        if (evenementOptional.isPresent()) {
-            Evenement evenement = evenementOptional.get();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("anonymousUser")) {
+            Optional<Utilisateur> utilisateurOptional = null;
+            try {
+                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                try {
 
-            model.addAttribute("event", evenement);
+                    // Trouver l'événement par ID
+                    Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
+
+                    if (evenementOptional.isPresent()) {
+                        Evenement evenement = evenementOptional.get();
+                        Utilisateur organisateur = evenement.getOrganisateur();
+
+                        // Vérifier si l'utilisateur connecté est l'organisateur de l'événement
+                        if (organisateur.equals(utilisateur)) {
+                            model.addAttribute("event", evenement);
+                            return "update_event";
+                        }
+                    }
+                } catch (Exception e) {
+
+                }
+
+            }
         }
-        return "update_event";
+        return null ;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -291,17 +316,50 @@ public class EvenementController {
 
 
 
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("/delete")
+    public String deletePage(@RequestParam("id") Long evenementId, Model model, HttpServletResponse response) throws ServiceException, IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!authentication.getName().equals("anonymousUser")) {
+            Optional<Utilisateur> utilisateurOptional = null;
+            try {
+                utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+            } catch (ServiceException e) {
+                throw new RuntimeException(e);
+            }
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                try {
 
+                    // Trouver l'événement par ID
+                    Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
 
-    @DeleteMapping(path = "/deleteevenement/{evenementId}")
-    public ResponseEntity<String> deleteEvenement(@PathVariable("evenementId") Long evenementId) {
-        try {
-            evenementService.deleteEvenement(evenementId);
-            return ResponseEntity.ok("Evenement supprimé avec succès");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur lors de l'ajout de l'evenement: " + e.getMessage());
+                    if (evenementOptional.isPresent()) {
+                        Evenement evenement = evenementOptional.get();
+                        Utilisateur organisateur = evenement.getOrganisateur();
+
+                        // Vérifier si l'utilisateur connecté est l'organisateur de l'événement
+                        if (organisateur.equals(utilisateur)) {
+                            model.addAttribute("event", evenement);
+                            return "delete_event";
+                        }
+                    }
+                } catch (Exception e) {
+                    response.sendError(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Erreur lors de la suppression de l'événement: " + e.getMessage());
+                }
+
+            }
         }
+        return null ;
     }
+
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @PostMapping("/delete")
+    public void deleteEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement, HttpServletResponse response) throws IOException {
+        evenementService.deleteEvenement(evenementId);
+        response.sendRedirect("/eventz/home");
+    }
+
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/participate")
