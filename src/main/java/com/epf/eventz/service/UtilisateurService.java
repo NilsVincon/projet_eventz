@@ -138,5 +138,12 @@ public class UtilisateurService {
             throw new ServiceException("Optional vide");
         }
     }
+    public double calculerAgeMoyen() {
+        List<Utilisateur> utilisateurs = (List<Utilisateur>) utilisateurDAO.findAll();
+        return utilisateurs.stream()
+                .mapToInt(Utilisateur::getAge)
+                .average()
+                .orElse(0.0);
+    }
 
 }

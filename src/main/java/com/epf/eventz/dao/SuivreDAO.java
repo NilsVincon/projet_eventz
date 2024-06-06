@@ -19,6 +19,9 @@ public interface SuivreDAO extends JpaRepository<Suivre, Long> {
     default boolean areFriend(Utilisateur user1, Utilisateur user2) {
         return existsBySuiveurAndSuivi(user1, user2) && existsBySuiveurAndSuivi(user2, user1);
     }
+    Suivre findBySuiveurAndSuivi(Utilisateur suiveur, Utilisateur suivi);
+    void deleteBySuiveurAndSuivi(Utilisateur suiveur, Utilisateur suivi);
+
 
 
 }

@@ -101,9 +101,21 @@ public class FillDataBase {
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "admin", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Description de Jane Doe");
             utilisateur1.setPdpUtilisateur(imageData);
             utilisateur3.setPdpUtilisateur(imageData);
+            Utilisateur utilisateur5 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "azizzofiffu", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
+            utilisateur5.setPdpUtilisateur(imageData);
             utilisateurService.creerUtilisateur(utilisateur1);
             utilisateurService.creerUtilisateur(utilisateur4);
             utilisateurService.creerUtilisateur(utilisateur3);
+            utilisateurService.creerUtilisateur(utilisateur5);
+            Utilisateur utilisateur6 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "ghui", "Homme", "USER", LocalDate.of(2001, 3, 5), "Etudiant Ingénieur Informatique ");
+            utilisateur6.setPdpUtilisateur(imageData);
+            utilisateurService.creerUtilisateur(utilisateur6);
+            Utilisateur utilisateur7 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "florent", "Homme", "USER", LocalDate.of(2001, 3, 5), "Etudiant Ingénieur Informatique ");
+            utilisateur7.setPdpUtilisateur(imageData);
+            utilisateurService.creerUtilisateur(utilisateur7);
+            Utilisateur utilisateur8 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "marc", "Homme", "USER", LocalDate.of(2001, 3, 5), "Etudiant Ingénieur Informatique ");
+            utilisateur8.setPdpUtilisateur(imageData);
+            utilisateurService.creerUtilisateur(utilisateur8);
             Optional<Utilisateur> moiOptional = utilisateurService.trouverUtilisateurAvecname("user");
             if (moiOptional.isPresent()) {
                 Utilisateur moi = moiOptional.get();

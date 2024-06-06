@@ -49,4 +49,22 @@ public class SuivreService {
     public int compterSuivres() throws ServiceException {
         return (int) suivreDAO.count();
     }
+    public void supprimerParSuiveurEtSuivi(Utilisateur suiveur, Utilisateur suivi) throws ServiceException {
+        Suivre suivre = suivreDAO.findBySuiveurAndSuivi(suiveur, suivi);
+        if (suivre != null) {
+            suivreDAO.delete(suivre);
+        } else {
+            throw new ServiceException("Suivre not found");
+        }
+    }
+
+
+    public void supprimerAbonnement(Utilisateur suiveur, Utilisateur suivi) throws ServiceException {
+        try {
+            suivreDAO.deleteBySuiveurAndSuivi(suiveur, suivi);
+        } catch (Exception e) {
+            throw new ServiceException("Erreur lors de la suppression de l'abonnement");
+        }
+    }
+
 }

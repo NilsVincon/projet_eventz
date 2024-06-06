@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,6 +75,12 @@ public class Utilisateur {
         this.naissance_utilisateur = naissance_utilisateur;
         this.description_utilisateur = description_utilisateur;
     }
+    public int getAge() {
+        if (naissance_utilisateur == null) {
+            return 0;
+        }
+        return Period.between(naissance_utilisateur, LocalDate.now()).getYears();
+    }
 
     @Override
     public String toString() {
@@ -111,4 +118,6 @@ public class Utilisateur {
     public int hashCode() {
         return Objects.hash(username, email_utilisateur, naissance_utilisateur);
     }
+
+
 }
