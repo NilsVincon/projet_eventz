@@ -420,7 +420,7 @@
         <tr th:each="evenement, eventIndex : ${evenements}">
             <div th:if="${evenement.public_evenement==true}">
                 <td>
-                    <a th:href="'/eventz/evenement/details?id=' + ${evenement.idEvenement}"
+                    <a th:href="'/eventz/evenement/details/' + ${evenement.idEvenement}"
                        class="hover:no-underline hover:text-red-100 ">
                         <div class="row align-items-center event-block no-gutters margin-40px-bottom hover:bg-gray-100 hover:bg-opacity-30"
                              th:attr="data-soiree=${evenement?.typeEvenement?.description_type_evenement},
@@ -456,7 +456,6 @@
                             </div>
                             <div class="col-lg-5 col-sm-12">
                                 <div class="padding-60px-lr md-padding-50px-lr sm-padding-30px-all xs-padding-25px-all">
-<<<<<<< HEAD
                                     <h2 class="policeperso text-red-50 text-5xl font-extrabold mb-8"
                                         th:text="${evenement.nom_evenement}"></h2>
                                     <ul class="event-time mb-2 mr-2">

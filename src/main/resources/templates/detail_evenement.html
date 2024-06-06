@@ -455,19 +455,24 @@
     .navbar {
         transition: top 0.3s;
     }
+
+    @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
+    h1{
+        font-family: 'Dela Gothic One',sans-serif;
+    }
 </style>
 <body>
 <div class="msgbox-area" id="msgboxArea"></div>
-<th:block th:insert="~{fragments/navbar/navbar :: nav}"></th:block>
+<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
 
 <script src="https://kit.fontawesome.com/fddb41ef53.js" crossorigin="anonymous"></script>
-<section class="h-screen flex items-center justify-center">
-    <div class="w-full flex flex-col md:flex-row items-center bg-transparent mt-20">
+<section class="flex items-center justify-center">
+    <div class="w-full mt-8 flex flex-col md:flex-row items-center bg-transparent">
         <div class="flex-1 ml-32 mb-6 md:mb-0 md:mr-6">
             <h1 class="text-5xl font-bold text-red-50"><span th:text="${evenement.nom_evenement}"></span></h1>
-            <div class="mt-1 text-red-50">
+            <div class="mt-1 text-red-100">
                 Par
-                <a href="" class="text-red-50 no-underline"><span th:text="' ' + ${evenement.organisateur.username}"></span></a>
+                <a href="" class="text-red-50 no-underline hover:no-underline hover:text-red-500"><span th:text="' ' + ${evenement.organisateur.username}"></span></a>
             </div>
             <div>
                 <div class="mt-4">
@@ -487,7 +492,7 @@
                         <div>
                             <p class="mb-2 text-red-50">
                                 <th:block th:if="${evenement.adresse.public_adresse}">
-                                    <p class="text-red-50" th:text="${evenement.adresse.numero_adresse} + ' ' + ${evenement.adresse.rue_adresse} + ' ' + ${evenement.adresse.ville_adresse} + ' ' + ${evenement.adresse.pays_adresse} "></p>
+                                    <p class="text-red-50" th:text="${evenement.adresse.numero_adresse} + ', ' + ${evenement.adresse.rue_adresse} + ', ' + ${evenement.adresse.ville_adresse} + ', ' + ${evenement.adresse.pays_adresse} "></p>
                                 </th:block>
                                 <th:block th:unless="${evenement.adresse.public_adresse}">
                                     <p class="text-red-50">L'adresse est privée pour l'instant.</p>
@@ -506,175 +511,104 @@
                 </div>
 
                 <div class="mt-10">
-                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
-                        <i class="fas fa-heart text-white mr-2"></i>
-                        INTÉRESSÉ•E
-                    </button>
+                    <div>
+                        <form action="/eventz/evenement/participate" method="post">
+                            <input type="hidden" th:name="event_id" th:value="${evenement.idEvenement}">
+                            <button type="submit" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center" th:text="${boutonParticipe}">Participer</button>
+                        </form>
+                    </div>
                 </div>
 
-                <p class="mt-4">52k sont intéressé•e•s</p>
+                <p class="mt-4 text-red-50"><span th:text="${evenement.participes.size()}"></span> sont intéressé•e•s - <span th:text="${evenement.nb_place_evenement}"></span> places</p>
             </div>
         </div>
         <div class="flex-1 items-center justify-center mr-6">
-            <img th:src="@{'/eventz/evenement/image/' + ${evenement.idEvenement}}" alt="The Offspring" class="w-full h-full object-cover">
+            <img th:src="@{'/eventz/evenement/image/' + ${evenement.idEvenement}}" alt="The Offspring" class="w-full h-full object-cover rounded-sm">
         </div>
     </div>
 </section>
-<div class="containers">
-    <div class="profile-page tx-13">
-        <div class="row profile-body">
-
-            <div class="d-none d-md-block col-md-4 col-xl-3 left-wrapper">
-                <div class="card rounded">
-                    <div class="card-body">
-                        <div class="d-flex align-items-center justify-content-between mb-2">
-                            <h6 class="card-title mb-0">About</h6>
-                        </div>
-                        <p></p>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Date:</label>
-                            <p class="text-muted" th:text="${evenement.debut_evenement}"></p>
-                        </div>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Localisation:</label>
-                            <th:block th:if="${evenement.adresse.public_adresse}">
-                                <p class="text-muted"
-                                   th:text="${evenement.adresse.numero_adresse} + ' ' + ${evenement.adresse.rue_adresse} + ' ' + ${evenement.adresse.ville_adresse} + ' ' + ${evenement.adresse.pays_adresse} "></p>
-                            </th:block>
-                            <th:block th:unless="${evenement.adresse.public_adresse}">
-                                <p class="text-muted">L'adresse est privée pour l'instant.</p>
-                            </th:block>
-                        </div>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">type d'évènement :</label>
-                            <p class="text-muted"
-                               th:text="${evenement.typeEvenement.description_type_evenement}"></p>
-                        </div>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">prix:</label>
-                            <p class="text-muted" th:text="${evenement.prix_evenement} +'€'"></p>
-                        </div>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">nombre de participants:</label>
-                            <p class="text-muted" th:text="${evenement.nb_place_evenement}"></p>
-                        </div>
-                    </div>
-                </div>
-                <div>
-
+<section class="flex items-center justify-center">
+    <div class="w-full flex flex-col md:flex-row bg-transparent mt-16">
+        <div class="pl-8 w-3/5">
+            <div>
+                <h1 class="text-red-50 text-2xl">Description</h1>
+                <div class="mt-4">
+                    <p class="text-red-50">
+                        <span th:text="${evenement.description_evenement}"></span>
+                    </p>
                 </div>
             </div>
 
-
-            <div class="col-md-8 col-xl-6 middle-wrapper" id="description">
-                <div class="row">
-                    <div class="col-md-12 grid-margin">
-                        <div class="card rounded">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <form id="participerForm1" action="/eventz/evenement/participate" method="post">
-
-                                        <input type="hidden" name="event_id" th:value="${evenement.idEvenement}">
-                                        <button id="msgboxShowMessage" type="button" class="btn btn-success" onclick="submitForm()">Participer</button>
-                                    </form>
-                                    <button type="button" class="btn btn-info">C'est sympa ça</button>
-                                    <button type="button" class="btn btn-warning">Pas trop mon truc</button>
-
-                                </div>
+            <div class="mt-16">
+                <h1 class="text-red-50 text-2xl">Lieu</h1>
+                <div class="mt-4">
+                    <p class="text-red-50">
+                        <th:block th:if="${evenement.adresse.public_adresse}">
+                            <p class="text-red-50" th:text="${evenement.adresse.numero_adresse} + ' ' + ${evenement.adresse.rue_adresse} + ' ' + ${evenement.adresse.ville_adresse} + ' ' + ${evenement.adresse.pays_adresse} "></p>
+                            <div class="mt-2">
+                                <a th:href="@{'https://www.google.com/maps/search/?api=1&query=' + ${evenement.adresse.numero_adresse} + '+' + ${evenement.adresse.rue_adresse} + '+' + ${evenement.adresse.ville_adresse} + '+' + ${evenement.adresse.pays_adresse}}" class="no-underline hover:no-underline hover:text-red-500 text-red-50 mt-2 w-1/2">
+                                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
+                                        <i class="fas fa-map-marker-alt text-2xl"></i>
+                                        <p class="ml-2">     OUVRIR DANS GOOGLE MAPS</p>
+                                    </button>
+                                </a>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 grid-margin">
-                        <div class="card rounded">
-                            <div class="card-header">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <p th:text="${evenement.nom_evenement}"></p>
-
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <p th:text="${evenement.description_evenement}"></p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-12 grid-margin">
-                        <div class="card rounded">
-
-                            <div class="container mx-auto p-4">
-                                <h6 class="card-title mb-3">Les artistes</h6>
-                                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div th:each="artiste : ${artistes}" class="relative bg-gray-800 rounded-lg shadow-md overflow-hidden w-32">
-                                        <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}" alt="Artiste" class="w-full object-cover">
-                                        <div class="absolute bottom-0 left-0 right-0 bg-opacity-0 p-2 text-center text-white">
-                                            <h2 class="text-sm font-semibold" th:text="${artiste.nom_artiste}"></h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        </th:block>
+                        <th:block th:unless="${evenement.adresse.public_adresse}">
+                            <p class="text-red-50">L'adresse est privée pour l'instant.</p>
+                        </th:block>
+                    </p>
                 </div>
             </div>
 
-
-            <div class="hidden xl:block xl:w-1/4 p-4 right-wrapper w-full max-w-xs">
-                <div class="row">
-                    <div class="card rounded">
-                        <div class="card-body">
-                            <h6 class="tx-11 font-weight-bold mb-0 text-uppercase">Mes amis qui participent</h6>
-                            <div class="flex -space-x-2 overflow-hidden pt-1">
-                                <div th:each="ami, iterStat : ${amisParticipent}">
-                                    <img th:if="${iterStat.count <= 4}" th:src="@{'/eventz/user/profile-image/' + ${ami.id_utilisateur}}" alt="Ami participant" class="inline-block h-12 w-12 rounded-full ring-2 ring-white object-cover">
-                                    <span th:if="${iterStat.count == 5}" class="inline-block h-12 w-12 rounded-full ring-2 ring-white bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600" th:text="${(amisParticipent.size() - 4) > 0 ? '+' + (amisParticipent.size() - 4) : (amisParticipent.size() - 4)}">+3</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-4">
-                    <div class="card rounded">
-                        <div class="card-body">
+            <div class="mt-16">
+                <h1 class="text-red-50 text-2xl">Les artistes</h1>
+                <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-2 mt-4">
+                    <div th:each="artiste : ${artistes}" class="relative bg-red-50 shadow-md overflow-hidden w-32 h-40 rounded-lg bg-transparent">
+                        <a th:href="@{'eventz/artiste/' + ${artiste.id_artiste}}" class="flex no-underline text-red-500 h-full">
                             <div>
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">NOM de l'organisateur:</label>
-                                <div class="d-flex align-items-center pt-1">
-                                    <a th:href="@{'/eventz/user/profil/' + ${evenement.organisateur.username}}">
-                                        <figure class="m-0">
-                                            <img th:src="@{'/eventz/user/profile-image/' + ${evenement.organisateur.id_utilisateur}}" alt="Photo de profil" class="rounded-full w-16 h-16 mr-4 object-cover">
-                                        </figure>
-                                    </a>
-                                    <p class="text-muted" th:text="${evenement.organisateur.username}"></p>
-                                </div>
+                                <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}" alt="Artiste" class="w-full object-cover">
                             </div>
-                            <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">bio:</label>
-                                <p class="text-muted" th:text="${evenement.organisateur.description_utilisateur}"></p>
+                            <div class="absolute bottom-0 left-0 right-0 bg-transparent p-2 text-center text-white">
+                                <h1 class="text-sm font-semibold text-red-500" th:text="${artiste.nom_artiste}"></h1>
                             </div>
-                            <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">evenements organisé:</label>
-                                <p class="text-muted" th:text="${nb_orga}"></p>
-                            </div>
-                        </div>
+                        </a>
                     </div>
                 </div>
             </div>
-
-
-
-
-
         </div>
-
+        <div class="ml-12">
+            <div>
+                <h1 class="text-red-50 text-2xl">Mes amis qui participent</h1>
+                <div class="flex -space-x-2 overflow-hidden pt-2 ml-2">
+                    <div th:each="ami, iterStat : ${amisParticipent}">
+                        <img th:if="${iterStat.count <= 7}" th:src="@{'/eventz/user/profile-image/' + ${ami.id_utilisateur}}" alt="Ami participant" class="inline-block h-16 w-16 rounded-full object-cover">
+                        <span th:if="${iterStat.count == 8}" class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600" th:text="${(amisParticipent.size() - 7) > 0 ? '+' + (amisParticipent.size() - 7) : (amisParticipent.size() - 7)}">+9</span>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-16">
+                <h1 class="text-red-50 text-2xl">L'organisateur</h1>
+                <div class="flex align-items-center mt-3">
+                    <a th:href="@{'/eventz/user/profil/' + ${evenement.organisateur.username}}">
+                        <figure class="m-0">
+                            <img th:src="@{'/eventz/user/profile-image/' + ${evenement.organisateur.id_utilisateur}}" alt="Photo de profil" class="rounded-full w-16 h-16 mr-4 object-cover">
+                        </figure>
+                    </a>
+                    <p class="text-red-50 font-bold" th:text="${evenement.organisateur.username}"></p>
+                </div>
+                <div class="mt-8">
+                    <h1 class="text-md text-uppercase text-red-50">Bio :</h1>
+                    <p class="text-red-50" th:text="${evenement.organisateur.description_utilisateur}"></p>
+                </div>
+                <div class="mt-8">
+                    <h1 class="text-md text-uppercase text-red-50">evenements organisé:</h1>
+                    <p class="text-red-50" th:text="${nb_orga}"></p>
+                </div>
+            </div>
+        </div>
     </div>
-
-</div>
-<th:block th:insert="~{fragments/footer :: foot}"></th:block>
+</section>
 <script>
     class MessageBox {
         constructor(option) {
@@ -767,22 +701,6 @@
     msgboxShowMessage.addEventListener("click", () => {
         msgbox.show("tu particpe à l'événement ", null);
     });
-    function submitForm() {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/eventz/evenement/participate', true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                console.log(xhr.responseText);
-            } else {
-                console.error('Erreur lors de la soumission du formulaire : ' + xhr.status);
-            }
-        };
-        xhr.onerror = function () {
-            console.error('Erreur lors de la requête AJAX');
-        };
-        var formData = new FormData(document.getElementById('participerForm1'));
-        xhr.send(formData);
-    }
 
     let lastScrollTop = 0;
     const navbar = document.querySelector('.navbar');

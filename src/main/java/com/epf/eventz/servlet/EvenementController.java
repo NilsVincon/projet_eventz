@@ -322,13 +322,18 @@ public class EvenementController {
             if (evenementOptional.isPresent() && userOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
                 Utilisateur utilisateur = userOptional.get();
-                if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
+                if (participeService.existsByUtilisateurAndEvenement(utilisateur, evenement)){
+                    participeService.deleteParticipe(participeService.findByUtilisateurAndEvenement(utilisateur, evenement));
+                    response.setHeader("Location", "/eventz/evenement/details/" + event_id);
+                    response.setStatus(HttpStatus.FOUND.value());
+                }
+                else if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
                     Participe participe = new Participe(evenement, utilisateur);
                     participeService.addParticipe(participe);
-                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id + "&fullevent=" + false);
+                    response.setHeader("Location", "/eventz/evenement/details/" + event_id);
                     response.setStatus(HttpStatus.FOUND.value());
                 } else {
-                    response.setHeader("Location", "/eventz/evenement/details?id=" + event_id + "&fullevent=" + true);
+                    response.setHeader("Location", "/eventz/evenement/details/" + event_id);
                     response.setStatus(HttpStatus.FOUND.value());
                 }
             }
@@ -345,16 +350,14 @@ public class EvenementController {
         Utilisateur utilisateur = null;
         try {
             Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
-            if (utilisateurOptional.isPresent()) {
-                utilisateur = utilisateurOptional.get();
-            }
-        } catch (ServiceException e) {
-            throw new RuntimeException(e);
-        }
-        try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
+                if (utilisateurOptional.isPresent()) {
+                    utilisateur = utilisateurOptional.get();
+                    boolean participe = participeService.existsByUtilisateurAndEvenement(utilisateur, evenement);
+                    model.addAttribute("boutonParticipe", !participe ? "INTÉRESSÉ•E" : "DESINTÉRESSÉ•E");
+                }
                 List<Artiste> artistes = new ArrayList<>();
                 for (Performe performe : evenement.getPerformes()) {
                     artistes.add(performe.getArtiste());
@@ -365,7 +368,7 @@ public class EvenementController {
                 model.addAttribute("amisParticipent", amisParticipent);
                 long nb_orga = evenementService.countEvenementsByOrganisateur(evenement.getOrganisateur());
                 model.addAttribute("nb_orga", nb_orga);
-                model.addAttribute("artistes", artistes);
+                    model.addAttribute("artistes", artistes);
                 return "detail_evenement"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
             } else {
                 // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple

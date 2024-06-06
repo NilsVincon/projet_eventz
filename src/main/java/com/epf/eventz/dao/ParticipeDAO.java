@@ -20,6 +20,8 @@ public interface ParticipeDAO extends JpaRepository<Participe, Long> {
 
     boolean existsByUtilisateurAndEvenement(Utilisateur utilisateur, Evenement evenement);
 
+    Participe findByUtilisateurAndEvenement(Utilisateur utilisateur, Evenement evenement);
+
     @Query("SELECT COUNT(p) FROM Participe p WHERE p.evenement = :evenement")
     int countParticipantsByEvenement(@Param("evenement") Evenement evenement);
 
@@ -31,5 +33,4 @@ public interface ParticipeDAO extends JpaRepository<Participe, Long> {
 
     @Query("SELECT p.utilisateur FROM Participe p WHERE p.evenement = :evenement AND p.utilisateur IN :amis")
     List<Utilisateur> findParticipantsByEvenementAndAmis(@Param("evenement") Evenement evenement, @Param("amis") List<Utilisateur> amis);
-
 }
