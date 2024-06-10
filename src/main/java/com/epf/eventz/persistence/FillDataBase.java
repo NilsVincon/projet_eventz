@@ -156,7 +156,7 @@ public class FillDataBase {
             adresseService.creerAdresse(adresseTechnoFest);
 
             TypeEvenement typeEvenementTechnoFest = new TypeEvenement();
-            typeEvenementTechnoFest.setDescription_type_evenement("Musical");
+            typeEvenementTechnoFest.setDescription_type_evenement(TypeEvenementEnum.Festival);
             typeEvenementService.creerTypeEvenement(typeEvenementTechnoFest);
 
             StatutEvenement statutEvenementTechnoFest = new StatutEvenement();
@@ -184,7 +184,7 @@ public class FillDataBase {
             adresseService.creerAdresse(adresseRockMania);
 
             TypeEvenement typeEvenementRockMania = new TypeEvenement();
-            typeEvenementRockMania.setDescription_type_evenement("Musical");
+            typeEvenementRockMania.setDescription_type_evenement(TypeEvenementEnum.Soirée);
             typeEvenementService.creerTypeEvenement(typeEvenementRockMania);
 
             StatutEvenement statutEvenementRockMania = new StatutEvenement();
@@ -212,7 +212,7 @@ public class FillDataBase {
             adresseService.creerAdresse(adresseElectroWave);
 
             TypeEvenement typeEvenementElectroWave = new TypeEvenement();
-            typeEvenementElectroWave.setDescription_type_evenement("techno");
+            typeEvenementElectroWave.setDescription_type_evenement(TypeEvenementEnum.Festival);
             typeEvenementService.creerTypeEvenement(typeEvenementElectroWave);
 
 
@@ -240,7 +240,7 @@ public class FillDataBase {
             adresseService.creerAdresse(adresseIndieFest);
 
             TypeEvenement typeEvenementIndieFest = new TypeEvenement();
-            typeEvenementIndieFest.setDescription_type_evenement("Musical");
+            typeEvenementIndieFest.setDescription_type_evenement(TypeEvenementEnum.Musée);
             typeEvenementService.creerTypeEvenement(typeEvenementIndieFest);
 
             StatutEvenement statutEvenementIndieFest = new StatutEvenement();

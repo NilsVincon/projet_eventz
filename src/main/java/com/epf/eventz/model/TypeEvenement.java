@@ -19,7 +19,7 @@ public class TypeEvenement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id_type_evenement;
-    private String description_type_evenement;
+    private TypeEvenementEnum description_type_evenement;
 
     @OneToMany(mappedBy = "typeEvenement")
     private List<Evenement> evenements;
@@ -42,6 +42,6 @@ public class TypeEvenement {
 
     @Override
     public String toString() {
-        return description_type_evenement;
+        return description_type_evenement.toString();
     }
 }

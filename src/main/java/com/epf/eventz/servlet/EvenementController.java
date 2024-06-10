@@ -95,6 +95,7 @@ public class EvenementController {
         return "events/mes_evenements";
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/list")
     public String afficherMesEvenements(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -129,6 +130,7 @@ public class EvenementController {
             model.addAttribute("typeEvenements", typeEvenementsUnique);
             List<Artiste> artistes = artisteService.findAllArtistes();
             model.addAttribute("artistes", artistes);
+            model.addAttribute("typeEvenementEnumValues", TypeEvenementEnum.values());
 
         } catch (ServiceException e) {
             throw new RuntimeException(e);
@@ -144,6 +146,7 @@ public class EvenementController {
                              @ModelAttribute Adresse adresse,
                              @ModelAttribute StatutEvenement statutEvenement,
                              @RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart,
+                             @RequestParam("type_evenement") TypeEvenementEnum selectedType,
                              @ModelAttribute TypeEvenement typeEvenement,
                              @RequestParam("selectedArtistIdsInput") List<String> listIdArtists,
                              HttpServletResponse response) {
@@ -155,7 +158,6 @@ public class EvenementController {
             if (organisateurOptional.isPresent()) {
                 organisateur = organisateurOptional.get();
             }
-
             if (evenement.getPublic_evenement().equals(false)) {
                 String subject = "Votre nouvel évènement privé : " + evenement.getNom_evenement();
                 String lienEvenement = "http://localhost:8080/eventz/evenement/details?id=" + evenement.getIdEvenement();
@@ -169,12 +171,13 @@ public class EvenementController {
                         + "L'équipe Eventz";
                 emailService.sendEmail(organisateurEmailAdresse, subject, bodyEmail);
             }
-
+            if (selectedType != null){
+                typeEvenement.setDescription_type_evenement(selectedType);
+            }
             if (typeEvenement != null && typeEvenement.getDescription_type_evenement() != null) {
                 typeEvenementService.creerTypeEvenement(typeEvenement);
                 evenement.setTypeEvenement(typeEvenement);
             }
-
             if (adresse != null && adresse.getRue_adresse() != null) {
                 adresseService.creerAdresse(adresse);
                 evenement.setAdresse(adresse);
@@ -369,10 +372,9 @@ public class EvenementController {
                 long nb_orga = evenementService.countEvenementsByOrganisateur(evenement.getOrganisateur());
                 model.addAttribute("nb_orga", nb_orga);
                     model.addAttribute("artistes", artistes);
-                return "detail_evenement"; // Supposons que "profilartiste" est le nom de votre fichier HTML Thymeleaf
+                return "detail_evenement";
             } else {
-                // Gérer le cas où l'artiste n'est pas trouvé, rediriger ou afficher un message d'erreur par exemple
-                return "redirect:/error-500"; // Redirection vers une page d'erreur
+                return "redirect:/error-500";
             }
         } catch (ServiceException e) {
             throw new RuntimeException(e);

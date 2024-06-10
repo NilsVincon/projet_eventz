@@ -76,15 +76,18 @@
                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label for="description_evenement" class="block text-sm font-medium text-gray-700">Description</label>
+                <label for="description_evenement" class="block text-sm font-medium text-gray-700">Description*</label>
                 <textarea id="description_evenement" name="description_evenement" rows="4"
                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"></textarea>
             </div>
             <div class="mb-4">
-                <label for="description_type_evenement" class="block text-sm font-medium text-gray-700">Type
+                <label for="type_evenement" class="block text-sm font-medium text-gray-700">Type
                     Evenement*</label>
-                <input type="text" id="description_type_evenement" name="description_type_evenement" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <select id="type_evenement" name="type_evenement" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
+                    <option value="" disabled selected>Choisissez un type d'évènement</option>
+                    <option th:each="type : ${typeEvenementEnumValues}" th:value="${type}" th:text="${type}"></option>
+                </select>
             </div>
             <div class="mb-4">
                 <label for="debut_evenement" class="block text-sm font-medium text-gray-700">Date de Début*</label>
