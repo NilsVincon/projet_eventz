@@ -21,17 +21,17 @@ public class AdresseService {
         this.adresseDAO = adresseDAO;
     }
 
-    public void creerAdresse(Adresse adresse){
-            adresseDAO.save(adresse);
+    public void creerAdresse(Adresse adresse) {
+        adresseDAO.save(adresse);
     }
 
-    public void supprimerAdresse(Long adresseId){
+    public void supprimerAdresse(Long adresseId) {
         boolean exists = adresseDAO.existsById(adresseId);
-        System.out.println("second id "+ adresseId);
-        if (!exists){
+        System.out.println("second id " + adresseId);
+        if (!exists) {
             System.out.println("bool negatif");
             throw new IllegalStateException(
-                    "adresse id"+adresseId+"existe pas"
+                    "adresse id" + adresseId + "existe pas"
             );
         }
         System.out.println("bool posss");
@@ -39,7 +39,7 @@ public class AdresseService {
     }
 
     public Optional<Adresse> trouverAdresseAvecId(long idAdresse) throws ServiceException {
-            return adresseDAO.findById(idAdresse);
+        return adresseDAO.findById(idAdresse);
     }
 
     public List<Adresse> trouverToutesAdresses() {
@@ -50,10 +50,9 @@ public class AdresseService {
         return (int) adresseDAO.count();
     }
 
-    public void modifierAdresse(Long adresseId, Adresse adresse){
+    public void modifierAdresse(Long adresseId, Adresse adresse) {
         Adresse adresseToUpdate = adresseDAO.findById(adresseId)
                 .orElseThrow(() -> new IllegalStateException("L'adresse avec l'ID " + adresseId + " n'existe pas"));
-
         adresseToUpdate.setNumero_adresse(adresse.getNumero_adresse());
         adresseToUpdate.setRue_adresse(adresse.getRue_adresse());
         adresseToUpdate.setVille_adresse(adresse.getVille_adresse());

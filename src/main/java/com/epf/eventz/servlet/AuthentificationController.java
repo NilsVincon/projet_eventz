@@ -60,6 +60,7 @@ public class AuthentificationController {
 
     @PostMapping("/login")
     public void connexion(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response, HttpServletRequest request) {
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(utilisateur.getUsername(),
                 utilisateur.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

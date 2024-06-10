@@ -526,11 +526,13 @@
                 </div>
             </div>
             <button class="btn-menu btn btn-toggle-menu focus:ring-purple-300 focus:ring-2" type="button">
-                <i class="fa fa-bars text-purple-100 opacity-70 size-3"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 text-red-50 opacity-70">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                </svg>
             </button>
-            <a href="/eventz/home" class="flex items-center">
+            <a href="/eventz/home" class="hover:no-underline flex items-center">
                 <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo"/>
-                <span class="self-center text-2xl font-semibold whitespace-nowrap text-purple-100">Eventz</span>
+                <span class="hover:text-purple-400 ml-1 self-center text-2xl whitespace-nowrap text-purple-100">Eventz</span>
             </a>
         </div>
         <div class="flex items-center md:order-2 space-x-8 rtl:space-x-reverse">
