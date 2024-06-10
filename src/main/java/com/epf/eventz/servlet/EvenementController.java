@@ -264,6 +264,20 @@ public class EvenementController {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement existingevenement = evenementOptional.get();
+                //Si l'évenement passe de public à privé, on envoie un mail
+                if (existingevenement.getPublic_evenement() && !evenement.getPublic_evenement()){
+                    String subject = "Votre nouvel évènement privé : " + evenement.getNom_evenement();
+                    String lienEvenement = "http://localhost:8080/eventz/evenement/details?id=" + evenement.getIdEvenement();
+                    String organisateurEmailAdresse = existingevenement.getOrganisateur().getEmail_utilisateur();
+                    String bodyEmail = "Bonjour " + existingevenement.getOrganisateur().getPrenom_utilisateur() + " " + existingevenement.getOrganisateur().getNom_utilisateur() + ",\n\n"
+                            + "Vous venez de mettre votre évenement en privé sur Eventz : " + existingevenement.getNom_evenement() + ".\n\n"
+                            + "Voici le lien que vous pouvez partager avec vos amis pour qu'ils puissent rejoindre l'évènement :"
+                            + lienEvenement +"\n\n"
+                            + "Merci d'avoir choisi Eventz pour organiser vos évènements. Nous vous souhaitons une excellente soirée.\n\n"
+                            + "Cordialement,\n\n"
+                            + "L'équipe Eventz";
+                    emailService.sendEmail(organisateurEmailAdresse, subject, bodyEmail);
+                }
                 existingevenement.setNom_evenement(evenement.getNom_evenement());
                 existingevenement.setDescription_evenement(evenement.getDescription_evenement());
                 existingevenement.setDebut_evenement(evenement.getDebut_evenement());
@@ -271,7 +285,6 @@ public class EvenementController {
                 existingevenement.setPrix_evenement(evenement.getPrix_evenement());
                 existingevenement.setNb_place_evenement(evenement.getNb_place_evenement());
                 existingevenement.setPublic_evenement(evenement.getPublic_evenement());
-
                 if (pdpEvenementMultiPart != null && !pdpEvenementMultiPart.isEmpty()) {
                     byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
                     existingevenement.setPdpEvenement(pdpBytes);
@@ -286,9 +299,6 @@ public class EvenementController {
                     adresseService.creerAdresse(adresse);
                     existingevenement.setAdresse(adresse);
                 }
-
-
-                // Appeler le service pour mettre à jour l'utilisateur
                 evenementService.updateEvenement(evenementId, existingevenement);
 
                 response.setHeader("Location", "/eventz/home");
