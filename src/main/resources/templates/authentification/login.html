@@ -3,8 +3,10 @@
 <head>
     <meta charset="utf-8">
     <title>Connexion</title>
+
     <style>
         @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
         *{
             margin: 0;
             padding: 0;
@@ -34,12 +36,13 @@
         .wrapper .title{
             font-size: 35px;
             font-weight: 600;
+            font-family: 'Dela Gothic One', sans-serif;
             text-align: center;
             line-height: 100px;
             color: #fff;
             user-select: none;
             border-radius: 15px 15px 0 0;
-            background: linear-gradient(-135deg, #c850c0, #4158d0);
+            background: linear-gradient(to bottom right, #2d0228, #9c27b0);
         }
         .wrapper form{
             padding: 10px 30px 50px 30px;
@@ -62,7 +65,7 @@
         }
         .wrapper form .field input:focus,
         form .field input:valid{
-            border-color: #4158d0;
+            border-color: #69055c;
         }
         .wrapper form .field label{
             position: absolute;
@@ -79,7 +82,7 @@
         form .field input:valid ~ label{
             top: 0%;
             font-size: 16px;
-            color: #4158d0;
+            color: #69055c;
             background: #fff;
             transform: translateY(-50%);
         }
@@ -114,8 +117,9 @@
             font-size: 20px;
             font-weight: 500;
             cursor: pointer;
-            background: linear-gradient(-135deg, #c850c0, #4158d0);
+            background: linear-gradient(to bottom right, #2d0228, #9c27b0);
             transition: all 0.3s ease;
+            font-family: "Dela Gothic One",sans-serif;
         }
         form .field input[type="submit"]:active{
             transform: scale(0.95);
@@ -138,8 +142,8 @@
 </head>
 <body>
 <div class="wrapper">
-    <div class="title">
-        Connexion
+    <div class="title flex items-center">
+        Eventz
     </div>
     <form id="loginForm" action="/eventz/auth/login" method="post">
         <div class="field">
