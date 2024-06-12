@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body{
+        body {
             background-image: url("/images/BG.png");
             background-size: cover;
             background-repeat: repeat-y;
             background-attachment: scroll;
         }
+
         textarea {
             max-height: 220px;
             resize: vertical;
@@ -39,21 +40,34 @@
             align-items: center; /* Center vertically */
         }
 
-        .modal-content {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 90%; /* Width of the modal content */
-            max-width: 500px; /* Max width of the modal content */
-        }
-
 
         body.modal-open {
-            overflow: hidden; /* Prevent scrolling when modal is open */
+            overflow: hidden;
         }
 
+        #artistModal .overflow-y-auto::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        #artistModal .overflow-y-auto::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+
+        #artistModal .overflow-y-auto::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: rgba(192, 79, 218, 0.45);
+        }
+
+        #artistModal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(159, 49, 176, 0.7);
+        }
+
+
         .ring-selection {
-            outline: 4px solid rgb(117, 30, 128);
+            outline: 3px solid rgba(156, 6, 178, 0.56);
             outline-offset: 3px;
             border-radius: 6px;
         }
@@ -62,65 +76,76 @@
         body.modal-open .content {
             filter: blur(10px);
         }
+
+        .policeperso {
+            font-family: 'Dela Gothic One', sans-serif;
+        }
+
     </style>
 </head>
 <body class="h-screen flex items-center justify-center">
-<div class="max-w-xl w-full bg-white p-8 rounded-lg shadow-lg">
+<div class="max-w-xl w-full p-8 rounded-lg">
     <form id="registrationForm" action="/eventz/evenement/add" method="post" enctype="multipart/form-data">
         <!-- Step 1 -->
         <div class="step active">
-            <div class="text-2xl font-semibold text-center mb-4">Ajoutez votre événement !</div>
+            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre événement !</div>
             <div class="mb-4">
-                <label for="nom_evenement" class="block text-sm font-medium text-gray-700">Nom Evenement*</label>
+                <label for="nom_evenement" class="block text-sm text-purple-50 font-bold">Nom Evenement*</label>
                 <input type="text" id="nom_evenement" name="nom_evenement" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label for="description_evenement" class="block text-sm font-medium text-gray-700">Description*</label>
+                <label for="description_evenement" class="block text-sm text-purple-50 font-bold">Description*</label>
                 <textarea id="description_evenement" name="description_evenement" rows="4"
-                          class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"></textarea>
+                          class="text-red-50 bg-opacity-0 bg-white mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"></textarea>
             </div>
             <div class="mb-4">
-                <label for="type_evenement" class="block text-sm font-medium text-gray-700">Type
+                <label for="type_evenement" class="block text-sm text-purple-50 font-bold">Type
                     Evenement*</label>
                 <select id="type_evenement" name="type_evenement" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
+                        class="bg-white bg-opacity-0 text-red-50 mt-1 block w-full px-3 py-2 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
                     <option value="" disabled selected>Choisissez un type d'évènement</option>
-                    <option th:each="type : ${typeEvenementEnumValues}" th:value="${type}" th:text="${type}"></option>
+                    <option class="text-gray-800" th:each="type : ${typeEvenementEnumValues}" th:value="${type}"
+                            th:text="${type}"></option>
                 </select>
             </div>
             <div class="mb-4">
-                <label for="debut_evenement" class="block text-sm font-medium text-gray-700">Date de Début*</label>
-                <input type="date" id="debut_evenement" name="debut_evenement" required max="2025-12-31" onchange="validateDates()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
+                <label for="debut_evenement" class="block text-sm text-purple-50 font-bold">Date de Début*</label>
+                <input type="date" id="debut_evenement" name="debut_evenement" required max="2025-12-31"
+                       onchange="validateDates()"
+                       class="text-red-50 bg-opacity-0 bg-white mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
             </div>
             <p id="date-error-1" class="text-xs italic text-red-700 mt-2"></p>
             <div class="mb-4">
-                <label for="fin_evenement" class="block text-sm font-medium text-gray-700">Date de Fin*</label>
-                <input type="date" id="fin_evenement" name="fin_evenement" required max="2025-12-31" onchange="validateDates()" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm">
+                <label for="fin_evenement" class="block text-sm text-purple-50 font-bold">Date de Fin*</label>
+                <input type="date" id="fin_evenement" name="fin_evenement" required max="2025-12-31"
+                       onchange="validateDates()"
+                       class="text-red-50 bg-opacity-0 bg-white mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
             </div>
             <p id="date-error-2" class="text-xs italic text-red-700 mt-2 "></p>
             <div class="flex justify-end">
                 <button type="button" onclick="nextStep()"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Suivant
                 </button>
             </div>
         </div>
         <!-- Step 2 -->
         <div class="step hidden">
-            <div class="text-2xl font-semibold text-center mb-4">Ajoutez votre événement !</div>
+            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre événement !</div>
             <div class="mb-4">
-                <label for="nb_place_evenement" class="block text-sm font-medium text-gray-700">Nombre de place</label>
+                <label for="nb_place_evenement" class="block text-sm text-purple-50 font-bold mb-2">Nombre de
+                    place</label>
                 <input type="number" id="nb_place_evenement" name="nb_place_evenement" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label for="prix_evenement" class="block text-sm font-medium text-gray-700">Prix evenement</label>
+                <label for="prix_evenement" class="block text-sm text-purple-50 font-bold mb-2">Prix evenement</label>
                 <input type="number" id="prix_evenement" name="prix_evenement" required
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <span class="block text-sm font-medium text-gray-700">Événement Privé / Public</span>
+                <span class="block text-sm text-purple-50 font-bold mb-2">Événement Privé / Public</span>
                 <div class="flex items-center mt-2">
                     <button id="privateEvenementBtn" type="button" onclick="toggleEventPrivacy(true)"
                             class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
@@ -144,62 +169,48 @@
             </div>
             <div class="flex justify-between">
                 <button type="button" onclick="previousStep()"
-                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Précédent
                 </button>
                 <button type="button" onclick="nextStep()"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Suivant
                 </button>
             </div>
         </div>
         <!-- Step 3 -->
         <div class="step hidden">
-            <div class="text-2xl font-semibold text-center mb-4">Ajoutez votre adresse !</div>
+            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre adresse !</div>
             <div class="mb-4">
-                <label for="numero_adresse" class="block text-sm font-medium text-gray-700">N°</label>
+                <label for="numero_adresse" class="block text-sm text-purple-50 font-bold mb-2">N°</label>
                 <input type="text" id="numero_adresse" name="numero_adresse"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label for="rue_adresse" class="block text-sm font-medium text-gray-700">Rue</label>
+                <label for="rue_adresse" class="block text-sm text-purple-50 font-bold mb-2">Rue</label>
                 <input type="text" id="rue_adresse" name="rue_adresse"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label for="ville_adresse" class="block text-sm font-medium text-gray-700">Ville</label>
+                <label for="ville_adresse" class="block text-sm text-purple-50 font-bold mb-2">Ville</label>
                 <input type="text" id="ville_adresse" name="ville_adresse"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label for="cp_adresse" class="block text-sm font-medium text-gray-700">Code Postal</label>
+                <label for="cp_adresse" class="block text-sm text-purple-50 font-bold mb-2">Code Postal</label>
                 <input type="number" id="cp_adresse" name="cp_adresse"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-                <label
-                        for="pays_adresse"
-                        class="block text-sm font-medium text-gray-700"
-                >Pays</label
-                >
-                <input
-                        type="text"
-                        id="pays_adresse"
-                        name="pays_adresse"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                />
+                <label for="pays_adresse" class="block text-sm text-purple-50 font-bold mb-2">Pays</label>
+                <input type="text" id="pays_adresse" name="pays_adresse"
+                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
             </div>
             <div class="mb-4">
-            <span class="block text-sm font-medium text-gray-700"
-            >Adresse Privée / Publique</span
-            >
+                <span class="block text-sm text-purple-50 font-bold mb-2">Adresse Privée / Publique</span>
                 <div class="flex items-center mt-2">
-                    <button
-                            id="privateAdresseBtn"
-                            type="button"
-                            onclick="toggleAdressePrivacy(true)"
-                            class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-                    >
+                    <button id="privateAdresseBtn" type="button" onclick="toggleAdressePrivacy(true)"
+                            class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                              stroke="currentColor" class="size-6">
                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -226,7 +237,7 @@
                 <button
                         type="button"
                         onclick="previousStep()"
-                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                     Précédent
                 </button>
@@ -234,7 +245,7 @@
                         type="button"
                         onclick="nextStep()"
                         id="step3Button"
-                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                     Passer
                 </button>
@@ -242,9 +253,9 @@
         </div>
         <!-- Step 4 -->
         <div class="step hidden">
-            <div class="text-2xl font-semibold text-center mb-4">Ajoutez des artistes !</div>
+            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez des artistes !</div>
             <div class="flex item-center justify-center mt-10">
-                <div class="rounded-xl w-fit h-fit shadow" onclick="openModal()">
+                <div class="rounded-xl w-fit h-fit border-red-50 border hover:bg-gray-100 hover:bg-opacity-50" onclick="openModal()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                          stroke-width="1.5" class="h-44 w-44">
                         <defs>
@@ -263,7 +274,7 @@
                 <button
                         type="button"
                         onclick="previousStep()"
-                        class="mt-6 px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                 >
                     Précédent
                 </button>
@@ -271,7 +282,7 @@
                         type="button"
                         onclick="nextStep()"
                         id="step4Button"
-                        class="mt-6 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
                 >
                     Continuer
                 </button>
@@ -279,34 +290,34 @@
         </div>
         <!-- Step 5  -->
         <div class="step hidden">
-            <div class="text-2xl font-semibold text-center mb-4">Ajoutez d'autres infos !</div>
+            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez d'autres infos !</div>
             <div class="mb-4">
-                <label for="pdpEvenementMultiPart" class="block text-sm font-medium text-gray-700">Ajouter photo de
+                <label for="pdpEvenementMultiPart" class="block text-sm text-purple-50 font-bold mb-2">Ajouter photo de
                     couverture</label>
                 <div class="flex items-center justify-center">
-                <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
-                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                    <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
+                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-red-50 shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
                 </div>
             </div>
             <div class="mb-4">
                 <button type="button"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Créer une playlist
                 </button>
             </div>
             <div class="mb-4">
                 <button type="button"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Créer une liste de covoiturage
                 </button>
             </div>
-            <div class="flex justify-between">
+            <div class="flex justify-between mt-5">
                 <button type="button" onclick="previousStep()"
-                        class="px-4 py-2 bg-gray-600 text-white rounded-md shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
                     Précédent
                 </button>
                 <button type="submit"
-                        class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Ajouter l'événement
                 </button>
             </div>
@@ -326,25 +337,25 @@
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
         </svg>
     </span>
-    <div class="bg-gray-200 rounded-lg relative shadow h-2/3 w-1/2 ml-10 overflow-y-auto flex flex-wrap pt-2 pb-7">
+    <div class="bg-gray-200 bg-opacity-80 rounded-lg relative shadow h-2/3 w-1/2 ml-10 overflow-y-auto flex flex-wrap pt-2 pb-7">
         <div th:each="artiste, iterStat : ${artistes}"
              th:id="${artiste.nom_artiste}"
-             class="mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-r from-blue-400 to-purple-600 h-28 w-72 shadow artist"
+             class="mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-br from-blue-400/60 to-purple-600/60 h-28 w-72 shadow artist"
              th:data-id="${artiste.id_artiste}">
             <div class="flex h-full w-full" onclick="makeSelect(this)">
                 <img class="object-cover rounded-full h-20 w-20 mt-4 ml-3" alt=""
                      th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}"/>
-                <span class="ml-10 text-2xl mt-10" th:value="${artiste.id_artiste}"
+                <span class="ml-10 text-2xl font-bold text-red-50 policeperso mt-10" th:value="${artiste.id_artiste}"
                       th:text="${artiste.nom_artiste}"></span>
             </div>
         </div>
     </div>
-    <button class="mt-auto mb-24 ml-7 font-extrabold py-3 px-2 bg-green-600 text-white rounded-xl shadow-sm hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
+    <button class="mt-auto mb-24 ml-7 font-extrabold py-3 px-2 bg-green-400 text-white rounded-sm shadow-sm hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
             type="button" onclick="closeModal()">
         Confirmer
     </button>
-    <div class="modal-content h-fit w-1/4 ml-8">
-        <h2 class="text-xl font-semibold mb-4">Ajouter un nouvel artiste</h2>
+    <div class="bg-gray-200 bg-opacity-8 p-5 rounded-lg max-w-lg h-fit w-1/4 ml-8">
+        <h2 class="text-xl text-center policeperso font-semibold mb-4">Ajouter un nouvel artiste</h2>
         <form
                 id="artisteForm"
                 action="/eventz/artiste/addartistefromevent"
@@ -467,7 +478,7 @@
 
     function addToArtistes(id, name) {
         var newArtistDiv = document.createElement('div');
-        newArtistDiv.className = "mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-r from-blue-400 to-purple-600 h-28 w-72 shadow artist";
+        newArtistDiv.className = "mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-br from-blue-400/60 to-purple-600/60 h-28 w-72 shadow artist";
         newArtistDiv.id = name;
         newArtistDiv.setAttribute('data-id', id);
         newArtistDiv.innerHTML = '<div class="flex h-full w-full" onclick="makeSelect(this)">' +
@@ -520,8 +531,8 @@
             const isAnyInputFilled = Array.from(step3Inputs).some(input => input.value.trim().length > 0);
             const step3Button = document.getElementById('step3Button');
             step3Button.textContent = isAnyInputFilled ? 'Continuer' : 'Passer';
-            step3Button.classList.toggle('bg-purple-600', isAnyInputFilled);
-            step3Button.classList.toggle('bg-gray-600', !isAnyInputFilled);
+            step3Button.classList.toggle('bg-purple-500', isAnyInputFilled);
+            step3Button.classList.toggle('bg-gray-500', !isAnyInputFilled);
             step3Inputs.forEach(input => {
                 if (isAnyInputFilled) {
                     input.setAttribute('required', true);
