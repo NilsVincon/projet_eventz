@@ -152,7 +152,7 @@
         };
     </script>
 </head>
-<body class="text-red-50">
+<body>
 <section class="h-screen w-full relative">
     <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
     <div class="w-full items-center bg-transparent">
@@ -164,7 +164,7 @@
             </div>
             <div class="ml-12">
                 <a th:href="@{'/eventz/user/modifier/profil'}" class="hover:text-red-50">
-                    <button type="button" class="ml-10 mr-20 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 rounded-lg text-lg px-6 py-2 text-center" th:text="Modifier"></button>
+                    <button type="button" class="ml-10 mr-20 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 rounded-lg text-lg px-6 py-2 text-center text-red-50" th:text="Modifier"></button>
                 </a>
             </div>
         </div>
