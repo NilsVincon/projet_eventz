@@ -462,11 +462,9 @@
     }
 </style>
 <body>
-<div class="msgbox-area" id="msgboxArea"></div>
-<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
-
 <script src="https://kit.fontawesome.com/fddb41ef53.js" crossorigin="anonymous"></script>
-<section class="flex items-center justify-center">
+<section class="h-screen items-center justify-center">
+    <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
     <div class="w-full mt-8 flex flex-col md:flex-row items-center bg-transparent">
         <div class="flex-1 ml-32 mb-6 md:mb-0 md:mr-6">
             <h1 class="text-5xl font-bold text-red-50"><span th:text="${evenement.nom_evenement}"></span></h1>
