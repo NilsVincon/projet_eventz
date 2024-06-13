@@ -15,11 +15,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -58,18 +62,27 @@ public class AuthentificationController {
     }
 
 
-    @PostMapping("/login")
-    public void connexion(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response, HttpServletRequest request) {
 
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(utilisateur.getUsername(),
-                utilisateur.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication,request);
-        String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/", token);
-        response.addHeader("Set-Cookie", cookieString);
-        response.setHeader("Location", "/eventz/home");
-        response.setStatus(HttpStatus.FOUND.value());
-        log.info("Connexion réussie !");
+    @PostMapping("/login")
+    @ResponseBody
+    public ResponseEntity<?> connexion(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response, HttpServletRequest request) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(utilisateur.getUsername(),
+                    utilisateur.getPassword()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtGenerator.generateToken(authentication, request);
+            String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/", token);
+            response.addHeader("Set-Cookie", cookieString);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/eventz/home");
+
+            return new ResponseEntity<>(headers, HttpStatus.FOUND);
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Nom d'utilisateur ou mot de passe incorrect.");
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erreur d'authentification.");
+        }
     }
 
     @GetMapping("/logout")
