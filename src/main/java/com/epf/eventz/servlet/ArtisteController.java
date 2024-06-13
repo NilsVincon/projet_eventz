@@ -141,6 +141,54 @@ public class ArtisteController {
         }
     }
 
+    @GetMapping("/add_artiste")
+    public String add_Artistes(Model model) {
+        try {
+            List<Artiste> artistes = artisteService.findAllArtistes();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(username);
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateurActuel = utilisateurOptional.get();
+                model.addAttribute("utilisateurActuel", utilisateurActuel);
+                model.addAttribute("artistes", artistes);
+                model.addAttribute("preferes", utilisateurService.trouverArtistesByUsername(username));
+                int nombreArtisteSuivi = utilisateurService.trouverArtistesByUsername(username).size();
+                model.addAttribute("nombreArtisteSuivi", nombreArtisteSuivi);
+                int nombreArtiste = artistes.size();
+                model.addAttribute("nombreArtiste", nombreArtiste);
+            }
+        } catch (Exception e) {
+            model.addAttribute("message", e.getMessage());
+        }
+        return "add_artiste";
+    }
+    @PostMapping("/followw")
+    public String suivreArtiste_add(@RequestParam("id_artiste") Long id_artiste, @ModelAttribute PrefererArtiste prefererArtiste) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Optional<Artiste> artisteOptional = artisteService.findArtisteById(id_artiste);
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+
+            if (artisteOptional.isPresent() && utilisateurOptional.isPresent()) {
+                Artiste artiste = artisteOptional.get();
+                Utilisateur utilisateur = utilisateurOptional.get();
+                if (!prefererArtisteService.countPrefereArtisteByAll(artiste, utilisateur)) {
+                    prefererArtiste.setArtiste(artiste);
+                    prefererArtiste.setUtilisateur(utilisateur);
+                    prefererArtisteService.creerPrefererArtiste(prefererArtiste);
+                } else {
+                    prefererArtisteService.supprimerPrefererArtiste(prefererArtisteService.findByArtisteAndUtilisateur(artiste, utilisateur));
+                }
+                return "redirect:/eventz/artiste/add_artiste";
+            } else {
+                return "redirect:/error";
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @PostMapping("/follow")
     public String suivreArtiste(@RequestParam("id_artiste") Long id_artiste, @ModelAttribute PrefererArtiste
             prefererArtiste) {

@@ -122,16 +122,16 @@
                         <div>
                             <div th:if="${utilisateurActuel.id_utilisateur == utilisateur.id_utilisateur}">
                                 <button class="bg-purple-500 text-white font-medium rounded-lg px-4 py-2"
-                                        type="button">Your Profile</button>
+                                        type="button">Ton Profile</button>
                             </div>
                             <div th:if="${utilisateurActuel.id_utilisateur != utilisateur.id_utilisateur}">
                                 <div th:if="${#lists.contains(amis, utilisateur)}">
                                     <button class="bg-purple-300 text-white font-medium rounded-lg px-4 py-2"
-                                            type="button" disabled>Already Friends</button>
+                                            type="button" disabled>Amis</button>
                                     <form th:action="@{/eventz/friend/remove}" method="post" style="display:inline;">
                                         <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
                                         <button class="bg-red-500 text-white font-medium rounded-lg px-4 py-2"
-                                                type="submit">se désabonner</button>
+                                                type="submit"> Ne plus suivre </button>
                                     </form>
                                 </div>
 
@@ -142,24 +142,24 @@
                                         <form th:action="@{/eventz/friend/add}" method="post" style="display:inline;">
                                             <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
                                             <button class="bg-purple-700 text-white font-medium rounded-lg px-4 py-2"
-                                                    type="submit"> devenir amis</button>
+                                                    type="submit"> Devenir amis</button>
                                         </form>
 
                                     </div>
                                     <div th:if="${#lists.contains(abonnements, utilisateur) && !#lists.contains(abonnes, utilisateur)}">
                                         <button class="bg-green-500 text-white font-medium rounded-lg px-4 py-2"
-                                                type="button" disabled>Abonnement</button>
+                                                type="button" disabled> Abonnement</button>
                                         <form th:action="@{/eventz/friend/remove}" method="post" style="display:inline;">
                                             <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
                                             <button class="bg-red-500 text-white font-medium rounded-lg px-4 py-2"
-                                                    type="submit">se désabonner</button>
+                                                    type="submit">Se désabonner</button>
                                         </form>
                                     </div>
                                     <div th:if="${!#lists.contains(abonnes, utilisateur) && !#lists.contains(abonnements, utilisateur)}">
                                         <form th:action="@{/eventz/friend/add}" method="post">
                                             <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
                                             <button class="bg-purple-700 text-white font-medium rounded-lg px-4 py-2"
-                                                    type="submit">devenir amis</button>
+                                                    type="submit"> Suivre </button>
                                         </form>
                                     </div>
                                 </div>
@@ -203,13 +203,10 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
-    // Récupération de tous les éléments avec la classe '.bg-white'
     const userCards = document.querySelectorAll('.bg-white');
 
-    // Récupération de l'élément input de la barre de recherche
     const searchBar = document.getElementById('searchInput');
 
-    // Fonction de filtrage des utilisateurs en fonction du texte de recherche
     const filterUsers = (searchText) => {
         const searchLowerCase = searchText.toLowerCase();
 
@@ -226,16 +223,13 @@
         });
     };
 
-    // Récupération de l'élément bouton de recherche
     const searchButton = document.getElementById('searchButton');
 
-    // Écouteur d'événement pour déclencher la recherche lors du clic sur le bouton de recherche
     searchButton.addEventListener('click', () => {
         const searchText = searchBar.value.trim();
         filterUsers(searchText);
     });
 
-    // Écouteur d'événement pour déclencher la recherche lors de la saisie dans la barre de recherche
     searchBar.addEventListener('input', (e) => {
         const searchText = e.target.value.trim();
         filterUsers(searchText);
