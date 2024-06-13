@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
         *{
             margin: 0;
             padding: 0;
@@ -18,8 +19,10 @@
             justify-content: center;
             align-items: center;
             padding: 10px;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
-        }
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;        }
         .container{
             max-width: 700px;
             width: 100%;
@@ -31,6 +34,7 @@
         .container .title{
             font-size: 25px;
             font-weight: 500;
+            font-family: "Dela Gothic One", sans-serif;
             position: relative;
         }
         .container .title::before{
@@ -41,7 +45,7 @@
             height: 3px;
             width: 30px;
             border-radius: 5px;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            background: linear-gradient(to bottom right, #461b8a, #9d4edd);
         }
         .content form .user-details{
             display: flex;
@@ -57,6 +61,7 @@
             display: block;
             font-weight: 500;
             margin-bottom: 5px;
+            font-family: "Dela Gothic One", sans-serif;
         }
         .user-details .input-box input{
             height: 45px;
@@ -76,6 +81,7 @@
         form .gender-details .gender-title{
             font-size: 20px;
             font-weight: 500;
+            font-family: "Dela Gothic One", sans-serif;
         }
         form .category{
             display: flex;
@@ -100,7 +106,7 @@
         #dot-1:checked ~ .category label .one,
         #dot-2:checked ~ .category label .two,
         #dot-3:checked ~ .category label .three{
-            background: #9b59b6;
+            background: #7309d5;
             border-color: #d9d9d9;
         }
         form input[type="radio"]{
@@ -116,16 +122,17 @@
             border-radius: 5px;
             border: none;
             color: #fff;
-            font-size: 18px;
+            font-size: 21px;
             font-weight: 500;
             letter-spacing: 1px;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            font-family: "Dela Gothic One", sans-serif;
+            background: linear-gradient(to bottom right, #461b8a, #9d4edd);
         }
         form .button input:hover{
             /* transform: scale(0.99); */
-            background: linear-gradient(-135deg, #71b7e6, #9b59b6);
+            background: linear-gradient(to bottom right, #9d4edd, #461b8a);
         }
         @media(max-width: 584px){
             .container{
