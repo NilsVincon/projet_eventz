@@ -22,7 +22,6 @@
             background-repeat: repeat-y;
             background-attachment: scroll;
             height: 100%;
-            color: white; /* Added for better visibility */
         }
 
         .containers {
@@ -120,7 +119,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="people-nearby">
-                <div th:each="utilisateur : ${utilisateurs}" class="nearby-user">
+                <div th:each="utilisateur : ${utilisateurs}" class="nearby-user hover:no-underline">
                     <div class="flex items-center">
                         <div class="mr-4">
                             <img th:src="@{'/eventz/user/profile-image/' + ${utilisateur.id_utilisateur}}"
@@ -129,7 +128,7 @@
                         <div class="flex-1">
                             <h3 class="text-3xl font-semibold text-white">
                                 <a th:href="'/eventz/user/profil/' + ${utilisateur.username}"
-                                   class="hover:bg-purple-700" th:text="${utilisateur.username}"></a>
+                                   class="hover:no-underline" th:text="${utilisateur.username}"></a>
                             </h3>
                             <p th:text="${utilisateur.description_utilisateur}" class="text-white"></p>
                             <p th:text="${utilisateur.sexe_utilisateur}" class="text-white"></p>
@@ -212,6 +211,8 @@
         </div>
     </div>
 </div>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
+
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>

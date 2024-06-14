@@ -22,7 +22,6 @@
             background-repeat: repeat-y;
             background-attachment: scroll;
             height: 100%;
-            color: white; /* Added for better visibility */
         }
 
 
@@ -133,11 +132,11 @@
     <div class="row">
         <div class="col-md-8">
             <div class="people-nearby">
-                <div th:each="artiste : ${artistes}" class="nearby-user">
+                <div th:each="artiste : ${artistes}" class="nearby-user hover:no-underline">
                     <div class="flex items-center">
                         <div class="mr-4">
                             <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}"
-                                 alt="artiste" class="profile-photo-lg object-cover">
+                                 alt="artiste" class="profile-photo-lg object-cover hover:no-underline">
                         </div>
                         <div class="flex-1">
                             <h3 class="text-3xl font-semibold text-white">
@@ -179,6 +178,7 @@
         </div>
     </div>
 </div>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
