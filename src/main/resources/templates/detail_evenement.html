@@ -443,25 +443,15 @@
                 <h1 class="text-red-50 text-2xl">Lieu</h1>
                 <div class="mt-4">
                     <p class="text-red-50">
-                        <th:block th:if="${evenement.adresse.public_adresse}">
-                            <p class="text-red-50"
-                               th:text="${evenement.adresse.numero_adresse} + ' ' + ${evenement.adresse.rue_adresse} + ' ' + ${evenement.adresse.ville_adresse} + ' ' + ${evenement.adresse.pays_adresse} "></p>
-                            <div class="mt-2">
-                                <a th:href="@{'https://www.google.com/maps/search/?api=1&query=' + ${evenement.adresse.numero_adresse} + '+' + ${evenement.adresse.rue_adresse} + '+' + ${evenement.adresse.ville_adresse} + '+' + ${evenement.adresse.pays_adresse}}"
-                                   class="no-underline hover:no-underline hover:text-red-500 text-red-50 mt-2 w-1/2">
-                                    <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
-                                        <i class="fas fa-map-marker-alt text-2xl"></i>
-                                        <p class="ml-2"> OUVRIR DANS GOOGLE MAPS</p>
-                                    </button>
-                                </a>
+                        <th:block>
+                            <div style="display: none;">
+                                <p th:text="'isPublic_adresse() : ' + ${evenement.adresse.isPublic_adresse()}"></p>
                             </div>
                             <!-- Display the address if it is public -->
                             <th:block th:if="${evenement.adresse.isPublic_adresse()}">
-                                <p class="text-red-50"
-                                   th:text="${evenement.adresse.numero_adresse} + ' ' + ${evenement.adresse.rue_adresse} + ' ' + ${evenement.adresse.ville_adresse} + ' ' + ${evenement.adresse.pays_adresse}"></p>
+                                <p class="text-red-50" th:text="${evenement.adresse.numero_adresse} + ' ' + ${evenement.adresse.rue_adresse} + ' ' + ${evenement.adresse.ville_adresse} + ' ' + ${evenement.adresse.pays_adresse}"></p>
                                 <div class="mt-2">
-                                    <a th:href="@{'https://www.google.com/maps/search/?api=1&query=' + ${evenement.adresse.numero_adresse} + '+' + ${evenement.adresse.rue_adresse} + '+' + ${evenement.adresse.ville_adresse} + '+' + ${evenement.adresse.pays_adresse}}"
-                                       class="no-underline hover:no-underline hover:text-red-500 text-red-50 mt-2 w-1/2">
+                                    <a th:href="@{'https://www.google.com/maps/search/?api=1&query=' + ${evenement.adresse.numero_adresse} + '+' + ${evenement.adresse.rue_adresse} + '+' + ${evenement.adresse.ville_adresse} + '+' + ${evenement.adresse.pays_adresse}}" class="no-underline hover:no-underline hover:text-red-500 text-red-50 mt-2 w-1/2">
                                         <button class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center">
                                             <i class="fas fa-map-marker-alt text-2xl"></i>
                                             <p class="ml-2">OUVRIR DANS GOOGLE MAPS</p>
@@ -475,7 +465,6 @@
                                 <p class="text-red-50">L'adresse est privée pour l'instant.</p>
                             </th:block>
                         </th:block>
-
                     </p>
                 </div>
             </div>
