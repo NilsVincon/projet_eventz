@@ -3,10 +3,9 @@ package com.epf.eventz.service;
 import com.epf.eventz.dao.EvenementDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
+import com.epf.eventz.model.*;
 import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Evenement;
-import com.epf.eventz.model.Evenement;
-import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,12 +21,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class EvenementService {
+
+    @Autowired
     private EvenementDAO evenementDAO;
 
     @Autowired
-    public EvenementService(EvenementDAO evenementDAO) {
-        this.evenementDAO = evenementDAO;
-    }
+    private ParticipeService participeService;
 
     public void addEvenement(Evenement evenement) {
         if (evenement.getPdpEvenement() == null) {

@@ -290,7 +290,6 @@ public class FillDataBase {
                     LocalDate.of(2025, 9, 15), LocalDate.of(2025, 9, 20),
                     35.0f, 700, true));
 
-            participeService.addParticipe(new Participe(technoFest, utilisateur1));
             participeService.addParticipe(new Participe(technoFest, utilisateur3));
             participeService.addParticipe(new Participe(technoFest, utilisateur2));
             participeService.addParticipe(new Participe(technoFest, utilisateur5));
