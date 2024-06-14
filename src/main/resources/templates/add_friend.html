@@ -102,12 +102,12 @@
                     </div>
                     <div class="col">
                         <input id="searchInput" class="form-control form-control-lg form-control-borderless"
-                               type="text" placeholder="recherche un username">
+                               type="text" placeholder="Rechercher un utilisateur">
                     </div>
                     <div class="col-auto">
                         <button id="searchButton" type="button"
                                 class="btn btn-custom font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-                            recherche
+                            Recherche
                         </button>
                     </div>
                 </div>
@@ -137,7 +137,7 @@
                         <div>
                             <div th:if="${utilisateurActuel.id_utilisateur == utilisateur.id_utilisateur}">
                                 <button class="btn btn-custom font-medium rounded-lg px-4 py-2"
-                                        type="button">Ton Profile</button>
+                                        type="button">Profil</button>
                             </div>
                             <div th:if="${utilisateurActuel.id_utilisateur != utilisateur.id_utilisateur}">
                                 <div th:if="${#lists.contains(amis, utilisateur)}">
@@ -157,7 +157,7 @@
                                         <form th:action="@{/eventz/friend/add}" method="post" style="display:inline;">
                                             <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
                                             <button class="btn btn-custom font-medium rounded-lg px-4 py-2"
-                                                    type="submit"> Devenir amis</button>
+                                                    type="submit"> Suivre</button>
                                         </form>
 
                                     </div>
@@ -193,15 +193,15 @@
                     <p class="kpi-value" th:text="${nombreUtilisateurs}"></p>
                 </div>
                 <div class="mb-4">
-                    <p class="kpi-title">Nombre amis</p>
+                    <p class="kpi-title">Nombre d'amis</p>
                     <p class="kpi-value" th:text="${nombreAmis}"></p>
                 </div>
                 <div class="mb-4">
-                    <p class="kpi-title">Nombre abonnés</p>
+                    <p class="kpi-title">Nombre d'abonnés</p>
                     <p class="kpi-value" th:text="${nbabonne}"></p>
                 </div>
                 <div class="mb-4">
-                    <p class="kpi-title">Nombre abonnements</p>
+                    <p class="kpi-title">Nombre d'abonnements</p>
                     <p class="kpi-value" th:text="${nbabonnements}"></p>
                 </div>
                 <div>
