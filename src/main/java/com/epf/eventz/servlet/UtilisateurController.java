@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/eventz/user")
@@ -65,8 +66,12 @@ public class UtilisateurController {
                 Map<Boolean, List<Evenement>> eventz = evenementService.separerEvenementsParDate(evenements);
                 List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(utilisateur.getUsername());
                 List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(utilisateur.getUsername());
+                List<Utilisateur> communs = suiveurs.stream()
+                        .filter(utilisateurService.trouverAbonnementByUsername(authentication.getName())::contains)
+                        .toList();
                 model.addAttribute("suiveurs", suiveurs);
                 model.addAttribute("suivis", suivis);
+                model.addAttribute("communs", communs);
                 model.addAttribute("evenements", evenements);
                 model.addAttribute("eventPasse", eventz.get(false));
                 model.addAttribute("eventAVenir", eventz.get(true));

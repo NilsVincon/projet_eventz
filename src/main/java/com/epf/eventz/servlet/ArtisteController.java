@@ -126,6 +126,12 @@ public class ArtisteController {
 
                 if (utilisateurOptional.isPresent()) {
                     Utilisateur utilisateur = utilisateurOptional.get();
+                    List<Utilisateur> abonnement=utilisateurService.trouverAbonnementByUsername(utilisateur.getUsername());
+                    List<Utilisateur> suitArtiste=utilisateurService.getUtilisateursSuivantArtiste(artiste);
+                    List<Utilisateur> communs = abonnement.stream()
+                            .filter(suitArtiste::contains)
+                            .toList();
+                    model.addAttribute("amiFollows", communs);
                     boolean isFollowing = prefererArtisteService.countPrefereArtisteByAll(artiste, utilisateur);
                     model.addAttribute("boutonSuivre", isFollowing ? "Suivi" : "Suivre");
                 } else {

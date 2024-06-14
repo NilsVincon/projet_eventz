@@ -37,6 +37,17 @@
                 <input type="hidden" th:name="id_artiste" th:value="${artiste.id_artiste}">
                 <button type="submit" class="ml-10 mr-20 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 rounded-lg text-lg px-6 py-2 text-center" th:text="${boutonSuivre}"></button>
             </form>
+            <div th:if="${amiFollows != null and amiFollows.size() > 0}" class="mt-6 flex">
+                <h1 class="text-red-50 text-lg">Suivi par :</h1>
+                <div class="flex -space-x-2 overflow-hidden pt-2 ml-2">
+                    <div th:each="amiFollow, iterStat : ${amiFollows}">
+                        <a th:href="@{'/eventz/user/profil/' + ${amiFollow.getUsername()}}">
+                            <img  th:if="${iterStat.count <= 7}" th:src="@{'/eventz/user/profile-image/' + ${amiFollow.id_utilisateur}}" alt="Ami participant" class="inline-block h-16 w-16 rounded-full object-cover">
+                        </a>
+                        <span th:if="${iterStat.count == 8}" class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600" th:text="${(amiFollows.size() - 7) > 0 ? '+' + (amiFollows.size() - 7) : (amisFollows.size() - 7)}">+9</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

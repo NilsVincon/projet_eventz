@@ -94,8 +94,8 @@
         <div class="btn-group-custom flex justify-around mt-12">
             <button class="btn h-20 pl-2 flex items-center space-x-2 hover:text-red-50 rounded-lg text-center hover:bg-gray-100 active:bg-gray-100 active:bg-opacity-30 hover:bg-opacity-30 focus:outline-none" data-target="#abonnes-section" onclick="showSection('abonnes-section')">
                 <i class="fa fa-user text-red-50"></i>
-                <h4 th:text="${suiveurs.size()}">128</h4>
-                <p class="text-red-50">Abonnés</p>
+                <h4 th:text="${communs.size()}">128</h4>
+                <p class="text-red-50">Suivi par</p>
             </button>
             <button class="btn h-20 pl-2 flex items-center space-x-2 hover:text-red-50 rounded-lg text-center hover:bg-gray-100 active:bg-gray-100 active:bg-opacity-30 hover:bg-opacity-30 focus:outline-none" data-target="#organisation-section" onclick="showSection('organisation-section')">
                 <i class="fa fa-check text-red-50"></i>
@@ -113,13 +113,13 @@
 <section>
     <div id="abonnes-section" class="hidden-section bg-transparent w-3/4 mx-auto" style="display: none;">
         <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-x-2 gap-y-2">
-            <div th:each="suiveur : ${suiveurs}" class="relative mb-4 bg-red-50 shadow-md w-32 h-48 overflow-hidden bg-transparent">
-                <a th:href="@{'/eventz/user/profil/' + ${suiveur.username}}" class="no-underline text-red-500">
+            <div th:each="commun : ${communs}" class="relative mb-4 w-32 h-48 overflow-hidden bg-transparent">
+                <a th:href="@{'/eventz/user/profil/' + ${commun.username}}" class="no-underline text-red-500">
                     <div class="h-32">
-                        <img th:src="@{'/eventz/user/profile-image/' + ${suiveur.id_utilisateur}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
+                        <img th:src="@{'/eventz/user/profile-image/' + ${commun.id_utilisateur}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                     </div>
                     <div class=" bg-transparent mb-2 text-center text-white">
-                        <h1 class="text-sm text-red-50 break-words whitespace-normal" th:text="${suiveur.username}"></h1>
+                        <h1 class="text-sm text-red-50 break-words whitespace-normal" th:text="${commun.username}"></h1>
                     </div>
                 </a>
             </div>

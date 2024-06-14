@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 
 
-    <title>social network user profile example - Bootdey.com</title>
+    <title th:text="${evenement.getNom_evenement()}"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -212,7 +212,9 @@
                 <h1 class="text-red-50 text-2xl">Mes amis qui participent</h1>
                 <div class="flex -space-x-2 overflow-hidden pt-2 ml-2">
                     <div th:each="ami, iterStat : ${amisParticipent}">
-                        <img th:if="${iterStat.count <= 7}" th:src="@{'/eventz/user/profile-image/' + ${ami.id_utilisateur}}" alt="Ami participant" class="inline-block h-16 w-16 rounded-full object-cover">
+                        <a th:href="@{'/eventz/user/profil/' + ${ami.getUsername()}}">
+                        <img  th:if="${iterStat.count <= 7}" th:src="@{'/eventz/user/profile-image/' + ${ami.id_utilisateur}}" alt="Ami participant" class="inline-block h-16 w-16 rounded-full object-cover">
+                        </a>
                         <span th:if="${iterStat.count == 8}" class="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center text-sm font-medium text-gray-600" th:text="${(amisParticipent.size() - 7) > 0 ? '+' + (amisParticipent.size() - 7) : (amisParticipent.size() - 7)}">+9</span>
                     </div>
                 </div>
@@ -232,7 +234,7 @@
                     <p class="text-red-50" th:text="${evenement.organisateur.description_utilisateur}"></p>
                 </div>
                 <div class="mt-8">
-                    <h1 class="text-md text-uppercase text-red-50">evenements organisé:</h1>
+                    <h1 class="text-md text-uppercase text-red-50">événements organisés:</h1>
                     <p class="text-red-50" th:text="${nb_orga}"></p>
                 </div>
             </div>
