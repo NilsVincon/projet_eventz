@@ -493,7 +493,8 @@
                                         <div class="about">
                                             <div class="name font-bold text-gray-700 text-l mt-4"
                                                  th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
-                                            <div class="status text-gray-600"><i class="fa fa-circle online"></i>en ligne...
+                                            <div class="status text-gray-600"><i class="fa fa-circle online"></i><span
+                                                    class="text-gray-600">en ligne...</span>
                                             </div>
                                         </div>
                                     </a>
@@ -623,7 +624,7 @@
         const searchBar = document.getElementById('default-search');
         const listItems = document.querySelectorAll('.people-list li');
 
-        searchBar.addEventListener('input', function(event) {
+        searchBar.addEventListener('input', function (event) {
             const searchTerm = event.target.value.toLowerCase();
 
             listItems.forEach(item => {

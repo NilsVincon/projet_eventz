@@ -71,7 +71,7 @@
     <div class="flex">
         <div th:each="eventAVenir : ${eventAVenir}"
              class="mb-4 relative flex justify-center items-start event hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
-            <a th:href="@{'/eventz/evenement/details?id=' + ${eventAVenir.idEvenement}}">
+            <a th:href="@{'/eventz/evenement/details/' + ${eventAVenir.idEvenement}}">
                 <img th:src="${eventAVenir.hasPdp() ? '/eventz/evenement/image/' + eventAVenir.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
                      class="mt-4 rounded-lg mb-2 object-cover w-72 h-40" alt="profile cover">
                 <div class="mb-2">
@@ -86,7 +86,7 @@
     <div class="flex">
         <div th:each="eventPasse : ${eventPasse}"
              class="overflow-x-auto mb-4 relative flex justify-center items-start event bg-gray-300 hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
-            <a th:href="@{'/eventz/evenement/details?id=' + ${eventPasse.idEvenement}}">
+            <a th:href="@{'/eventz/evenement/details/' + ${eventPasse.idEvenement}}">
                 <img th:src="${eventPasse.hasPdp() ? '/eventz/evenement/image/' + eventPasse.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
                      class="mt-4 rounded-lg mb-2 object-cover w-72 h-40" alt="profile cover">
                 <div class="mb-2">
