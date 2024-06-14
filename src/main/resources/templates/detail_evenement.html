@@ -17,173 +17,6 @@
         background-image: url("/images/BG.png");
     }
 
-    .containers {
-        overflow: hidden;
-
-
-    }
-
-    .profile-page .profile-header {
-        box-shadow: 0 0 10px 0 rgba(183, 192, 206, 0.2);
-        border: 1px solid #f2f4f9;
-        overflow: hidden;
-
-    }
-
-    .profile-page .profile-header .cover {
-        position: relative;
-        border-radius: .25rem .25rem 0 0;
-    }
-
-    .profile-page .profile-header .cover figure {
-        margin-bottom: 0;
-    }
-
-    @media (max-width: 767px) {
-        .profile-page .profile-header .cover figure {
-            height: 110px;
-            overflow: hidden;
-        }
-    }
-
-    @media (min-width: 2400px) {
-        .profile-page .profile-header .cover figure {
-            height: 280px;
-            overflow: hidden;
-        }
-    }
-
-    .profile-page .profile-header .cover figure img {
-        border-radius: .25rem .25rem 0 0;
-        width: 100%;
-    }
-
-    @media (max-width: 767px) {
-        .profile-page .profile-header .cover figure img {
-            -webkit-transform: scale(2);
-            transform: scale(2);
-            margin-top: 15px;
-        }
-    }
-
-    @media (min-width: 2400px) {
-        .profile-page .profile-header .cover figure img {
-            margin-top: -55px;
-        }
-    }
-
-    .profile-page .profile-header .cover .gray-shade {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 0;
-        background: linear-gradient(rgba(255, 255, 255, 0.1), #fff 99%);
-    }
-
-    .profile-page .profile-header .cover .cover-body {
-        position: absolute;
-        bottom: -20px;
-        left: 0;
-        z-index: 0;
-        width: 100%;
-        padding: 0 20px;
-    }
-
-    .profile-page .profile-header .cover .cover-body .profile-pic {
-        border-radius: 50%;
-        width: 100px;
-    }
-
-    @media (max-width: 767px) {
-        .profile-page .profile-header .cover .cover-body .profile-pic {
-            width: 70px;
-        }
-    }
-
-    .profile-page .profile-header .cover .cover-body .profile-name {
-        font-size: 20px;
-        font-weight: 600;
-        margin-left: 17px;
-    }
-
-    .profile-page .profile-header .header-links {
-        padding: 15px;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-justify-content: center;
-        justify-content: center;
-        background: #fff;
-        border-radius: 0 0 .25rem .25rem;
-    }
-
-    .profile-page .profile-header .header-links ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    .profile-page .profile-header .header-links ul li a {
-        color: #000;
-        -webkit-transition: all .2s ease;
-        transition: all .2s ease;
-    }
-
-    .profile-page .profile-header .header-links ul li:hover,
-    .profile-page .profile-header .header-links ul li.active {
-        color: #727cf5;
-    }
-
-    .profile-page .profile-header .header-links ul li:hover a,
-    .profile-page .profile-header .header-links ul li.active a {
-        color: #727cf5;
-    }
-
-    .profile-page .profile-body .left-wrapper .social-links a {
-        width: 30px;
-        height: 30px;
-    }
-
-    .profile-page .profile-body .right-wrapper .latest-photos > .row {
-        margin-right: 0;
-        margin-left: 0;
-    }
-
-    .profile-page .profile-body .right-wrapper .latest-photos > .row > div {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
-
-    .profile-page .profile-body .right-wrapper .latest-photos > .row > div figure {
-        -webkit-transition: all .3s ease-in-out;
-        transition: all .3s ease-in-out;
-        margin-bottom: 6px;
-    }
-
-    .profile-page .profile-body .right-wrapper .latest-photos > .row > div figure:hover {
-        -webkit-transform: scale(1.06);
-        transform: scale(1.06);
-    }
-
-    .profile-page .profile-body .right-wrapper .latest-photos > .row > div figure img {
-        border-radius: .25rem;
-    }
-
-    .rtl .profile-page .profile-header .cover .cover-body .profile-name {
-        margin-left: 0;
-        margin-right: 17px;
-    }
-
-    .img-xs {
-        width: 37px;
-        height: 37px;
-    }
-
-    .rounded-circle {
-        border-radius: 50% !important;
-    }
-
     img {
         vertical-align: middle;
         border-style: none;
@@ -237,109 +70,10 @@
         margin-bottom: 10px;
     }
 
-    .footer-bottom {
-        text-align: center;
-        margin-top: 20px;
-
-    }
-
-    .msgbox-area {
-        font-size: inherit;
-        max-height: 100%;
-        position: fixed;
-        bottom: 15px;
-        left: 20px;
-        right: 20px;
-        z-index: 100;
-    }
-
-    .msgbox-box {
-        font-size: inherit;
-        color: #ffffff;
-        margin: 0 0 1rem;
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        border-radius: 12px;
-        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.65);
-        -webkit-backdrop-filter: blur(4px);
-        backdrop-filter: blur(4px);
-        transition: opacity 256ms ease-in;
-        background-color: rgba(95, 203, 95, 0.87);
-
-    }
-
-    .msgbox-box.msgbox-box-hide {
-        opacity: 0;
-    }
-
-    .msgbox-box:last-child {
-        margin: 0;
-    }
-
-    .msgbox-content {
-        font-size: inherit;
-        padding: 1.5rem;
-        padding-bottom: 0.75rem;
-        flex-shrink: 1;
-    }
-
-    .msgbox-command {
-        padding: 1.5rem;
-        padding-top: 0.75rem;
-        display: flex;
-    }
-
-    .msgbox-close {
-        color: #ffffff;
-        font-size: inherit;
-        text-decoration: none;
-        margin: 0 10px;
-        flex-grow: 0;
-        flex-shrink: 0;
-        position: relative;
-        transition: color 64ms ease-out, text-shadow 64ms ease-out;
-    }
-
-    .msgbox-close:hover {
-        color: #efefef;
-        text-shadow: 0 0 4px #ffffff;
-    }
-
-    .msgbox-close:first-child {
-        margin-left: auto;
-    }
-
-    .msgbox-close:last-child {
-        margin-right: 0;
-    }
-
-    @media (min-width: 481px) and (max-width: 767px) {
-        .msgbox-area {
-            left: 80px;
-            right: 80px;
-        }
-    }
-
-    @media (min-width: 768px) {
-        .msgbox-area {
-            width: 480px;
-            height: 0;
-            top: 15px;
-            left: auto;
-            right: 15px;
-        }
-    }
-
-    .navbar {
-        transition: top 0.3s;
-    }
-
     @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap');
-    h1 {
-        font-family: 'Dela Gothic One', sans-serif;
+    h1{
+        font-family: 'Dela Gothic One',sans-serif;
     }
-
     .no-scrollbar::-webkit-scrollbar {
         display: none;
     }
@@ -355,10 +89,10 @@
     <div class="w-full mt-8 flex flex-col md:flex-row items-center bg-transparent">
         <div class="flex-1 ml-32 mb-6 md:mb-0 md:mr-6">
             <h1 class="text-5xl font-bold text-red-50"><span th:text="${evenement.nom_evenement}"></span></h1>
-            <div class="mt-1 text-red-100">
-                Par
+            <div class="mt-1 text-red-100 flex relative">
                 <a href="" class="text-red-50 no-underline hover:no-underline hover:text-red-500"><span
-                        th:text="' ' + ${evenement.organisateur.username}"></span></a>
+                        th:text="'Par ' + ${evenement.organisateur.username}"></span>
+                </a>
             </div>
             <div>
                 <div class="mt-4">
@@ -409,14 +143,22 @@
                 </div>
 
                 <div class="mt-10">
-                    <div th:if="${connecte}">
-                        <form action="/eventz/evenement/participate" method="post">
-                            <input type="hidden" th:name="event_id" th:value="${evenement.idEvenement}">
-                            <button type="submit"
-                                    class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center"
-                                    th:text="${boutonParticipe}">Participer
-                            </button>
-                        </form>
+                    <div th:if="${connecte}" class="flex">
+                            <form action="/eventz/evenement/participate" method="post">
+                                <input type="hidden" th:name="event_id" th:value="${evenement.idEvenement}">
+                                <button type="submit"
+                                        class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center"
+                                        th:text="${boutonParticipe}">Participer
+                                </button>
+                            </form>
+                        <div th:if="${user == evenement.organisateur}" class="ml-4">
+                            <a th:href="@{'/eventz/evenement/update?id='+${evenementId}}" class="hover:no-underline">
+                                <button
+                                        class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg flex items-center"
+                                >Modifier
+                                </button>
+                            </a>
+                        </div>
                     </div>
                     <div th:if="${!connecte}">
                         <a th:href="@{'/eventz/auth/login'}" class="hover:no-underline">
@@ -540,11 +282,15 @@
                     <h1 class="text-md text-uppercase text-red-50">événements organisés:</h1>
                     <p class="text-red-50" th:text="${nb_orga}"></p>
                 </div>
+                <div class="mt-8" th:if="${moyenneOrga != '0.0'}">
+                    <h1 class="text-md text-uppercase text-red-50">Avis moyens sur les évenements:</h1>
+                    <p class="text-red-50" th:text="${moyenneOrga} + '/5'"></p>
+                </div>
             </div>
         </div>
     </div>
 </section>
-<section class="mt-16">
+<section class="mt-16" th:if="${isFinished}">
     <div class="ml-6 mr-6 border-t border-red-500">
         <h1 class="text-red-50 text-2xl ml-6 mt-10">
             Les avis
@@ -584,7 +330,7 @@
                     </div>
                     <div>
                         <label for="commentaire" class="block text-sm font-medium text-red-50">Commentaire</label>
-                        <textarea id="commentaire" name="commentaire" rows="4" class="mt-1 block w-full shadow-sm sm:text-sm border font-semibold border-red-500 bg-transparent rounded-md" placeholder="Écrivez votre commentaire ici..."></textarea>
+                        <textarea id="commentaire" name="commentaire" rows="4" class="mt-1 block w-full shadow-sm sm:text-sm border font-semibold border-red-500 text-red-50 bg-transparent rounded-md" placeholder="Écrivez votre commentaire ici..."></textarea>
                     </div>
                     <div>
                         <button type="submit" class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">

@@ -10,7 +10,9 @@ import java.util.List;
 
 public interface NoterDAO extends JpaRepository<Noter, Long> {
 
-    List<Noter> findAllByEvenement(Evenement evenement, Sort sort);
+    List<Noter> findAllByEvenement(Evenement evenement);
+
+    List<Noter> findAllByEvenement_Organisateur(Utilisateur utilisateur);
 
     boolean existsByEvenementAndUtilisateur(Evenement evenement, Utilisateur utilisateur);
 }

@@ -166,7 +166,7 @@ public class FillDataBase {
             statutEvenementService.creerStatut(statutEvenementTechnoFest);
 
             Evenement technoFest = new Evenement("TechnoFest", "Le festival de techno le plus attendu de l'année",
-                    LocalDate.of(2024, 7, 15), LocalDate.of(2024, 7, 20),
+                    LocalDate.of(2024, 6, 13), LocalDate.of(2024, 7, 20),
                     40.0f, 800, true);
             technoFest.setAdresse(adresseTechnoFest);
             technoFest.setTypeEvenement(typeEvenementTechnoFest);

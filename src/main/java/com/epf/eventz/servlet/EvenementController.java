@@ -364,6 +364,7 @@ public class EvenementController {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
+                model.addAttribute("isFinished", evenement.getDebut_evenement().isBefore(LocalDate.now()));
                 List<Noter> notes = noterService.findByEvenemenement(evenement);
                 if (utilisateurOptional.isPresent()) {
                     utilisateur = utilisateurOptional.get();
@@ -376,6 +377,8 @@ public class EvenementController {
                 }
                 model.addAttribute("notes", notes);
                 String moyenneNote = noterService.moyenneEvenement(notes);
+                String moyenneOrga = noterService.findMoyenneByEvenement_Organisateur(evenement.getOrganisateur());
+                model.addAttribute("moyenneOrga", moyenneOrga);
                 model.addAttribute("moyenneNote", moyenneNote);
                 model.addAttribute("evenement", evenement);
                 List<Utilisateur> amis = suivreService.findAmisByUtilisateur(utilisateur);

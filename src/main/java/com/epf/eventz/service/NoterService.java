@@ -3,6 +3,7 @@ package com.epf.eventz.service;
 import com.epf.eventz.dao.NoterDAO;
 import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Noter;
+import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,11 @@ public class NoterService {
     }
 
     public List<Noter> findByEvenemenement(Evenement evenement){
-        return noterDAO.findAllByEvenement(evenement, Sort.by(Sort.Direction.DESC, "id_noter"));
+        return noterDAO.findAllByEvenement(evenement);
+    }
+
+    public String findMoyenneByEvenement_Organisateur(Utilisateur utilisateur){
+        return moyenneEvenement(noterDAO.findAllByEvenement_Organisateur(utilisateur));
     }
 
     public String moyenneEvenement(List<Noter> notes) {
