@@ -45,4 +45,8 @@ public class Adresse {
                 ", pays_adresse='" + pays_adresse + '\'' +
                 '}';
     }
+
+    public boolean isPublic_adresse() {
+        return public_adresse;
+    }
 }

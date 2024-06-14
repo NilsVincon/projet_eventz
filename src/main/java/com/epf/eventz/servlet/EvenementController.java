@@ -232,17 +232,18 @@ public class EvenementController {
             if (utilisateurOptional.isPresent()) {
                 Utilisateur utilisateur = utilisateurOptional.get();
                 try {
-
-                    // Trouver l'événement par ID
                     Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
 
                     if (evenementOptional.isPresent()) {
                         Evenement evenement = evenementOptional.get();
                         Utilisateur organisateur = evenement.getOrganisateur();
-
-                        // Vérifier si l'utilisateur connecté est l'organisateur de l'événement
                         if (organisateur.equals(utilisateur)) {
+                            TypeEvenementEnum currentType = evenement.getTypeEvenement().getDescription_type_evenement();
+                            List<TypeEvenementEnum> filteredTypes = Arrays.stream(TypeEvenementEnum.values())
+                                    .filter(type -> !type.equals(currentType))
+                                    .collect(Collectors.toList());
                             model.addAttribute("event", evenement);
+                            model.addAttribute("typeEvenementEnumValues", filteredTypes);
                             return "update_event";
                         }
                     }
@@ -260,7 +261,6 @@ public class EvenementController {
     public void updateEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement,@ModelAttribute Adresse adresse,
                                                                 @ModelAttribute TypeEvenement typeEvenement,@RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, HttpServletResponse response) throws IOException {
         try {
-            log.info("Evenement :"+evenement.getNom_evenement());
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement existingevenement = evenementOptional.get();

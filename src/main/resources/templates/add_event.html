@@ -5,12 +5,17 @@
     <title>Ajoutez votre événement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-image: url("/images/BG.png");
             background-size: cover;
             background-repeat: repeat-y;
             background-attachment: scroll;
+        }
+
+        nav {
+            font-family: 'Dela Gothic One', sans-serif;
         }
 
         textarea {
@@ -44,6 +49,27 @@
         body.modal-open {
             overflow: hidden;
         }
+
+        body::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: rgba(192, 79, 218, 0.45);
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(159, 49, 176, 0.7);
+        }
+
 
         #artistModal .overflow-y-auto::-webkit-scrollbar {
             width: 10px;
@@ -83,348 +109,366 @@
 
     </style>
 </head>
-<body class="h-screen flex items-center justify-center">
-<div class="max-w-xl w-full p-8 rounded-lg">
-    <form id="registrationForm" action="/eventz/evenement/add" method="post" enctype="multipart/form-data">
-        <!-- Step 1 -->
-        <div class="step active">
-            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre événement !</div>
-            <div class="mb-4">
-                <label for="nom_evenement" class="block text-sm text-purple-50 font-bold">Nom Evenement*</label>
-                <input type="text" id="nom_evenement" name="nom_evenement" required
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <label for="description_evenement" class="block text-sm text-purple-50 font-bold">Description*</label>
-                <textarea id="description_evenement" name="description_evenement" rows="4"
-                          class="text-red-50 bg-opacity-0 bg-white mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"></textarea>
-            </div>
-            <div class="mb-4">
-                <label for="type_evenement" class="block text-sm text-purple-50 font-bold">Type
-                    Evenement*</label>
-                <select id="type_evenement" name="type_evenement" required
-                        class="bg-white bg-opacity-0 text-red-50 mt-1 block w-full px-3 py-2 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
-                    <option value="" disabled selected>Choisissez un type d'évènement</option>
-                    <option class="text-gray-800" th:each="type : ${typeEvenementEnumValues}" th:value="${type}"
-                            th:text="${type}"></option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="debut_evenement" class="block text-sm text-purple-50 font-bold">Date de Début*</label>
-                <input type="date" id="debut_evenement" name="debut_evenement" required max="2025-12-31"
-                       onchange="validateDates()"
-                       class="text-red-50 bg-opacity-0 bg-white mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
-            </div>
-            <p id="date-error-1" class="text-xs italic text-red-700 mt-2"></p>
-            <div class="mb-4">
-                <label for="fin_evenement" class="block text-sm text-purple-50 font-bold">Date de Fin*</label>
-                <input type="date" id="fin_evenement" name="fin_evenement" required max="2025-12-31"
-                       onchange="validateDates()"
-                       class="text-red-50 bg-opacity-0 bg-white mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
-            </div>
-            <p id="date-error-2" class="text-xs italic text-red-700 mt-2 "></p>
-            <div class="flex justify-end">
-                <button type="button" onclick="nextStep()"
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                    Suivant
-                </button>
-            </div>
-        </div>
-        <!-- Step 2 -->
-        <div class="step hidden">
-            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre événement !</div>
-            <div class="mb-4">
-                <label for="nb_place_evenement" class="block text-sm text-purple-50 font-bold mb-2">Nombre de
-                    place</label>
-                <input type="number" id="nb_place_evenement" name="nb_place_evenement" required
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <label for="prix_evenement" class="block text-sm text-purple-50 font-bold mb-2">Prix evenement</label>
-                <input type="number" id="prix_evenement" name="prix_evenement" required
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <span class="block text-sm text-purple-50 font-bold mb-2">Événement Privé / Public</span>
-                <div class="flex items-center mt-2">
-                    <button id="privateEvenementBtn" type="button" onclick="toggleEventPrivacy(true)"
-                            class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                        </svg>
-                        Privé
-                    </button>
-                    <button id="publicEvenementBtn" type="button" onclick="toggleEventPrivacy(false)"
-                            class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                        </svg>
-                        Public
+<body class="h-screen">
+<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+<div class="flex items-center justify-center">
+    <div class="max-w-xl w-full p-6 rounded-lg">
+        <form id="registrationForm" action="/eventz/evenement/add" method="post" enctype="multipart/form-data">
+            <!-- Step 1 -->
+            <div class="step active">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre événement !
+                </div>
+                <div class="mb-3">
+                    <label for="nom_evenement" class="block text-sm text-purple-50 font-bold">Nom Evenement*</label>
+                    <input type="text" id="nom_evenement" name="nom_evenement" required
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-3">
+                    <label for="description_evenement"
+                           class="block text-sm text-purple-50 font-bold">Description*</label>
+                    <textarea id="description_evenement" required name="description_evenement" rows="4"
+                              class="h-14 text-red-50 bg-opacity-0 bg-gray-50 mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="type_evenement" class="block text-sm text-purple-50 font-bold">Type
+                        Evenement*</label>
+                    <select id="type_evenement" name="type_evenement" required
+                            class="bg-gray-50 bg-opacity-0 text-red-50 mt-1 block w-full px-3 py-2 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
+                        <option value="" disabled selected>Choisissez un type d'évènement</option>
+                        <option class="text-gray-800" th:each="type : ${typeEvenementEnumValues}" th:value="${type}"
+                                th:text="${type}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="debut_evenement" class="block text-sm text-purple-50 font-bold">Date de Début*</label>
+                    <input type="date" id="debut_evenement" name="debut_evenement" required max="2025-12-31"
+                           onchange="validateDates()"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
+                </div>
+                <p id="date-error-1" class="text-xs italic text-red-700 mt-2"></p>
+                <div class="mb-3">
+                    <label for="fin_evenement" class="block text-sm text-purple-50 font-bold">Date de Fin*</label>
+                    <input type="date" id="fin_evenement" name="fin_evenement" required max="2025-12-31"
+                           onchange="validateDates()"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 mt-1 block w-full px-3 py-2 border-2 border-red-50 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
+                </div>
+                <p id="date-error-2" class="text-xs italic text-red-700 mt-2 "></p>
+                <div class="flex justify-end">
+                    <button type="button" onclick="nextStep()"
+                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        Suivant
                     </button>
                 </div>
             </div>
-            <div class="flex justify-between">
-                <button type="button" onclick="previousStep()"
-                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    Précédent
-                </button>
-                <button type="button" onclick="nextStep()"
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                    Suivant
-                </button>
+            <!-- Step 2 -->
+            <div class="step hidden">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre événement !
+                </div>
+                <div class="mb-3">
+                    <label for="nb_place_evenement" class="block text-sm text-purple-50 font-bold mb-2">Nombre de
+                        place</label>
+                    <input type="number" id="nb_place_evenement" name="nb_place_evenement" required
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-3">
+                    <label for="prix_evenement" class="block text-sm text-purple-50 font-bold mb-2">Prix
+                        evenement</label>
+                    <input type="number" id="prix_evenement" name="prix_evenement" required
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-3">
+                    <span class="block text-sm text-purple-50 font-bold mb-2">Événement Privé / Public</span>
+                    <div class="flex items-center mt-2">
+                        <button id="privateEvenementBtn" type="button" onclick="toggleEventPrivacy(true)"
+                                class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                            Privé
+                        </button>
+                        <button id="publicEvenementBtn" type="button" onclick="toggleEventPrivacy(false)"
+                                class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                            Public
+                        </button>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button type="button" onclick="previousStep()"
+                            class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Précédent
+                    </button>
+                    <button type="button" onclick="nextStep()"
+                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        Suivant
+                    </button>
+                </div>
             </div>
-        </div>
-        <!-- Step 3 -->
-        <div class="step hidden">
-            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez votre adresse !</div>
-            <div class="mb-4">
-                <label for="numero_adresse" class="block text-sm text-purple-50 font-bold mb-2">N°</label>
-                <input type="text" id="numero_adresse" name="numero_adresse"
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <label for="rue_adresse" class="block text-sm text-purple-50 font-bold mb-2">Rue</label>
-                <input type="text" id="rue_adresse" name="rue_adresse"
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <label for="ville_adresse" class="block text-sm text-purple-50 font-bold mb-2">Ville</label>
-                <input type="text" id="ville_adresse" name="ville_adresse"
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <label for="cp_adresse" class="block text-sm text-purple-50 font-bold mb-2">Code Postal</label>
-                <input type="number" id="cp_adresse" name="cp_adresse"
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <label for="pays_adresse" class="block text-sm text-purple-50 font-bold mb-2">Pays</label>
-                <input type="text" id="pays_adresse" name="pays_adresse"
-                       class="text-red-50 bg-opacity-0 bg-white border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
-            </div>
-            <div class="mb-4">
-                <span class="block text-sm text-purple-50 font-bold mb-2">Adresse Privée / Publique</span>
-                <div class="flex items-center mt-2">
-                    <button id="privateAdresseBtn" type="button" onclick="toggleAdressePrivacy(true)"
-                            class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                        </svg>
-                        Privé
+            <!-- Step 3 -->
+            <div class="step hidden">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-2 policeperso">Ajoutez votre adresse !
+                </div>
+                <div class="mb-2">
+                    <label for="numero_adresse" class="block text-sm text-purple-50 font-bold mb-2">N°</label>
+                    <input type="text" id="numero_adresse" name="numero_adresse"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-2">
+                    <label for="rue_adresse" class="block text-sm text-purple-50 font-bold mb-2">Rue</label>
+                    <input type="text" id="rue_adresse" name="rue_adresse"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-2">
+                    <label for="ville_adresse" class="block text-sm text-purple-50 font-bold mb-2">Ville</label>
+                    <input type="text" id="ville_adresse" name="ville_adresse"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-2">
+                    <label for="cp_adresse" class="block text-sm text-purple-50 font-bold mb-2">Code Postal</label>
+                    <input type="number" id="cp_adresse" name="cp_adresse"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-2">
+                    <label for="pays_adresse" class="block text-sm text-purple-50 font-bold mb-2">Pays</label>
+                    <input type="text" id="pays_adresse" name="pays_adresse"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-2">
+                    <span class="block text-sm text-purple-50 font-bold mb-2">Adresse Privée / Publique</span>
+                    <div class="flex items-center mt-2">
+                        <button id="privateAdresseBtn" type="button" onclick="toggleAdressePrivacy(true)"
+                                class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                            Privé
+                        </button>
+                        <button
+                                id="publicAdresseBtn"
+                                type="button"
+                                onclick="toggleAdressePrivacy(false)"
+                                class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-4"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            </svg>
+                            Public
+                        </button>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <button
+                            type="button"
+                            onclick="previousStep()"
+                            class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    >
+                        Précédent
                     </button>
                     <button
-                            id="publicAdresseBtn"
                             type="button"
-                            onclick="toggleAdressePrivacy(false)"
-                            class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ml-4"
+                            onclick="nextStep()"
+                            id="step3Button"
+                            class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                             stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                        </svg>
-                        Public
+                        Passer
                     </button>
                 </div>
             </div>
-            <div class="flex justify-between">
-                <button
-                        type="button"
-                        onclick="previousStep()"
-                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                >
-                    Précédent
-                </button>
-                <button
-                        type="button"
-                        onclick="nextStep()"
-                        id="step3Button"
-                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                >
-                    Passer
-                </button>
+            <!-- Step 4 -->
+            <div class="step hidden">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez des artistes !</div>
+                <div class="flex item-center justify-center mt-10">
+                    <div class="rounded-xl w-fit h-fit border-red-50 border hover:bg-gray-100 hover:bg-opacity-50"
+                         onclick="openModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                             stroke-width="1.5" class="h-44 w-44">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#3b82f6"/>
+                                    <stop offset="100%" stop-color="#8b5cf6"/>
+                                </linearGradient>
+                            </defs>
+                            <path stroke="url(#gradient)" stroke-linecap="round" stroke-linejoin="round"
+                                  d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="flex justify-between mt-8">
+                    <button
+                            type="button"
+                            onclick="previousStep()"
+                            class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                    >
+                        Précédent
+                    </button>
+                    <button
+                            type="button"
+                            onclick="nextStep()"
+                            id="step4Button"
+                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                    >
+                        Continuer
+                    </button>
+                </div>
             </div>
-        </div>
-        <!-- Step 4 -->
-        <div class="step hidden">
-            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez des artistes !</div>
-            <div class="flex item-center justify-center mt-10">
-                <div class="rounded-xl w-fit h-fit border-red-50 border hover:bg-gray-100 hover:bg-opacity-50" onclick="openModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                         stroke-width="1.5" class="h-44 w-44">
-                        <defs>
-                            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#3b82f6"/>
-                                <stop offset="100%" stop-color="#8b5cf6"/>
-                            </linearGradient>
-                        </defs>
-                        <path stroke="url(#gradient)" stroke-linecap="round" stroke-linejoin="round"
-                              d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766"/>
-                    </svg>
+            <!-- Step 5  -->
+            <div class="step hidden">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez d'autres infos !
+                </div>
+                <div class="mb-4">
+                    <label for="pdpEvenementMultiPart" class="block text-sm text-purple-50 font-bold mb-2">Ajouter photo
+                        de
+                        couverture</label>
+                    <div class="flex items-center justify-center">
+                        <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
+                               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-red-50 shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <button type="button"
+                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        Créer une playlist
+                    </button>
+                </div>
+                <div class="mb-4">
+                    <button type="button"
+                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        Créer une liste de covoiturage
+                    </button>
+                </div>
+                <div class="flex justify-between mt-5">
+                    <button type="button" onclick="previousStep()"
+                            class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                        Précédent
+                    </button>
+                    <button type="submit"
+                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                        Ajouter l'événement
+                    </button>
                 </div>
             </div>
 
-            <div class="flex justify-between mt-8">
-                <button
-                        type="button"
-                        onclick="previousStep()"
-                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-                >
-                    Précédent
-                </button>
-                <button
-                        type="button"
-                        onclick="nextStep()"
-                        id="step4Button"
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-                >
-                    Continuer
-                </button>
-            </div>
-        </div>
-        <!-- Step 5  -->
-        <div class="step hidden">
-            <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Ajoutez d'autres infos !</div>
-            <div class="mb-4">
-                <label for="pdpEvenementMultiPart" class="block text-sm text-purple-50 font-bold mb-2">Ajouter photo de
-                    couverture</label>
-                <div class="flex items-center justify-center">
-                    <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md text-red-50 shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
-                </div>
-            </div>
-            <div class="mb-4">
-                <button type="button"
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                    Créer une playlist
-                </button>
-            </div>
-            <div class="mb-4">
-                <button type="button"
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                    Créer une liste de covoiturage
-                </button>
-            </div>
-            <div class="flex justify-between mt-5">
-                <button type="button" onclick="previousStep()"
-                        class="mt-2 px-4 py-2 bg-gray-500 text-white rounded-md shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                    Précédent
-                </button>
-                <button type="submit"
-                        class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                    Ajouter l'événement
-                </button>
-            </div>
-        </div>
+            <input type="hidden" id="public_evenement" name="public_evenement" value="false">
+            <input type="hidden" id="public_adresse" name="public_adresse" value="false">
+            <input type="hidden" id="selectedArtistIdsInput" name="selectedArtistIdsInput">
+        </form>
+    </div>
+    <!-- Modal -->
 
-        <input type="hidden" id="public_evenement" name="public_evenement" value="false">
-        <input type="hidden" id="public_adresse" name="public_adresse" value="false">
-        <input type="hidden" id="selectedArtistIdsInput" name="selectedArtistIdsInput">
-    </form>
-</div>
-<!-- Modal -->
-
-<div id="artistModal" class="modal flex">
+    <div id="artistModal" class="modal flex">
     <span class="close mb-auto mt-20" onclick="closeModal()">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
              stroke-width="3" stroke="white" class="size-9">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12"/>
         </svg>
     </span>
-    <div class="bg-gray-200 bg-opacity-80 rounded-lg relative shadow h-2/3 w-1/2 ml-10 overflow-y-auto flex flex-wrap pt-2 pb-7">
-        <input type="text" id="searchBar" placeholder="Rechercher un artiste..." class="mt-4 ml-48 mx-auto p-2 bg-purple-50 border border-gray-300 rounded-md w-1/2 h-10">
-        <div th:each="artiste, iterStat : ${artistes}"
-             th:id="${artiste.nom_artiste}"
-             class="mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-br from-blue-400/60 to-purple-600/60 h-28 w-72 shadow artist"
-             th:data-id="${artiste.id_artiste}">
-            <div class="flex h-full w-full" onclick="makeSelect(this)">
-                <img class="object-cover rounded-full h-20 w-20 mt-4 ml-3" alt=""
-                     th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}"/>
-                <span class="ml-10 text-2xl font-bold text-red-50 policeperso mt-10" th:value="${artiste.id_artiste}"
-                      th:text="${artiste.nom_artiste}"></span>
+        <div class="bg-gray-200 bg-opacity-80 rounded-lg relative shadow h-2/3 w-1/2 ml-10 overflow-y-auto pt-2 pb-7">
+            <div class="flex justify-center items-center">
+                <input type="text" id="searchBar" placeholder="Rechercher un artiste..."
+                       class="mt-4 mx-auto p-2 bg-purple-50 border border-gray-300 rounded-md w-1/2 h-10">
+            </div>
+            <div id="artisteContainer" class="flex flex-wrap">
+                <div th:each="artiste, iterStat : ${artistes}"
+                     th:id="${artiste.nom_artiste}"
+                     class="mt-8 mb-1 ml-16 rounded-lg bg-gradient-to-br from-blue-400/60 to-purple-600/60 h-28 w-72 shadow artist"
+                     th:data-id="${artiste.id_artiste}">
+                    <div class="flex h-full w-full" onclick="makeSelect(this)">
+                        <img class="object-cover rounded-full h-20 w-20 mt-4 ml-3" alt=""
+                             th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}"/>
+                        <span class="ml-3 text-xl font-bold text-red-50 policeperso mt-10"
+                              th:value="${artiste.id_artiste}"
+                              th:text="${artiste.nom_artiste}"></span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    <button class="mt-auto mb-24 ml-7 font-extrabold py-3 px-2 bg-green-400 text-white rounded-sm shadow-sm hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
-            type="button" onclick="closeModal()">
-        Confirmer
-    </button>
-    <div class="bg-gray-200 bg-opacity-80 p-5 rounded-lg max-w-lg h-fit w-1/4 ml-8">
-        <h2 class="text-xl text-center policeperso font-semibold text-gray-700 mb-4">Ajouter un nouvel artiste</h2>
-        <form
-                id="artisteForm"
-                action="/eventz/artiste/addartistefromevent"
-                method="post"
-                enctype="multipart/form-data"
-                target="hidden_iframe"
-                onsubmit="submitForm(event)"
-        >
-            <div class="mb-4">
-                <label
-                        for="nom_artiste"
-                        class="block text-sm font-medium text-gray-700"
-                >Nom de l'artiste</label
-                >
-                <input
-                        type="text"
-                        id="nom_artiste"
-                        name="nom_artiste"
-                        required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                />
-            </div>
-            <div class="mb-4">
-                <label
-                        for="description_artiste"
-                        class="block text-sm font-medium text-gray-700"
-                >Description</label
-                >
-                <input
-                        type="text"
-                        id="description_artiste"
-                        name="description_artiste"
-                        required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                />
-            </div>
-            <div class="mb-4">
-                <label
-                        for="pdpArtisteMultiPart"
-                        class="block text-sm font-medium text-gray-700 mb-1"
-                >Ajouter une photo d'artiste</label
-                >
-                <div class="flex">
+        <button class="mt-auto mb-24 ml-7 font-extrabold py-3 px-2 bg-green-400 text-white rounded-sm shadow-sm hover:bg-green-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-600"
+                type="button" onclick="closeModal()">
+            Confirmer
+        </button>
+        <div class="bg-gray-200 bg-opacity-80 p-5 rounded-lg max-w-lg h-fit w-1/4 ml-8">
+            <h2 class="text-xl text-center policeperso font-semibold text-gray-700 mb-4">Ajouter un nouvel artiste</h2>
+            <form
+                    id="artisteForm"
+                    action="/eventz/artiste/addartistefromevent"
+                    method="post"
+                    enctype="multipart/form-data"
+                    target="hidden_iframe"
+                    onsubmit="submitForm(event)"
+            >
+                <div class="mb-4">
+                    <label
+                            for="nom_artiste"
+                            class="block text-sm font-medium text-gray-700"
+                    >Nom de l'artiste</label
+                    >
                     <input
-                            type="file"
-                            id="pdpArtisteMultiPart"
-                            name="pdpArtisteMultiPart"
-                            accept="image/*"
-                            class="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                            type="text"
+                            id="nom_artiste"
+                            name="nom_artiste"
+                            required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
                     />
                 </div>
-                <div class="flex justify-end">
-                    <button
-                            type="submit"
-                            class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                <div class="mb-4">
+                    <label
+                            for="description_artiste"
+                            class="block text-sm font-medium text-gray-700"
+                    >Description</label
                     >
-                        Ajouter
-                    </button>
+                    <input
+                            type="text"
+                            id="description_artiste"
+                            name="description_artiste"
+                            required
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                    />
                 </div>
-            </div>
-        </form>
-        <iframe
-                id="hidden_iframe"
-                name="hidden_iframe"
-                style="display: none"
-        ></iframe>
+                <div class="mb-4">
+                    <label
+                            for="pdpArtisteMultiPart"
+                            class="block text-sm font-medium text-gray-700 mb-1"
+                    >Ajouter une photo d'artiste</label
+                    >
+                    <div class="flex">
+                        <input
+                                type="file"
+                                id="pdpArtisteMultiPart"
+                                name="pdpArtisteMultiPart"
+                                accept="image/*"
+                                class="mt-1 block w-2/3 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                        />
+                    </div>
+                    <div class="flex justify-end">
+                        <button
+                                type="submit"
+                                class="mt-4 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+                        >
+                            Ajouter
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <iframe
+                    id="hidden_iframe"
+                    name="hidden_iframe"
+                    style="display: none"
+            ></iframe>
+        </div>
     </div>
 </div>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
 <script>
     let currentStep = 0;
     toggleEventPrivacy(true);
@@ -486,7 +530,7 @@
             '<img class="object-cover rounded-full h-20 w-20 mt-4 ml-3 " alt="" src="/eventz/artiste/profile-image/' + id + '">' +
             '<span class="ml-10 text-2xl mt-10">' + name + '</span>' +
             '</div>';
-        var artisteContainer = document.querySelector('.bg-gray-200');
+        var artisteContainer = document.getElementById('artisteContainer');
         artisteContainer.insertBefore(newArtistDiv, artisteContainer.firstChild);
         makeSelect(newArtistDiv.querySelector('div'));
     }
@@ -512,7 +556,7 @@
     function validateStep() {
         const steps = document.querySelectorAll('.step');
         const currentStepForm = steps[currentStep];
-        const inputs = currentStepForm.querySelectorAll('input[required], textarea[required]');
+        const inputs = currentStepForm.querySelectorAll('input[required], textarea[required],select[required]');
         let isValid = true;
         inputs.forEach(input => {
             if (!input.value) {
@@ -656,11 +700,11 @@
             reader.readAsDataURL(event.target.files[0]);
         });
 
-    document.getElementById('searchBar').addEventListener('input', function() {
+    document.getElementById('searchBar').addEventListener('input', function () {
         let filter = this.value.toLowerCase();
         let artists = document.querySelectorAll('.artist');
 
-        artists.forEach(function(artist) {
+        artists.forEach(function (artist) {
             let name = artist.querySelector('span').innerText.toLowerCase();
             if (name.includes(filter)) {
                 artist.style.display = '';

@@ -89,6 +89,9 @@ public class EvenementService {
 
     }
 
+    public List<Evenement> findByOrganisateur(Utilisateur organisateur){
+        return evenementDAO.findByOrganisateur(organisateur);
+    }
     public Long countEvenementsByOrganisateur(Utilisateur organisateur) {
         return evenementDAO.countByOrganisateur(organisateur);
     }

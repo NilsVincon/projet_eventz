@@ -5,10 +5,42 @@
     <title>Modifier votre événement</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         textarea {
             max-height: 220px;
             resize: vertical;
+        }
+
+        body::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        body::-webkit-scrollbar-track {
+            border-radius: 8px;
+            background-color: #e7e7e7;
+            border: 1px solid #cacaca;
+        }
+
+        body::-webkit-scrollbar-thumb {
+            border-radius: 8px;
+            background-color: rgba(192, 79, 218, 0.45);
+        }
+
+        body::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(159, 49, 176, 0.7);
+        }
+
+        nav {
+            font-family: 'Dela Gothic One', sans-serif;
+        }
+
+        body {
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;
         }
 
         .hidden {
@@ -18,170 +50,206 @@
         .active {
             display: block;
         }
+
         body {
-            overflow: hidden; /* Empêche le défilement de la fenêtre principale */
+            overflow: hidden;
         }
 
 
     </style>
 </head>
-<body class="h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 to-purple-600">
-<div class="max-w-7xl w-full bg-white p-8 rounded-lg shadow-lg">
-    <div class="text-2xl font-semibold text-center mb-4">
-        Modifier l'événement !
-    </div>
-    <form id="registrationForm" action="/eventz/evenement/update" method="post" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <input type="hidden" name="id" th:value="${event.idEvenement}">
+<body class="h-screen overflow-y-auto">
+<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+<div class="flex items-center justify-center">
+    <div class="max-w-7xl w-full p-3 rounded-lg">
+        <form id="registrationForm" action="/eventz/evenement/update" method="post" enctype="multipart/form-data"
+              class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input type="hidden" name="id" th:value="${event.idEvenement}">
 
-        <!-- Informations générales -->
-        <div class="col-span-1 md:col-span-1 p-4 border rounded-lg shadow-sm">
-            <div class="text-xl font-semibold mb-2">Informations Générales</div>
-            <div class="mb-4">
-                <label for="nom_evenement" class="block text-sm font-medium text-gray-700">Nom Événement*</label>
-                <input type="text" id="nom_evenement" name="nom_evenement" th:value="${event.public_evenement}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-            </div>
-            <div class="mb-4">
-                <label for="description_evenement" class="block text-sm font-medium text-gray-700">Description</label>
-                <textarea id="description_evenement" name="description_evenement" th:text="${event.adresse.isPublic_adresse()}" rows="4"  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"></textarea>
-            </div>
-            <div class="mb-4">
-                <label for="description_type_evenement" class="block text-sm font-medium text-gray-700">Type Événement*</label>
-                <input type="text" id="description_type_evenement" name="description_type_evenement" th:value="${event.typeEvenement}" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-            </div>
-            <div class="mb-4">
-                <label for="debut_evenement" class="block text-sm font-medium text-gray-700">Date de Début*</label>
-                <input type="date" id="debut_evenement" name="debut_evenement" th:value="${event.debut_evenement}" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-            </div>
-            <div class="mb-4">
-                <label for="fin_evenement" class="block text-sm font-medium text-gray-700">Date de Fin*</label>
-                <input type="date" id="fin_evenement" name="fin_evenement" th:value="${event.fin_evenement}" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-            </div>
-        </div>
-
-
-
-        <!-- Informations supplémentaires -->
-        <div class="col-span-1 md:col-span-1 p-4 border rounded-lg shadow-sm">
-            <div class="text-xl font-semibold mb-2">Informations Supplémentaires</div>
-            <div class="mb-4">
-                <label for="nb_place_evenement" class="block text-sm font-medium text-gray-700">Nombre de place</label>
-                <input type="number" id="nb_place_evenement" name="nb_place_evenement" th:value="${event.nb_place_evenement}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-            </div>
-            <div class="mb-4">
-                <label for="prix_evenement" class="block text-sm font-medium text-gray-700">Prix événement</label>
-                <input type="number" id="prix_evenement" name="prix_evenement" th:value="${event.prix_evenement}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-            </div>
-            <div class="mb-4">
-                <span class="block text-sm font-medium text-gray-700">Événement Privé / Public</span>
-                <div class="flex items-center mt-2">
-                    <label class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                        <input type="radio" name="public_evenement" value="false" th:checked="${!event.public_evenement}" class="form-radio h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"/>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                        </svg>
-                        Privé
-                    </label>
-                    <label class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
-                        <input type="radio" name="public_evenement" value="true" th:checked="${event.public_evenement}" class="form-radio h-4 w-4 text-green-500 border-gray-300 focus:ring-green-500"/>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
-                        </svg>
-                        Public
-                    </label>
+            <!-- Informations générales -->
+            <div class="col-span-1 md:col-span-1 p-4">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Informations Générales</div>
+                <div class="mb-3">
+                    <label for="nom_evenement" class="block text-sm text-purple-50 font-bold">Nom Événement*</label>
+                    <input type="text" id="nom_evenement" name="nom_evenement" th:value="${event.nom_evenement}"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-3">
+                    <label for="description_evenement"
+                           class="block text-sm text-purple-50 font-bold">Description</label>
+                    <textarea id="description_evenement" name="description_evenement"
+                              th:text="${event.description_evenement}" rows="4"
+                              class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="description_type_evenement" class="block text-sm text-purple-50 font-bold">Type
+                        Evenement*</label>
+                    <select id="description_type_evenement" name="description_type_evenement" required
+                            class="bg-gray-50 bg-opacity-0 text-red-50 mt-1 block w-full px-3 py-2 border-2 border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm">
+                        <option class="text-gray-800" th:value="${event.typeEvenement}" selected th:text="${event.typeEvenement}"></option>
+                        <option class="text-gray-800" th:each="type : ${typeEvenementEnumValues}" th:value="${type}"
+                                th:text="${type}"></option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="debut_evenement" class="block text-sm text-purple-50 font-bold">Date de Début*</label>
+                    <input type="date" id="debut_evenement" name="debut_evenement" th:value="${event.debut_evenement}"
+                           required
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                </div>
+                <div class="mb-3">
+                    <label for="fin_evenement" class="block text-sm text-purple-50 font-bold">Date de Fin*</label>
+                    <input type="date" id="fin_evenement" name="fin_evenement" th:value="${event.fin_evenement}"
+                           required
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
                 </div>
             </div>
 
 
-        </div>
-
-        <!-- Adresse -->
-        <div class="col-span-1 md:col-span-1 p-4 border rounded-lg shadow-sm">
-            <div class="text-xl font-semibold mb-2">Adresse</div>
-            <div class="grid grid-cols-1 gap-4">
-                <div class="mb-1">
-                    <label for="numero_adresse" class="block text-sm font-medium text-gray-700">N°</label>
-                    <input type="text" id="numero_adresse" name="numero_adresse" th:value="${event.adresse.getNumero_adresse()}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
+            <!-- Informations supplémentaires -->
+            <div class="col-span-1 md:col-span-1 p-4">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Informations
+                    Supplémentaires
                 </div>
-                <div class="mb-1">
-                    <label for="rue_adresse" class="block text-sm font-medium text-gray-700">Rue</label>
-                    <input type="text" id="rue_adresse" name="rue_adresse" th:value="${event.adresse.getRue_adresse()}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
+                <div class="mb-3">
+                    <label for="nb_place_evenement" class="block text-sm text-purple-50 font-bold">Nombre de
+                        place</label>
+                    <input type="number" id="nb_place_evenement" name="nb_place_evenement"
+                           th:value="${event.nb_place_evenement}"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
                 </div>
-                <div class="mb-1">
-                    <label for="ville_adresse" class="block text-sm font-medium text-gray-700">Ville</label>
-                    <input type="text" id="ville_adresse" name="ville_adresse" th:value="${event.adresse.getVille_adresse()}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
+                <div class="mb-3">
+                    <label for="prix_evenement" class="block text-sm text-purple-50 font-bold">Prix événement</label>
+                    <input type="number" id="prix_evenement" name="prix_evenement" th:value="${event.prix_evenement}"
+                           class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
                 </div>
-                <div class="mb-1">
-                    <label for="code_postal_adresse" class="block text-sm font-medium text-gray-700">Code Postal</label>
-                    <input type="text" id="code_postal_adresse" name="code_postal_adresse" th:value="${event.adresse.getCode_postal_adresse()}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-                </div>
-                <div class="mb-1">
-                    <label for="pays_adresse" class="block text-sm font-medium text-gray-700">Pays</label>
-                    <input type="text" id="pays_adresse" name="pays_adresse" th:value="${event.adresse.getPays_adresse()}" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-                </div>
-                <div class="mt-4">
-                    <span class="block text-sm font-medium text-gray-700">Adresse Privé / Public</span>
+                <div class="mb-3">
+                    <span class="block text-sm text-purple-50 font-bold">Événement Privé / Public</span>
                     <div class="flex items-center mt-2">
                         <label class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
-                            <input type="radio" name="public_adresse" value="false" th:checked="${!event.adresse.isPublic_adresse()}" class="form-radio h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"/>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            <input type="radio" name="public_evenement" value="false"
+                                   th:checked="${!event.public_evenement}"
+                                   class="form-radio h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
                             </svg>
                             Privé
                         </label>
                         <label class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
-                            <input type="radio" name="public_adresse" value="true" th:checked="${event.adresse.isPublic_adresse()}" class="form-radio h-4 w-4 text-green-500 border-gray-300 focus:ring-green-500"/>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                            <input type="radio" name="public_evenement" value="true"
+                                   th:checked="${event.public_evenement}"
+                                   class="form-radio h-4 w-4 text-green-500 border-gray-300 focus:ring-green-500"/>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                 stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
                             </svg>
                             Public
                         </label>
                     </div>
                 </div>
 
-            </div>
-        </div>
 
-        <!-- Ajout de la photo -->
-        <div class="col-span-1 md:col-span-1 p-4 border rounded-lg shadow-sm">
-            <div class="text-xl font-semibold mb-2">Ajouter une Photo</div>
-            <div class="mb-4">
+            </div>
+
+            <!-- Adresse -->
+            <div class="col-span-1 md:col-span-1 p-4">
+                <div class="text-2xl font-bold text-purple-50 text-center mb-6 policeperso">Adresse</div>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="mb-1">
+                        <label for="numero_adresse" class="block text-sm text-purple-50 font-bold">N°</label>
+                        <input type="text" id="numero_adresse" name="numero_adresse"
+                               th:value="${event.adresse.getNumero_adresse()}"
+                               class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                    </div>
+                    <div class="mb-1">
+                        <label for="rue_adresse" class="block text-sm text-purple-50 font-bold">Rue</label>
+                        <input type="text" id="rue_adresse" name="rue_adresse"
+                               th:value="${event.adresse.getRue_adresse()}"
+                               class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                    </div>
+                    <div class="mb-1">
+                        <label for="ville_adresse" class="block text-sm text-purple-50 font-bold">Ville</label>
+                        <input type="text" id="ville_adresse" name="ville_adresse"
+                               th:value="${event.adresse.getVille_adresse()}"
+                               class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                    </div>
+                    <div class="mb-1">
+                        <label for="code_postal_adresse" class="block text-sm text-purple-50 font-bold">Code
+                            Postal</label>
+                        <input type="text" id="code_postal_adresse" name="code_postal_adresse"
+                               th:value="${event.adresse.getCode_postal_adresse()}"
+                               class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                    </div>
+                    <div class="mb-1">
+                        <label for="pays_adresse" class="block text-sm text-purple-50 font-bold">Pays</label>
+                        <input type="text" id="pays_adresse" name="pays_adresse"
+                               th:value="${event.adresse.getPays_adresse()}"
+                               class="text-red-50 bg-opacity-0 bg-gray-50 border-red-50 border-2 mt-1 block w-full px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-purple-200 focus:border-purple-500 focus:border-4 sm:text-sm"/>
+                    </div>
+                    <div class="mt-4">
+                        <span class="block text-sm text-purple-50 font-bold">Adresse Privé / Public</span>
+                        <div class="flex items-center mt-2">
+                            <label class="flex items-center cursor-pointer bg-red-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                                <input type="radio" name="public_adresse" value="false"
+                                       th:checked="${!event.adresse.isPublic_adresse()}"
+                                       class="form-radio h-4 w-4 text-red-500 border-gray-300 focus:ring-red-500"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                                </svg>
+                                Privé
+                            </label>
+                            <label class="flex items-center cursor-pointer bg-green-500 text-white px-3 py-2 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring:purple-500">
+                                <input type="radio" name="public_adresse" value="true"
+                                       th:checked="${event.adresse.isPublic_adresse()}"
+                                       class="form-radio h-4 w-4 text-green-500 border-gray-300 focus:ring-green-500"/>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     stroke-width="1.5" stroke="currentColor" class="size-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M13.5 10.5V6.75a4.5 4.5 0 1 1 9 0v3.75M3.75 21.75h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H3.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"/>
+                                </svg>
+                                Public
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Ajout de la photo -->
+            <div class="mb-4 mt-10">
                 <figure>
-                    <img th:src="${event.hasPdp() ? '/eventz/evenement/image/' + event.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" class="img-fluid profile-cover" alt="profile cover">
+                    <img id="currentEventImage"
+                         th:src="${event.hasPdp() ? '/eventz/evenement/image/' + event.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}"
+                         class="img-fluid w-80 h-48 object-cover" alt="profile cover">
                 </figure>
-                <label for="pdpEvenementMultiPart" class="block text-sm font-medium text-gray-700">Ajouter photo de couverture</label>
-                <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart"  accept="image/*" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm" />
-
-            </div>
-        </div>
-
-        <!-- Boutons de navigation -->
-        <div class="col-span-4 md:col-span-4 p-4">
-            <div class="flex justify-end">
-                <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
+                <label for="pdpEvenementMultiPart" class="mt-2 mb-2 block text-sm text-purple-50 font-bold">Ajouter photo de
+                    couverture</label>
+                <input type="file" id="pdpEvenementMultiPart" name="pdpEvenementMultiPart" accept="image/*"
+                       class="text-red-50 mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"/>
+                <button type="submit"
+                        class="mt-20 ml-16 px-4 py-2 bg-purple-600 text-white rounded-md shadow-sm hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                     Modifier l'événement
                 </button>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
 <script>
-
 
 
     document.getElementById('pdpEvenementMultiPart').addEventListener("change", function (event) {
         var reader = new FileReader();
         reader.onload = function () {
-            var output = document.getElementById("evenementImage");
-            if (!output) {
-                output = document.createElement("img");
-                output.id = "evenementImage";
-                output.className = "object-cover w-52 h-52 mt-10 ml-10";
-                output.alt = "";
-                var input = document.getElementById("pdpEvenementMultiPart");
-                input.insertAdjacentElement("afterend", output);
+            var output = document.getElementById("currentEventImage");
+            if (output) {
+                output.src = reader.result;
             }
-            output.src = reader.result;
         };
         reader.readAsDataURL(event.target.files[0]);
     });
