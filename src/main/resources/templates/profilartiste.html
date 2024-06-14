@@ -24,7 +24,7 @@
     <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
 </div>
 <div class="flex-col justify-around">
-    <div class="mt-10 ml-4 mr-auto p-6 flex flex-row items-center rounded-3xl">
+    <div class="ml-4 mr-auto p-6 flex flex-row items-center rounded-3xl">
         <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.getId_artiste()}}" alt="photo" class="rounded-full profile-img h-52 w-52 object-cover shadow-xl">
         <div class="ml-6">
             <h1 class="text-5xl text-red-50" th:text="${artiste.getNom_artiste()}"></h1>
@@ -38,7 +38,7 @@
             </form>
         </div>
     </div>
-    <div th:if="${eventAVenir.size()>0}" class="mt-6">
+    <div class="mt-6" th:if="${eventAVenir != null and eventAVenir.size() > 0}">
         <h1 class="mt-4 text-3xl text-center text-red-50">Événements à venir</h1>
         <div class="flex">
         <div th:each="eventAVenir : ${eventAVenir}"
@@ -53,7 +53,7 @@
         </div>
         </div>
     </div>
-    <div th:if="${eventPasse.size()>0}">
+    <div th:if="${eventPasse != null and eventPasse.size() > 0}">
         <h1 class="mt-4 text-3xl text-center text-red-50">Événements passés</h1>
         <div class="flex">
         <div th:each="eventPasse : ${eventPasse}"

@@ -1,8 +1,9 @@
 package com.epf.eventz.servlet;
 
 import com.epf.eventz.exception.ServiceException;
-import com.epf.eventz.model.Artiste;
-import com.epf.eventz.model.Utilisateur;
+import com.epf.eventz.model.*;
+import com.epf.eventz.service.EvenementService;
+import com.epf.eventz.service.SuivreService;
 import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.HttpServletResponse;
 import jdk.jshell.execution.Util;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -29,10 +31,14 @@ import java.util.Optional;
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
+    private final EvenementService evenementService;
+    private final SuivreService suivreService;
 
     @Autowired
-    public UtilisateurController(UtilisateurService utilisateurService) {
+    public UtilisateurController(UtilisateurService utilisateurService, EvenementService evenementService, SuivreService suivreService) {
         this.utilisateurService = utilisateurService;
+        this.evenementService=evenementService;
+        this.suivreService=suivreService;
     }
 
     @GetMapping("/listeutilisateur")
@@ -54,15 +60,29 @@ public class UtilisateurController {
             Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(utilisateurName);
             if (utilisateurOptional.isPresent())  {
                 Utilisateur utilisateur = utilisateurOptional.get();
+                List<Evenement> evenements = evenementService.findByOrganisateur(utilisateur);
+                List<Artiste> artistes=utilisateurService.trouverArtistesByUsername(utilisateur.getUsername());
+                Map<Boolean, List<Evenement>> eventz = evenementService.separerEvenementsParDate(evenements);
                 List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(utilisateur.getUsername());
                 List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(utilisateur.getUsername());
-                List<Artiste> artistes=utilisateurService.trouverArtistesByUsername(utilisateur.getUsername());
                 model.addAttribute("suiveurs", suiveurs);
                 model.addAttribute("suivis", suivis);
+                model.addAttribute("evenements", evenements);
+                model.addAttribute("eventPasse", eventz.get(false));
+                model.addAttribute("eventAVenir", eventz.get(true));
                 model.addAttribute("artistes", artistes);
                 if (authentication.getName().equals(utilisateurName)){
                     model.addAttribute("user", utilisateur);
                     return "profil_utilisateur";
+                }
+                Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+
+                if (userOptional.isPresent()) {
+                    Utilisateur user = userOptional.get();
+                    boolean isFollowing = suivreService.existsBySuiveurAndSuivi(user, utilisateur);
+                    model.addAttribute("boutonSuivre", isFollowing ? "Suivi" : "Suivre");
+                } else {
+                    model.addAttribute("boutonSuivre", "Suivre");
                 }
                 model.addAttribute("utilisateur", utilisateur);
             }
@@ -206,6 +226,34 @@ public class UtilisateurController {
         }
         return null;
     }
+
+    @PostMapping("/follow")
+    public String suivreUser(@RequestParam("id_utilisateur") Long id_utilisateur, @ModelAttribute Suivre
+            suivre) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecId(id_utilisateur);
+            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
+
+            if (utilisateurOptional.isPresent() && userOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                Utilisateur user = userOptional.get();
+                if (!suivreService.existsBySuiveurAndSuivi(user, utilisateur)) {
+                    suivre.setSuivi(utilisateur);
+                    suivre.setSuiveur(user);
+                    suivreService.creerSuivre(suivre);
+                } else {
+                    suivreService.supprimerParSuiveurEtSuivi(user, utilisateur);
+                }
+                return "redirect:/eventz/user/profil/" + utilisateur.getUsername();
+            } else {
+                return "redirect:/error";
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 
 }

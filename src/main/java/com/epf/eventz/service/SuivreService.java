@@ -3,8 +3,10 @@ package com.epf.eventz.service;
 import com.epf.eventz.dao.SuivreDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
+import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Suivre;
 import com.epf.eventz.model.Utilisateur;
+import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,5 +71,9 @@ public class SuivreService {
 
     public List<Utilisateur> findAmisByUtilisateur(Utilisateur utilisateur){
         return suivreDAO.findAmisByUtilisateur(utilisateur);
+    }
+
+    public boolean existsBySuiveurAndSuivi(Utilisateur suiveur, Utilisateur suivis){
+        return suivreDAO.existsBySuiveurAndSuivi(suiveur, suivis);
     }
 }

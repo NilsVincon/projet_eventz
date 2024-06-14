@@ -84,13 +84,8 @@
 
             // Afficher la section correspondante
             document.getElementById(sectionId).style.display = 'block';
-            window.scrollTo(0, 0);
+            window.scrollTo(0, window.innerHeight);
         }
-
-        // Fonction pour initialiser la première section visible
-        window.onload = function() {
-            showSection('abonnes-section');
-        };
     </script>
 </head>
 <body>
@@ -131,13 +126,13 @@
 <section>
     <div id="abonnes-section" class="hidden-section bg-transparent w-3/4 mx-auto" style="display: none;">
         <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-x-2 gap-y-2">
-            <div th:each="suiveur : ${suiveurs}" class="relative bg-red-50 shadow-md w-32 h-40 overflow-hidden bg-transparent">
+            <div th:each="suiveur : ${suiveurs}" class="relative mb-4 bg-red-50 shadow-md w-32 h-48 overflow-hidden bg-transparent">
                 <a th:href="@{'/eventz/user/profil/' + ${suiveur.username}}" class="no-underline text-red-500">
                     <div class="h-32">
                         <img th:src="@{'/eventz/user/profile-image/' + ${suiveur.id_utilisateur}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                     </div>
-                    <div class=" bg-transparent p-2 text-center text-white">
-                        <h1 class="text-sm font-semibold text-red-500" th:text="${suiveur.username}"></h1>
+                    <div class=" bg-transparent mb-2 text-center text-white">
+                        <h1 class="text-sm text-red-50 break-words whitespace-normal" th:text="${suiveur.username}"></h1>
                     </div>
                 </a>
             </div>
@@ -147,13 +142,13 @@
 
     <div id="abonnements-section" class="hidden-section bg-transparent w-3/4 mx-auto" style="display: none;">
         <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-x-2 gap-y-2">
-            <div th:each="suivi : ${suivis}" class="relative bg-red-50 shadow-md w-32 h-40 overflow-hidden bg-transparent">
-                <a th:href="@{'/eventz/user/profil/' + ${suivi.username}}" class="no-underline text-red-500">
+            <div th:each="suiveur : ${suivis}" class="relative mb-4 bg-red-50 shadow-md w-32 h-48 overflow-hidden bg-transparent">
+                <a th:href="@{'/eventz/user/profil/' + ${suiveur.username}}" class="no-underline text-red-500">
                     <div class="h-32">
-                        <img th:src="@{'/eventz/user/profile-image/' + ${suivi.id_utilisateur}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
+                        <img th:src="@{'/eventz/user/profile-image/' + ${suiveur.id_utilisateur}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                     </div>
-                    <div class="bg-transparent p-2 text-center text-white">
-                        <h1 class="text-sm font-semibold text-red-500" th:text="${suivi.username}"></h1>
+                    <div class=" bg-transparent mb-2 text-center text-white">
+                        <h1 class="text-sm text-red-50 break-words whitespace-normal" th:text="${suiveur.username}"></h1>
                     </div>
                 </a>
             </div>
@@ -163,13 +158,13 @@
 
     <div id="artiste-section" class="hidden-section bg-transparent w-3/4 mx-auto" style="display: none;">
         <div class="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-x-2 gap-y-2">
-            <div th:each="artiste : ${artistes}" class="relative bg-red-50 shadow-md w-32 h-40 overflow-hidden bg-transparent">
-                <a th:href="@{'/eventz/artiste/' + ${artiste.id_artiste}}" class="no-underline text-red-500">
+            <div th:each="suiveur : ${artistes}" class="relative mb-4 bg-red-50 shadow-md w-32 h-48 overflow-hidden bg-transparent">
+                <a th:href="@{'/eventz/artiste/' + ${suiveur.id_artiste}}" class="no-underline text-red-500">
                     <div class="h-32">
-                        <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.id_artiste}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
+                        <img th:src="@{'/eventz/artiste/profile-image/' + ${suiveur.id_artiste}}" alt="Avatar" class="w-full h-full object-cover rounded-lg">
                     </div>
-                    <div class="bg-transparent p-2 text-center text-white">
-                        <h1 class="text-sm font-semibold text-red-500" th:text="${artiste.nom_artiste}"></h1>
+                    <div class=" bg-transparent mb-2 text-center text-white">
+                        <h1 class="text-sm text-red-50 break-words whitespace-normal" th:text="${suiveur.nom_artiste}"></h1>
                     </div>
                 </a>
             </div>
