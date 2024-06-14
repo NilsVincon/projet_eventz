@@ -24,7 +24,7 @@ import java.util.Optional;
 public interface PrefererArtisteDAO extends JpaRepository<PrefererArtiste, Long> {
     boolean existsByArtisteAndUtilisateur(Artiste artiste, Utilisateur utilisateur);
     Optional<PrefererArtiste> findByArtisteAndUtilisateur(Artiste artiste, Utilisateur utilisateur);
-    Optional<PrefererArtiste> findByArtiste (Artiste artiste);
+    List<PrefererArtiste> findByArtiste (Artiste artiste);
 
 
 
