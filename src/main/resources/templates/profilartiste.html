@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <title th:text="${artiste.nom_artiste}"></title>
@@ -20,26 +20,29 @@
         }</style>
 </head>
 <body class="text-red-50">
-<div class="h-8">
+<section class="">
+<div class="">
     <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
 </div>
 <div class="flex-col justify-around">
     <div class="ml-4 mr-auto p-6 flex flex-row items-center rounded-3xl">
         <img th:src="@{'/eventz/artiste/profile-image/' + ${artiste.getId_artiste()}}" alt="photo" class="rounded-full profile-img h-52 w-52 object-cover shadow-xl">
-        <div class="ml-6">
+        <div class="ml-12 w-1/2">
             <h1 class="text-5xl text-red-50" th:text="${artiste.getNom_artiste()}"></h1>
-            <p class="mt-2 text-lg text-red-50 opacity-70" th:text="${artiste.getDescription_artiste()}"></p>
+            <p class="mt-2 text-lg text-red-50 opacity-70 break-words whitespace-normal" th:text="${artiste.getDescription_artiste()}"></p>
             <h1 class="text-2xl text-red-50" th:text="${typeMusique}"></h1>
         </div>
-        <div class="ml-6">
+        <div class="ml-12">
             <form action="/eventz/artiste/follow" method="post">
                 <input type="hidden" th:name="id_artiste" th:value="${artiste.id_artiste}">
                 <button type="submit" class="ml-10 mr-20 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 focus:ring-2 focus:ring-purple-900 rounded-lg text-lg px-6 py-2 text-center" th:text="${boutonSuivre}"></button>
             </form>
         </div>
     </div>
+</div>
+</section>
     <div class="mt-6" th:if="${eventAVenir != null and eventAVenir.size() > 0}">
-        <h1 class="mt-4 text-3xl text-center text-red-50">Événements à venir</h1>
+        <h1 class="mt-4 text-3xl text-center text-red-500">Événements à venir</h1>
         <div class="flex">
         <div th:each="eventAVenir : ${eventAVenir}"
              class="mb-4 relative flex justify-center items-start event hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
@@ -54,7 +57,7 @@
         </div>
     </div>
     <div th:if="${eventPasse != null and eventPasse.size() > 0}">
-        <h1 class="mt-4 text-3xl text-center text-red-50">Événements passés</h1>
+        <h1 class="mt-4 text-3xl text-center text-red-500">Événements passés</h1>
         <div class="flex">
         <div th:each="eventPasse : ${eventPasse}"
              class="overflow-x-auto mb-4 relative flex justify-center items-start event bg-gray-300 hover:bg-gray-700 bg-opacity-50 hover:opacity-70 p-15 rounded-lg text-base text-black transition duration-300 ease-in-out h-1/5 w-1/4 text-center mr-14 flex-none">
@@ -68,7 +71,6 @@
         </div>
         </div>
     </div>
-</div>
 
 <th:block th:insert="~{fragments/footer :: footer}"></th:block>
 </body>
