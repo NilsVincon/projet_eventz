@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/eventz/user")
-    @PreAuthorize("hasRole('ROLE_USER')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -121,29 +120,8 @@ public class UtilisateurController {
 
         return "profil_utilisateur";
     }
-/*
 
-    @GetMapping("/profil")
-    public String profilUser(Model model) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
-            if (userOptional.isPresent()) {
-                Utilisateur user = userOptional.get();
-                model.addAttribute("user", user);
-            } else {
-                // Gérer le cas où l'utilisateur n'est pas trouvé
-            }
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-        }
-
-        return "profil";
-    }
-*/
-
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
     public ResponseEntity<String> addUtilisateur(@RequestBody Utilisateur utilisateur) {
         try {
@@ -154,7 +132,7 @@ public class UtilisateurController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/deleteutilisateur/{utilisateurId}")
     public ResponseEntity<String> deleteUtilisateur(@PathVariable("utilisateurId") Long utilisateurId) {
         try {
@@ -165,6 +143,7 @@ public class UtilisateurController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/modifier/profil")
     public void updateProfile(
             @ModelAttribute Utilisateur utilisateur,

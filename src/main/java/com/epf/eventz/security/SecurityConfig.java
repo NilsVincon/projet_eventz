@@ -45,7 +45,7 @@ public class SecurityConfig {
                         .requestMatchers("/eventz/evenement/image/**").permitAll()
                         .requestMatchers("/static/**", "/images/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/eventz/home").permitAll()
-                        .requestMatchers("/eventz/evenement/details").permitAll()
+                        .requestMatchers("/eventz/evenement/details/**").permitAll()
                         .requestMatchers("/eventz/artiste/artiste/**").permitAll()
                         .requestMatchers("/eventz/artiste/profile-image/**").permitAll()
                         .requestMatchers("/eventz/user/profile-image/**").permitAll()
@@ -56,24 +56,6 @@ public class SecurityConfig {
         http.addFilterBefore(jwtAuthentificationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
-   /* authz
-            .shouldFilterAllDispatcherTypes(false)
-            .requestMatchers(HttpMethod.POST, "/api/registration").permitAll()
-                                        .requestMatchers(HttpMethod.GET, "/css/**", "/js/**", "/img/**" ,"/signup" ,"/").permitAll()
-                                        .anyRequest().authenticated()
-                                        .and()
-                                        .formLogin()
-                                        .loginPage("/login")
-                                        .defaultSuccessUrl("/")
-                                        .permitAll()
-                                        .and()
-                                        .rememberMe()
-                                        .and()
-                                        .logout()
-                                        .permitAll()
-                                        .deleteCookies("JSESSIONID");*/
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
