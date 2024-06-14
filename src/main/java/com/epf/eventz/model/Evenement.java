@@ -50,6 +50,9 @@ public class Evenement {
     @OneToMany(mappedBy = "evenement", cascade = CascadeType.ALL)
     private List<Participe> participes;
 
+    @OneToMany(mappedBy = "evenement")
+    private List<Noter> noters;
+
     private String nom_evenement;
     private String description_evenement;
     private LocalDate debut_evenement;

@@ -59,6 +59,8 @@ public class EvenementController {
     private ArtisteService artisteService;
     @Autowired
     private SuivreService suivreService;
+    @Autowired
+    private NoterService noterService;
 
     @GetMapping("/afficherEvenement/{evenement}")
     public String afficherEvenement(@PathVariable("evenement") String evenement, Model model) {
@@ -362,6 +364,7 @@ public class EvenementController {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
+                List<Noter> notes = noterService.findByEvenemenement(evenement);
                 if (utilisateurOptional.isPresent()) {
                     utilisateur = utilisateurOptional.get();
                     boolean participe = participeService.existsByUtilisateurAndEvenement(utilisateur, evenement);
@@ -371,6 +374,9 @@ public class EvenementController {
                 for (Performe performe : evenement.getPerformes()) {
                     artistes.add(performe.getArtiste());
                 }
+                model.addAttribute("notes", notes);
+                String moyenneNote = noterService.moyenneEvenement(notes);
+                model.addAttribute("moyenneNote", moyenneNote);
                 model.addAttribute("evenement", evenement);
                 List<Utilisateur> amis = suivreService.findAmisByUtilisateur(utilisateur);
                 List<Utilisateur> amisParticipent = participeService.findParticipantsByEvenementAndAmis(evenement, amis);

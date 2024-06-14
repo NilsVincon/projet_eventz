@@ -62,6 +62,9 @@ public class Utilisateur {
     @OneToMany(mappedBy = "utilisateur")
     private List<PrefererTypeEvenement> prefererTypeEvenements;
 
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Noter> noters;
+
     public Utilisateur(String nom_utilisateur, String prenom_utilisateur, String email_utilisateur, String password,
                        String username, String sexe_utilisateur, String role_utilisateur, LocalDate naissance_utilisateur,
                        String description_utilisateur) {

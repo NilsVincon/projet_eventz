@@ -37,6 +37,8 @@ public class FillDataBase {
     private JouerService jouerService;
     @Autowired
     private PerformeService performeService;
+    @Autowired
+    private NoterService noterService;
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -302,6 +304,10 @@ public class FillDataBase {
             performeService.creer(new Performe(technoFest, artiste4));
             performeService.creer(new Performe(technoFest, artiste5));
 
+            noterService.addNoter(new Noter(1L, utilisateur1, technoFest, 5, "super festival, j'ai adoré quand c'était cool!"));
+            noterService.addNoter(new Noter(2L, utilisateur2, technoFest, 1, "NUL festival, j'ai adoré quand c'était NUL!"));
+            noterService.addNoter(new Noter(3L, utilisateur3, technoFest, 2, "BIEN festival, j'ai adoré quand c'était BIEN!"));
+            noterService.addNoter(new Noter(4L, utilisateur4, technoFest, 3, "CACA festival, j'ai adoré quand c'était CACA LOL!"));
 
         };
     }
