@@ -31,18 +31,15 @@
         }
 
         #sidebar-wrapper {
-            z-index: 1000;
             position: fixed;
+            top: 0;
             left: 350px;
             width: 0;
-
-            margin-top: 56px;
-            height: 100%;
-            margin-left: -350px;
-
+            height: 100vh;
+            background-color: rgba(79, 24, 136, 0.59);
+            z-index: 1000;
             overflow-y: auto;
-            background: #f4f4f5;
-            transition: all 0.5s ease;
+            transition: width 0.5s ease;
         }
 
         #sidebar-wrapper {
@@ -123,11 +120,10 @@
                 position: fixed;
                 left: 350px;
                 width: 0;
-                margin-top: 56px;
                 height: 100%;
                 margin-left: -350px;
                 overflow-y: auto;
-                background: #f4f4f5;
+                background-color: rgba(79, 24, 136, 0.59);
                 transition: all 0.5s ease;
             }
 
@@ -463,52 +459,41 @@
                 <div id="sidebar-wrapper">
                     <ul class="sidebar-nav">
                         <div class="h-full w-full mr-2 ml-3 mt-2">
-                            <form class="max-w-md mx-auto">
-                                <label for="default-search"
-                                       class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                                <div class="relative">
-                                    <input type="search" id="default-search"
-                                           class="block w-11/12 h-16 p-4 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-purple-700 dark:border-purple-600 dark:placeholder-purple-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-purple-500"
-                                           placeholder="Recherche..." required/>
-                                    <button type="submit" id="search-button"
-                                            class="text-white absolute inset-y-0 right-10 bottom-3 mt-3 bg-purple-700 opacity-70 hover:bg-purple-900 hover:opacity-100 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-800">
-                                        <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                             fill="none" viewBox="0 0 20 20">
-                                            <path stroke="currentColor" stroke-linecap="round"
-                                                  stroke-linejoin="round" stroke-width="2"
-                                                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </form>
+                            <div class="relative">
+                                <input type="search" id="default-search"
+                                       class="mt-10 block w-11/12 h-10 p-4 pr-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-purple-500 focus:border-purple-500 dark:bg-purple-700 dark:border-purple-600 dark:placeholder-purple-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-purple-500"
+                                       placeholder="Recherche..." required/>
+                            </div>
                         </div>
                         <div id="plist" class="people-list">
-                            <ul class="list-unstyled mt-4 mb-0 shadow-2xl rounded-2xl">
-                                <li class="clearfix active">
+                            <ul class="list-unstyled w-11/12 ml-3 mt-4 mb-0 shadow-2xl rounded-2xl bg-gray-50 bg-opacity-75">
+                                <li class="clearfix active" data-name="Général Chat">
                                     <a href="/eventz/generalchat">
                                         <img class="rounded ml-2 mt-2 mb-2 h-24 w-24" th:src="@{/images/Eventz.png}"
                                              alt="avatar"
                                              id="eventz-logog"/>
                                         <div class="about">
-                                            <div class="name font-bold text-xl mt-4">Général Chat</div>
-                                            <div class="status"><i class="fa fa-circle online"></i>en ligne...
+                                            <div class="name font-bold text-l mt-4 text-gray-700">Général Chat</div>
+                                            <div class="status "><i class="fa fa-circle online"></i>
+                                                <span class="text-gray-600">en ligne...</span>
+
                                             </div>
                                         </div>
                                     </a>
                                 </li>
                             </ul>
-                            <ul class="list-unstyled mt-2 mb-0 shadow-2xl rounded-2xl"
+                            <ul class="list-unstyled w-11/12 ml-3 mt-4 mb-0 shadow-2xl rounded-2xl bg-gray-50 bg-opacity-75"
                                 th:if="${evenementsparticipe != null}"
                                 th:each="evenement : ${evenementsparticipe}">
-                                <li class="clearfix active">
+                                <li class="clearfix active" th:data-name="${evenement.nom_evenement}">
                                     <a th:href="@{'/eventz/eventchat/' + ${evenement.idEvenement}}">
                                         <img class="ml-2 mt-2 mb-2 h-24 w-24 rounded"
                                              th:src="${evenement.hasPdp() ? '/eventz/evenement/image/' + evenement.idEvenement : 'https://www.bootdey.com/image/450x280/87CEFA/000000'}"
                                              alt="avatar">
                                         <div class="about">
-                                            <div class="name font-bold text-xl mt-4"
+                                            <div class="name font-bold text-gray-700 text-l mt-4"
                                                  th:text="${evenement.nom_evenement} + ' '+ Chat"></div>
-                                            <div class="status"><i class="fa fa-circle online"></i>en ligne...
+                                            <div class="status text-gray-600"><i class="fa fa-circle online"></i>en ligne...
                                             </div>
                                         </div>
                                     </a>
@@ -519,8 +504,10 @@
                 </div>
             </div>
             <button class="btn-menu btn btn-toggle-menu focus:ring-purple-300 focus:ring-2" type="button">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-7 h-7 text-red-50 opacity-70">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                     stroke="currentColor" class="w-7 h-7 text-red-50 opacity-70">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z"/>
                 </svg>
             </button>
             <a href="/eventz/home" class="hover:no-underline flex items-center">
@@ -630,6 +617,22 @@
 
             dropdown.addEventListener('mouseleave', function () {
                 dropdown.classList.add('hidden');
+            });
+        });
+
+        const searchBar = document.getElementById('default-search');
+        const listItems = document.querySelectorAll('.people-list li');
+
+        searchBar.addEventListener('input', function(event) {
+            const searchTerm = event.target.value.toLowerCase();
+
+            listItems.forEach(item => {
+                const itemName = item.getAttribute('data-name').toLowerCase();
+                if (itemName.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
             });
         });
     </script>
