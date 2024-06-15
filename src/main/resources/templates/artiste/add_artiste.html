@@ -182,37 +182,38 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script>
-    const userCards = document.querySelectorAll('.nearby-user');
+    document.addEventListener('DOMContentLoaded', () => {
+        const userCards = document.querySelectorAll('.nearby-user');
+        const searchBar = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
 
-    const searchBar = document.getElementById('searchInput');
+        const filterUsers = (searchText) => {
+            const searchLowerCase = searchText.toLowerCase();
 
-    const filterUsers = (searchText) => {
-        const searchLowerCase = searchText.toLowerCase();
-
-        userCards.forEach((card) => {
-            const usernameElement = card.querySelector('.text-3xl');
-            if (usernameElement) {
-                const username = usernameElement.textContent.trim().toLowerCase();
-                if (username.includes(searchLowerCase)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
+            userCards.forEach((card) => {
+                const usernameElement = card.querySelector('.text-3xl');
+                if (usernameElement) {
+                    const username = usernameElement.textContent.trim().toLowerCase();
+                    if (username.includes(searchLowerCase)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
                 }
-            }
+            });
+        };
+
+        searchButton.addEventListener('click', () => {
+            const searchText = searchBar.value.trim();
+            filterUsers(searchText);
         });
-    };
 
-    const searchButton = document.getElementById('searchButton');
-
-    searchButton.addEventListener('click', () => {
-        const searchText = searchBar.value.trim();
-        filterUsers(searchText);
+        searchBar.addEventListener('input', (e) => {
+            const searchText = e.target.value.trim();
+            filterUsers(searchText);
+        });
     });
 
-    searchBar.addEventListener('input', (e) => {
-        const searchText = e.target.value.trim();
-        filterUsers(searchText);
-    });
 </script>
 </body>
 
