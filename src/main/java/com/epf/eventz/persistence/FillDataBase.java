@@ -136,9 +136,8 @@ public class FillDataBase {
 
 
 
-            Artiste playbloi = new Artiste("Playboi Carti", "Artiste de variété française connu pour ses envolées lyriques", ListeArtistePref, ListePerforme, ListeJouer);
-            artisteService.addArtiste(playbloi);
-            playbloi.setPdpArtiste(dominique);
+
+
             Artiste artiste1 = new Artiste("Jul","Le J c'est le S");
             artiste1.setPdpArtiste(julpdp);
             Artiste artiste2 = new Artiste("shakira"," artiste musical, you know my hips don't lie");
@@ -177,7 +176,7 @@ public class FillDataBase {
             Utilisateur utilisateur7 = new Utilisateur("polia", "dominique", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "dominique", "Femme", "USER", LocalDate.of(2001, 3, 5), " médecin cardiologue  ");
             utilisateur7.setPdpUtilisateur(dominique);
             Utilisateur utilisateur8 = new Utilisateur("vincon", "nils", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "nils", "Homme", "USER", LocalDate.of(2001, 3, 5), " médecin cardiologue  ");
-            utilisateur7.setPdpUtilisateur(nilspdp);
+            utilisateur8.setPdpUtilisateur(nilspdp);
             utilisateurService.creerUtilisateur(utilisateur8);
 
             utilisateurService.creerUtilisateur(utilisateur7);
@@ -210,19 +209,15 @@ public class FillDataBase {
 
 
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste2, utilisateur1));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, utilisateur1));
+
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste1, utilisateur1));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste3, utilisateur2));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, utilisateur2));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste5, utilisateur2));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste2, utilisateur3));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, utilisateur3));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste4, utilisateur3));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste3, utilisateur4));
-                prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, utilisateur4));
                 prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste2, utilisateur4));
             prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste3, utilisateur7));
-            prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(playbloi, utilisateur7));
             prefererArtisteService.creerPrefererArtiste(new PrefererArtiste(artiste2, utilisateur7));
 
 
