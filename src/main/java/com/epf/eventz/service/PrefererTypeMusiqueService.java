@@ -26,20 +26,4 @@ public class PrefererTypeMusiqueService {
     public void supprimerPrefererTypeMusique(PrefererTypeMusique prefererTypeMusique) throws ServiceException {
         prefererTypeMusiqueDAO.delete(prefererTypeMusique);
     }
-
-//    public List<PrefererTypeMusique> trouverPrefererTypeMusiqueByUtilisateur(int id_utilisateur) throws ServiceException {
-//        try {
-//            return prefererTypeMusiqueDAO.trouverPrefererTypeMusiqueByUtilisateur(id_utilisateur);
-//        } catch (DAOException e) {
-//            throw new ServiceException("Erreur recherche préférence type de musique par utilisateur");
-//        }
-//    }
-//
-//    public List<PrefererTypeMusique> trouverPrefererTypeMusiqueByTypeMusique(int id_type_musique) throws ServiceException {
-//        try {
-//            return prefererTypeMusiqueDAO.trouverPrefererTypeMusiqueByTypeMusique(id_type_musique);
-//        } catch (DAOException e) {
-//            throw new ServiceException("Erreur recherche préférence type de musique par type de musique");
-//        }
-//    }
 }

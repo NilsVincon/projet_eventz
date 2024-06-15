@@ -29,7 +29,7 @@
         #today {
             position: absolute;
             top: 37px;
-            left: 90px; /* Ajustez selon vos besoins */
+            left: 90px;
         }
 
         #create {
@@ -257,11 +257,6 @@
         .margin-10px-right {
             margin-right: 10px;
         }
-
-        /*****************************/
-        /* MESSAGE BOX RELATED CLASS */
-        /*          (START)          */
-        /*****************************/
         .msgbox-area {
             font-size: inherit;
             max-height: 100%;
@@ -386,7 +381,7 @@
 
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}, data-connexion=${connexion}"></div>
-<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+<div th:insert="~{fragments/navbar :: nav}"></div>
 
 
 <div class="p-4 rounded-lg w-full max-w-2xl mx-auto z-50 justify-between flex">

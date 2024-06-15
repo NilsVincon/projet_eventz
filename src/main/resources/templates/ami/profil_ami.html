@@ -53,7 +53,6 @@
 
     <script>
         function showSection(sectionId) {
-            // Supprime la classe active de tous les boutons
             var buttons = document.querySelectorAll('.btn-group-custom button');
             buttons.forEach(function (button) {
                 button.classList.remove('active');
@@ -76,7 +75,7 @@
 </head>
 <body>
 <section class="h-screen w-full relative">
-    <div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+    <div th:insert="~{fragments/navbar :: nav}"></div>
     <div class="w-full items-center bg-transparent">
         <div class="ml-4 mr-auto p-6 flex flex-row items-center rounded-3xl">
             <img th:src="@{'/eventz/user/profile-image/' + ${utilisateur.id_utilisateur}}" alt="photo"

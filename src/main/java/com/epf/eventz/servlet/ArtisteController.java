@@ -8,7 +8,6 @@ import com.epf.eventz.service.EvenementService;
 import com.epf.eventz.service.UtilisateurService;
 import com.epf.eventz.model.*;
 import com.epf.eventz.service.PrefererArtisteService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -76,10 +75,8 @@ public class ArtisteController {
             artisteService.addArtiste(artiste);
             Long artisteId = artiste.getId_artiste();
             String artisteName = artiste.getNom_artiste();
-            log.info(artiste.getNom_artiste()+" à bien été ajouté");
             return ResponseEntity.ok("success," + artisteId + "," + artisteName);
         } catch (Exception e) {
-            log.error("Erreur lors de l'ajout de l'evenement", e);
             return ResponseEntity.status(500).body("error");
         }
     }
@@ -141,7 +138,7 @@ public class ArtisteController {
                 throw new ServiceException(e.getMessage());
             }
 
-            return "profilartiste";
+            return "artiste/profilartiste";
         } else {
             return "redirect:/error";
         }
@@ -167,7 +164,7 @@ public class ArtisteController {
         } catch (Exception e) {
             model.addAttribute("message", e.getMessage());
         }
-        return "add_artiste";
+        return "artiste/add_artiste";
     }
     @PostMapping("/followw")
     public String suivreArtiste_add(@RequestParam("id_artiste") Long id_artiste, @ModelAttribute PrefererArtiste prefererArtiste) {

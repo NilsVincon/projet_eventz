@@ -64,7 +64,7 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
             for (Cookie cookie : cookies) {
                 if ("JwtToken".equals(cookie.getName())) {
                     token = cookie.getValue();
-                    if (jwtGenerator.isTokenExpired(token) && jwtGenerator.isAdressIpcorrect(token, request)) { //PERMET D'ETENDRE LA DUREE DE LA SESSION
+                    if (jwtGenerator.isTokenExpired(token) && jwtGenerator.isAdressIpcorrect(token, request)) {
                         jwtService.setLogoutStatusByValue(token, false);
                         String username = jwtGenerator.getUsernameFromExpiredJwt(token);
                         Optional<Utilisateur> utilisateurOptional = utilisateurDAO.findByUsername(username);
@@ -80,7 +80,6 @@ public class JwtAuthentificationFilter extends OncePerRequestFilter {
                             token = jwtGenerator.generateToken(authenticationToken, request);
                             String cookieString = String.format("JwtToken=%s; SameSite=Strict; HttpOnly; Secure; Path=/", token);
                             response.addHeader("Set-Cookie", cookieString);
-                            logger.info("Nouveau token créé !");
                         }
                     }
                     try {

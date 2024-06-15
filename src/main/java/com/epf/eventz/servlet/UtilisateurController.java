@@ -6,7 +6,6 @@ import com.epf.eventz.service.EvenementService;
 import com.epf.eventz.service.SuivreService;
 import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.HttpServletResponse;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,7 +23,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/eventz/user")
@@ -77,7 +75,7 @@ public class UtilisateurController {
                 model.addAttribute("artistes", artistes);
                 if (authentication.getName().equals(utilisateurName)){
                     model.addAttribute("user", utilisateur);
-                    return "profil_utilisateur";
+                    return "utilisateur/profil_utilisateur";
                 }
                 Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
 
@@ -94,7 +92,7 @@ public class UtilisateurController {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "profil_ami";
+        return "ami/profil_ami";
     }
 
 
@@ -118,7 +116,7 @@ public class UtilisateurController {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "profil_utilisateur";
+        return "utilisateur/profil_utilisateur";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -158,21 +156,17 @@ public class UtilisateurController {
 
             if (userOptional.isPresent()) {
                 Utilisateur existingUser = userOptional.get();
-                // Mettre à jour les champs du profil avec les nouvelles valeurs
                 existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
                 existingUser.setNom_utilisateur(utilisateur.getNom_utilisateur());
                 existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
                 existingUser.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
                 existingUser.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
                 existingUser.setUsername(utilisateur.getUsername());
-
-                // Gérer la mise à jour de l'image de profil
                 if (!pdpUtilisateurInput.isEmpty()) {
                     byte[] pdpBytes = pdpUtilisateurInput.getBytes();
                     existingUser.setPdpUtilisateur(pdpBytes);
                 }
 
-                // Appeler le service pour mettre à jour l'utilisateur
                 utilisateurService.modifierUtilisateur((long) existingUser.getId_utilisateur(), existingUser);
 
                 response.setHeader("Location", "/eventz/user/profil");
@@ -190,7 +184,7 @@ public class UtilisateurController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/modifier/profil")
     public String modifierProfilUser() throws ServiceException {
-        return "modifierProfil";
+        return "utilisateur/modifierProfil";
     }
 
     @GetMapping("/profile-image/{userId}")

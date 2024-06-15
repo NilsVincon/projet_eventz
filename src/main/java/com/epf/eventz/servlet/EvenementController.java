@@ -14,18 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -38,7 +34,6 @@ import java.util.Optional;
 @Slf4j
 @RequestMapping("/eventz/evenement")
 public class EvenementController {
-    /*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
     @Autowired
     private EvenementService evenementService;
     @Autowired
@@ -96,7 +91,7 @@ public class EvenementController {
                 model.addAttribute("mesevenements", mesevenements);
             }
         }
-        return "events/mes_evenements";
+        return "evenement/mes_evenements";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -121,7 +116,7 @@ public class EvenementController {
                 model.addAttribute("mesevenements", new ArrayList<>(mesEvenements));
             }
         }
-        return "events/mes_evenements";
+        return "evenement/mes_evenements";
 
     }
 
@@ -140,7 +135,7 @@ public class EvenementController {
             throw new RuntimeException(e);
         }
 
-        return "add_event";
+        return "evenement/add_event";
     }
 
 
@@ -214,7 +209,6 @@ public class EvenementController {
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
         } catch (Exception e) {
-            log.error("Erreur lors de l'ajout de l'evenement", e);
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
     }
@@ -267,7 +261,6 @@ public class EvenementController {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement existingevenement = evenementOptional.get();
-                //Si l'évenement passe de public à privé, on envoie un mail
                 if (existingevenement.getPublic_evenement() && !evenement.getPublic_evenement()) {
                     String subject = "Votre nouvel évènement privé : " + evenement.getNom_evenement();
                     String lienEvenement = "http://localhost:8080/eventz/evenement/details?id=" + evenement.getIdEvenement();
@@ -387,7 +380,7 @@ public class EvenementController {
                 long nb_orga = evenementService.countEvenementsByOrganisateur(evenement.getOrganisateur());
                 model.addAttribute("nb_orga", nb_orga);
                 model.addAttribute("artistes", artistes);
-                return "detail_evenement";
+                return "evenement/detail_evenement";
             } else {
                 return "redirect:/error-500";
             }

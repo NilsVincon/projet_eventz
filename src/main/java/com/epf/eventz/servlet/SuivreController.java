@@ -1,8 +1,6 @@
 package com.epf.eventz.servlet;
 
 import com.epf.eventz.exception.ServiceException;
-import com.epf.eventz.model.Artiste;
-import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Suivre;
 import com.epf.eventz.model.Utilisateur;
 import com.epf.eventz.service.SuivreService;
@@ -85,7 +83,6 @@ public class SuivreController {
             model.addAttribute("nombreAmis", nombreAmis);
             model.addAttribute("amis", utilisateursAmis);
 
-            // Ajout des abonnés et abonnements
             List<Utilisateur> abonnements = null;
             List<Utilisateur> abonnes = null;
             try {
@@ -103,7 +100,7 @@ public class SuivreController {
             model.addAttribute("abonnements", abonnements);
             model.addAttribute("abonnes", abonnes);
         }
-        return "add_friend";
+        return "ami/add_friend";
     }
 
 
@@ -150,7 +147,6 @@ public class SuivreController {
             if (utilisateursuiviOptional.isPresent() && utilisateursuiveurOptional.isPresent()) {
                 Utilisateur utilisateursuivi = utilisateursuiviOptional.get();
                 Utilisateur utilisateursuiveur = utilisateursuiveurOptional.get();
-                log.info("NDQSOVNSOQVNO //// :"+utilisateursuiveur.equals(utilisateursuivi));
                 if (!suivreService.existsParSuiveurEtSuivi(utilisateursuiveur, utilisateursuivi) && !utilisateursuiveur.equals(utilisateursuivi)) {
                     suivreService.creerSuivre(new Suivre(utilisateursuiveur, utilisateursuivi));
                     response.setHeader("Location", "/eventz/friend/add");
@@ -158,7 +154,6 @@ public class SuivreController {
                 } else {
                     response.setHeader("Location", "/error/addfriendimpossible");
                     response.setStatus(HttpStatus.FOUND.value());
-                    //afficher une notif comme quoi on suit déjà cet utilisateur
                 }
             }
         } catch (ServiceException e) {
@@ -183,7 +178,6 @@ public class SuivreController {
                 } else {
                     response.setHeader("Location", "/error/removefriendimpossible");
                     response.setStatus(HttpStatus.FOUND.value());
-                    // afficher une notif comme quoi l'utilisateur ne suit pas cette personne
                 }
             }
         } catch (ServiceException e) {
