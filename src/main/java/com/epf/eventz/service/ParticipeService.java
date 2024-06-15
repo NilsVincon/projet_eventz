@@ -8,6 +8,7 @@ import com.epf.eventz.model.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -21,7 +22,9 @@ public class ParticipeService {
     }
 
     public void addParticipe(Participe participe){
-        participeDAO.save(participe);
+        if (!participe.getEvenement().getFin_evenement().isBefore(LocalDate.now())){
+            participeDAO.save(participe);
+        }
     }
 
     public void deleteParticipe(Participe participe){
