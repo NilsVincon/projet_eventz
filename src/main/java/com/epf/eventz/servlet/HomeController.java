@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -58,6 +60,10 @@ public class HomeController {
                 }
             }
             List<Evenement> evenements = evenementService.findAllEvenements();
+            LocalDate now = LocalDate.now();
+            evenements.stream()
+                    .filter(evenement -> evenement.getDebut_evenement().isAfter(now))
+                    .collect(Collectors.toList());
             model.addAttribute("evenements", evenements);
             List<TypeEvenement> typeEvenements = typeEvenementService.trouverTousTypeEvenements();
             Set<TypeEvenement> uniqueEventTypes = new HashSet<>(typeEvenements);
