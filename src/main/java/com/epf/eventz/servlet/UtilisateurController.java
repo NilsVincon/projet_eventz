@@ -6,7 +6,6 @@ import com.epf.eventz.service.EvenementService;
 import com.epf.eventz.service.SuivreService;
 import com.epf.eventz.service.UtilisateurService;
 import jakarta.servlet.http.HttpServletResponse;
-import jdk.jshell.execution.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +26,6 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/eventz/user")
-    @PreAuthorize("hasRole('ROLE_USER')")
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
@@ -65,15 +63,19 @@ public class UtilisateurController {
                 Map<Boolean, List<Evenement>> eventz = evenementService.separerEvenementsParDate(evenements);
                 List<Utilisateur> suiveurs = utilisateurService.trouverAbonnesByUsername(utilisateur.getUsername());
                 List<Utilisateur> suivis = utilisateurService.trouverAbonnementByUsername(utilisateur.getUsername());
+                List<Utilisateur> communs = suiveurs.stream()
+                        .filter(utilisateurService.trouverAbonnementByUsername(authentication.getName())::contains)
+                        .toList();
                 model.addAttribute("suiveurs", suiveurs);
                 model.addAttribute("suivis", suivis);
+                model.addAttribute("communs", communs);
                 model.addAttribute("evenements", evenements);
                 model.addAttribute("eventPasse", eventz.get(false));
                 model.addAttribute("eventAVenir", eventz.get(true));
                 model.addAttribute("artistes", artistes);
                 if (authentication.getName().equals(utilisateurName)){
                     model.addAttribute("user", utilisateur);
-                    return "profil_utilisateur";
+                    return "utilisateur/profil_utilisateur";
                 }
                 Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(authentication.getName());
 
@@ -90,7 +92,7 @@ public class UtilisateurController {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "profil_ami";
+        return "ami/profil_ami";
     }
 
 
@@ -114,31 +116,10 @@ public class UtilisateurController {
             model.addAttribute("message", e.getMessage());
         }
 
-        return "profil_utilisateur";
+        return "utilisateur/profil_utilisateur";
     }
-/*
 
-    @GetMapping("/profil")
-    public String profilUser(Model model) {
-        try {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String username = authentication.getName();
-            Optional<Utilisateur> userOptional = utilisateurService.trouverUtilisateurAvecname(username);
-            if (userOptional.isPresent()) {
-                Utilisateur user = userOptional.get();
-                model.addAttribute("user", user);
-            } else {
-                // Gérer le cas où l'utilisateur n'est pas trouvé
-            }
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
-        }
-
-        return "profil";
-    }
-*/
-
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/add")
     public ResponseEntity<String> addUtilisateur(@RequestBody Utilisateur utilisateur) {
         try {
@@ -149,7 +130,7 @@ public class UtilisateurController {
         }
     }
 
-
+    @PreAuthorize("hasRole('ROLE_USER')")
     @DeleteMapping(path = "/deleteutilisateur/{utilisateurId}")
     public ResponseEntity<String> deleteUtilisateur(@PathVariable("utilisateurId") Long utilisateurId) {
         try {
@@ -160,6 +141,7 @@ public class UtilisateurController {
         }
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/modifier/profil")
     public void updateProfile(
             @ModelAttribute Utilisateur utilisateur,
@@ -174,21 +156,17 @@ public class UtilisateurController {
 
             if (userOptional.isPresent()) {
                 Utilisateur existingUser = userOptional.get();
-                // Mettre à jour les champs du profil avec les nouvelles valeurs
                 existingUser.setPrenom_utilisateur(utilisateur.getPrenom_utilisateur());
                 existingUser.setNom_utilisateur(utilisateur.getNom_utilisateur());
                 existingUser.setNaissance_utilisateur(utilisateur.getNaissance_utilisateur());
                 existingUser.setSexe_utilisateur(utilisateur.getSexe_utilisateur());
                 existingUser.setDescription_utilisateur(utilisateur.getDescription_utilisateur());
                 existingUser.setUsername(utilisateur.getUsername());
-
-                // Gérer la mise à jour de l'image de profil
                 if (!pdpUtilisateurInput.isEmpty()) {
                     byte[] pdpBytes = pdpUtilisateurInput.getBytes();
                     existingUser.setPdpUtilisateur(pdpBytes);
                 }
 
-                // Appeler le service pour mettre à jour l'utilisateur
                 utilisateurService.modifierUtilisateur((long) existingUser.getId_utilisateur(), existingUser);
 
                 response.setHeader("Location", "/eventz/user/profil");
@@ -206,7 +184,7 @@ public class UtilisateurController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("/modifier/profil")
     public String modifierProfilUser() throws ServiceException {
-        return "modifierProfil";
+        return "utilisateur/modifierProfil";
     }
 
     @GetMapping("/profile-image/{userId}")

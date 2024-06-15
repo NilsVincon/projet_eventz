@@ -109,10 +109,6 @@ public class AuthentificationController {
     @PostMapping(value = "register", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     @ResponseStatus(HttpStatus.FOUND)
     public void inscription(@ModelAttribute Utilisateur utilisateur, HttpServletResponse response) {
-        log.info("Utilisateur récupéré : " + utilisateur);
-        if (userDAO.existsByUsername(utilisateur.getUsername())) {
-            log.error("Username is taken");
-        }
         utilisateur.setPassword(passwordEncoder.encode(utilisateur.getPassword()));
         if (Objects.equals(utilisateur.getRole_utilisateur(), "ADMIN")) {
             utilisateur.setRole_utilisateur("ADMIN,USER");

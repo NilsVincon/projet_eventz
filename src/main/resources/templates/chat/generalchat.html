@@ -6,11 +6,21 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
 
-        /* Pour les navigateurs Webkit (Chrome, Safari) */
-        ::-webkit-scrollbar-button {
-            display: none;
+        .policeperso {
+            font-family: 'Dela Gothic One', sans-serif;
         }
 
+
+        body {
+            background-image: url("/images/BG.png");
+            background-size: cover;
+            background-repeat: repeat-y;
+            background-attachment: scroll;
+            height: 100%;
+            margin: 0;
+        }
+
+        /* Styles pour la barre de défilement */
         ::-webkit-scrollbar {
             width: 0 !important;
             height: 8px;
@@ -30,18 +40,12 @@
             background-color: #888;
         }
 
-        /* Pour Firefox */
         * {
             scrollbar-width: thin;
             scrollbar-color: #555 transparent;
         }
 
-        /* Pour Firefox */
-        * {
-            scrollbar-width: thin;
-            scrollbar-color: #555 transparent; /* Couleur de la barre de défilement et du track */
-        }
-
+        /* Style personnalisé pour l'ombre */
         .shadow-custom {
             --tw-shadow: 0 0 5vw 0vw rgb(8, 75, 117),
             0 0 1vw 0.4vw rgb(38, 55, 173),
@@ -53,17 +57,27 @@
     </style>
 </head>
 <body class="h-screen m-0 p-0 font-sans text-base leading-relaxed bg-gray-900">
+<div class="absolute top-3 left-4 ">
+    <a th:href="@{/eventz/home}" class="hover:no-underline">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+             class="h-10 w-10 text-red-50 hover:text-red-100">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+        </svg>
+    </a>
+</div>
+
 <noscript>
     <h2 class="text-center">Sorry! Your browser doesn't support Javascript</h2>
 </noscript>
-<div id="chat-page" class="flex items-center justify-center h-screen w-full">
-    <div class="chat-container bg-gradient-to-br from-sky-900 to-indigo-900 shadow-custom w-full h-full m-10 rounded-3xl flex flex-col">
+<div id="chat-page" class="flex justify-center h-full w-full">
+    <div class="w-11/12 h-11/12 bg-gradient-to-br from-sky-900 to-indigo-900 shadow-custom m-10 rounded-3xl flex flex-col">
         <input type="hidden" id="username" th:value="${user.username}"/>
         <input type="hidden" id="userId" th:value="${user.id_utilisateur}"/>
         <div class="flex items-center relative">
             <img th:src="@{/images/Eventz.png}" alt="Eventz Logo" id="eventz-logo" class="w-24 object-cover p-4"/>
-            <h2 class="text-5xl text-blue-100 font-extrabold absolute left-1/2 transform -translate-x-1/2">General
-                Chat</h2>
+            <h2 class="text-5xl text-blue-100 policeperso font-extrabold absolute left-1/2 transform -translate-x-1/2">
+                General Chat</h2>
         </div>
         <div class="connecting pt-2 text-center text-blue-100 w-full">
             Connecting...
@@ -74,15 +88,12 @@
                     th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
                     <div th:if="${message.type != 'JOIN' && message.type != 'LEAVE'}" class="flex items-center py-3">
                         <div class="flex-shrink-0">
-                            <!--<a th:href=#>-->
                             <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}"
                                  alt="Profile Picture"
                                  class="w-14 h-14 object-cover rounded-full">
-                            <!--</a>-->
                         </div>
                         <div class="ml-2">
-                            <span th:text="${user.username}" class="font-extrabold text-blue-100">
-                            </span>
+                            <span th:text="${user.username}" class="font-extrabold text-blue-100"></span>
                             <p th:text="${message.type == 'JOIN' ? message.sender + ' a rejoint!' : message.type == 'LEAVE' ? message.sender + ' est parti!' : message.content}"
                                class="text-blue-100"></p>
                         </div>
@@ -101,7 +112,7 @@
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                  stroke="currentColor" class="w-7 h-7">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/>
+                                      d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
                             </svg>
                         </button>
                     </div>

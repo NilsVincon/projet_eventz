@@ -37,6 +37,8 @@ public class FillDataBase {
     private JouerService jouerService;
     @Autowired
     private PerformeService performeService;
+    @Autowired
+    private NoterService noterService;
 
     BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -243,7 +245,7 @@ public class FillDataBase {
             statutEvenementService.creerStatut(statutEvenementTechnoFest);
 
             Evenement technoFest = new Evenement("TechnoFest", "Le festival de techno le plus attendu de l'année",
-                    LocalDate.of(2024, 7, 15), LocalDate.of(2024, 7, 20),
+                    LocalDate.of(2024, 6, 13), LocalDate.of(2024, 7, 20),
                     40.0f, 800, true);
             technoFest.setAdresse(adresseTechnoFest);
             technoFest.setTypeEvenement(typeEvenementTechnoFest);
@@ -335,7 +337,9 @@ public class FillDataBase {
             indieFest.setOrganisateur(utilisateur3);
             indieFest.setPublic_evenement(true);
             evenementService.addEvenement(indieFest);
+
             participeService.addParticipe(new Participe(technoFest, utilisateur1));
+
             participeService.addParticipe(new Participe(technoFest, utilisateur3));
             participeService.addParticipe(new Participe(technoFest, utilisateur2));
             participeService.addParticipe(new Participe(technoFest, utilisateur5));
@@ -347,6 +351,7 @@ public class FillDataBase {
             performeService.creer(new Performe(technoFest, artiste3));
             performeService.creer(new Performe(technoFest, artiste4));
             performeService.creer(new Performe(technoFest, artiste5));
+
 
             participeService.addParticipe(new Participe(indieFest, utilisateur1));
             participeService.addParticipe(new Participe(indieFest, utilisateur3));
@@ -714,6 +719,12 @@ public class FillDataBase {
             performeService.creer(new Performe(discoFever, artiste2));
 
 
+
+
+            noterService.addNoter(new Noter(1L, utilisateur1, technoFest, 5, "super festival, j'ai adoré quand c'était cool!"));
+            noterService.addNoter(new Noter(2L, utilisateur2, technoFest, 1, "NUL festival, j'ai adoré quand c'était NUL!"));
+            noterService.addNoter(new Noter(3L, utilisateur3, technoFest, 2, "BIEN festival, j'ai adoré quand c'était BIEN!"));
+            noterService.addNoter(new Noter(4L, utilisateur4, technoFest, 3, "CACA festival, j'ai adoré quand c'était CACA LOL!"));
 
 
         };

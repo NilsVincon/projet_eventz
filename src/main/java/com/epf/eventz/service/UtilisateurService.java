@@ -1,5 +1,6 @@
 package com.epf.eventz.service;
 
+import com.epf.eventz.dao.PrefererArtisteDAO;
 import com.epf.eventz.dao.UtilisateurDAO;
 import com.epf.eventz.exception.DAOException;
 import com.epf.eventz.exception.ServiceException;
@@ -18,15 +19,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UtilisateurService {
 
     private static UtilisateurDAO utilisateurDAO;
+    private static PrefererArtisteDAO prefererArtisteDAO;
 
     @Autowired
-    public UtilisateurService(UtilisateurDAO utilisateurDAO) {
+    public UtilisateurService(UtilisateurDAO utilisateurDAO, PrefererArtisteDAO prefererArtisteDAO) {
         this.utilisateurDAO = utilisateurDAO;
+        this.prefererArtisteDAO = prefererArtisteDAO;
     }
 
     public void creerUtilisateur(Utilisateur utilisateur) throws ServiceException {
@@ -144,6 +148,11 @@ public class UtilisateurService {
                 .mapToInt(Utilisateur::getAge)
                 .average()
                 .orElse(0.0);
+    }
+    public List<Utilisateur> getUtilisateursSuivantArtiste(Artiste artiste) {
+        return prefererArtisteDAO.findByArtiste(artiste).stream()
+                .map(PrefererArtiste::getUtilisateur)
+                .collect(Collectors.toList());
     }
 
 }

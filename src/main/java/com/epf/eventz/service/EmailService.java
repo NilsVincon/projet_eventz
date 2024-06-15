@@ -20,6 +20,5 @@ public class EmailService {
         mail.setSubject(subject);
         mail.setText(text);
         javaMailSender.send(mail);
-        log.info("Email envoyé à "+to+" !");
     }
 }

@@ -6,7 +6,7 @@
     <title>Title</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://netdna.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-    <link href="output.css" rel="stylesheet">
+    <link href="../output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css"
           integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
@@ -22,7 +22,6 @@
             background-repeat: repeat-y;
             background-attachment: scroll;
             height: 100%;
-            color: white; /* Added for better visibility */
         }
 
         .containers {
@@ -90,7 +89,7 @@
 </head>
 
 <body>
-<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+<div th:insert="~{fragments/navbar :: nav}"></div>
 
 <div class="containers">
     <div class="row justify-content-center">
@@ -99,12 +98,13 @@
 
                     <div class="col">
                         <input id="searchInput" class="form-control form-control-lg form-control-borderless"
-                               type="text" placeholder="recherche un username">
+                               type="text" placeholder="Rechercher un utilisateur">
                     </div>
                     <div class="col-auto">
                         <button id="searchButton" type="button"
                                 class="btn btn-custom font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-0">
                             recherche
+
                         </button>
                     </div>
                 </form>
@@ -116,7 +116,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="people-nearby">
-                <div th:each="utilisateur : ${utilisateurs}" class="nearby-user">
+                <div th:each="utilisateur : ${utilisateurs}" class="nearby-user hover:no-underline">
                     <div class="flex items-center">
                         <div class="mr-4">
                             <img th:src="@{'/eventz/user/profile-image/' + ${utilisateur.id_utilisateur}}"
@@ -125,7 +125,7 @@
                         <div class="flex-1">
                             <h3 class="text-3xl font-semibold text-white">
                                 <a th:href="'/eventz/user/profil/' + ${utilisateur.username}"
-                                   class="hover:bg-purple-700" th:text="${utilisateur.username}"></a>
+                                   class="hover:no-underline" th:text="${utilisateur.username}"></a>
                             </h3>
                             <p th:text="${utilisateur.description_utilisateur}" class="text-white"></p>
                             <p th:text="${utilisateur.sexe_utilisateur}" class="text-white"></p>
@@ -133,7 +133,7 @@
                         <div>
                             <div th:if="${utilisateurActuel.id_utilisateur == utilisateur.id_utilisateur}">
                                 <button class="btn btn-custom font-medium rounded-lg px-4 py-2"
-                                        type="button">Ton Profile</button>
+                                        type="button">Profil</button>
                             </div>
                             <div th:if="${utilisateurActuel.id_utilisateur != utilisateur.id_utilisateur}">
                                 <div th:if="${#lists.contains(amis, utilisateur)}">
@@ -153,7 +153,7 @@
                                         <form th:action="@{/eventz/friend/add}" method="post" style="display:inline;">
                                             <input type="hidden" name="id" th:value="${utilisateur.id_utilisateur}" />
                                             <button class="btn btn-custom font-medium rounded-lg px-4 py-2"
-                                                    type="submit"> Devenir amis</button>
+                                                    type="submit"> Suivre</button>
                                         </form>
 
                                     </div>
@@ -189,15 +189,15 @@
                     <p class="kpi-value" th:text="${nombreUtilisateurs}"></p>
                 </div>
                 <div class="mb-4">
-                    <p class="kpi-title">Nombre amis</p>
+                    <p class="kpi-title">Nombre d'amis</p>
                     <p class="kpi-value" th:text="${nombreAmis}"></p>
                 </div>
                 <div class="mb-4">
-                    <p class="kpi-title">Nombre abonnés</p>
+                    <p class="kpi-title">Nombre d'abonnés</p>
                     <p class="kpi-value" th:text="${nbabonne}"></p>
                 </div>
                 <div class="mb-4">
-                    <p class="kpi-title">Nombre abonnements</p>
+                    <p class="kpi-title">Nombre d'abonnements</p>
                     <p class="kpi-value" th:text="${nbabonnements}"></p>
                 </div>
                 <div>
@@ -208,6 +208,8 @@
         </div>
     </div>
 </div>
+<th:block th:insert="~{fragments/footer :: footer}"></th:block>
+
 
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>

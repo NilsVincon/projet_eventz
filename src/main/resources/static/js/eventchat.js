@@ -20,20 +20,16 @@ var colors = [
 ];
 
 function connect() {
-    console.log("Je suis dans connect ! ");
     chatPage.classList.remove('hidden');
 
     var socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
-    console.log("Je suis juste avantOnconnected ! ");
     stompClient.connect({}, onConnected, onError);
 }
 
 
 function onConnected() {
-    console.log("Je suis dans onConnected ! ");
     stompClient.subscribe('/topic/' + cleaneventname, onMessageReceived);
-    console.log("Subscribe done ! ");
     stompClient.send(destinationAddUser,
         {},
         JSON.stringify({sender: username, type: 'JOIN'})

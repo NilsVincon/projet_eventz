@@ -5,6 +5,20 @@
   <title th:text="${eventname} + Chat"></title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
+
+    .policeperso {
+      font-family: 'Dela Gothic One', sans-serif;
+    }
+
+    body {
+      background-image: url("/images/BG.png");
+      background-size: cover;
+      background-repeat: repeat-y;
+      background-attachment: scroll;
+      height: 100%;
+      margin: 0;
+    }
+
     /* Pour les navigateurs Webkit (Chrome, Safari) */
     ::-webkit-scrollbar {
       width: 12px;
@@ -43,17 +57,26 @@
   </style>
 </head>
 <body class="h-screen m-0 p-0 font-sans text-base leading-relaxed bg-gray-900">
+<div class="absolute top-3 left-4 ">
+  <a th:href="@{/eventz/home}" class="hover:no-underline">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+         class="h-10 w-10 text-red-50 hover:text-red-100">
+      <path stroke-linecap="round" stroke-linejoin="round"
+            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+    </svg>
+  </a>
+</div>
 <noscript>
   <h2 class="text-center">Sorry! Your browser doesn't support Javascript</h2>
 </noscript>
-<div id="chat-page" class="flex items-center justify-center h-screen w-full" th:if="${authorization == true}">
-  <div class="chat-container bg-gradient-to-br from-sky-900 to-indigo-900 shadow-custom w-full h-full m-10 rounded-3xl flex flex-col">
+<div id="chat-page" class="flex justify-center h-full w-full">
+  <div class="w-11/12 h-11/12 bg-gradient-to-br from-sky-900 to-indigo-900 shadow-custom m-10 rounded-3xl flex flex-col">
     <input type="hidden" id="username" th:value="${user.username}"/>
     <input type="hidden" id="userId" th:value="${user.id_utilisateur}"/>
     <input type="hidden" id="eventname" th:value="${eventname}">
     <div class="flex items-center relative">
       <img th:src="@{/images/Eventz.png}" alt="Eventz Logo" id="eventz-logo" class="w-24 object-cover p-4"/>
-      <h2 class="text-xl text-blue-100 font-extrabold absolute left-1/2 transform -translate-x-1/2" th:text="${eventname} + Chat"></h2>
+      <h2 class="text-xl text-blue-100 font-extrabold absolute policeperso left-1/2 transform -translate-x-1/2" th:text="${eventname} + Chat"></h2>
     </div>
     <div class="connecting pt-2 text-center text-blue-100 w-full">
       Connecting...

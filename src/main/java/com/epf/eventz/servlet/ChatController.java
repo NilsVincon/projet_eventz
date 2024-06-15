@@ -14,7 +14,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -40,8 +39,6 @@ public class ChatController {
     @Autowired
     private ParticipeService participeService;
 
-    //GENERAL CHAT :
-
     @GetMapping("/eventz/generalchat")
     public String getGeneralChat(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -57,7 +54,7 @@ public class ChatController {
         }
         List<ChatMessage> messages = chatMessageService.findByDestination("General Chat");
         model.addAttribute("messages", messages);
-        return "generalchat";
+        return "chat/generalchat";
     }
 
 
@@ -80,8 +77,6 @@ public class ChatController {
         headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
         return chatMessage;
     }
-
-    // EVENT CHAT
 
     @GetMapping("/eventz/eventchat/{evenementid}")
     public String getEventChat(Model model, @PathVariable String evenementid) {
@@ -108,7 +103,7 @@ public class ChatController {
             throw new RuntimeException(e);
         }
         model.addAttribute("authorization", authorization);
-        return "eventchat";
+        return "chat/eventchat";
     }
 
     @MessageMapping("/chat.sendMessage/{eventname}")

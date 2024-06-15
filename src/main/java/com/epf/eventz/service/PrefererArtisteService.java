@@ -42,20 +42,4 @@ public class PrefererArtisteService {
         }
         return null;
     }
-
-//    public List<PrefererArtiste> trouverPrefererArtisteByUtilisateur(int id_utilisateur) throws ServiceException {
-//        try {
-//            return prefererArtisteDAO.trouverPrefererArtisteByUtilisateur(id_utilisateur);
-//        } catch (DAOException e) {
-//            throw new ServiceException("Erreur recherche préférence artiste par utilisateur");
-//        }
-//    }
-//
-//    public List<PrefererArtiste> trouverPrefererArtisteByArtiste(int id_artiste) throws ServiceException {
-//        try {
-//            return prefererArtisteDAO.trouverPrefererArtisteByArtiste(id_artiste);
-//        } catch (DAOException e) {
-//            throw new ServiceException("Erreur recherche préférence artiste par artiste");
-//        }
-//    }
 }

@@ -43,6 +43,4 @@ public class JwtService {
         jwtDAO.setLogoutStatusByValue(valeur, actif);
     }
 
-    // Ajoutez d'autres méthodes de service au besoin...
-
 }

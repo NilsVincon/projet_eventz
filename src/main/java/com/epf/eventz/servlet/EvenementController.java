@@ -22,8 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,7 +34,6 @@ import java.util.Optional;
 @Slf4j
 @RequestMapping("/eventz/evenement")
 public class EvenementController {
-    /*    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);*/
     @Autowired
     private EvenementService evenementService;
     @Autowired
@@ -57,6 +54,8 @@ public class EvenementController {
     private ArtisteService artisteService;
     @Autowired
     private SuivreService suivreService;
+    @Autowired
+    private NoterService noterService;
 
     @GetMapping("/afficherEvenement/{evenement}")
     public String afficherEvenement(@PathVariable("evenement") String evenement, Model model) {
@@ -92,7 +91,7 @@ public class EvenementController {
                 model.addAttribute("mesevenements", mesevenements);
             }
         }
-        return "events/mes_evenements";
+        return "evenement/mes_evenements";
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -117,7 +116,7 @@ public class EvenementController {
                 model.addAttribute("mesevenements", new ArrayList<>(mesEvenements));
             }
         }
-        return "events/mes_evenements";
+        return "evenement/mes_evenements";
 
     }
 
@@ -136,7 +135,7 @@ public class EvenementController {
             throw new RuntimeException(e);
         }
 
-        return "add_event";
+        return "evenement/add_event";
     }
 
 
@@ -165,13 +164,13 @@ public class EvenementController {
                 String bodyEmail = "Bonjour " + organisateur.getPrenom_utilisateur() + " " + organisateur.getNom_utilisateur() + ",\n\n"
                         + "Vous venez de créer un évènement privé sur Eventz : " + evenement.getNom_evenement() + ".\n\n"
                         + "Voici le lien que vous pouvez partager avec vos amis pour qu'ils puissent rejoindre l'évènement :"
-                        + lienEvenement +"\n\n"
+                        + lienEvenement + "\n\n"
                         + "Merci d'avoir choisi Eventz pour organiser vos évènements. Nous vous souhaitons une excellente soirée.\n\n"
                         + "Cordialement,\n\n"
                         + "L'équipe Eventz";
                 emailService.sendEmail(organisateurEmailAdresse, subject, bodyEmail);
             }
-            if (selectedType != null){
+            if (selectedType != null) {
                 typeEvenement.setDescription_type_evenement(selectedType);
             }
             if (typeEvenement != null && typeEvenement.getDescription_type_evenement() != null) {
@@ -194,7 +193,6 @@ public class EvenementController {
                 byte[] pdpBytes = pdpEvenementMultiPart.getBytes();
                 evenement.setPdpEvenement(pdpBytes);
             }
-
             evenementService.addEvenement(evenement);
 
             for (String idString : listIdArtists) {
@@ -211,7 +209,6 @@ public class EvenementController {
             response.setHeader("Location", "/eventz/home");
             response.setStatus(HttpStatus.FOUND.value());
         } catch (Exception e) {
-            log.error("Erreur lors de l'ajout de l'evenement", e);
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         }
     }
@@ -253,26 +250,25 @@ public class EvenementController {
 
             }
         }
-        return null ;
+        return null;
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(path = "/update", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void updateEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement,@ModelAttribute Adresse adresse,
-                                                                @ModelAttribute TypeEvenement typeEvenement,@RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, HttpServletResponse response) throws IOException {
+    public void updateEvenement(@RequestParam("id") Long evenementId, @ModelAttribute Evenement evenement, @ModelAttribute Adresse adresse,
+                                @ModelAttribute TypeEvenement typeEvenement, @RequestParam("pdpEvenementMultiPart") MultipartFile pdpEvenementMultiPart, HttpServletResponse response) throws IOException {
         try {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement existingevenement = evenementOptional.get();
-                //Si l'évenement passe de public à privé, on envoie un mail
-                if (existingevenement.getPublic_evenement() && !evenement.getPublic_evenement()){
+                if (existingevenement.getPublic_evenement() && !evenement.getPublic_evenement()) {
                     String subject = "Votre nouvel évènement privé : " + evenement.getNom_evenement();
                     String lienEvenement = "http://localhost:8080/eventz/evenement/details?id=" + evenement.getIdEvenement();
                     String organisateurEmailAdresse = existingevenement.getOrganisateur().getEmail_utilisateur();
                     String bodyEmail = "Bonjour " + existingevenement.getOrganisateur().getPrenom_utilisateur() + " " + existingevenement.getOrganisateur().getNom_utilisateur() + ",\n\n"
                             + "Vous venez de mettre votre évenement en privé sur Eventz : " + existingevenement.getNom_evenement() + ".\n\n"
                             + "Voici le lien que vous pouvez partager avec vos amis pour qu'ils puissent rejoindre l'évènement :"
-                            + lienEvenement +"\n\n"
+                            + lienEvenement + "\n\n"
                             + "Merci d'avoir choisi Eventz pour organiser vos évènements. Nous vous souhaitons une excellente soirée.\n\n"
                             + "Cordialement,\n\n"
                             + "L'équipe Eventz";
@@ -313,9 +309,6 @@ public class EvenementController {
     }
 
 
-
-
-
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping("/delete")
     public void deleteEvenement(@RequestParam("idEvenement") Long evenementId, @ModelAttribute Evenement evenement, HttpServletResponse response) throws IOException {
@@ -335,12 +328,11 @@ public class EvenementController {
             if (evenementOptional.isPresent() && userOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
                 Utilisateur utilisateur = userOptional.get();
-                if (participeService.existsByUtilisateurAndEvenement(utilisateur, evenement)){
+                if (participeService.existsByUtilisateurAndEvenement(utilisateur, evenement)) {
                     participeService.deleteParticipe(participeService.findByUtilisateurAndEvenement(utilisateur, evenement));
                     response.setHeader("Location", "/eventz/evenement/details/" + event_id);
                     response.setStatus(HttpStatus.FOUND.value());
-                }
-                else if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
+                } else if (participeService.nbparticipants(evenement) + 1 < evenement.getNb_place_evenement()) {
                     Participe participe = new Participe(evenement, utilisateur);
                     participeService.addParticipe(participe);
                     response.setHeader("Location", "/eventz/evenement/details/" + event_id);
@@ -356,7 +348,6 @@ public class EvenementController {
     }
 
 
-
     @GetMapping(path = "/details/{evenementId}")
     public String detailsEvenement(@PathVariable Long evenementId, Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -366,6 +357,8 @@ public class EvenementController {
             Optional<Evenement> evenementOptional = evenementService.findEvenementById(evenementId);
             if (evenementOptional.isPresent()) {
                 Evenement evenement = evenementOptional.get();
+                model.addAttribute("isFinished", evenement.getDebut_evenement().isBefore(LocalDate.now()));
+                List<Noter> notes = noterService.findByEvenemenement(evenement);
                 if (utilisateurOptional.isPresent()) {
                     utilisateur = utilisateurOptional.get();
                     boolean participe = participeService.existsByUtilisateurAndEvenement(utilisateur, evenement);
@@ -375,14 +368,19 @@ public class EvenementController {
                 for (Performe performe : evenement.getPerformes()) {
                     artistes.add(performe.getArtiste());
                 }
+                model.addAttribute("notes", notes);
+                String moyenneNote = noterService.moyenneEvenement(notes);
+                String moyenneOrga = noterService.findMoyenneByEvenement_Organisateur(evenement.getOrganisateur());
+                model.addAttribute("moyenneOrga", moyenneOrga);
+                model.addAttribute("moyenneNote", moyenneNote);
                 model.addAttribute("evenement", evenement);
                 List<Utilisateur> amis = suivreService.findAmisByUtilisateur(utilisateur);
                 List<Utilisateur> amisParticipent = participeService.findParticipantsByEvenementAndAmis(evenement, amis);
                 model.addAttribute("amisParticipent", amisParticipent);
                 long nb_orga = evenementService.countEvenementsByOrganisateur(evenement.getOrganisateur());
                 model.addAttribute("nb_orga", nb_orga);
-                    model.addAttribute("artistes", artistes);
-                return "detail_evenement";
+                model.addAttribute("artistes", artistes);
+                return "evenement/detail_evenement";
             } else {
                 return "redirect:/error-500";
             }

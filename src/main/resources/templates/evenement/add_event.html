@@ -110,7 +110,7 @@
     </style>
 </head>
 <body class="h-screen">
-<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+<div th:insert="~{fragments/navbar :: nav}"></div>
 <div class="flex items-center justify-center">
     <div class="max-w-xl w-full p-6 rounded-lg">
         <form id="registrationForm" action="/eventz/evenement/add" method="post" enctype="multipart/form-data">
@@ -339,12 +339,6 @@
                     <button type="button"
                             class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
                         Créer une playlist
-                    </button>
-                </div>
-                <div class="mb-4">
-                    <button type="button"
-                            class="mt-2 px-4 py-2 bg-purple-500 text-white rounded-md shadow-sm hover:bg-purple-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500">
-                        Créer une liste de covoiturage
                     </button>
                 </div>
                 <div class="flex justify-between mt-5">

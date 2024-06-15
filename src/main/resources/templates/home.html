@@ -29,7 +29,7 @@
         #today {
             position: absolute;
             top: 37px;
-            left: 90px; /* Ajustez selon vos besoins */
+            left: 90px;
         }
 
         #create {
@@ -257,11 +257,6 @@
         .margin-10px-right {
             margin-right: 10px;
         }
-
-        /*****************************/
-        /* MESSAGE BOX RELATED CLASS */
-        /*          (START)          */
-        /*****************************/
         .msgbox-area {
             font-size: inherit;
             max-height: 100%;
@@ -386,7 +381,7 @@
 
 
 <div class="msgbox-area" id="msgboxArea" th:attr="data-username=${username}, data-connexion=${connexion}"></div>
-<div th:insert="~{fragments/navbar/navbar :: nav}"></div>
+<div th:insert="~{fragments/navbar :: nav}"></div>
 
 
 <div class="p-4 rounded-lg w-full max-w-2xl mx-auto z-50 justify-between flex">
@@ -417,7 +412,7 @@
                     </th:block>
                 </select>
             </div>
-            <input class="ml-8 bg-custom-color h-12 mt-3 w-24 rounded-sm text-purple-800 font-extrabold text-opacity-90 focus:ring-2 focus:border-purple-700 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
+            <input class="policeperso ml-8 bg-gradient-to-br from-purple-900 to-purple-600 hover:bg-gradient-to-br hover:from-purple-600 hover:to-purple-900 h-12 mt-3 w-24 rounded-xl text-red-50 text-opacity-90 focus:ring-2 focus:border-purple-700 focus:ring-purple-500 focus:outline-none placeholder-purple-600"
                    type="submit" value="Filtrer"/>
 
         </div>

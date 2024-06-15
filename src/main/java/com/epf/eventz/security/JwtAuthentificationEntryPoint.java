@@ -1,8 +1,6 @@
 package com.epf.eventz.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +21,6 @@ import java.util.Map;
 @Component
 public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthentificationEntryPoint.class);
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {
@@ -32,13 +29,13 @@ public class JwtAuthentificationEntryPoint implements AuthenticationEntryPoint {
         String errorMessage;
 
         if (authException instanceof BadCredentialsException) {
-            statusCode = HttpServletResponse.SC_UNAUTHORIZED; // 401
+            statusCode = HttpServletResponse.SC_UNAUTHORIZED;
             errorMessage = "Mauvais nom d'utilisateur ou mot de passe";
         } else if (authException instanceof DisabledException) {
-            statusCode = HttpServletResponse.SC_FORBIDDEN; // 403
+            statusCode = HttpServletResponse.SC_FORBIDDEN;
             errorMessage = "Vous n'avez pas le droit d'accéder à cette ressource";
         } else {
-            statusCode = HttpServletResponse.SC_UNAUTHORIZED; // 401 as default
+            statusCode = HttpServletResponse.SC_UNAUTHORIZED;
             errorMessage = authException.getMessage() != null ? authException.getMessage() : "Vous devez être connecté";
             response.sendRedirect(request.getContextPath() + "/eventz/auth/login");
         }
