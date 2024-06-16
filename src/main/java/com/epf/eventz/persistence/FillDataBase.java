@@ -138,15 +138,15 @@ public class FillDataBase {
 
 
 
-            Artiste artiste1 = new Artiste("Jul","Le J c'est le S");
+            Artiste artiste1 = new Artiste("Jul","Rappeur indépendant français connu pour son style original au sein du paysage musical");
             artiste1.setPdpArtiste(julpdp);
-            Artiste artiste2 = new Artiste("shakira"," artiste musical, you know my hips don't lie");
+            Artiste artiste2 = new Artiste("Shakira","Chanteuse, compositrice et productrice colombienne s'étant fait connaître avec Whenever, Whatever en 2002");
             artiste2.setPdpArtiste(shakirapdp);
-            Artiste artiste3 = new Artiste("DJ david guetta","DJ résident à ibiza ");
+            Artiste artiste3 = new Artiste("David Guetta","DJ français connu pour ces titres dansants depuis 2007");
             artiste3.setPdpArtiste(davidguettapdp);
-            Artiste artiste4 = new Artiste("DJ Snake","DJ français ");
+            Artiste artiste4 = new Artiste("DJ Snake","DJ français s'étant fait connaitre avec Turn Down for What en 2013 et Lean On en 2015");
             artiste4.setPdpArtiste(djsnakepdp);
-            Artiste artiste5 = new Artiste("Marshmello","DJ américain toujours masqué mais il nous fais toujours danser");
+            Artiste artiste5 = new Artiste("Marshmello","DJ américain masqué connu pour ces titres electro et dubstep");
             artiste5.setPdpArtiste(marshmellopdp);
             artisteService.addArtiste(artiste1);
             artisteService.addArtiste(artiste2);
@@ -154,19 +154,19 @@ public class FillDataBase {
             artisteService.addArtiste(artiste4);
             artisteService.addArtiste(artiste5);
 
-            Utilisateur utilisateur4 = new Utilisateur("aziz", "chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "aziz", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
+            Utilisateur utilisateur4 = new Utilisateur("Aziz", "Chelaifa", "hihih.nadiejoa@epfedu.fr", mdpCrypte1, "Aziz", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant Ingénieur Informatique ");
             utilisateur4.setPdpUtilisateur(azizpdp);
 
-            Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "augustin", "Homme", "USER", LocalDate.of(2002, 3, 5), "Etudiant en médecine ");
+            Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "Augustin", "Homme", "USER", LocalDate.of(2002, 8, 9), "Etudiant en Médecine");
             utilisateur1.setPdpUtilisateur(augustinpdp);
-            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "Xavier", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Etudiant en art ");
-            Utilisateur utilisateur2 = new Utilisateur("ghuilem", "versaille", "jane.d@example.com", mdpCrypte2, "ghuilem", "Homme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "etudiant Ingénieur Informatique");
+            Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "Xavier", "Homme", "ADMIN,USER", LocalDate.of(1999, 8, 20), "Etudiant en Art");
+            Utilisateur utilisateur2 = new Utilisateur("Guilhem", "Versailles", "jane.d@example.com", mdpCrypte2, "ghuilem", "Homme", "ADMIN,USER", LocalDate.of(1980, 3, 17), "Etudiant Ingénieur Informatique");
             utilisateur3.setPdpUtilisateur(xavierpdp);
 
             utilisateur2.setPdpUtilisateur(ghilempdp);
-            Utilisateur utilisateur5 = new Utilisateur("Andreani", "cécile", "jane.doe@eple.co", mdpCrypte1, "cécile", "Femme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "joyeuse personne qui cherche des événements sur paris");
+            Utilisateur utilisateur5 = new Utilisateur("Robineau", "Cécile", "cecile.robineau@yahoo.fr", mdpCrypte1, "Cécile", "Femme", "ADMIN,USER", LocalDate.of(1995, 9, 20), "Je cherche des événements sur Paris :)");
             utilisateur5.setPdpUtilisateur(cecilepdp);
-            Utilisateur utilisateur6 = new Utilisateur("Andreani", "sofie", "jane.doe@ele.co", mdpCrypte1, "sofie", "Femme", "ADMIN,USER", LocalDate.of(1985, 9, 20), "Nouvelle sur le site je cherche des belle journées au musée");
+            Utilisateur utilisateur6 = new Utilisateur("Genou", "Sophie", "sophie.genou@gmail.com", mdpCrypte1, "Sophie", "Femme", "ADMIN,USER", LocalDate.of(1989, 9, 27), "Nouvelle sur le site, je cherche des visites de musées");
             utilisateur6.setPdpUtilisateur(sofie);
             utilisateurService.creerUtilisateur(utilisateur1);
             utilisateurService.creerUtilisateur(utilisateur4);
@@ -421,7 +421,7 @@ public class FillDataBase {
             statutEvenementMetalFury.setDescription_statut_evenement("En cours");
             statutEvenementService.creerStatut(statutEvenementMetalFury);
 
-            Evenement metalFury = new Evenement("MetalFury", "Un festival qui va faire trembler les murs avec du metal puissant",
+            Evenement metalFury = new Evenement("MetalFury", "Un festival qui va faire trembler les murs avec du metal énervé",
                     LocalDate.of(2023, 12, 5), LocalDate.of(2024, 12, 10),
                     45.0f, 900, true);
             metalFury.setAdresse(adresseMetalFury);
@@ -452,7 +452,7 @@ public class FillDataBase {
             statutEvenementReggaeVibes.setDescription_statut_evenement("En cours");
             statutEvenementService.creerStatut(statutEvenementReggaeVibes);
 
-            Evenement reggaeVibes = new Evenement("ReggaeVibes", "Venez ressentir les bonnes vibrations du reggae",
+            Evenement reggaeVibes = new Evenement("ReggaeVibes", "Festival de reggae de 5 jours, venez profiter de musiques à l'inspiration Jamaïcaine dans un cadre magnifique",
                     LocalDate.of(2023, 1, 15), LocalDate.of(2025, 1, 20),
                     40.0f, 700, true);
             reggaeVibes.setAdresse(adresseReggaeVibes);
@@ -483,7 +483,7 @@ public class FillDataBase {
             statutEvenementPunkRiot.setDescription_statut_evenement("En cours");
             statutEvenementService.creerStatut(statutEvenementPunkRiot);
 
-            Evenement punkRiot = new Evenement("PunkRiot", "Un festival punk rebelle et plein d'énergie",
+            Evenement punkRiot = new Evenement("PunkRiot", "Le festival punk rock a ne pas rater",
                     LocalDate.of(2023, 2, 10), LocalDate.of(2025, 2, 15),
                     35.0f, 800, true);
             punkRiot.setAdresse(adressePunkRiot);
@@ -498,8 +498,8 @@ public class FillDataBase {
 
 // Ajout de l'événement "HardcoreMadness"
             Adresse adresseHardcoreMadness = new Adresse();
-            adresseHardcoreMadness.setNumero_adresse("901");
-            adresseHardcoreMadness.setRue_adresse("Avenue du Hardcore");
+            adresseHardcoreMadness.setNumero_adresse("91");
+            adresseHardcoreMadness.setRue_adresse("Avenue du Hardrock");
             adresseHardcoreMadness.setVille_adresse("Lille");
             adresseHardcoreMadness.setCode_postal_adresse(59000);
             adresseHardcoreMadness.setPays_adresse("France");
@@ -514,7 +514,7 @@ public class FillDataBase {
             statutEvenementHardcoreMadness.setDescription_statut_evenement("En cours");
             statutEvenementService.creerStatut(statutEvenementHardcoreMadness);
 
-            Evenement hardcoreMadness = new Evenement("HardcoreMadness", "Le festival ultime pour les fans de hardcore",
+            Evenement hardcoreMadness = new Evenement("HardcoreMadness", "Le festival à ne pas rater pour les fans de musique hardcore",
                     LocalDate.of(2023, 3, 5), LocalDate.of(2025, 3, 10),
                     50.0f, 1000, true);
             hardcoreMadness.setAdresse(adresseHardcoreMadness);
@@ -545,7 +545,7 @@ public class FillDataBase {
             statutEvenementDubstepFrenzy.setDescription_statut_evenement("En cours");
             statutEvenementService.creerStatut(statutEvenementDubstepFrenzy);
 
-            Evenement dubstepFrenzy = new Evenement("DubstepFrenzy", "Plongez dans l'univers hypnotique du dubstep",
+            Evenement dubstepFrenzy = new Evenement("DubstepFrenzy", "Plongez dans l'univers déjanté du dubstep",
                     LocalDate.of(2025, 4, 1), LocalDate.of(2025, 4, 7),
                     45.0f, 900, true);
             dubstepFrenzy.setAdresse(adresseDubstepFrenzy);
@@ -716,10 +716,10 @@ public class FillDataBase {
 
 
 
-            noterService.addNoter(new Noter(1L, utilisateur1, technoFest, 5, "super festival, j'ai adoré quand c'était cool!"));
-            noterService.addNoter(new Noter(2L, utilisateur2, technoFest, 1, "NUL festival, j'ai adoré quand c'était NUL!"));
-            noterService.addNoter(new Noter(3L, utilisateur3, technoFest, 2, "BIEN festival, j'ai adoré quand c'était BIEN!"));
-            noterService.addNoter(new Noter(4L, utilisateur4, technoFest, 3, "CACA festival, j'ai adoré quand c'était CACA LOL!"));
+            noterService.addNoter(new Noter(1L, utilisateur1, technoFest, 5, "Super festival, j'ai adoré la fin!"));
+            noterService.addNoter(new Noter(2L, utilisateur2, technoFest, 1, "Je n'ai pas du tout apprecié le festival"));
+            noterService.addNoter(new Noter(3L, utilisateur3, technoFest, 2, "Festival correct bien que un peu simple"));
+            noterService.addNoter(new Noter(4L, utilisateur4, technoFest, 3, "J'ai apprecié l'événement, je recommanderais"));
 
 
         };
