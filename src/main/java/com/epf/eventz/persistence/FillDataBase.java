@@ -160,7 +160,7 @@ public class FillDataBase {
             Utilisateur utilisateur1 = new Utilisateur("Nadiejoa", "Augustin", "augustin.nadiejoa@epfedu.fr", mdpCrypte1, "Augustin", "Homme", "USER", LocalDate.of(2002, 8, 9), "Etudiant en Médecine");
             utilisateur1.setPdpUtilisateur(augustinpdp);
             Utilisateur utilisateur3 = new Utilisateur("Andreani", "Xavier", "jane.doe@example.com", mdpCrypte2, "Xavier", "Homme", "ADMIN,USER", LocalDate.of(1999, 8, 20), "Etudiant en Art");
-            Utilisateur utilisateur2 = new Utilisateur("Guilhem", "Versailles", "jane.d@example.com", mdpCrypte2, "ghuilem", "Homme", "ADMIN,USER", LocalDate.of(1980, 3, 17), "Etudiant Ingénieur Informatique");
+            Utilisateur utilisateur2 = new Utilisateur("Guilhem", "Versailles", "jane.d@example.com", mdpCrypte2, "Guilhem", "Homme", "ADMIN,USER", LocalDate.of(1980, 3, 17), "Etudiant Ingénieur Informatique");
             utilisateur3.setPdpUtilisateur(xavierpdp);
 
             utilisateur2.setPdpUtilisateur(ghilempdp);
