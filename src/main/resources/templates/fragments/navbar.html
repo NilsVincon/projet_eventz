@@ -642,7 +642,7 @@
                         <ul>
                             <li th:each="event : ${listEvenementSearchNavbar}" class="flex items-center space-x-4 p-2">
                                 <a th:href="@{'/eventz/evenement/details/' + ${event.idEvenement}}" class="flex items-center w-full hover:no-underline">
-                                    <img class="w-16 h-16 rounded-full" th:src="${event.hasPdp() ? '/eventz/evenement/image/' + event.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" th:alt="${event.nom_evenement}"/>
+                                    <img class="w-16 h-16 rounded-full object-cover" th:src="@{${event.hasPdp() ? '/eventz/evenement/image/' + event.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}}" th:alt="${event.nom_evenement}"/>
                                     <span class="event-name text-sm ml-2 flex-grow" th:text="${event.nom_evenement}"></span>
                                 </a>
                             </li>
@@ -652,7 +652,7 @@
                         <ul>
                             <li th:each="artist : ${listArtisteSearchNavbar}" class="flex items-center space-x-4 p-2">
                                 <a th:href="@{'/eventz/artiste/' + ${artist.getId_artiste}}" class="flex items-center w-full hover:no-underline">
-                                    <img class="w-16 h-16 rounded-full" th:src="@{'/eventz/artiste/profile-image/' + ${artist.getId_artiste()}}" th:alt="${artist.nom_artiste}"/>
+                                    <img class="w-16 h-16 rounded-full object-cover" th:src="@{'/eventz/artiste/profile-image/' + ${artist.getId_artiste()}}" th:alt="${artist.nom_artiste}"/>
                                     <span class="artist-name text-sm ml-2 flex-grow" th:text="${artist.nom_artiste}"></span>
                                 </a>
                             </li>
@@ -662,7 +662,7 @@
                         <ul>
                             <li th:each="user : ${listUtilisateurSearchNavbar}" class="flex items-center space-x-4 p-2">
                                 <a th:href="@{'/eventz/user/profil/' + ${user.username}}" class="flex items-center w-full hover:no-underline">
-                                    <img class="w-16 h-16 rounded-full" th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" th:alt="${user.username}"/>
+                                    <img class="w-16 h-16 rounded-full object-cover" th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" th:alt="${user.username}"/>
                                     <span class="user-name text-sm ml-2 flex-grow" th:text="${user.username}"></span>
                                 </a>
                             </li>
@@ -672,6 +672,7 @@
             </div>
         </div>
     </div>
+
 
 
 
@@ -710,6 +711,25 @@
                 dropdown.classList.add('hidden');
             });
         });
+
+        const searchBar = document.getElementById('default-search');
+        const listItems = document.querySelectorAll('.people-list li');
+
+        searchBar.addEventListener('input', function (event) {
+            const searchTerm = event.target.value.toLowerCase();
+
+            listItems.forEach(item => {
+                const itemName = item.getAttribute('data-name').toLowerCase();
+                if (itemName.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+
+
+
 
 
         document.addEventListener('DOMContentLoaded', function () {
