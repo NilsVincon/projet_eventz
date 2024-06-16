@@ -241,7 +241,7 @@ public class EvenementController {
                                     .collect(Collectors.toList());
                             model.addAttribute("event", evenement);
                             model.addAttribute("typeEvenementEnumValues", filteredTypes);
-                            return "update_event";
+                            return "evenement/update_event";
                         }
                     }
                 } catch (Exception e) {
