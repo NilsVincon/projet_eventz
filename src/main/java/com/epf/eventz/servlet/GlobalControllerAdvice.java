@@ -1,8 +1,11 @@
 package com.epf.eventz.servlet;
 
 import com.epf.eventz.exception.ServiceException;
+import com.epf.eventz.model.Artiste;
 import com.epf.eventz.model.Evenement;
 import com.epf.eventz.model.Utilisateur;
+import com.epf.eventz.service.ArtisteService;
+import com.epf.eventz.service.EvenementService;
 import com.epf.eventz.service.ParticipeService;
 import com.epf.eventz.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,12 @@ public class GlobalControllerAdvice {
 
     @Autowired
     private UtilisateurService utilisateurService;
+
+    @Autowired
+    private EvenementService evenementService;
+
+    @Autowired
+    private ArtisteService artisteService;
 
     @Autowired
     private  ParticipeService participeService;
@@ -60,6 +69,16 @@ public class GlobalControllerAdvice {
                 model.addAttribute("username", utilisateur.getUsername());
             }
         }
+    }
+
+    @ModelAttribute
+    public void addSearch(Model model) throws ServiceException {
+        List<Evenement> listEvenementSearchNavbar = evenementService.findAllEvenements();
+        List<Artiste> listArtisteearchNavbar = artisteService.findAllArtistes();
+        List<Utilisateur> listeUtilisateurSearchNavbar = utilisateurService.trouverTousUtilisateurs();
+        model.addAttribute("listEvenementSearchNavbar", listEvenementSearchNavbar);
+        model.addAttribute("listArtisteSearchNavbar", listArtisteearchNavbar);
+        model.addAttribute("listUtilisateurSearchNavbar", listeUtilisateurSearchNavbar );
     }
 
 }

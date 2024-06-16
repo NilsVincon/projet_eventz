@@ -9,6 +9,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&display=swap" rel="stylesheet">
 
     <style>
+
+        #search-icon-button {
+            background-color: #6a0dad;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 8px 15px;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: background-color 0.3s, opacity 0.3s;
+        }
+
+        #search-icon-button:hover {
+            background-color: #5a009d;
+            opacity: 1;
+        }
+
+        #search-icon-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(106, 13, 173, 0.5);
+        }
         nav {
             top: 0;
             width: 100%;
@@ -514,6 +535,9 @@
                 <img th:src="@{/images/Eventz.png}" class="h-16" alt="Eventz Logo" id="eventz-logo"/>
                 <span class="hover:text-purple-400 ml-1 self-center text-2xl whitespace-nowrap text-purple-100">Eventz</span>
             </a>
+            <button type="button" id="search-icon-button" class="ml-4 p-2 text-purple-100 bg-purple-700 opacity-70 hover:bg-purple-900 hover:opacity-100 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-sm">
+                <i class="fa fa-search"></i>
+            </button>
         </div>
         <div class="flex items-center md:order-2 space-x-8 rtl:space-x-reverse">
             <button th:if="${connecte}" onclick="window.location.href='/eventz/evenement/add'"
@@ -587,6 +611,73 @@
         </div>
 
     </div>
+
+    <div id="searchModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <div class="flex items-center justify-center min-h-screen px-4 text-center sm:block sm:p-0">
+            <!-- Fond gris semi-transparent -->
+            <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+                <div class="absolute inset-0 bg-gray-500 opacity-75" onclick="closeModal()"></div>
+            </div>
+
+            <!-- Contenu de la modal -->
+            <div class="relative inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <!-- Barre de recherche avec bouton de fermeture -->
+                <div class="flex items-center bg-white px-4 py-4 sm:p-6">
+                    <input type="search" id="modal-search"
+                           class="flex-grow block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                           placeholder="Recherche..." oninput="performSearch()" required>
+                    <button type="button" onclick="closeModalSearch()" class="ml-3 text-gray-700">
+                        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Résultats de recherche -->
+                <div id="search-results" class="p-4"></div>
+
+                <!-- Données cachées pour les événements, artistes et utilisateurs -->
+                <div id="data-container" class="hidden">
+                    <div id="events-data">
+                        <ul>
+                            <li th:each="event : ${listEvenementSearchNavbar}" class="flex items-center space-x-4 p-2">
+                                <a th:href="@{'/eventz/evenement/details/' + ${event.idEvenement}}" class="flex items-center w-full hover:no-underline">
+                                    <img class="w-16 h-16 rounded-full" th:src="${event.hasPdp() ? '/eventz/evenement/image/' + event.idEvenement : 'https://www.bootdey.com/image/450x280/FFB6C1/000000'}" th:alt="${event.nom_evenement}"/>
+                                    <span class="event-name text-sm ml-2 flex-grow" th:text="${event.nom_evenement}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="artists-data">
+                        <ul>
+                            <li th:each="artist : ${listArtisteSearchNavbar}" class="flex items-center space-x-4 p-2">
+                                <a th:href="@{'/eventz/artiste/' + ${artist.getId_artiste}}" class="flex items-center w-full hover:no-underline">
+                                    <img class="w-16 h-16 rounded-full" th:src="@{'/eventz/artiste/profile-image/' + ${artist.getId_artiste()}}" th:alt="${artist.nom_artiste}"/>
+                                    <span class="artist-name text-sm ml-2 flex-grow" th:text="${artist.nom_artiste}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="users-data">
+                        <ul>
+                            <li th:each="user : ${listUtilisateurSearchNavbar}" class="flex items-center space-x-4 p-2">
+                                <a th:href="@{'/eventz/user/profil/' + ${user.username}}" class="flex items-center w-full hover:no-underline">
+                                    <img class="w-16 h-16 rounded-full" th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}" th:alt="${user.username}"/>
+                                    <span class="user-name text-sm ml-2 flex-grow" th:text="${user.username}"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -620,20 +711,60 @@
             });
         });
 
-        const searchBar = document.getElementById('default-search');
-        const listItems = document.querySelectorAll('.people-list li');
 
-        searchBar.addEventListener('input', function (event) {
-            const searchTerm = event.target.value.toLowerCase();
+        document.addEventListener('DOMContentLoaded', function () {
+            const searchButton = document.getElementById('search-icon-button');
+            const searchModal = document.getElementById('searchModal');
 
-            listItems.forEach(item => {
-                const itemName = item.getAttribute('data-name').toLowerCase();
-                if (itemName.includes(searchTerm)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+            searchButton.addEventListener('click', function () {
+                searchModal.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            });
+
+            // Fermer la modale lorsqu'on clique en dehors de celle-ci
+            const modalBackground = document.querySelector('#searchModal .fixed.inset-0');
+            modalBackground.addEventListener('click', function () {
+                closeModalSearch();
             });
         });
+        function closeModalSearch() {
+            document.getElementById('searchModal').classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('modal-search').value.toLowerCase();
+            const eventsData = document.getElementById('events-data').getElementsByTagName('li');
+            const artistsData = document.getElementById('artists-data').getElementsByTagName('li');
+            const usersData = document.getElementById('users-data').getElementsByTagName('li');
+
+            let resultsHTML = '';
+
+            for (let event of eventsData) {
+                const eventName = event.getElementsByClassName('event-name')[0].textContent.toLowerCase();
+                if (eventName.includes(searchTerm)) {
+                    resultsHTML += event.outerHTML;
+                }
+            }
+
+            for (let artist of artistsData) {
+                const artistName = artist.getElementsByClassName('artist-name')[0].textContent.toLowerCase();
+                if (artistName.includes(searchTerm)) {
+                    resultsHTML += artist.outerHTML;
+                }
+            }
+
+            for (let user of usersData) {
+                const userName = user.getElementsByClassName('user-name')[0].textContent.toLowerCase();
+                if (userName.includes(searchTerm)) {
+                    resultsHTML += user.outerHTML;
+                }
+            }
+
+            document.getElementById('search-results').innerHTML = resultsHTML;
+        }
+
     </script>
+
+
 </nav>
