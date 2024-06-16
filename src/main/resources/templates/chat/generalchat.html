@@ -88,12 +88,12 @@
                     th:class="${message.type == 'JOIN' ? 'event-message' : message.type == 'LEAVE' ? 'event-message' : 'chat-message'}">
                     <div th:if="${message.type != 'JOIN' && message.type != 'LEAVE'}" class="flex items-center py-3">
                         <div class="flex-shrink-0">
-                            <img th:src="@{'/eventz/user/profile-image/' + ${user.id_utilisateur}}"
+                            <img th:src="@{'/eventz/user/profile-imagechat/' + ${message.sender}}"
                                  alt="Profile Picture"
                                  class="w-14 h-14 object-cover rounded-full">
                         </div>
                         <div class="ml-2">
-                            <span th:text="${user.username}" class="font-extrabold text-blue-100"></span>
+                            <span th:text="${message.sender}" class="font-extrabold text-blue-100"></span>
                             <p th:text="${message.type == 'JOIN' ? message.sender + ' a rejoint!' : message.type == 'LEAVE' ? message.sender + ' est parti!' : message.content}"
                                class="text-blue-100"></p>
                         </div>

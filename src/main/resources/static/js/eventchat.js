@@ -75,7 +75,7 @@ function onMessageReceived(payload) {
         avatarElement.classList.add('flex-shrink-0');
 
         var imageElement = document.createElement('img');
-        imageElement.setAttribute('src', '/eventz/user/profile-image/' + userId);
+        imageElement.setAttribute('src', '/eventz/user/profile-imagechat/' + message.sender);
         imageElement.setAttribute('alt', 'Profile Picture');
         imageElement.onerror = function() {
             this.src = '/images/logo_connexion.png';

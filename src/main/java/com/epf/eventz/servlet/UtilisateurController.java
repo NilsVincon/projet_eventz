@@ -187,6 +187,24 @@ public class UtilisateurController {
         return "utilisateur/modifierProfil";
     }
 
+    @GetMapping("/profile-imagechat/{sendername}")
+    public ResponseEntity<byte[]> getProfileImageChat(@PathVariable String sendername) {
+        try {
+            Optional<Utilisateur> utilisateurOptional = utilisateurService.trouverUtilisateurAvecname(sendername);
+            if (utilisateurOptional.isPresent()) {
+                Utilisateur utilisateur = utilisateurOptional.get();
+                if (utilisateur.getPdpUtilisateur() != null) {
+                    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(utilisateur.getPdpUtilisateur());
+                } else {
+                    return ResponseEntity.notFound().build();
+                }
+            }
+        } catch (ServiceException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
     @GetMapping("/profile-image/{userId}")
     public ResponseEntity<byte[]> getProfileImage(@PathVariable Long userId) {
         try {
