@@ -34,6 +34,9 @@ public class HomeController {
     private ParticipeService participeService;
 
     @Autowired
+    private ArtisteService artisteService;
+
+    @Autowired
     private TypeEvenementService typeEvenementService;
 
 
@@ -57,6 +60,12 @@ public class HomeController {
                     model.addAttribute("evenementsparticipe", evenements);
                     model.addAttribute("username", utilisateur.getUsername());
                     model.addAttribute("connexion", isFirstLogin);
+                    List<Evenement> listEvenementSearchNavbar = evenementService.findAllEvenements();
+                    List<Artiste> listArtisteearchNavbar = artisteService.findAllArtistes();
+                    List<Utilisateur> listeUtilisateurSearchNavbar = utilisateurService.trouverTousUtilisateurs();
+                    model.addAttribute("listEvenementSearchNavbar", listEvenementSearchNavbar);
+                    model.addAttribute("listArtisteSearchNavbar", listArtisteearchNavbar);
+                    model.addAttribute("listUtilisateurSearchNavbar", listeUtilisateurSearchNavbar );
                 }
             }
             List<Evenement> evenements = evenementService.findAllEvenements();

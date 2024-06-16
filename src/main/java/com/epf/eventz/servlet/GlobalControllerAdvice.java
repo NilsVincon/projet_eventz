@@ -71,14 +71,4 @@ public class GlobalControllerAdvice {
         }
     }
 
-    @ModelAttribute
-    public void addSearch(Model model) throws ServiceException {
-        List<Evenement> listEvenementSearchNavbar = evenementService.findAllEvenements();
-        List<Artiste> listArtisteearchNavbar = artisteService.findAllArtistes();
-        List<Utilisateur> listeUtilisateurSearchNavbar = utilisateurService.trouverTousUtilisateurs();
-        model.addAttribute("listEvenementSearchNavbar", listEvenementSearchNavbar);
-        model.addAttribute("listArtisteSearchNavbar", listArtisteearchNavbar);
-        model.addAttribute("listUtilisateurSearchNavbar", listeUtilisateurSearchNavbar );
-    }
-
 }
